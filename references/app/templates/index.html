@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+<script>
+$(document).ready(function() {
+
+    var loadingText = '<div id="loading-left-text">Loading blitzes...</span><div id="facebookG"><div id="blockG_1" class="facebook_blockG"></div><div id="blockG_2" class="facebook_blockG"></div><div id="blockG_3" class="facebook_blockG"></div></div>';
+
+	var current = $('div.events').html();
+    $('div.events').html(current+loadingText);
+
+	$.ajax({
+	    url: '../ajax/blitzMachine',
+	    type: 'GET',
+	    cache: false,
+	   // data: formData,
+	    success: function(data) {
+	    	$('div.events').hide();
+			$('div.events').html(current+data);
+			$('div.events').fadeIn();
+			$('.highlight').magnificPopup({
+			  delegate: 'a', // child items selector, by clicking on it popup will open
+			  type: 'iframe'
+			  // other options
+			});
+	    },
+	    error: function() {
+	        $('div.events').html("<span class=\"error\">Error: Couldn't connect to the server.</span>");
+	    },
+	    timeout: function() {
+	    	$('div.events').html("<span class=\"error\">Error: Timed out while trying to connect to the server.</span>");
+	    }
+	});
+});	
+  $('#divtagdefaultwrapper').contents().find('#someID').html();
+
+</script>		<h2>The Blitz Machine</h2>	
+
+		<div class="events">
+	<script>
+	//var formData = {id:<?=$id?>,location:questionShowing,qtext:questionText,atext:answerText};
+
+
+	</script>
+{% endblock %}

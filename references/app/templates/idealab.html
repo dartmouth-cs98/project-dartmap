@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>Quickly</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css" />
+        <script src="../static/js/jquery.min.js" type="text/javascript"></script>
+        <script src="../static/js/sorttable.js" type="text/javascript"></script>
+        <script src="../static/js/jquery-sortable.js" type="text/javascript"></script>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </head>
+    <body>
+        <font face="verdana"> Amazingly Fast Actionable Search Results.</font>
+        <br><br><br>
+        <div>
+            <form action="/search" method="post" onsubmit="return validateForm()" name="queryForm">
+            <input type="text" name="query" autocomplete="off" size="80" style="display:block;margin: 0 auto;height:30px;font-size:14pt;">
+            <br>
+            <input type="submit" align="center" value="Quickly Search" style="display:block;margin: 0 auto; width:160px;">
+            </form>
+        </div>
+
+        <script>
+        function validateForm() {
+            var letters = /^[0-9a-zA-Z]+$/;  
+            var x = document.forms["queryForm"]["query"].value;
+            if (x == null || x == "") {
+                alert("Cannot have empty search!");
+                return false;
+            }
+            if (x.length > 4) {
+                alert('Query cannot be more than 4 characters!');  
+                return false;  
+            }
+            for (var i = 0; i < x.length; i++){
+                if (!x.charAt(i).match(letters)) {  
+                    alert('Query can only contain numbers and letters!');  
+                    return false;  
+                } 
+            }
+        }
+        </script>
+    </body>
+</html>
