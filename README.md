@@ -1,10 +1,23 @@
 # marauders
 
 1) Sean Cann and Danielle Midulla
-+ TODO(@scann and @dmidulla) - Fill in
+Completed two React tutorials in order to learn frontend:
++ Built a realtime updating comment box using the tutorial found at https://facebook.github.io/react/docs/tutorial.html
++ Built a simple website in React using Codepen, based on the tutorial found at https://www.youtube.com/watch?v=PGUMRVowdv8
 
 2) Edrei Chua, Caleb Kim, and Chi Pham
-+ TODO(@echua, @ckim, @cpham) - Fill in
+Installed Python + Flask framework for the backend:
++ Installed Flask
++ Built a simple local server that prints out "Hello world"
++ Added web forms that request users to enter correct login details to be able to see content
++ Built a relational database in Python keeping track of User objects and their Post objects
+
+We learned:
++ How to use Flask in a virtual environment
++ How to set up a simple backend server
++ How to set up user web forms
++ How to set up a database for the server
+
 
 3) Eric Chen
 Worked on a frontend prototype using the Google Maps API. I tried the following things:
