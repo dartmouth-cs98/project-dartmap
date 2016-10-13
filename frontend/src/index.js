@@ -8,6 +8,8 @@ import ReactDOM from 'react-dom';
 import './style.scss';
 
 //import the Components
+import EventList from './components/event_list';
+
 
 class App extends Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div> HI! </div>
+      <EventList />
     );
   }
 }
