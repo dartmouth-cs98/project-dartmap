@@ -1,0 +1,61 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#banner {
+  background-color: green;
+  color: white;
+  font-family: 'Old Standard TT';
+  font-size: 30pt;
+  height: 50px;
+  position: relative;
+}
+#banner #map-title {
+  position: absolute;
+  bottom: 2px;
+  left: 8px;
+}
+#event-menu {
+  float: left;
+  width: 20%;
+}
+#map {
+  float: left;
+  height: 100%;
+  width: 80%;
+}
+#event-menu .event-item {
+  background-color: #d1d1e0;
+  border-bottom: thin solid black;
+  height: 100px;
+  padding-left: 8px;
+  padding-top: 8px;
+  width: 100%;
+}
+#event-menu #event-banner {
+  border-bottom: thin solid black;
+}
+#event-menu #event-banner .event-banner-item {
+  float: left;
+  padding-left: 16px;
+}
+#event-menu .event-item:hover {
+  background-color: #b3b3cb;
+  cursor: pointer;
+}
+.mapImage {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  // cursor: url(../images/cursor.png) 15 15, pointer;
+}
+.popup {
+  background-color: #d1d1e0;
+  padding: 5px;
+}
+
+#test-button {
+  position: absolute;
+  top: 10px;
+}
