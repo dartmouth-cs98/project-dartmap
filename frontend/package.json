@@ -8,6 +8,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/daniellemidulla/marauders.git"
+  },
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.17.0",
