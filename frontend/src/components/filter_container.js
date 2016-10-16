@@ -10,13 +10,14 @@ class FilterContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDate: 0,
-      selectedTime: 0,
+      selectedDate: null,
+      selectedTime: null,
       selectedCategories: [],
     };
     this.applyFilters = this.applyFilters.bind(this);
   }
   applyFilters(event) {
+    // TODO: once we know that all the filters work, we can delete these console.log() prompts
     console.log('applying the filters:');
     console.log(this.state);
     this.props.onApplyFilter(this.state);
