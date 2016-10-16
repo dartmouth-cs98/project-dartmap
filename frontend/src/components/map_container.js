@@ -1,8 +1,9 @@
+// map_container.js
 import React from 'react';
 
 const MapContainer = (props) => {
   return (
-    <div>I hold the map.</div>
+    <div id="map">I hold the map.</div>
   );
 };
 
