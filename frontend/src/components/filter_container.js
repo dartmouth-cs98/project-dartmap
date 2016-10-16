@@ -16,15 +16,6 @@ class FilterContainer extends Component {
     };
     this.applyFilters = this.applyFilters.bind(this);
   }
-  onDateChange(event) {
-    this.setState({ selectedDate: event.target.value });
-  }
-  onTimeChange(event) {
-    this.setState({ selectedTime: event.target.value });
-  }
-  onCategoryChange(event) {
-    this.setState({ selectedCategories: event.target.value });
-  }
   applyFilters(event) {
     console.log('applying the filters:');
     console.log(this.state);
@@ -34,9 +25,9 @@ class FilterContainer extends Component {
     return (
       <div id="filter-container">
         <p>I am the container that holds all the filter options.</p>
-        <DateFilter onDateChange={this.onDateChange} />
-        <TimeFilter onTimeChange={this.onTimeChange} />
-        <CategoryFilter onCategoryChange={this.onCategoryChange} />
+        <DateFilter onDateChange={selectedDate => this.setState({ selectedDate })} />
+        <TimeFilter onTimeChange={selectedTime => this.setState({ selectedTime })} />
+        <CategoryFilter onCategoryChange={selectedCategories => this.setState({ selectedCategories })} />
         <ApplyFilterButton applyFilters={this.applyFilters} />
       </div>
     );
