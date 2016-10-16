@@ -1,5 +1,6 @@
 // event_list.js
 import React, { Component } from 'react';
+import EventListItem from './event_list_item';
 
 class EventList extends Component {
   constructor(props) {
@@ -7,7 +8,10 @@ class EventList extends Component {
   }
   render() {
     return (
-      <div> I am a list of events </div>
+      <div>
+        <p>I am a list of events</p>
+        <EventListItem />
+      </div>
     );
   }
 }
