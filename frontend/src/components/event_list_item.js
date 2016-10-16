@@ -1,8 +1,14 @@
+// event_list_item.js
 import React from 'react';
 
 const EventListItem = (props) => {
-  return (
-    <div>I am an EventList item.</div>
+  if (!props.selectedLocation || props.selectedLocation === props.event.location){
+    return (
+      <div className="event-item">{props.event.name}</div>
+    );
+  }
+  return(
+    <div className="location-not-selected"></div>
   );
 };
 

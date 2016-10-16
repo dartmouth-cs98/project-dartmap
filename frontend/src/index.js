@@ -21,6 +21,21 @@ class App extends Component {
     this.state = {
       filters: [],
       addEvent: false,
+      eventList: [
+        {
+          id: 1,
+          name: 'test event 1',
+        },
+        {
+          id: 2,
+          name: 'test event 2',
+        },
+        {
+          id: 3,
+          name: 'test event 3',
+        },
+      ],  // the filtered list of events received from the back-end
+      selectedLocation: null,
     };
   }
   render() {
@@ -28,7 +43,7 @@ class App extends Component {
       <div>
         <NavBar />
         <MapContainer />
-        <EventList />
+        <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation} />
         <FilterContainer />
         <AddEventDialog addEvent={this.state.addEvent} />
       </div>
