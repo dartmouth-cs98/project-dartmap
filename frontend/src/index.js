@@ -20,7 +20,7 @@ class App extends Component {
 
     this.state = {
       filters: null,
-      addEvent: false,
+      addEvent: true,
       eventList: [
         {
           id: 1,

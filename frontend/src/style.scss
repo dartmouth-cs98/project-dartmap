@@ -7,6 +7,10 @@ html, body {
   padding: 0;
 }
 
+.hidden{
+  display: none;
+}
+
 #nav-bar {
   background-color: $green;
   color: white;
@@ -87,4 +91,15 @@ html, body {
     background-color: orange;
     float: right;
   }
+}
+
+#add-event {
+  border: 10px solid black;
+  height: 80%;
+  width: 80%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  background-color: white;
+  border-radius: 50px;
 }
