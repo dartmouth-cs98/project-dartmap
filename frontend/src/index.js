@@ -25,14 +25,17 @@ class App extends Component {
         {
           id: 1,
           name: 'test event 1',
+          location: 1,
         },
         {
           id: 2,
           name: 'test event 2',
+          location: 2,
         },
         {
           id: 3,
           name: 'test event 3',
+          location: 3,
         },
       ],  // the filtered list of events received from the back-end
       selectedLocation: null,
