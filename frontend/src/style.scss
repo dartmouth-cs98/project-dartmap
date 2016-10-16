@@ -82,4 +82,9 @@ html, body {
   width: 80%;
   float: left;
   display: block;
+  #filter-btn {
+    display: inline-block;
+    background-color: orange;
+    float: right;
+  }
 }
