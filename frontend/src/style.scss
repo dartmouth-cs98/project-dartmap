@@ -6,6 +6,9 @@ html, body {
   margin: 0;
   padding: 0;
 }
+div {
+  border: 1px solid #000; //this is temporary so that we can see things
+}
 #nav-bar {
   background-color: $green;
   color: white;
@@ -26,12 +29,27 @@ html, body {
   width: 80%;
 }
 
+.mapImage {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  // cursor: url(../images/cursor.png) 15 15, pointer;
+}
+
 #event-menu {
   float: left;
   width: 20%;
 
   .location-not-selected {
     display: none;
+  }
+}
+
+#event-menu #event-banner {
+  border-bottom: thin solid black;
+   .event-banner-item {
+    float: left;
+    padding-left: 16px;
   }
 }
 
@@ -48,20 +66,7 @@ html, body {
     cursor: pointer;
   }
 }
-#event-menu #event-banner {
-  border-bottom: thin solid black;
-   .event-banner-item {
-    float: left;
-    padding-left: 16px;
-  }
-}
 
-.mapImage {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  // cursor: url(../images/cursor.png) 15 15, pointer;
-}
 .popup {
   background-color: $event-item-color;
   padding: 5px;
@@ -70,4 +75,10 @@ html, body {
 #test-button {
   position: absolute;
   top: 10px;
+}
+
+#filter-container {
+  width: 80%;
+  float: left;
+  display: block;
 }

@@ -8,7 +8,7 @@ import ApplyFilterButton from './apply_filter_button';
 
 const FilterContainer = (props) => {
   return (
-    <div>
+    <div id="filter-container">
       <p>I am the container that holds all the filter options.</p>
       <DateFilter />
       <TimeFilter />
