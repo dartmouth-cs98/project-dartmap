@@ -1,3 +1,4 @@
+// add_event_dialog.js
 import React from 'react';
 
 const AddEventDialog = (props) => {

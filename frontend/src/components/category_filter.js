@@ -1,3 +1,4 @@
+// category_filter.js
 import React from 'react';
 
 const CategoryFilter = (props) => {
