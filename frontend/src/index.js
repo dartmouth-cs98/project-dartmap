@@ -19,7 +19,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      filters: [],
+      filters: null,
       addEvent: false,
       eventList: [
         {
@@ -41,13 +41,14 @@ class App extends Component {
       selectedLocation: null,
     };
   }
+
   render() {
     return (
       <div>
         <NavBar />
         <MapContainer />
         <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation} />
-        <FilterContainer />
+        <FilterContainer onApplyFilter={filters => this.setState({ filters })} />
         <AddEventDialog addEvent={this.state.addEvent} />
       </div>
     );

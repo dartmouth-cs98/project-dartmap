@@ -10,7 +10,7 @@
   "author": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/daniellemidulla/marauders.git"
+    "url": "https://github.com/dartmouth-cs98/project-dartmap.git"
   },
   "license": "ISC",
   "devDependencies": {
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "axios": "^0.15.0",
+    "google-map-react": "^0.20.0",
     "jquery": "^3.1.1",
     "lodash.debounce": "^4.0.8",
     "rc-slider": "^5.1.2",
