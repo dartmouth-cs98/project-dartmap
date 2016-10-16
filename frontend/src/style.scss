@@ -15,16 +15,19 @@ html, body {
   height: 50px;
   position: relative;
 }
+
 #banner #map-title {
   position: absolute;
   bottom: 2px;
   left: 8px;
 }
 
+#event-menu {
+  float: left;
+}
+
 #map {
   float: left;
-  height: 100%;
-  width: 80%;
 }
 
 .mapImage {
