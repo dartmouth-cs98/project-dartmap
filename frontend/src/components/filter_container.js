@@ -10,10 +10,11 @@ class FilterContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedDate: null,
-      selectedTime: null,
+      selectedDate: 0,
+      selectedTime: 0,
       selectedCategories: [],
     };
+    this.applyFilters = this.applyFilters.bind(this);
   }
   onDateChange(event) {
     this.setState({ selectedDate: event.target.value });
