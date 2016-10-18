@@ -1,5 +1,6 @@
 $green: #008000;
 $event-item-color: #d1d1e0;
+$light-grey: #d1d1e0;
 
 html, body {
   height: 100%;
@@ -102,4 +103,20 @@ html, body {
   left: 10%;
   background-color: white;
   border-radius: 50px;
+  .addEventForm input, .addEventForm textarea {
+    width: 50%;
+    
+  }
+  .formBoxError {
+    border-color: red;
+  }
+  .errorMessage {
+    color: red;
+  }
+  .invalidNextBtn {
+    background-color: $light-grey;
+  }
+  .validNextBtn {
+    background-color: $green;
+  }
 }
