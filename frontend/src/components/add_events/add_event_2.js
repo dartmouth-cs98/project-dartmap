@@ -3,7 +3,7 @@ import React from 'react';
 
 const AddEvent2 = (props) => {
   return (
-    <div>I am the first page.</div>
+    <div>I am the second page.</div>
   );
 };
 
