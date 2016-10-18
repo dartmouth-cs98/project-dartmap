@@ -1,10 +1,73 @@
 // add_event_1.js
-import React from 'react';
+import React, { Component } from 'react';
 
-const AddEvent1 = (props) => {
-  return (
-    <div>I am the first page.</div>
-  );
-};
+class AddEvent1 extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      eventName: null,
+      description: null,
+      organizer: null,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.hiddenErrorMessages = ['name', 'organizer', 'description'].map((data) => {
+      return <div key={data} className="hidden errorMessage"> The {data} of the event is required. </div>;
+    });
+    this.visibleErrorMessages = ['name', 'organizer', 'description'].map((data) => {
+      return <div key={data} className="errorMessage"> The {data} of the event is required. </div>;
+    });
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    console.log(this.state);
+    if (this.state.description === null && this.state.organizer === null && this.state.eventName === null) {
+      this.render();
+    }
+    else {
+      this.props.handleData(this.state);
+    }
+  }
+  render() {
+    const nameErrorMessage = (this.state.eventName === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessages[0];
+    const organizerErrorMessage = (this.state.organizer === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessages[1];
+    const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessages[2];
+    return (
+      <form className="addEventForm" onSubmit={this.handleSubmit}>
+        <h2>Name of Event: (required)</h2>
+        {nameErrorMessage}
+        <input
+          type="text"
+          placeholder="e.g. Homecoming Bonfire"
+          value={this.state.eventName || ''}
+          onChange={event => this.setState({ eventName: event.target.value })}
+          className={(this.state.eventName !== '') ? 'addEventBox' : 'formBoxError'}
+        />
+        <h2>Event Organizer: (required)</h2>
+        {organizerErrorMessage}
+        <input
+          type="text"
+          placeholder="e.g. Collis Governing Board"
+          value={this.state.organizer || ''}
+          onChange={event => this.setState({ organizer: event.target.value })}
+          className={(this.state.organizer !== '') ? 'addEventBox' : 'formBoxError'}
+        />
+        <h2>Description:</h2>
+        {desciptionErrorMessage}
+        <textarea
+          placeholder="e.g. See freshmen running in circles"
+          value={this.state.description || ''}
+          onChange={event => this.setState({ description: event.target.value })}
+          className={(this.state.description === '') ? 'formBoxError' : 'addEventBox'}
+        />
+
+        <input
+          type="submit"
+          value="Next"
+          className={(!this.state.description || !this.state.organizer || !this.state.eventName) ? 'invalidNextBtn' : 'validNextBtn'}
+        />
+      </form>
+    );
+  }
+}
 
 export default AddEvent1;
