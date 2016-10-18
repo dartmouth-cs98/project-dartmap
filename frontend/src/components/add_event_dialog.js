@@ -22,32 +22,19 @@ class AddEventDialog extends Component {
     if (this.props.addEvent && this.currentPage === 0) {
       this.currentPage = 1;
     }
-    this.handlePage1Data = this.handlePage1Data.bind(this);
-    this.handlePage2Data = this.handlePage2Data.bind(this);
-    this.handlePage3Data = this.handlePage3Data.bind(this);
+    this.handlePageData = this.handlePageData.bind(this);
     this.pageCode = [
       <div className="hidden">This is hidden.</div>,
-      <AddEvent1 handleData={this.handlePage1Data} />,
-      <AddEvent2 handleData={this.handlePage2Data} />,
-      <AddEvent3 handleData={this.handlePage3Data} />,
+      <AddEvent1 handleData={this.handlePageData} />,
+      <AddEvent2 handleData={this.handlePageData} />,
+      <AddEvent3 handleData={this.handlePageData} />,
     ];
-    this.currentPageCode = null;
   }
-  handlePage1Data(data) {
-    console.log('data returned from the first page:');
-    console.log(data.eventName);
-    console.log(data.organizer);
-    this.setState({ eventName: data.eventName });
-    this.setState({ organizer: data.organizer });
-    this.setState({ description: data.description });
-    console.log(this.state);
-    this.currentPage = 2;
-  }
-  handlePage2Data(data) {
-    this.currentPage = 3;
-  }
-  handlePage3Data(data) {
-    this.currentPage = 4;
+  handlePageData(data) {
+    console.log('data returned from the page: ' + this.currentPage);
+    console.log(data);
+    this.setState(data);
+    this.currentPage += 1;
   }
   render() {
     if (this.props.addEvent) {
