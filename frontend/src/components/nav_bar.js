@@ -3,7 +3,7 @@ import React from 'react';
 
 const NavBar = (props) => {
   return (
-    <div id="nav-bar">I am the navigation bar.</div>
+    <div id="nav-bar">DartMap</div>
   );
 };
 
