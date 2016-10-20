@@ -8,14 +8,24 @@ TODO:  descriptions of code organization and tools and libraries used
 
 ## Setup
 
-TODO: how to get the project dev environment up and running, npm install etc
+Steps to setup up a local repository:
+1) Fork the dartmap github repository
+2) Clone the forked repository locally
+3) Run: `npm install`
 
 ## Deployment
 
-TODO: how to deploy the project
+Run `npm start`
 
 ## Authors
 
-TODO: list of authors
+### Front-end Developers:
+* Eric Chen
+* Danielle Midulla
+* Sean Cann
+### Back-end Developers:
+# Edrei Chua
+* Junmo (Caleb) Kim
+* Chi Pham
 
 ## Acknowledgments
