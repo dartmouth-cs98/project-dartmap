@@ -1,23 +1,56 @@
-// date_filter.js
+/*
+	Filters by date
+	Based on the upcoming week or next 2 weeks
+*/
+
 import React from 'react';
 require('rc-slider/assets/index.css');
 import Rcslider from 'rc-slider';
-// var Rcslider = require('rc-slider');
 
-var labelIndex = [0,1,2,3,4,5,6,7]
-var labelTitle = ["zero","one","one","one","one","one","one"]
-
-var obj = { 0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e', 5: 'f', 6: 'g', 7: 'h' };
 
 function log(value) {
   console.log(value);
 }
 
+// converts a dictionary of dates to strings to display
+function convertDatesToDisplay(datesData) {
+	var datesDataDisplay = {};
+	var numberOfDays = Object.keys(datesData).length
+	for (var i=0; i<numberOfDays; i++) {
+		datesDataDisplay[i] = getDayString(datesData[i]);
+	}
+	return datesDataDisplay
+}
+
+// converts a Date() object into a string to display
+function getDayString(dateObj) {
+	var dayArray = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+	var today = new Date();
+	var twoWeeks = new Date();
+	twoWeeks.setDate(today.getDate()+14);
+
+	if (dateObj.getDate() == today.getDate()) {
+		return "today";
+	}
+	else if (dateObj.getDate() == twoWeeks.getDate()) {
+		return "2 weeks from now";
+	}
+	else {
+		var day = dateObj.getDay();
+		return dayArray[day];
+	}
+}
+
 const DateFilter = (props) => {
+	// receives the dates data object passed down from index.js
+	var datesData = props.dateBarData;
+
+	// dictionary of date strings to be displayed onscreen
+	var datesDataDisplay = convertDatesToDisplay(datesData);
+
   return (
-    <Rcslider marks={{0:'today',1:'monday',2:'tuesday',3:'wednesday',4:'thursday',5:'friday',6:'saturday',7:'next 2 weeks'}} min={0} max={7} allowCross={false} range dots step={1} defaultValue={[0, 4]} onAfterChange={log} />
+    <Rcslider marks={datesDataDisplay} min={0} max={7} allowCross={false} range dots step={1} defaultValue={[0, 2]} onAfterChange={props.onDateChange} />
   );
 };
-
 
 export default DateFilter;

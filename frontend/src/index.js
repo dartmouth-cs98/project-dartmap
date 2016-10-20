@@ -18,6 +18,8 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.dateBarData = this.createDateData();
+    // this.timeBarData = {}; <-- most likely not necessary
     this.state = {
       filters: null,
       addEvent: false,
@@ -42,90 +44,39 @@ class App extends Component {
     };
   }
 
+  /* 
+   * creates the date data object based on today's date
+   * date data object: {0: Date(), 1: today.getDate()+1, ..., 6: today.getDate()+6, 7: today.getDate()+14}
+   */
+  createDateData() {
+    var today = new Date();
+    var obj = {};
+    var i;
+    // iterate over the week and add in each day
+    for (i=0; i<7; i++) {
+      var newDate = new Date();
+      newDate.setDate(today.getDate()+i)
+      obj[i] = newDate;
+    }
+    // add in the day that is two weeks from now
+    var newDate = new Date();
+    newDate.setDate(today.getDate()+14)
+    obj[7] = newDate;
+    return obj;
+  }
+
   render() {
     return (
       <div>
         <NavBar />
         <MapContainer />
         <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation} />
-        <FilterContainer onApplyFilter={filters => this.setState({ filters })} />
+        <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
         <AddEventDialog addEvent={this.state.addEvent} />
       </div>
     );
   }
 };
 
-// const DynamicBounds = React.createClass({
-//   getInitialState() {
-//     return {
-//       min: 0,
-//       max: 100,
-//     };
-//   },
-//   onSliderChange(value) {
-//     log(value);
-//   },
-//   onMinChange(e) {
-//     this.setState({
-//       min: +e.target.value || 0,
-//     });
-//   },
-//   onMaxChange(e) {
-//     this.setState({
-//       max: +e.target.value || 100,
-//     });
-//   },
-//   render() {
-//     return (
-//       <div>
-//         <label>Min: </label>
-//         <input type="number" value={this.state.min} onChange={this.onMinChange} />
-//         <br />
-//         <label>Max: </label>
-//         <input type="number" value={this.state.max} onChange={this.onMaxChange} />
-//         <br /><br />
-//         <Slider range defaultValue={[20, 50]} min={this.state.min} max={this.state.max}
-//           onChange={this.onSliderChange} />
-//       </div>
-//     );
-//   },
-// });
-
-// ReactDOM.render(
-//   <div>
-//     <div style={style}>
-//       <p>Basic Range，`allowCross=false`</p>
-//       <Slider range allowCross={false} defaultValue={[0, 20]} onChange={log} />
-//     </div>
-//     <div style={style}>
-//       <p>Basic Range，`step=20` </p>
-//       <Slider range step={20} defaultValue={[20, 20]} onBeforeChange={log} />
-//     </div>
-//     <div style={style}>
-//       <p>Basic Range，`step=20, dots` </p>
-//       <Slider range dots step={20} defaultValue={[20, 40]} onAfterChange={log} />
-//     </div>
-//     <div style={style}>
-//       <p>Controlled Range</p>
-//       <Slider range value={[20, 40]} />
-//     </div>
-//     <div style={style}>
-//       <p>Multi Range</p>
-//       <Slider range={3} value={[20, 40, 60, 80]} />
-//     </div>
-//     <div style={style}>
-//       <p>Customized Range</p>
-//       <CustomizedRange />
-//     </div>
-//     <div style={style}>
-//       <p>Range with dynamic `max` `min`</p>
-//       <DynamicBounds />
-//     </div>
-//   </div>
-//   , document.getElementById('main'));
-
-
-
 
 ReactDOM.render(<App />, document.getElementById('main'));
-// React.render(<App defaultValue={[0, 100]} withBars />, document.body);
