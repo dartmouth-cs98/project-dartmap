@@ -20,8 +20,13 @@ Run `npm start`
 
 ## Authors
 
+### Front-end Developers:
 * Eric Chen
 * Danielle Midulla
 * Sean Cann
+### Back-end Developers:
+# Edrei Chua
+* Junmo (Caleb) Kim
+* Chi Pham
 
 ## Acknowledgments
