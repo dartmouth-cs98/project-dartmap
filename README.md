@@ -8,11 +8,10 @@ TODO:  descriptions of code organization and tools and libraries used
 
 ## Setup
 
-Steps to install:
-1) Install the dartmap github repository
-2) Install homebrew if not already installed
-3) Install npm if not already installed: `brew install node`
-4) Run: `npm install`
+Steps to setup up a local repository:
+1) Fork the dartmap github repository
+2) Clone the forked repository locally
+3) Run: `npm install`
 
 ## Deployment
 
