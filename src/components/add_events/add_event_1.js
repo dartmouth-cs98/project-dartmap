@@ -10,9 +10,7 @@ class AddEvent1 extends Component {
       organizer: null,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.hiddenErrorMessages = ['name', 'organizer', 'description'].map((data) => {
-      return <div key={data} className="hidden errorMessage"> The {data} of the event is required. </div>;
-    });
+    this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = ['name', 'organizer', 'description'].map((data) => {
       return <div key={data} className="errorMessage"> The {data} of the event is required. </div>;
     });
@@ -27,9 +25,9 @@ class AddEvent1 extends Component {
     }
   }
   render() {
-    const nameErrorMessage = (this.state.eventName === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessages[0];
-    const organizerErrorMessage = (this.state.organizer === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessages[1];
-    const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessages[2];
+    const nameErrorMessage = (this.state.eventName === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
+    const organizerErrorMessage = (this.state.organizer === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
+    const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessage;
     return (
       <form className="addEventForm" onSubmit={this.handleSubmit}>
         <h2>Name of Event:* </h2>

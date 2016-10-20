@@ -112,6 +112,7 @@ html, body {
   }
   .errorMessage {
     color: red;
+    display: inline-block;
   }
   .invalidNextBtn {
     background-color: $light-grey;
