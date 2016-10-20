@@ -22,8 +22,7 @@ class AddEvent1 extends Component {
     console.log(this.state);
     if (this.state.description === null && this.state.organizer === null && this.state.eventName === null) {
       this.render();
-    }
-    else {
+    } else {
       this.props.handleData(this.state);
     }
   }
@@ -34,7 +33,6 @@ class AddEvent1 extends Component {
     return (
       <form className="addEventForm" onSubmit={this.handleSubmit}>
         <h2>Name of Event:* </h2>
-        {nameErrorMessage}
         <input
           type="text"
           placeholder="e.g. Homecoming Bonfire"
@@ -42,8 +40,8 @@ class AddEvent1 extends Component {
           onChange={event => this.setState({ eventName: event.target.value })}
           className={(this.state.eventName !== '') ? 'addEventBox' : 'formBoxError'}
         />
-        <h2>Event Organizer:* (required)</h2>
-        {organizerErrorMessage}
+        {nameErrorMessage}
+        <h2>Event Organizer:*</h2>
         <input
           type="text"
           placeholder="e.g. Collis Governing Board"
@@ -51,15 +49,15 @@ class AddEvent1 extends Component {
           onChange={event => this.setState({ organizer: event.target.value })}
           className={(this.state.organizer !== '') ? 'addEventBox' : 'formBoxError'}
         />
+        {organizerErrorMessage}
         <h2>Description:*</h2>
-        {desciptionErrorMessage}
         <textarea
           placeholder="e.g. See freshmen running in circles"
           value={this.state.description || ''}
           onChange={event => this.setState({ description: event.target.value })}
           className={(this.state.description === '') ? 'formBoxError' : 'addEventBox'}
         />
-
+        {desciptionErrorMessage}
         <input
           type="submit"
           value="Next"
