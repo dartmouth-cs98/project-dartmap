@@ -33,7 +33,7 @@ class AddEvent1 extends Component {
     const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessages[2];
     return (
       <form className="addEventForm" onSubmit={this.handleSubmit}>
-        <h2>Name of Event: (required)</h2>
+        <h2>Name of Event:* </h2>
         {nameErrorMessage}
         <input
           type="text"
@@ -42,7 +42,7 @@ class AddEvent1 extends Component {
           onChange={event => this.setState({ eventName: event.target.value })}
           className={(this.state.eventName !== '') ? 'addEventBox' : 'formBoxError'}
         />
-        <h2>Event Organizer: (required)</h2>
+        <h2>Event Organizer:* (required)</h2>
         {organizerErrorMessage}
         <input
           type="text"
@@ -51,7 +51,7 @@ class AddEvent1 extends Component {
           onChange={event => this.setState({ organizer: event.target.value })}
           className={(this.state.organizer !== '') ? 'addEventBox' : 'formBoxError'}
         />
-        <h2>Description:</h2>
+        <h2>Description:*</h2>
         {desciptionErrorMessage}
         <textarea
           placeholder="e.g. See freshmen running in circles"
