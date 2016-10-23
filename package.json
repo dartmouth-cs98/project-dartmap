@@ -40,6 +40,7 @@
     "jquery": "^3.1.1",
     "lodash.debounce": "^4.0.8",
     "moment": "^2.15.1",
+    "rc-slider": "^5.1.2",
     "react": "^15.3.2",
     "react-datetime": "^2.6.0",
     "react-dom": "^15.3.2",

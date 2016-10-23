@@ -26,8 +26,11 @@ class FilterContainer extends Component {
     return (
       <div id="filter-container">
         <p>I am the container that holds all the filter options.</p>
-        <DateFilter onDateChange={selectedDate => this.setState({ selectedDate })} />
-        <TimeFilter onTimeChange={selectedTime => this.setState({ selectedTime })} />
+        <DateFilter onDateChange={selectedDate => this.setState({ selectedDate })} dateBarData={this.props.dateBarData} />
+        <br/>
+        <br/>
+        <TimeFilter onTimeChange={selectedTime => this.setState({ selectedTime })} timeBarData={this.props.timeBarData} />
+        <br/>
         <CategoryFilter onCategoryChange={selectedCategories => this.setState({ selectedCategories })} />
         <ApplyFilterButton applyFilters={this.applyFilters} />
       </div>
