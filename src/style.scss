@@ -1,10 +1,18 @@
 $green: #008000;
 $event-item-color: #d1d1e0;
+$light-grey: #d1d1e0;
+
+// Imports
+@import "../node_modules/react-datetime/css/react-datetime.css";
 
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+.hidden{
+  display: none;
 }
 
 #nav-bar {
@@ -14,6 +22,15 @@ html, body {
   font-size: 30pt;
   height: 50px;
   position: relative;
+
+  h1 {
+    display: inline-block;
+  }
+
+  button {
+    float: right;
+    height: 50px;
+  }
 }
 
 #banner #map-title {
@@ -86,5 +103,33 @@ html, body {
     display: inline-block;
     background-color: orange;
     float: right;
+  }
+}
+
+#add-event {
+  border: 10px solid black;
+  height: 80%;
+  width: 80%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  background-color: white;
+  border-radius: 50px;
+  .addEventForm input, .addEventForm textarea {
+    width: 50%;
+    
+  }
+  .formBoxError {
+    border-color: red;
+  }
+  .errorMessage {
+    color: red;
+    display: inline-block;
+  }
+  .invalidNextBtn {
+    background-color: $light-grey;
+  }
+  .validNextBtn {
+    background-color: $green;
   }
 }

@@ -1,6 +1,7 @@
 # DartMap
 
 TODO: short project description, some sample screenshots or mockups
+Note: this is only the front-end code. For the back-end code, go to https://github.com/dartmouth-cs98/project-dartmap-api
 
 ## Architecture
 
@@ -23,6 +24,7 @@ Run `npm start`
 * Eric Chen
 * Danielle Midulla
 * Sean Cann
+
 ### Back-end Developers:
 # Edrei Chua
 * Junmo (Caleb) Kim
