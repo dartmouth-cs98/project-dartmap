@@ -17,10 +17,7 @@ class AddEvent1 extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
-    if (this.state.description === null && this.state.organizer === null && this.state.eventName === null) {
-      this.render();
-    } else {
+    if (this.state.description && this.state.organizer && this.state.eventName) {
       this.props.handleData(this.state);
     }
   }

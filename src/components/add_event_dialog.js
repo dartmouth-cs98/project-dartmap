@@ -19,12 +19,12 @@ class AddEventDialog extends Component {
       location_string: '',
       location: null,
     };
-    if (this.props.addEvent && this.currentPage === 0) {
+    if (this.props.addEvent && (this.currentPage < 1 || this.currentPage > 3)) {
       this.currentPage = 1;
     }
     this.handlePageData = this.handlePageData.bind(this);
+    this.submitEventData = this.submitEventData.bind(this);
     this.pageCode = [
-      <div className="hidden">This is hidden.</div>,
       <AddEvent1 handleData={this.handlePageData} />,
       <AddEvent2 handleData={this.handlePageData} />,
       <AddEvent3 handleData={this.handlePageData} />,
@@ -36,8 +36,22 @@ class AddEventDialog extends Component {
     this.setState(data);
     this.currentPage += 1;
   }
+  submitEventData() {
+    this.currentPage = 0;
+    this.props.handleAddEventData(this.state);
+  }
   render() {
     if (this.props.addEvent) {
+      console.log(this.currentPage);
+      if (this.currentPage > 2) {
+        return (
+          <div id="add-event">
+            <h1>Submit event</h1>
+            {JSON.stringify(this.state)}
+            <button type="button" onClick={this.submitEventData}>Submit</button>
+          </div>
+        );
+      }
       return (
         <div id="add-event">
           <h1>Add new event</h1>

@@ -18,10 +18,7 @@ class AddEvent2 extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
-    if (this.state.date === null && this.state.start_time === null && this.state.end_time === null) {
-      this.render();
-    } else {
+    if (this.state.date && this.state.start_time && this.state.end_time) {
       const data = {
         start_time: this.state.start_time.format('HH:mm'),
         end_time: this.state.end_time.format('HH:mm'),

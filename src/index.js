@@ -22,7 +22,7 @@ class App extends Component {
     // this.timeBarData = {}; <-- most likely not necessary
     this.state = {
       filters: null,
-      addEvent: true,
+      addEvent: false,
       eventList: [
         {
           id: 1,
@@ -42,6 +42,8 @@ class App extends Component {
       ],  // the filtered list of events received from the back-end
       selectedLocation: null,
     };
+    this.handleAddEventData = this.handleAddEventData.bind(this);
+    this.toggleAddEvent = this.toggleAddEvent.bind(this);
   }
 
   /* 
@@ -53,26 +55,34 @@ class App extends Component {
     var obj = {};
     var i;
     // iterate over the week and add in each day
-    for (i=0; i<7; i++) {
+    for (i = 0; i < 7; i++) {
       var newDate = new Date();
-      newDate.setDate(today.getDate()+i)
+      newDate.setDate(today.getDate()+i);
       obj[i] = newDate;
     }
     // add in the day that is two weeks from now
     var newDate = new Date();
-    newDate.setDate(today.getDate()+14)
+    newDate.setDate(today.getDate()+14);
     obj[7] = newDate;
     return obj;
+  }
+  handleAddEventData(data) {
+    console.log('data from add-event dialog:');
+    console.log(data);
+    this.setState({ addEvent: false });
+  }
+  toggleAddEvent() {
+    this.setState({ addEvent: true });
   }
 
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar toggleAddEvent={this.toggleAddEvent}/>
         <MapContainer />
         <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation} />
         <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
-        <AddEventDialog addEvent={this.state.addEvent} />
+        <AddEventDialog addEvent={this.state.addEvent} handleAddEventData={this.handleAddEventData} />
       </div>
     );
   }

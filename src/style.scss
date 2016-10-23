@@ -22,6 +22,14 @@ html, body {
   font-size: 30pt;
   height: 50px;
   position: relative;
+
+  h1 {
+    display: inline-block;
+  }
+  
+  button {
+    float: right;
+  }
 }
 
 #banner #map-title {
