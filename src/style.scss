@@ -2,6 +2,9 @@ $green: #008000;
 $event-item-color: #d1d1e0;
 $light-grey: #d1d1e0;
 
+// Imports
+@import "../node_modules/react-datetime/css/react-datetime.css";
+
 html, body {
   height: 100%;
   margin: 0;

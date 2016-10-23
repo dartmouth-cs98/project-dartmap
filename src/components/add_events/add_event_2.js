@@ -1,5 +1,6 @@
 // add_event_2.js
 import React, { Component } from 'react';
+import DateTime from 'react-datetime';
 
 class AddEvent2 extends Component {
   constructor(props) {
@@ -21,41 +22,41 @@ class AddEvent2 extends Component {
     if (this.state.date === null && this.state.start_time === null && this.state.end_time === null) {
       this.render();
     } else {
-      this.props.handleData(this.state);
+      const data = {
+        start_time: this.state.start_time.format('HH:mm'),
+        end_time: this.state.end_time.format('HH:mm'),
+        date: this.state.date.format('MM/DD/YYYY'),
+      };
+      this.props.handleData(data);
     }
   }
   render() {
     const dateErrorMessage = (this.state.date === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const startErrorMessage = (this.state.start_time === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
     const endErrorMessage = (this.state.end_time === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessage;
+    // const inputProps = {'required': true};
     return (
       <form className="addEventForm" onSubmit={this.handleSubmit}>
         <h2>Date:* </h2>
         {dateErrorMessage}
-        <input
-          type="text"
-          placeholder="mm/dd/yy"
+        <DateTime
+          timeFormat={false}
           value={this.state.date || ''}
-          onChange={event => this.setState({ date: event.target.value })}
-          className={(this.state.date === '') ? 'formBoxError' : 'addEventBox'}
+          onChange={moment => this.setState({ date: moment })}
         />
         <h2>Start Time:* </h2>
         {startErrorMessage}
-        <input
-          type="text"
-          placeholder="hh:mm"
+        <DateTime
+          dateFormat={false}
           value={this.state.start_time || ''}
-          onChange={event => this.setState({ start_time: event.target.value })}
-          className={(this.state.start_time === '') ? 'formBoxError' : 'addEventBox'}
+          onChange={moment => this.setState({ start_time: moment })}
         />
         <h2>End Time:*</h2>
         {endErrorMessage}
-        <input
-          type="text"
-          placeholder="hh:mm"
+        <DateTime
+          dateFormat={false}
           value={this.state.end_time || ''}
-          onChange={event => this.setState({ end_time: event.target.value })}
-          className={(this.state.end_time === '') ? 'formBoxError' : 'addEventBox'}
+          onChange={moment => this.setState({ end_time: moment })}
         />
 
         <input

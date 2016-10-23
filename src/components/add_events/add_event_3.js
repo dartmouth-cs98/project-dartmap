@@ -3,7 +3,7 @@ import React from 'react';
 
 const AddEvent3 = (props) => {
   return (
-    <div>I am the third page.</div>
+    <div>I am the third page on which users select a location and enter the room number.</div>
   );
 };
 
