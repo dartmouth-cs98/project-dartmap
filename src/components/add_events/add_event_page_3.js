@@ -1,7 +1,7 @@
-// add_event_3.js
+// add_event_page_3.js
 import React, { Component } from 'react';
 
-class AddEvent3 extends Component {
+class AddEventPage3 extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,4 +55,4 @@ class AddEvent3 extends Component {
   }
 }
 
-export default AddEvent3;
+export default AddEventPage3;

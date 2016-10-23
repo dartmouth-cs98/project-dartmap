@@ -1,9 +1,9 @@
 // add_event_dialog.js
 import React, { Component } from 'react';
 
-import AddEvent1 from './add_events/add_event_1';
-import AddEvent2 from './add_events/add_event_2';
-import AddEvent3 from './add_events/add_event_3';
+import AddEventPage1 from './add_events/add_event_page_1';
+import AddEventPage2 from './add_events/add_event_page_2';
+import AddEventPage3 from './add_events/add_event_page_3';
 
 class AddEventDialog extends Component {
   constructor(props) {
@@ -25,9 +25,9 @@ class AddEventDialog extends Component {
     this.handlePageData = this.handlePageData.bind(this);
     this.submitEventData = this.submitEventData.bind(this);
     this.pageCode = [
-      <AddEvent1 handleData={this.handlePageData} />,
-      <AddEvent2 handleData={this.handlePageData} />,
-      <AddEvent3 handleData={this.handlePageData} />,
+      <AddEventPage1 handleData={this.handlePageData} />,
+      <AddEventPage2 handleData={this.handlePageData} />,
+      <AddEventPage3 handleData={this.handlePageData} />,
     ];
   }
   handlePageData(data) {

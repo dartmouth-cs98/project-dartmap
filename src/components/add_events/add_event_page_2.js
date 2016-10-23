@@ -1,8 +1,8 @@
-// add_event_2.js
+// add_event_page_2.js
 import React, { Component } from 'react';
 import DateTime from 'react-datetime';
 
-class AddEvent2 extends Component {
+class AddEventPage2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +28,7 @@ class AddEvent2 extends Component {
     }
   }
   makePastDatesInvalid(current) {
-    var yesterday = DateTime.moment().subtract(1, 'day');
+    const yesterday = DateTime.moment().subtract(1, 'day');
     return current.isAfter(yesterday);
   }
   render() {
@@ -72,4 +72,4 @@ class AddEvent2 extends Component {
   }
 }
 
-export default AddEvent2;
+export default AddEventPage2;
