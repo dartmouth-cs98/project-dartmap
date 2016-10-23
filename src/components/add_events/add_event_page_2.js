@@ -22,7 +22,7 @@ class AddEventPage2 extends Component {
       const data = {
         start_time: this.state.start_time.format('HH:mm'),
         end_time: this.state.end_time.format('HH:mm'),
-        date: this.state.date.format('MM/DD/YYYY'),
+        date: this.state.date.format('YYYY-MM-DD'),
       };
       this.props.handleData(data);
     }

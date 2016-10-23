@@ -5,7 +5,7 @@ class AddEventPage1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventName: null,
+      name: null,
       description: null,
       organizer: null,
     };
@@ -17,12 +17,12 @@ class AddEventPage1 extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.description && this.state.organizer && this.state.eventName) {
+    if (this.state.description && this.state.organizer && this.state.name) {
       this.props.handleData(this.state);
     }
   }
   render() {
-    const nameErrorMessage = (this.state.eventName === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
+    const nameErrorMessage = (this.state.name === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const organizerErrorMessage = (this.state.organizer === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
     const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessage;
     return (
@@ -31,9 +31,9 @@ class AddEventPage1 extends Component {
         <input
           type="text"
           placeholder="e.g. Homecoming Bonfire"
-          value={this.state.eventName || ''}
-          onChange={event => this.setState({ eventName: event.target.value })}
-          className={(this.state.eventName !== '') ? 'addEventBox' : 'formBoxError'}
+          value={this.state.name || ''}
+          onChange={event => this.setState({ name: event.target.value })}
+          className={(this.state.name !== '') ? 'addEventBox' : 'formBoxError'}
         />
         {nameErrorMessage}
         <h2>Event Organizer:*</h2>
@@ -56,7 +56,7 @@ class AddEventPage1 extends Component {
         <input
           type="submit"
           value="Next"
-          className={(!this.state.description || !this.state.organizer || !this.state.eventName) ? 'invalidNextBtn' : 'validNextBtn'}
+          className={(!this.state.description || !this.state.organizer || !this.state.name) ? 'invalidNextBtn' : 'validNextBtn'}
         />
       </form>
     );

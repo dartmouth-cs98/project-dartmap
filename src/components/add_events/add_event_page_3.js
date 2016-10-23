@@ -6,23 +6,23 @@ class AddEventPage3 extends Component {
     super(props);
     this.state = {
       location: null,
-      room: null,
+      location_string: null,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
-    this.visibleErrorMessages = ['location', 'room'].map((data) => {
+    this.visibleErrorMessages = ['location', 'location_string'].map((data) => {
       return <div key={data} className="errorMessage"> The {data} of the event is required. </div>;
     });
   }
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.location && this.state.room) {
+    if (this.state.location && this.state.location_string) {
       this.props.handleData(this.state);
     }
   }
   render() {
     const locationErrorMessage = (this.state.location === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
-    const roomErrorMessage = (this.state.room === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
+    const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
     return (
       <form className="addEventForm" onSubmit={this.handleSubmit}>
         <h2>Location of Event:* </h2>
@@ -40,15 +40,15 @@ class AddEventPage3 extends Component {
         <input
           type="text"
           placeholder="e.g. Collis 112"
-          value={this.state.room || ''}
-          onChange={event => this.setState({ room: event.target.value })}
-          className={(this.state.room !== '') ? 'addEventBox' : 'formBoxError'}
+          value={this.state.location_string || ''}
+          onChange={event => this.setState({ location_string: event.target.value })}
+          className={(this.state.location_string !== '') ? 'addEventBox' : 'formBoxError'}
         />
         {roomErrorMessage}
         <input
           type="submit"
           value="Next"
-          className={(!this.state.location || !this.state.room) ? 'invalidNextBtn' : 'validNextBtn'}
+          className={(!this.state.location || !this.state.location_string) ? 'invalidNextBtn' : 'validNextBtn'}
         />
       </form>
     );
