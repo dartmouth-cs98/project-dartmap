@@ -27,6 +27,10 @@ class AddEvent2 extends Component {
       this.props.handleData(data);
     }
   }
+  makePastDatesInvalid(current) {
+    var yesterday = DateTime.moment().subtract(1, 'day');
+    return current.isAfter(yesterday);
+  }
   render() {
     const dateErrorMessage = (this.state.date === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const startErrorMessage = (this.state.start_time === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
@@ -40,6 +44,8 @@ class AddEvent2 extends Component {
           timeFormat={false}
           value={this.state.date || ''}
           onChange={moment => this.setState({ date: moment })}
+          closeOnSelect={true}
+          isValidDate={ this.makePastDatesInvalid}
         />
         <h2>Start Time:* </h2>
         {startErrorMessage}
