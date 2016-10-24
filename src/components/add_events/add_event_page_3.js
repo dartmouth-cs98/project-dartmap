@@ -10,7 +10,7 @@ class AddEventPage3 extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
-    this.visibleErrorMessages = ['location', 'location_string'].map((data) => {
+    this.visibleErrorMessages = ['location', 'room'].map((data) => {
       return <div key={data} className="errorMessage"> The {data} of the event is required. </div>;
     });
   }
