@@ -2,9 +2,9 @@
 import React, {PropTypes, Component} from 'react';
 import GoogleMap from 'google-map-react';
 import controllable from 'react-controllables';
-import EventsWithControllableHover from './map_events.js';
+import EventsWithControllableHover from './map_helpers/map_events.js';
 
-import {K_SIZE} from './map_styles.js';
+import {K_SIZE} from './map_helpers/map_styles.js';
 
 @controllable(['center', 'zoom', 'hoverKey', 'clickKey'])
 export default class MapContainer extends Component {
