@@ -17,9 +17,19 @@ import MapContainer from './components/map_container';
 import AddEventDialog from './components/add_event_dialog';
 import FilterContainer from './components/filter_container';
 
+// import the functions that get things from backend
+import getAllEvents from './components/backend_interaction';
+
 class App extends Component {
   constructor(props) {
     super(props);
+
+    // this is the function that gets data from the backend (heroku?)
+    getAllEvents('pixar').then(videos => {
+      console.log("youtube api test is working")
+      // console.log(videos);
+    });
+
     this.dateBarData = this.createDateData();
     // this.timeBarData = {}; <-- most likely not necessary
     this.state = {
@@ -93,23 +103,22 @@ class App extends Component {
 
   /* 
    * creates the date data object based on today's date
-   * date data object: {0: Date(), 1: today.getDate()+1, ..., 6: today.getDate()+6, 7: today.getDate()+14}
+   * date data array is: [Date(), today.getDate()+1, ..., today.getDate()+6, today.getDate()+14]
    */
   createDateData() {
     var today = new Date();
-    var obj = {};
-    var i;
+    var dateArray = [];
     // iterate over the week and add in each day
-    for (i = 0; i < 7; i++) {
+    for (var i=0; i<7; i++) {
       var newDate = new Date();
-      newDate.setDate(today.getDate()+i);
-      obj[i] = newDate;
+      newDate.setDate(today.getDate()+i)
+      dateArray.push(newDate);
     }
     // add in the day that is two weeks from now
     var newDate = new Date();
-    newDate.setDate(today.getDate()+14);
-    obj[7] = newDate;
-    return obj;
+    newDate.setDate(today.getDate()+14)
+    dateArray.push(newDate);
+    return dateArray;
   }
   handleAddEventData(data) {
     console.log('data from add-event dialog:');
