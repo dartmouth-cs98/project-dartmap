@@ -7,7 +7,10 @@ import ReactDOM from 'react-dom';
 // add the style sheet onto the page
 import './style.scss';
 
-// import the Components
+//import the API functions
+import postNewEvent from './dartmap-api';
+
+// import the react Components
 import EventList from './components/event_list';
 import NavBar from './components/nav_bar';
 import MapContainer from './components/map_container';
@@ -69,6 +72,7 @@ class App extends Component {
   handleAddEventData(data) {
     console.log('data from add-event dialog:');
     console.log(data);
+    postNewEvent(data);
     this.setState({ addEvent: false });
   }
   toggleAddEvent() {
@@ -78,7 +82,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar toggleAddEvent={this.toggleAddEvent}/>
+        <NavBar toggleAddEvent={this.toggleAddEvent} />
         <MapContainer />
         <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation} />
         <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />

@@ -10,7 +10,7 @@ class AddEventDialog extends Component {
     super(props);
     this.currentPage = 0;
     this.state = {
-      eventName: null,
+      name: null,
       organizer: null,
       description: null,
       date: null,
