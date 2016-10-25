@@ -22,7 +22,7 @@ export default class MapContainer extends Component {
 
   static defaultProps = {
     center: [43.703337, -72.288578],
-    zoom: 16,
+    zoom: 15,
   };
 
   constructor(props) {
@@ -33,10 +33,15 @@ export default class MapContainer extends Component {
   _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
     this.props.onCenterChange(center);
     this.props.onZoomChange(zoom);
+    var parent = document.getElementsByTagName('body')[0];
+    var popups = document.getElementsByClassName("popup");
+    while (popups.length > 0) {
+      parent.removeChild(popups[popups.length - 1]);
+    }
   }
 
   _onChildClick = (key, childProps) => {
-    this.props.onCenterChange([childProps.lat, childProps.lng]);
+    // this.props.onCenterChange([childProps.lat, childProps.lng]);
   }
 
   _onChildMouseEnter = (key /*, childProps */) => {
@@ -51,14 +56,15 @@ export default class MapContainer extends Component {
     const mapEvents = this.props.events
       .map(mapEvent => {
         const {id, ...coords} = mapEvent;
-
         return (
           <EventsWithControllableHover
-            key={id}
             {...coords}
+            key={id}
+            id={id}
             text={String(id)}
             // use your hover state (from store, react-controllables etc...)
-            hover={this.props.hoverKey === id} />
+            showStickyBalloon={this.props.showStickyBalloonEventId}
+            showBalloon={this.props.showBalloonEventId === id || this.props.hoverKey === id} />
         );
       });
     var mapStyle = {

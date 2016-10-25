@@ -7,7 +7,8 @@ class EventList extends Component {
     super(props);
     this.eventItems = props.events.map((event) => {
       return (
-        <EventListItem event={event} selectedLocation={props.selectedLocation} key={event.id} />
+        <EventListItem event={event} selectedLocation={props.selectedLocation} key={event.id} 
+            showBalloon={props.showBalloon} showStickyBalloon={props.showStickyBalloon} />
       );
     });
   }
