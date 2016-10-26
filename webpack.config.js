@@ -3,7 +3,7 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  stats: {colors: true},
+  stats: { colors: true },
   devtool: 'inline-source-map',
   entry: [
     'babel-polyfill',
