@@ -5,29 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --inline --hot",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
     "build": "node_modules/.bin/webpack"
-  },
-  "jest": {
-    "verbose": "true",
-    "collectCoverageFrom": [
-      "**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!**/build/**",
-      "!**/graveyard/**",
-      "!**/images/**",
-      "!**/milestones/**",
-      "!webpack.config.js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "<rootDir>/build/",
-      "<rootDir>/node_modules/",
-      "<rootDir>/graveyard/",
-      "<rootDir>/milestones/",
-      "<rootDir>/images/",
-      "<rootDir>/coverage/"
-    ]
   },
   "author": "",
   "repository": {
