@@ -14,7 +14,8 @@ import Rcslider from 'rc-slider';
 function getDayString(dateObj) {
   const dayArray = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   const today = new Date();
-  const twoWeeks = new Date(today.getDate() + 14);
+  var twoWeeks = new Date();
+  twoWeeks.setDate(today.getDate() + 14);
 
   if (dateObj.getDate() === today.getDate()) {
     return 'today';
