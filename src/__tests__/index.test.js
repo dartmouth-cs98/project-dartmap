@@ -1,12 +1,14 @@
 // index.test.js
 
 import React from 'react';
-import { shallow } from 'enzyme';
+// import ReactDOM from 'react-dom';
 import App from '../index';
+import ReactTestUtils from 'react-addons-test-utils';
 
 it('App renders without errors', () => {
   // Render an App
-  const shallowPrototype = shallow(
-    <App />
-  );
+  const renderer = ReactTestUtils.createRenderer();
+  renderer.render(<App />);
+  const result = renderer.getRenderOutput();
+  expect(result.type).toBe('div');
 });

@@ -7,7 +7,7 @@ const POST_URL = 'submitevent/';
 
 function postNewEvent(eventData) {
   const fullUrl = API_URL.concat(POST_URL);
-  $.ajax({
+  const response = $.ajax({
     url: fullUrl,
     jsonp: false,
     type: 'POST',
@@ -15,12 +15,14 @@ function postNewEvent(eventData) {
     success: function(data) {
       console.log('SUCCESS!!!!!!');
       console.log(data);
+      return data;
     }.bind(this),
     error: function(xhr, status, err) {
       console.log(status);
       console.error(fullUrl, status, err);
     }.bind(this),
   });
+  return response;
 }
 
 
