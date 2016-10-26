@@ -6,11 +6,11 @@
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --inline --hot",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "build": "node_modules/.bin/webpack"
   },
   "jest": {
     "verbose": "true",
-    "collectCoverage": "true",
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
       "!**/node_modules/**",
@@ -54,6 +54,7 @@
     "eslint-plugin-react": "^6.4.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "jest": "^16.0.2",
+    "nock": "^9.0.0",
     "node-sass": "^3.10.1",
     "react-addons-test-utils": "^15.3.2",
     "react-test-renderer": "^15.3.2",
