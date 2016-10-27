@@ -1,112 +1,88 @@
 /*
-	Filters by date
-	Based on the upcoming week or next 2 weeks
+  Filters by date
+  Based on the upcoming week or next 2 weeks
 */
 
 import React, { Component } from 'react';
+import { convertDatesToDisplay } from '../helpers/date-data-helper';
 
 // dates that are checked by default
-var DEFAULT_DATES = [true, true, false, false, false, false, false, false];
+const DEFAULT_DATES = [true, true, false, false, false, false, false, false];
 
 function log(val) {
-	console.log(val);
+  console.log(val);
 }
 
-// converts a dictionary of dates to strings to display
-function convertDatesToDisplay(datesData) {
-	var datesDataDisplay = [];
-	var numberOfDays = Object.keys(datesData).length
-	for (var i=0; i<numberOfDays; i++) {
-		datesDataDisplay.push(getDayString(datesData[i]));
-	}
-	return datesDataDisplay
-}
 
-// converts a Date() object into a string to display
-function getDayString(dateObj) {
-	var dayArray = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
-	var today = new Date();
-	var twoWeeks = new Date();
-	twoWeeks.setDate(today.getDate()+14);
+class DateFilter extends Component {
 
-	if (dateObj.getDate() == today.getDate()) {
-		return "today";
-	}
-	else if (dateObj.getDate() == twoWeeks.getDate()) {
-		return "2 weeks from now";
-	}
-	else {
-		var day = dateObj.getDay();
-		return dayArray[day];
-	}
-}
+  constructor(props) {
+    super(props);
 
-class DateFilter extends React.Component {
+    // set which dates (strings) should be checked by default
+    const defaultDates = [];
+    for (let i = 0; i < DEFAULT_DATES.length; i += 1) {
+      if (DEFAULT_DATES[i]) defaultDates.push(i.toString());
+    }
 
-	constructor(props) {
-		super(props);
+    // receives the dates data object passed down from index.js
+    const datesData = props.dateBarData;
 
-		// set which dates (strings) should be checked by default
-		var defaultDates = [];
-		for (var i = 0; i < DEFAULT_DATES.length; i++) {
-			if (DEFAULT_DATES[i])
-				defaultDates.push(i.toString());
-		}
+    // dictionary of date strings to be displayed onscreen
+    this.datesDataDisplay = convertDatesToDisplay(datesData);
 
-		// receives the dates data object passed down from index.js
-		var datesData = props.dateBarData;
+    this.state = { checked: defaultDates };
+    this.handleChange = this.handleChange.bind(this);
+    this.onDateChange = props.onDateChange;
+  }
 
-		// dictionary of date strings to be displayed onscreen
-		this.datesDataDisplay = convertDatesToDisplay(datesData);
+  handleChange(event) {
+    const val = event.target.value;
+    const checked = this.state.checked.slice(); // copy
 
-		this.state = {checked: defaultDates};
-		this.handleChange = this.handleChange.bind(this);
-		this.onDateChange = props.onDateChange;
-	}
+    // the array of checked dates to send, e.g. [0, 1, 2, 5, 6]
+    const dateArray = [];
 
-	handleChange(event) {
-		let val = event.target.value;
-		let checked = this.state.checked.slice(); // copy
+    if (checked.includes(val)) {
+      checked.splice(checked.indexOf(val), 1);
+    } else {
+      checked.push(val);
+    }
 
-		// the array of checked dates to send, e.g. [0, 1, 2, 5, 6]
-		var dateArray = [];
+    this.setState({ checked });
 
-		if(checked.includes(val)) {
-			checked.splice(checked.indexOf(val), 1);
-		} else {
-			checked.push(val);
-		}
+    // convert checked strings to ints and add them to dateArray (sorted)
+    let c, n;
+    for (c in checked) {
+      if (checked[c]) {
+        n = parseInt(checked[c], 10);
+        dateArray.push(n);
+      }
+    }
+    dateArray.sort();
 
-		this.setState({checked: checked})
+    this.onDateChange(dateArray);
+  }
 
-		// convert checked strings to ints and add them to dateArray (sorted)
-		var c,n;
-		for (c in checked) {
-			n = parseInt(checked[c], 10);
-			dateArray.push(n);
-		}
-		dateArray.sort();
-
-		this.onDateChange(dateArray);
-	}
-
-	render() {
-	return (
-		<div className="date-filter">
-			<div><input type="checkbox" className="date-check" value="0" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[0]} /> {this.datesDataDisplay[0]}</div>
-			<div><input type="checkbox" className="date-check" value="1" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[1]} /> {this.datesDataDisplay[1]}</div>
-			<div><input type="checkbox" value="2" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[2]} /> {this.datesDataDisplay[2]}</div>
-			<div><input type="checkbox" value="3" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[3]} /> {this.datesDataDisplay[3]}</div>
-			<div><input type="checkbox" value="4" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[4]} /> {this.datesDataDisplay[4]}</div>
-			<div><input type="checkbox" value="5" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[5]} /> {this.datesDataDisplay[5]}</div>
-			<div><input type="checkbox" value="6" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[6]} /> {this.datesDataDisplay[6]}</div>
-			<div><input type="checkbox" value="7" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[7]} /> {this.datesDataDisplay[7]}</div>
-			<br />
-		</div>
-	);
-	}
+  render() {
+    return (
+      <div className="date-filter">
+        <div><input type="checkbox" className="date-check" value="0" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[0]} /> {this.datesDataDisplay[0]}</div>
+        <div><input type="checkbox" className="date-check" value="1" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[1]} /> {this.datesDataDisplay[1]}</div>
+        <div><input type="checkbox" value="2" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[2]} /> {this.datesDataDisplay[2]}</div>
+        <div><input type="checkbox" value="3" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[3]} /> {this.datesDataDisplay[3]}</div>
+        <div><input type="checkbox" value="4" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[4]} /> {this.datesDataDisplay[4]}</div>
+        <div><input type="checkbox" value="5" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[5]} /> {this.datesDataDisplay[5]}</div>
+        <div><input type="checkbox" value="6" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[6]} /> {this.datesDataDisplay[6]}</div>
+        <div><input type="checkbox" value="7" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[7]} /> {this.datesDataDisplay[7]}</div>
+        <br />
+      </div>
+    );
+  }
 }
 
 export default DateFilter;
+
+
 
 
