@@ -2,12 +2,13 @@
 import React from 'react';
 
 const EventListItem = (props) => {
-  if (!props.selectedLocation || props.selectedLocation === props.event.location){
+  if (!props.selectedLocation || props.selectedLocation === props.event.location) {
     return (
       <div className="event-item"
-          onMouseOver={() => props.showBalloon(props.event.id)}
-          onMouseOut={() => props.showBalloon(null)}
-          onClick={() => props.showStickyBalloon(props.event.id)}>
+        onMouseOver={() => props.showBalloon(props.event.id)}
+        onMouseOut={() => props.showBalloon(null)}
+        onClick={() => props.showStickyBalloon(props.event.id)}
+      >
         {props.event.name}
       </div>
     );
@@ -16,7 +17,8 @@ const EventListItem = (props) => {
     <div className="location-not-selected"
       onMouseOver={() => props.showBalloon(props.event.id)}
       onMouseOut={() => props.showBalloon(null)}
-      onClick={() => props.showStickyBalloon(props.event.id)}></div>
+      onClick={() => props.showStickyBalloon(props.event.id)}
+    />
   );
 };
 

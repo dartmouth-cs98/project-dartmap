@@ -3,7 +3,7 @@ import React from 'react';
 
 const ApplyFilterButton = (props) => {
   return (
-    <div id="filter-btn" onClick={() => props.applyFilters()}>I am the Apply Filter button.</div>
+    <button type="button" id="filter-btn" onClick={() => props.applyFilters()}>Apply</button>
   );
 };
 

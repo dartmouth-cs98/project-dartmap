@@ -7,8 +7,7 @@
 function createDateData() {
   const today = new Date();
   var obj = {};
-  var i;
-  var newDate;
+  var i, newDate;
   // iterate over the week and add in each day
   for (i = 0; i < 7; i += 1) {
     newDate = new Date();
@@ -22,4 +21,33 @@ function createDateData() {
   return obj;
 }
 
+// converts a Date() object into a string to display
+function getDayString(dateObj) {
+  const dayArray = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const today = new Date();
+  var twoWeeks = new Date();
+  twoWeeks.setDate(today.getDate() + 14);
+
+  if (dateObj.getDate() === today.getDate()) {
+    return 'today';
+  } else if (dateObj.getDate() === twoWeeks.getDate()) {
+    return '2 weeks from now';
+  } else {
+    const day = dateObj.getDay();
+    return dayArray[day];
+  }
+}
+
+// converts a dictionary of dates to strings to display
+function convertDatesToDisplay(datesData) {
+  let datesDataDisplay = {};
+  const numberOfDays = Object.keys(datesData).length;
+  let i;
+  for (i = 0; i < numberOfDays; i += 1) {
+    datesDataDisplay[i] = getDayString(datesData[i]);
+  }
+  return datesDataDisplay;
+}
+
 export default createDateData;
+export { convertDatesToDisplay };
