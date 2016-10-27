@@ -211,104 +211,6 @@ td.rdtYear:hover {
   font-size: 1.2em;
   margin-top: 37px;
 }
-html, body, #main {
-  height: 100%;
-  margin: 0;
-  padding: 0; }
-
-.hidden {
-  display: none; }
-
-#nav-bar {
-  background-color: #008000;
-  color: white;
-  font-family: 'Old Standard TT';
-  font-size: 30pt;
-  height: 50px;
-  padding-left: 10px;
-  position: relative; }
-  #nav-bar h1 {
-    display: inline-block; }
-  #nav-bar button {
-    float: right;
-    height: 50px; }
-
-#banner #map-title {
-  position: absolute;
-  bottom: 2px;
-  left: 8px; }
-
-#event-menu {
-  float: left; }
-
-#map {
-  float: left; }
-
-.mapImage {
-  width: 100%;
-  height: 100%;
-  position: absolute; }
-
-#event-menu {
-  float: left;
-  width: 20%; }
-  #event-menu .location-not-selected {
-    display: none; }
-
-#event-menu #event-banner {
-  border-bottom: thin solid black; }
-  #event-menu #event-banner .event-banner-item {
-    float: left;
-    padding-left: 16px; }
-
-#event-menu .event-item {
-  background-color: #d1d1e0;
-  border-bottom: thin solid black;
-  height: 100px;
-  padding-left: 8px;
-  padding-top: 8px;
-  width: 100%; }
-  #event-menu .event-item:hover {
-    background-color: #b3b3cb;
-    cursor: pointer; }
-
-.popup {
-  background-color: #d1d1e0;
-  padding: 5px; }
-
-#test-button {
-  position: absolute;
-  top: 10px; }
-
-#filter-container {
-  width: 80%;
-  float: left;
-  display: block; }
-  #filter-container #filter-btn {
-    display: inline-block;
-    background-color: orange;
-    float: right; }
-
-#add-event {
-  border: 10px solid black;
-  height: 80%;
-  width: 80%;
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  background-color: white;
-  border-radius: 50px; }
-  #add-event .addEventForm input, #add-event .addEventForm textarea {
-    width: 50%; }
-  #add-event .formBoxError {
-    border-color: red; }
-  #add-event .errorMessage {
-    color: red;
-    display: inline-block; }
-  #add-event .invalidNextBtn {
-    background-color: #d1d1e0; }
-  #add-event .validNextBtn {
-    background-color: #008000; }
 .rc-slider {
   position: relative;
   height: 4px;
@@ -589,5 +491,139 @@ html, body, #main {
   border-width: 4px 4px 0;
   border-top-color: #6c6c6c;
 }
+html, body, #main {
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+.hidden {
+  display: none; }
+
+#nav-bar {
+  background-color: #008000;
+  color: white;
+  font-family: 'Old Standard TT';
+  font-size: 30pt;
+  height: 50px;
+  padding-left: 10px;
+  position: relative; }
+  #nav-bar h1 {
+    display: inline-block; }
+  #nav-bar button {
+    float: right;
+    height: 50px; }
+
+#banner #map-title {
+  position: absolute;
+  bottom: 2px;
+  left: 8px; }
+
+#event-menu {
+  float: left; }
+
+#map {
+  float: left; }
+
+.mapImage {
+  width: 100%;
+  height: 100%;
+  position: absolute; }
+
+.event {
+  border: 5px solid #f44336;
+  color: #3f51b5;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: -20px;
+  top: -20px;
+  border-radius: 40px;
+  background-color: white;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px;
+  cursor: pointer; }
+  .event:focus {
+    outline: none; }
+
+.event-hover {
+  border: 5px solid #3f51b5;
+  color: #f44336;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: -20px;
+  top: -20px;
+  border-radius: 40px;
+  background-color: white;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px;
+  cursor: pointer; }
+  .event-hover:focus {
+    outline: none; }
+
+#event-menu {
+  float: left;
+  width: 20%; }
+  #event-menu .location-not-selected {
+    display: none; }
+
+#event-menu #event-banner {
+  border-bottom: thin solid black; }
+  #event-menu #event-banner .event-banner-item {
+    float: left;
+    padding-left: 16px; }
+
+#event-menu .event-item {
+  background-color: #d1d1e0;
+  border-bottom: thin solid black;
+  height: 100px;
+  padding-left: 8px;
+  padding-top: 8px;
+  width: 100%; }
+  #event-menu .event-item:hover {
+    background-color: #b3b3cb;
+    cursor: pointer; }
+
+.popup {
+  background-color: #d1d1e0;
+  padding: 5px; }
+
+#test-button {
+  position: absolute;
+  top: 10px; }
+
+#filter-container {
+  width: 80%;
+  float: left;
+  display: block; }
+  #filter-container #filter-btn {
+    display: inline-block;
+    background-color: orange;
+    float: right; }
+
+#add-event {
+  border: 10px solid black;
+  height: 80%;
+  width: 80%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  background-color: white;
+  border-radius: 50px; }
+  #add-event .addEventForm input, #add-event .addEventForm textarea {
+    width: 50%; }
+  #add-event .formBoxError {
+    border-color: red; }
+  #add-event .errorMessage {
+    color: red;
+    display: inline-block; }
+  #add-event .invalidNextBtn {
+    background-color: #d1d1e0; }
+  #add-event .validNextBtn {
+    background-color: #008000; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJidW5kbGUuY3NzIiwic291cmNlUm9vdCI6IiJ9*/

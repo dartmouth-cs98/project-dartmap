@@ -31,8 +31,6 @@ class AddEventDialog extends Component {
     ];
   }
   handlePageData(data) {
-    console.log('data returned from the page: ' + this.currentPage);
-    console.log(data);
     this.setState(data);
     this.currentPage += 1;
   }
