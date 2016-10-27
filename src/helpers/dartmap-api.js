@@ -2,11 +2,11 @@
 // This file contains all the functions used to interact with the dartmap backend api.
 import $ from 'jquery';
 
-const API_URL = 'https://dartmapapi.herokuapp.com/';
-const POST_URL = 'submitevent/';
+const API_URL = 'https://dartmapapi.herokuapp.com/api/';
+const EVENT_URL = 'events/';
 
 function postNewEvent(eventData) {
-  const fullUrl = API_URL.concat(POST_URL);
+  const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
     url: fullUrl,
     jsonp: false,
