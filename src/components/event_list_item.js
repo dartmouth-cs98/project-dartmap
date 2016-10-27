@@ -13,7 +13,7 @@ const EventListItem = (props) => {
       </div>
     );
   }
-  return(
+  return (
     <div className="location-not-selected"
       onMouseOver={() => props.showBalloon(props.event.id)}
       onMouseOut={() => props.showBalloon(null)}

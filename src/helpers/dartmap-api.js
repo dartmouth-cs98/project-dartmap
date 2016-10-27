@@ -12,15 +12,15 @@ function postNewEvent(eventData) {
     jsonp: false,
     type: 'POST',
     data: eventData,
-    success: function(data) {
+    success: (data) => {
       console.log('SUCCESS!!!!!!');
       console.log(data);
       return data;
-    }.bind(this),
-    error: function(xhr, status, err) {
+    },
+    error: (xhr, status, err) => {
       console.log(status);
       console.error(fullUrl, status, err);
-    }.bind(this),
+    },
   });
   return response;
 }
