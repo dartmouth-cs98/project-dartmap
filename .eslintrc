@@ -32,7 +32,8 @@
         react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
     },
     plugins: [
-        "react"
+        "react",
+        "jsx-a11y"
     ],
     ecmaFeatures: {
         jsx: true,

@@ -1,10 +1,30 @@
 $green: #008000;
 $event-item-color: #d1d1e0;
 $light-grey: #d1d1e0;
+$K_SIZE: 40px;
+$red: #f44336;
+$blue: #3f51b5;
 
 // Imports
 @import "../node_modules/react-datetime/css/react-datetime.css";
 @import "../node_modules/rc-slider/assets/index.css";
+
+// Mixins
+@mixin event-style {
+  position: absolute;
+  width: $K_SIZE;
+  height: $K_SIZE;
+  left: -$K_SIZE / 2;
+  top: -$K_SIZE / 2;
+
+  border-radius: $K_SIZE;
+  background-color: white;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px;
+  cursor: pointer;
+}
 
 html, body, #main {
   height: 100%;
@@ -54,6 +74,26 @@ html, body, #main {
   height: 100%;
   position: absolute;
   // cursor: url(../images/cursor.png) 15 15, pointer;
+}
+
+.event {
+  border: 5px solid $red;
+  color: $blue;
+  @include event-style;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.event-hover {
+  border: 5px solid $blue;
+  color: $red;
+  @include event-style;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 #event-menu {
