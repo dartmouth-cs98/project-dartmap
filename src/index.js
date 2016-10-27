@@ -17,18 +17,9 @@ import MapContainer from './components/map_container';
 import AddEventDialog from './components/add_event_dialog';
 import FilterContainer from './components/filter_container';
 
-// import the functions that get things from backend
-import getAllEvents from './components/backend_interaction';
-
 class App extends Component {
   constructor(props) {
     super(props);
-
-    // this is the function that gets data from the backend (heroku?)
-    getAllEvents('pixar').then(videos => {
-      console.log("youtube api test is working")
-      // console.log(videos);
-    });
 
     this.dateBarData = this.createDateData();
     // this.timeBarData = {}; <-- most likely not necessary
