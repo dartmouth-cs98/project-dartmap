@@ -9,9 +9,9 @@ import { convertDatesToDisplay } from '../helpers/date-data-helper';
 // dates that are checked by default
 const DEFAULT_DATES = [true, true, false, false, false, false, false, false];
 
-function log(val) {
-  console.log(val);
-}
+// function log(val) {
+//   console.log(val);
+// }
 
 
 class DateFilter extends Component {
@@ -82,7 +82,3 @@ class DateFilter extends Component {
 }
 
 export default DateFilter;
-
-
-
-
