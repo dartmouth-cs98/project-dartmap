@@ -78,9 +78,9 @@ class App extends Component {
     this.setState({ showStickyBalloonEventId: eventId });
 
     // Reset the state so that the popup is a onetime popup.
-    setTimeout(function() {
+    setTimeout(() => {
       this.setState({ showStickyBalloonEventId: null });
-    }.bind(this), 1000);
+    }, 1000);
   }
   render() {
     return (
