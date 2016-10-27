@@ -61,7 +61,6 @@ class App extends Component {
     this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
   }
-
   handleAddEventData(data) {
     console.log('data from add-event dialog:');
     console.log(data);

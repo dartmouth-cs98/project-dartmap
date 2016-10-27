@@ -175,3 +175,12 @@ html, body, #main {
     background-color: $green;
   }
 }
+
+.date-filter{
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+}
