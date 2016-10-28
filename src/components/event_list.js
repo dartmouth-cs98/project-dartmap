@@ -5,13 +5,17 @@ import EventListItem from './event_list_item';
 class EventList extends Component {
   constructor(props) {
     super(props);
-    this.eventItems = props.events.map((event) => {
-      return (
-        <EventListItem event={event} selectedLocation={props.selectedLocation} key={event.id}
-          showBalloon={props.showBalloon} showStickyBalloon={props.showStickyBalloon}
-        />
-      );
-    });
+    if (props.events) {
+      this.eventItems = props.events.map((event) => {
+        return (
+          <EventListItem event={event} selectedLocation={props.selectedLocation} key={event.id}
+            showBalloon={props.showBalloon} showStickyBalloon={props.showStickyBalloon}
+          />
+        );
+      });
+    } else {
+      this.eventItems = [];
+    }
   }
   render() {
     return (
