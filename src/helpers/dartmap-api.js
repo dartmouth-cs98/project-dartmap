@@ -5,7 +5,7 @@ import $ from 'jquery';
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const EVENT_URL = 'events/';
 
-function postNewEvent(eventData) {
+export function postNewEvent(eventData) {
   const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
     url: fullUrl,
@@ -18,12 +18,28 @@ function postNewEvent(eventData) {
       return data;
     },
     error: (xhr, status, err) => {
-      console.log(status);
       console.error(fullUrl, status, err);
     },
   });
   return response;
 }
 
-
-export default postNewEvent;
+export function getAllEvents(saveEventList) {
+  const fullUrl = API_URL.concat(EVENT_URL);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      console.log(' /events GET was successful! ');
+      console.log(data.results);
+      saveEventList(data.results);
+      return;
+      // return data.results;
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events GET was not successful.');
+      console.error(fullUrl, status, err);
+    },
+  });
+}

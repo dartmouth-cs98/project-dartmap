@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import './style.scss';
 
 // import the API functions
-import postNewEvent from './helpers/dartmap-api';
+import { postNewEvent, getAllEvents } from './helpers/dartmap-api';
 import createDateData from './helpers/date-data-helper';
 
 // import the react Components
@@ -60,12 +60,14 @@ class App extends Component {
     this.showBalloon = this.showBalloon.bind(this);
     this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
+    getAllEvents((eventList) => { this.setState({ eventList }); });
   }
   handleAddEventData(data) {
     console.log('data from add-event dialog:');
     console.log(data);
     postNewEvent(data);
     this.setState({ addEvent: false });
+    getAllEvents((eventList) => { this.setState({ eventList }); });
   }
   toggleAddEvent() {
     this.setState({ addEvent: true });
