@@ -1,6 +1,7 @@
 // dartmap-api.js
 // This file contains all the functions used to interact with the dartmap backend api.
 import $ from 'jquery';
+import moment from 'moment';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const EVENT_URL = 'events/';
@@ -53,9 +54,9 @@ function formatAPIEventData(event) {
   newEvent.id = event.id;
   newEvent.description = event.description;
   newEvent.location_string = event.location_string;
-  newEvent.date = event.date;
-  newEvent.start_time = event.start_time;
-  newEvent.end_time = event.end_time;
+  newEvent.date = moment(event.date, 'YYYY-MM-DD');
+  newEvent.start_time = moment(event.start_time, 'HH:mm');
+  newEvent.end_time = moment(event.end_time, 'HH:mm');
   // location data
   newEvent.location_id = event.location.id;
   newEvent.lat = event.location.lat;
