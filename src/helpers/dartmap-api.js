@@ -104,6 +104,7 @@ export function getAllEvents(saveEventList) {
   //     console.error(fullUrl, status, err);
   //   },
   // });
+  //
   // The next two lines are used to test formatAPIEventData
   // TODO: remove them once the API GET function works
   const eventList = tempAPIData.map((event) => {
