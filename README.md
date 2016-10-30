@@ -26,7 +26,7 @@ Run `npm start`
 * Sean Cann
 
 ### Back-end Developers:
-# Edrei Chua
+* Edrei Chua
 * Junmo (Caleb) Kim
 * Chi Pham
 
