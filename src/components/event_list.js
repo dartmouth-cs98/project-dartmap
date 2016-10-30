@@ -11,11 +11,11 @@ class EventList extends Component {
     if (this.props.events) {
       this.eventItems = this.props.events.map((event) => {
         return (
-          <EventListItem 
-            event={event} 
-            selectedLocation={this.props.selectedLocation} 
+          <EventListItem
+            event={event}
+            selectedLocation={this.props.selectedLocation}
             key={event.id}
-            showBalloon={this.props.showBalloon} 
+            showBalloon={this.props.showBalloon}
             showStickyBalloon={this.props.showStickyBalloon}
           />
         );

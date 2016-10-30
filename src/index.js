@@ -36,7 +36,7 @@ class App extends Component {
     this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
   }
-  componentDidMount(){
+  componentDidMount() {
     getAllEvents((eventList) => { this.setState({ eventList }); });
   }
   handleAddEventData(data) {
