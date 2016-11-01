@@ -56,10 +56,14 @@ class App extends Component {
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
     };
+    this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
     this.showBalloon = this.showBalloon.bind(this);
     this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
+  }
+  closeAddEventDialog() {
+    this.setState({ addEvent: false });
   }
   handleAddEventData(data) {
     console.log('data from add-event dialog:');
@@ -93,7 +97,10 @@ class App extends Component {
           showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
         />
         <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
-        <AddEventDialog addEvent={this.state.addEvent} handleAddEventData={this.handleAddEventData} />
+        <AddEventDialog addEvent={this.state.addEvent}
+          handleAddEventData={this.handleAddEventData} 
+          closeAddEventDialog={this.closeAddEventDialog}
+        />
       </div>
     );
   }

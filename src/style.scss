@@ -156,6 +156,7 @@ html, body, #main {
   top: 10%;
   left: 10%;
   background-color: white;
+  padding: 30px;
   border-radius: 50px;
   .addEventForm input, .addEventForm textarea {
     width: 50%;
@@ -173,6 +174,15 @@ html, body, #main {
   }
   .validNextBtn {
     background-color: $green;
+  }
+  #close-button {
+    position: absolute;
+    right: 20px;
+    top: 5px;
+    &:hover {
+      color: #DC143C;
+      cursor: pointer;
+    }
   }
 }
 
