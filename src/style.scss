@@ -176,7 +176,7 @@ html, body, #main {
   }
 }
 
-.date-filter{
+.date-filter {
   display: flex;
   display: -webkit-flex;
   display: -moz-flex;
@@ -185,7 +185,16 @@ html, body, #main {
   -moz-justify-content: space-around;
 }
 
-.time-filter{
+.time-filter {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+}
+
+.page-slider {
   display: flex;
   display: -webkit-flex;
   display: -moz-flex;
