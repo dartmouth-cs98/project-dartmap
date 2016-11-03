@@ -48,6 +48,12 @@ export default class MapContainer extends Component {
     this.props.onHoverKeyChange(key);
   }
 
+  maybeSelectLocation = (event) => {
+    if (this.props.selectLocation) {
+      this.props.selectLocation({lat: event.lat, lng: event.lng, id: null});
+    }
+  }
+
   _onChildMouseLeave = (/* key, childProps */) => {
     this.props.onHoverKeyChange(null);
   }
@@ -69,8 +75,8 @@ export default class MapContainer extends Component {
         );
       });
     const mapStyle = {
-      height: (0.6 * screen.height).toString().concat('px'),
-      width: (0.6 * screen.width).toString().concat('px'),
+      height: this.props.height,
+      width: this.props.width,
     };
     return (
       <div id="map" style={mapStyle}>
@@ -82,6 +88,7 @@ export default class MapContainer extends Component {
           zoom={this.props.zoom}
           hoverDistance={K_SIZE / 2}
           onBoundsChange={this._onBoundsChange}
+          onClick={this.maybeSelectLocation}
           onChildClick={this._onChildClick}
           onChildMouseEnter={this._onChildMouseEnter}
           onChildMouseLeave={this._onChildMouseLeave}

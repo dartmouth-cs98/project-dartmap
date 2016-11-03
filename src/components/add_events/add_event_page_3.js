@@ -1,5 +1,6 @@
 // add_event_page_3.js
 import React, { Component } from 'react';
+import MapContainer from '../map_container';
 
 class AddEventPage3 extends Component {
   constructor(props) {
@@ -9,6 +10,7 @@ class AddEventPage3 extends Component {
       location_string: null,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.selectLocation = this.selectLocation.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = ['location', 'room'].map((data) => {
       return <div key={data} className="errorMessage"> The {data} of the event is required. </div>;
@@ -20,23 +22,30 @@ class AddEventPage3 extends Component {
       this.props.handleData(this.state);
     }
   }
+  nullFunction() {}
+  selectLocation(location) {
+    var selectedLocationDiv = document.getElementById('selected-location');
+    selectedLocationDiv.innerText = "Location name: Unknown, Latitude: " + location.lat;
+    selectedLocationDiv.innerText += ", Longitude: " + location.lng;
+    this.setState({ location: location });
+  }
   render() {
     const locationErrorMessage = (this.state.location === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
+    var mapHeight = '300px';
+    var mapWidth = '300px';
     return (
       <form className="addEventForm" onSubmit={this.handleSubmit}>
-        <h2>Location of Event:* </h2>
-        <select
-          value={this.state.location || ''}
-          onChange={event => this.setState({ location: event.target.value })}
-          className={(this.state.location !== '' && this.state.location !== 'select-one') ? 'addEventBox' : 'formBoxError'}
-        >
-          <option value="select-one">Select an option</option>
-          <option value="collis">Collis</option>
-          <option value="foco">Foco</option>
-        </select>
-        {locationErrorMessage}
-        <h2>Room:*</h2>
+        <br/><br/>
+        <MapContainer events={[]}
+          showBalloonEventId={this.nullFunction}
+          showStickyBalloonEventId={this.nullFunction}
+          height={mapHeight}
+          width={mapWidth}
+          selectLocation={this.selectLocation}
+        />
+        <div id="selected-location"></div>
+        <h2>Location Name to Display:*</h2>
         <input
           type="text"
           placeholder="e.g. Collis 112"
