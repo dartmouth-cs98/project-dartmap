@@ -5,9 +5,9 @@ class AddEventPage1 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: null,
-      description: null,
-      organizer: null,
+      name: props.data.name,
+      description: props.data.description,
+      organizer: props.data.organizer,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;

@@ -1,14 +1,15 @@
 // add_event_page_2.js
 import React, { Component } from 'react';
 import DateTime from 'react-datetime';
+import moment from 'moment';
 
 class AddEventPage2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      start_time: null,
-      end_time: null,
-      date: null,
+      start_time: moment(props.data.start_time, 'HH:mm'),
+      end_time: moment(props.data.end_time, 'HH:mm'),
+      date: moment(props.data.date, 'YYYY-MM-DD'),
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.hiddenErrorMessage = <div className="hidden errorMessage" />;
@@ -38,7 +39,7 @@ class AddEventPage2 extends Component {
         {dateErrorMessage}
         <DateTime
           timeFormat={false}
-          value={this.state.date || ''}
+          value={this.state.date || new Date()}
           onChange={moment => this.setState({ date: moment })}
           closeOnSelect
           isValidDate={(current) => {
@@ -51,14 +52,14 @@ class AddEventPage2 extends Component {
         {startErrorMessage}
         <DateTime
           dateFormat={false}
-          value={this.state.start_time || ''}
+          value={this.state.start_time || new Date()}
           onChange={moment => this.setState({ start_time: moment })}
         />
         <h2>End Time:*</h2>
         {endErrorMessage}
         <DateTime
           dateFormat={false}
-          value={this.state.end_time || ''}
+          value={this.state.end_time || new Date()}
           onChange={moment => this.setState({ end_time: moment })}
         />
 
