@@ -17,7 +17,7 @@ const TIMES_DATA_DISPLAY = { 0: '8am', 1: '10am', 2: 'noon', 3: '2pm', 4: '4pm',
 const TimeFilter = (props) => {
   return (
     <div className="time-filter">
-      <Rcslider marks={TIMES_DATA_DISPLAY} min={0} max={9} allowCross={false} range dots step={1} defaultValue={[0, 9]} onAfterChange={props.onTimeChange} />
+      <Rcslider tipFormatter={null} marks={TIMES_DATA_DISPLAY} min={0} max={9} allowCross={false} range dots step={1} defaultValue={[0, 9]} onAfterChange={props.onTimeChange} />
     </div>
   );
 };
