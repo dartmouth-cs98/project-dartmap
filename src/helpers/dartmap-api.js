@@ -6,41 +6,6 @@ import moment from 'moment';
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const EVENT_URL = 'events/';
 
-
-const tempAPIData = [
-  {
-    id: '1',
-    name: 'test event 1',
-    location: {
-      id: 1,
-      name: 'collis',
-      lat: 43.702732,
-      long: -72.290032,
-    },
-    description: 'description1',
-  },
-  {
-    id: '2',
-    name: 'test event 2',
-    location: {
-      id: 2,
-      lat: 43.704252,
-      long: -72.294903,
-    },
-    description: 'description2',
-  },
-  {
-    id: '3',
-    name: 'test event 3',
-    location: {
-      id: 3,
-      lat: 43.702141,
-      long: -72.282574,
-    },
-    description: 'description3',
-  },
-];
-
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
  *
@@ -59,14 +24,42 @@ function formatAPIEventData(event) {
   newEvent.end_time = moment(event.end_time, 'HH:mm');
   // location data
   newEvent.location_id = event.location.id;
-  newEvent.lat = event.location.lat;
-  newEvent.lng = event.location.long;
+  newEvent.lat = event.location.latitude;
+  newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
 
   return newEvent;
 }
 
-export function postNewEvent(eventData) {
+/**
+ * formatEventDataforAPI() returns an event formatted to work with the front-end
+ *
+ * @param {Object} the event object created by the AddEventDialog component
+ * @return {Object} the event information formatted for a post to the API
+ */
+function formatEventDataforAPI(event) {
+  const eventData = {};
+  eventData.name = event.name;
+  eventData.description = event.description;
+  eventData.location_string = event.location_string;
+  eventData.start_time = event.start_time.format('HH:mm');
+  eventData.end_time = event.end_time.format('HH:mm');
+  eventData.date = event.date.format('YYYY-MM-DD');
+  eventData.location = {};
+  if (event.location.id) {
+    eventData.location.id = event.location.id;
+  } else {
+    eventData.location.name = event.location.name;
+    eventData.location.lat = event.location.lat;
+    eventData.location.long = event.location.lng;
+  }
+  return eventData;
+}
+
+export function postNewEvent(event) {
+  const eventData = formatEventDataforAPI(event);
+  console.log(event);
+  console.log(eventData);
   const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
     url: fullUrl,
@@ -86,30 +79,22 @@ export function postNewEvent(eventData) {
 }
 
 export function getAllEvents(saveEventList) {
-  // const fullUrl = API_URL.concat(EVENT_URL);
-  // $.ajax({
-  //   url: fullUrl,
-  //   type: 'GET',
-  //   dataType: 'json',
-  //   success: (data) => {
-  //     console.log(' /events GET was successful! ');
-  //     console.log(data.results);
-  //     const eventList = data.results.map((event) => {
-  //       return formatAPIEventData(event);
-  //     });
-  //     return saveEventList(eventList);
-  //     // return data.results;
-  //   },
-  //   error: (xhr, status, err) => {
-  //     console.log(' /events GET was not successful.');
-  //     console.error(fullUrl, status, err);
-  //   },
-  // });
-  //
-  // The next two lines are used to test formatAPIEventData
-  // TODO: remove them once the API GET function works
-  const eventList = tempAPIData.map((event) => {
-    return formatAPIEventData(event);
+  const fullUrl = API_URL.concat(EVENT_URL);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      console.log(' /events GET was successful! ');
+      console.log(data.results);
+      const eventList = data.results.map((event) => {
+        return formatAPIEventData(event);
+      });
+      return saveEventList(eventList);
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events GET was not successful.');
+      console.error(fullUrl, status, err);
+    },
   });
-  return saveEventList(eventList);
 }
