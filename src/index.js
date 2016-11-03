@@ -62,17 +62,19 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="app-container">
         <NavBar toggleAddEvent={this.toggleAddEvent} />
-        <MapContainer events={this.state.eventList}
-          showBalloonEventId={this.state.showBalloonEventId}
-          showStickyBalloonEventId={this.state.showStickyBalloonEventId}
-        />
-        <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
-          showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
-        />
-        <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
-        <AddEventDialog addEvent={this.state.addEvent} handleAddEventData={this.handleAddEventData} />
+        <div className="home-container">
+          <MapContainer events={this.state.eventList}
+            showBalloonEventId={this.state.showBalloonEventId}
+            showStickyBalloonEventId={this.state.showStickyBalloonEventId}
+          />
+          <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
+            showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
+          />
+          <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
+          <AddEventDialog addEvent={this.state.addEvent} handleAddEventData={this.handleAddEventData} />
+        </div>
       </div>
     );
   }
