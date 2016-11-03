@@ -27,6 +27,7 @@ $blue: #3f51b5;
 }
 
 html, body, #main {
+  font-family: 'Old Standard TT', 'Times New Roman', Times, serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -39,7 +40,6 @@ html, body, #main {
 #nav-bar {
   background-color: $green;
   color: white;
-  font-family: 'Old Standard TT';
   font-size: 30pt;
   height: 50px;
   padding-left: 10px;
