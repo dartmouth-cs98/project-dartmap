@@ -19,12 +19,12 @@ class AddEventPage2 extends Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.state.date && this.state.start_time && this.state.end_time) {
-      const data = {
-        start_time: this.state.start_time.format('HH:mm'),
-        end_time: this.state.end_time.format('HH:mm'),
-        date: this.state.date.format('YYYY-MM-DD'),
-      };
-      this.props.handleData(data);
+      // const data = {
+      //   start_time: this.state.start_time.format('HH:mm'),
+      //   end_time: this.state.end_time.format('HH:mm'),
+      //   date: this.state.date.format('YYYY-MM-DD'),
+      // };
+      this.props.handleData(this.state);
     }
   }
   render() {

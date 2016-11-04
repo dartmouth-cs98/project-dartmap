@@ -1,4 +1,5 @@
 # DartMap
+[![Build Status](https://travis-ci.com/dartmouth-cs98/project-dartmap.svg?token=MfvWRyTukvTZt4fDnPCv&branch=master)](https://travis-ci.com/dartmouth-cs98/project-dartmap)
 
 TODO: short project description, some sample screenshots or mockups
 Note: this is only the front-end code. For the back-end code, go to https://github.com/dartmouth-cs98/project-dartmap-api
