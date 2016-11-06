@@ -1,9 +1,9 @@
 // filter_container.js
 import React, { Component } from 'react';
 
-import DateFilter from './date_filter';
-import TimeFilter from './time_filter';
-import CategoryFilter from './category_filter';
+import DateFilter from './filters/date_filter';
+import TimeFilter from './filters/time_filter';
+import CategoryFilter from './filters/category_filter';
 import ApplyFilterButton from './apply_filter_button';
 
 class FilterContainer extends Component {
@@ -25,7 +25,6 @@ class FilterContainer extends Component {
   render() {
     return (
       <div id="filter-container">
-        <p>I am the container that holds all the filter options.</p>
         <DateFilter onDateChange={selectedDate => this.setState({ selectedDate })} dateBarData={this.props.dateBarData} />
         <br />
         <br />

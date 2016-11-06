@@ -13,7 +13,7 @@ export default class EventsWithControllableHover extends Component {
   constructor(props) {
     super(props);
     this.offsetX = 0;
-    this.offsetY = 70;
+    this.offsetY = 50;
   }
 
   createHoverPopup() {

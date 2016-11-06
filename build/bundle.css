@@ -271,6 +271,7 @@ td.rdtYear:hover {
   position: absolute;
   width: 100%;
   height: 4px;
+  margin: 5px 0;
   background: transparent;
 }
 .rc-slider-dot {
