@@ -24,9 +24,6 @@ class AddEventPage3 extends Component {
   }
   nullFunction() {}
   selectLocation(location) {
-    var selectedLocationDiv = document.getElementById('selected-location');
-    selectedLocationDiv.innerText = "Location name: Unknown, Latitude: " + location.lat;
-    selectedLocationDiv.innerText += ", Longitude: " + location.lng;
     this.setState({ location: location });
   }
   render() {
@@ -44,7 +41,6 @@ class AddEventPage3 extends Component {
           width={mapWidth}
           selectLocation={this.selectLocation}
         />
-        <div id="selected-location"></div>
         <h2>Location Name to Display:*</h2>
         <input
           type="text"
