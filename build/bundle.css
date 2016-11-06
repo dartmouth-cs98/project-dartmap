@@ -271,6 +271,7 @@ td.rdtYear:hover {
   position: absolute;
   width: 100%;
   height: 4px;
+  margin: 5px 0;
   background: transparent;
 }
 .rc-slider-dot {
@@ -490,10 +491,13 @@ td.rdtYear:hover {
   border-width: 4px 4px 0;
   border-top-color: #6c6c6c;
 }
-html, body, #main {
+html, body {
   height: 100%;
   margin: 0;
   padding: 0; }
+
+#main, .app-container {
+  height: inherit; }
 
 .hidden {
   display: none; }
@@ -503,30 +507,23 @@ html, body, #main {
   color: white;
   font-family: 'Old Standard TT';
   font-size: 30pt;
-  height: 50px;
+  height: 10%;
   padding-left: 10px;
   position: relative; }
   #nav-bar h1 {
-    display: inline-block; }
+    display: inline-block;
+    position: absolute;
+    bottom: 2px;
+    left: 8px; }
   #nav-bar button {
     float: right;
-    height: 50px; }
+    height: 100%; }
 
-#banner #map-title {
-  position: absolute;
-  bottom: 2px;
-  left: 8px; }
-
-#event-menu {
-  float: left; }
+.home-container {
+  height: 90%; }
 
 #map {
   float: left; }
-
-.mapImage {
-  width: 100%;
-  height: 100%;
-  position: absolute; }
 
 .event {
   border: 5px solid #f44336;
@@ -565,8 +562,10 @@ html, body, #main {
     outline: none; }
 
 #event-menu {
-  float: left;
-  width: 20%; }
+  float: right;
+  width: 20%;
+  height: 100%;
+  overflow: scroll; }
   #event-menu .location-not-selected {
     display: none; }
 
@@ -598,7 +597,8 @@ html, body, #main {
 #filter-container {
   width: 80%;
   float: left;
-  display: block; }
+  display: block;
+  padding: 0 25px; }
   #filter-container #filter-btn {
     display: inline-block;
     background-color: orange;
@@ -626,27 +626,27 @@ html, body, #main {
     background-color: #008000; }
 
 .date-filter {
-  display: flex;
-  display: -webkit-flex;
-  display: -moz-flex;
   justify-content: space-around;
   -webkit-justify-content: space-around;
-  -moz-justify-content: space-around; }
+  -moz-justify-content: space-around;
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex; }
 
 .time-filter {
-  display: flex;
-  display: -webkit-flex;
-  display: -moz-flex;
   justify-content: space-around;
   -webkit-justify-content: space-around;
-  -moz-justify-content: space-around; }
+  -moz-justify-content: space-around;
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex; }
 
 .page-slider {
-  display: flex;
-  display: -webkit-flex;
-  display: -moz-flex;
   justify-content: space-around;
   -webkit-justify-content: space-around;
-  -moz-justify-content: space-around; }
+  -moz-justify-content: space-around;
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJidW5kbGUuY3NzIiwic291cmNlUm9vdCI6IiJ9*/

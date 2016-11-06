@@ -69,8 +69,8 @@ export default class MapContainer extends Component {
         );
       });
     const mapStyle = {
-      height: (0.6 * screen.height).toString().concat('px'),
-      width: (0.6 * screen.width).toString().concat('px'),
+      height: (0.6 * window.innerHeight).toString().concat('px'),
+      width: (0.8 * window.innerWidth).toString().concat('px'),
     };
     return (
       <div id="map" style={mapStyle}>

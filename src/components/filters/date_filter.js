@@ -4,7 +4,7 @@
 */
 
 import React, { Component } from 'react';
-import { convertDatesToDisplay } from '../helpers/date-data-helper';
+import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 
 // dates that are checked by default
 const DEFAULT_DATES = [true, true, false, false, false, false, false, false];

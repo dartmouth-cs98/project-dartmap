@@ -5,15 +5,22 @@ import EventListItem from './event_list_item';
 class EventList extends Component {
   constructor(props) {
     super(props);
-    this.eventItems = props.events.map((event) => {
-      return (
-        <EventListItem event={event} selectedLocation={props.selectedLocation} key={event.id}
-          showBalloon={props.showBalloon} showStickyBalloon={props.showStickyBalloon}
-        />
-      );
-    });
+    this.eventItems = [];
   }
   render() {
+    if (this.props.events) {
+      this.eventItems = this.props.events.map((event) => {
+        return (
+          <EventListItem
+            event={event}
+            selectedLocation={this.props.selectedLocation}
+            key={event.id}
+            showBalloon={this.props.showBalloon}
+            showStickyBalloon={this.props.showStickyBalloon}
+          />
+        );
+      });
+    }
     return (
       <div id="event-menu">
         {this.eventItems}
