@@ -31,7 +31,7 @@ class App extends Component {
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
       mapHeight: (0.8 * window.innerHeight).toString().concat('px'),
-      mapWidth:(0.8 * window.innerWidth).toString().concat('px'),
+      mapWidth: (0.8 * window.innerWidth).toString().concat('px'),
     };
     this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
@@ -39,16 +39,16 @@ class App extends Component {
     this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
 
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', () => {
       this.setState({ mapHeight: (0.8 * window.innerHeight).toString().concat('px') });
       this.setState({ mapWidth: (0.8 * window.innerWidth).toString().concat('px') });
-    }.bind(this), true);
-  }
-  closeAddEventDialog() {
-    this.setState({ addEvent: false });
+    }, true);
   }
   componentDidMount() {
     getAllEvents((eventList) => { this.setState({ eventList }); });
+  }
+  closeAddEventDialog() {
+    this.setState({ addEvent: false });
   }
   handleAddEventData(data) {
     console.log('data from add-event dialog:');
@@ -87,7 +87,7 @@ class App extends Component {
           />
           <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
           <AddEventDialog addEvent={this.state.addEvent}
-            handleAddEventData={this.handleAddEventData} 
+            handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
           />
         </div>

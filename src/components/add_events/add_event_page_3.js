@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import MapContainer from '../map_container';
 
 class AddEventPage3 extends Component {
+  static nullFunction() {}
   constructor(props) {
     super(props);
     this.state = {
@@ -22,18 +23,17 @@ class AddEventPage3 extends Component {
       this.props.handleData(this.state);
     }
   }
-  nullFunction() {}
   selectLocation(location) {
-    this.setState({ location: location });
+    this.setState({ location });
   }
   render() {
-    const locationErrorMessage = (this.state.location === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
+    // const locationErrorMessage = (this.state.location === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
-    var mapHeight = '300px';
-    var mapWidth = '300px';
+    const mapHeight = '300px';
+    const mapWidth = '300px';
     return (
       <form className="addEventForm" onSubmit={this.handleSubmit}>
-        <br/><br/>
+        <br /><br />
         <MapContainer events={[]}
           showBalloonEventId={this.nullFunction}
           showStickyBalloonEventId={this.nullFunction}

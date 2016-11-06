@@ -41,7 +41,7 @@ export default class EventsWithControllableHover extends Component {
   }
 
   render() {
-    if (this.props.showStickyBalloon == this.props.id) {
+    if (this.props.showStickyBalloon === this.props.id) {
       this.createStickyPopup(this.props.id);
     }
     if (this.props.showBalloon) {

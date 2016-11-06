@@ -32,6 +32,11 @@ export default class MapContainer extends Component {
     };
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.events && newProps.events.length > 0) {
+      this.setState({ events: newProps.events });
+    }
+  }
   _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
     this.props.onCenterChange(center);
     this.props.onZoomChange(zoom);
@@ -53,8 +58,7 @@ export default class MapContainer extends Component {
 
   maybeSelectLocation = (event) => {
     if (this.props.selectLocation) {
-      this.props.selectLocation({lat: event.lat, lng: event.lng, id: null});
-      var selectedLocation = {
+      const selectedLocation = {
         id: 'x',
         name: 'New Event 1',
         location: 1,
@@ -62,6 +66,7 @@ export default class MapContainer extends Component {
         lng: event.lng,
         description: 'Location of new event',
       };
+      this.props.selectLocation({ lat: event.lat, lng: event.lng, id: null });
       this.setState({ events: [selectedLocation] });
     }
   }
@@ -70,16 +75,10 @@ export default class MapContainer extends Component {
     this.props.onHoverKeyChange(null);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.events && newProps.events.length > 0) {
-      this.setState({ events: newProps.events });
-    }
-  }
-
   render() {
-    var mapEvents = this.state.events
+    const mapEvents = this.state.events
       .map((mapEvent) => {
-        var { id, ...coords } = mapEvent;
+        const { id, ...coords } = mapEvent;
         return (
           <EventsWithControllableHover
             {...coords}
@@ -88,7 +87,8 @@ export default class MapContainer extends Component {
             text={String(id)}
             // use your hover state (from store, react-controllables etc...)
             showStickyBalloon={this.props.showStickyBalloonEventId}
-            showBalloon={this.props.showBalloonEventId == id || this.props.hoverKey == id}
+            showBalloon={this.props.showBalloonEventId === id
+                || parseInt(this.props.hoverKey, 10) === id}
           />
         );
       });
