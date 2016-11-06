@@ -27,7 +27,9 @@ export default class MapContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.events = props.events;
+    this.state = {
+      events: props.events,
+    };
   }
 
   _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
@@ -41,6 +43,7 @@ export default class MapContainer extends Component {
   }
 
   _onChildClick = (key, childProps) => {
+    // Recenter the map to the event that is clicked on.
     // this.props.onCenterChange([childProps.lat, childProps.lng]);
   }
 
@@ -48,14 +51,35 @@ export default class MapContainer extends Component {
     this.props.onHoverKeyChange(key);
   }
 
+  maybeSelectLocation = (event) => {
+    if (this.props.selectLocation) {
+      this.props.selectLocation({lat: event.lat, lng: event.lng, id: null});
+      var selectedLocation = {
+        id: 'x',
+        name: 'New Event 1',
+        location: 1,
+        lat: event.lat,
+        lng: event.lng,
+        description: 'Location of new event',
+      };
+      this.setState({ events: [selectedLocation] });
+    }
+  }
+
   _onChildMouseLeave = (/* key, childProps */) => {
     this.props.onHoverKeyChange(null);
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.events && newProps.events.length > 0) {
+      this.setState({ events: newProps.events });
+    }
+  }
+
   render() {
-    const mapEvents = this.props.events
+    var mapEvents = this.state.events
       .map((mapEvent) => {
-        const { id, ...coords } = mapEvent;
+        var { id, ...coords } = mapEvent;
         return (
           <EventsWithControllableHover
             {...coords}
@@ -64,13 +88,13 @@ export default class MapContainer extends Component {
             text={String(id)}
             // use your hover state (from store, react-controllables etc...)
             showStickyBalloon={this.props.showStickyBalloonEventId}
-            showBalloon={this.props.showBalloonEventId === id || this.props.hoverKey === id}
+            showBalloon={this.props.showBalloonEventId == id || this.props.hoverKey == id}
           />
         );
       });
     const mapStyle = {
-      height: (0.6 * window.innerHeight).toString().concat('px'),
-      width: (0.8 * window.innerWidth).toString().concat('px'),
+      height: this.props.height,
+      width: this.props.width,
     };
     return (
       <div id="map" style={mapStyle}>
@@ -82,6 +106,7 @@ export default class MapContainer extends Component {
           zoom={this.props.zoom}
           hoverDistance={K_SIZE / 2}
           onBoundsChange={this._onBoundsChange}
+          onClick={this.maybeSelectLocation}
           onChildClick={this._onChildClick}
           onChildMouseEnter={this._onChildMouseEnter}
           onChildMouseLeave={this._onChildMouseLeave}

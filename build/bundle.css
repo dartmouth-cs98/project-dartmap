@@ -492,6 +492,7 @@ td.rdtYear:hover {
   border-top-color: #6c6c6c;
 }
 html, body {
+  font-family: 'Old Standard TT', 'Times New Roman', Times, serif;
   height: 100%;
   margin: 0;
   padding: 0; }
@@ -505,7 +506,6 @@ html, body {
 #nav-bar {
   background-color: #008000;
   color: white;
-  font-family: 'Old Standard TT';
   font-size: 30pt;
   height: 10%;
   padding-left: 10px;
@@ -612,8 +612,10 @@ html, body {
   top: 10%;
   left: 10%;
   background-color: white;
+  padding: 30px;
   border-radius: 50px; }
   #add-event .addEventForm input, #add-event .addEventForm textarea {
+    padding-bottom: 30px;
     width: 50%; }
   #add-event .formBoxError {
     border-color: red; }
@@ -624,6 +626,13 @@ html, body {
     background-color: #d1d1e0; }
   #add-event .validNextBtn {
     background-color: #008000; }
+  #add-event #close-button {
+    position: absolute;
+    right: 20px;
+    top: 5px; }
+    #add-event #close-button:hover {
+      color: #DC143C;
+      cursor: pointer; }
 
 .date-filter {
   justify-content: space-around;
