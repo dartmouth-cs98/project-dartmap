@@ -23,7 +23,7 @@ function createDateData() {
 
 // converts a Date() object into a string to display
 function getDayString(dateObj) {
-  const dayArray = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+  const dayArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const today = new Date();
   const twoWeeks = new Date();
   twoWeeks.setDate(today.getDate() + 14);

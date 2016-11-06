@@ -15,13 +15,19 @@ class FilterContainer extends Component {
       selectedCategories: [],
     };
     this.applyFilters = this.applyFilters.bind(this);
+    // this.filterEvents = this.filterEvents.bind(this);
   }
   applyFilters(event) {
     // TODO: once we know that all the filters work, we can delete these console.log() prompts
     console.log('applying the filters:');
     console.log(this.state);
     this.props.onApplyFilter(this.state);
+    // this.props.filterEvents();
   }
+  // filterEvents(event) {
+  //   // TODO: once we know that all the filters work, we can delete these console.log() prompts
+  //   console.log('entered');
+  // }
   render() {
     return (
       <div id="filter-container">
