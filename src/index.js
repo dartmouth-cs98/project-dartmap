@@ -73,22 +73,24 @@ class App extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="app-container">
         <NavBar toggleAddEvent={this.toggleAddEvent} />
-        <MapContainer events={this.state.eventList}
-          showBalloonEventId={this.state.showBalloonEventId}
-          showStickyBalloonEventId={this.state.showStickyBalloonEventId}
-          height={this.state.mapHeight}
-          width={this.state.mapWidth}
-        />
-        <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
-          showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
-        />
-        <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
-        <AddEventDialog addEvent={this.state.addEvent}
-          handleAddEventData={this.handleAddEventData} 
-          closeAddEventDialog={this.closeAddEventDialog}
-        />
+        <div className="home-container">
+          <MapContainer events={this.state.eventList}
+            showBalloonEventId={this.state.showBalloonEventId}
+            showStickyBalloonEventId={this.state.showStickyBalloonEventId}
+            height={this.state.mapHeight}
+            width={this.state.mapWidth}
+          />
+          <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
+            showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
+          />
+          <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
+          <AddEventDialog addEvent={this.state.addEvent}
+            handleAddEventData={this.handleAddEventData} 
+            closeAddEventDialog={this.closeAddEventDialog}
+          />
+        </div>
       </div>
     );
   }

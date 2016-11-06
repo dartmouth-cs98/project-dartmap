@@ -26,11 +26,28 @@ $blue: #3f51b5;
   cursor: pointer;
 }
 
-html, body, #main {
+@mixin flex-box {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+}
+
+@mixin flex-space-around {
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+  @include flex-box;
+}
+
+html, body {
   font-family: 'Old Standard TT', 'Times New Roman', Times, serif;
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+#main, .app-container {
+  height: inherit;
 }
 
 .hidden{
@@ -41,40 +58,40 @@ html, body, #main {
   background-color: $green;
   color: white;
   font-size: 30pt;
-  height: 50px;
+  height: 10%;
   padding-left: 10px;
   position: relative;
 
+  // This is (currently) the dartmap logo in the nav bar
   h1 {
     display: inline-block;
+    position: absolute;
+    bottom: 2px;
+    left: 8px;
   }
 
+  // This is (currently) the add event button
   button {
     float: right;
-    height: 50px;
+    height: 100%; 
   }
 }
 
-#banner #map-title {
-  position: absolute;
-  bottom: 2px;
-  left: 8px;
-}
-
-#event-menu {
-  float: left;
+// This is the div that encompasses everything that is not in the navigation bar
+.home-container {
+  height: 90%;
 }
 
 #map {
   float: left;
 }
 
-.mapImage {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  // cursor: url(../images/cursor.png) 15 15, pointer;
-}
+// .mapImage {
+//   width: 100%;
+//   height: 100%;
+//   position: absolute;
+//   // cursor: url(../images/cursor.png) 15 15, pointer;
+// }
 
 .event {
   border: 5px solid $red;
@@ -97,8 +114,10 @@ html, body, #main {
 }
 
 #event-menu {
-  float: left;
+  float: right;
   width: 20%;
+  height: 100%;
+  overflow: scroll;
 
   .location-not-selected {
     display: none;
@@ -141,6 +160,8 @@ html, body, #main {
   width: 80%;
   float: left;
   display: block;
+  padding: 0 25px;
+
   #filter-btn {
     display: inline-block;
     background-color: orange;
@@ -188,28 +209,13 @@ html, body, #main {
 }
 
 .date-filter {
-  display: flex;
-  display: -webkit-flex;
-  display: -moz-flex;
-  justify-content: space-around;
-  -webkit-justify-content: space-around;
-  -moz-justify-content: space-around;
+  @include flex-space-around;
 }
 
 .time-filter {
-  display: flex;
-  display: -webkit-flex;
-  display: -moz-flex;
-  justify-content: space-around;
-  -webkit-justify-content: space-around;
-  -moz-justify-content: space-around;
+  @include flex-space-around;
 }
 
 .page-slider {
-  display: flex;
-  display: -webkit-flex;
-  display: -moz-flex;
-  justify-content: space-around;
-  -webkit-justify-content: space-around;
-  -moz-justify-content: space-around;
+  @include flex-space-around;
 }
