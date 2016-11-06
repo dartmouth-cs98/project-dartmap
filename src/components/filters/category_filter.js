@@ -3,7 +3,7 @@ import React from 'react';
 
 const CategoryFilter = (props) => {
   return (
-    <div>I let you filter by category.</div>
+    <div className="hidden">I let you filter by category.</div>
   );
 };
 

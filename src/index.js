@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import './style.scss';
 
 // import the API functions
-import postNewEvent from './helpers/dartmap-api';
+import { postNewEvent, getAllEvents } from './helpers/dartmap-api';
 import createDateData from './helpers/date-data-helper';
 
 // import the react Components
@@ -33,42 +33,8 @@ class App extends Component {
     this.state = {
       filters: null,
       addEvent: false,
-      eventList: [
-        {
-          id: '1',
-          name: 'test event 1',
-          location: 1,
-          lat: 43.702732,
-          lng: -72.290032,
-          description: 'description1',
-          start_time: '12:00 PM',
-          end_time: '3:00 PM',
-          date: '2016-11-06',
-        },
-        {
-          id: '2',
-          name: 'test event 2',
-          location: 2,
-          lat: 43.704252,
-          lng: -72.294903,
-          description: 'description2',
-          start_time: '2:00 PM',
-          end_time: '3:00 PM',
-          date: '2016-11-07',
-        },
-        {
-          id: '3',
-          name: 'test event 3',
-          location: 3,
-          lat: 43.702141,
-          lng: -72.282574,
-          description: 'description3',
-          start_time: '4:00 PM',
-          end_time: '1:00 AM',
-          date: '2016-11-08',
-        },
-      ],  // the full list of events received from the back-end
       filteredEventList: null,  // the filtered list of events received from the back-end
+      eventList: [],  // the full list of events received from the back-end
       selectedLocation: null,
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
@@ -78,11 +44,15 @@ class App extends Component {
     this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
   }
+  componentDidMount() {
+    getAllEvents((eventList) => { this.setState({ eventList }); });
+  }
   handleAddEventData(data) {
     console.log('data from add-event dialog:');
     console.log(data);
     postNewEvent(data);
     this.setState({ addEvent: false });
+    getAllEvents((eventList) => { this.setState({ eventList }); });
   }
   toggleAddEvent() {
     this.setState({ addEvent: true });
@@ -175,17 +145,19 @@ class App extends Component {
   render() {
     // this.filterEvents();
     return (
-      <div>
+      <div className="app-container">
         <NavBar toggleAddEvent={this.toggleAddEvent} />
-        <MapContainer events={this.state.eventList}
-          showBalloonEventId={this.state.showBalloonEventId}
-          showStickyBalloonEventId={this.state.showStickyBalloonEventId}
-        />
-        <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
-          showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
-        />
-        <FilterContainer filterEvents={this.filterEvents} onApplyFilter={filters => this.filterEvents(filters)} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
-        <AddEventDialog addEvent={this.state.addEvent} handleAddEventData={this.handleAddEventData} />
+        <div className="home-container">
+          <MapContainer events={this.state.eventList}
+            showBalloonEventId={this.state.showBalloonEventId}
+            showStickyBalloonEventId={this.state.showStickyBalloonEventId}
+          />
+          <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
+            showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
+          />
+          <FilterContainer filterEvents={this.filterEvents} onApplyFilter={filters => this.filterEvents(filters)} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
+          <AddEventDialog addEvent={this.state.addEvent} handleAddEventData={this.handleAddEventData} />
+        </div>
       </div>
     );
   }
