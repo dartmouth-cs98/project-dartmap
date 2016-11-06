@@ -32,36 +32,25 @@ class AddEventDialog extends Component {
       <AddEventPage1 handleData={this.handlePageData} />,
       <AddEventPage2 handleData={this.handlePageData} />,
       <AddEventPage3 handleData={this.handlePageData} />,
-      <div />,
+      <div id="add-event"><h1>Submit event</h1>{JSON.stringify(this.state)}<button type="button" onClick={this.submitEventData}>Submit</button></div>,
     ];
     this.didChange = false;
   }
   handlePageData(data) {
     this.didChange = true;
     this.setState(data);
-    this.state.currentPage += 1;
+    this.setState({ currentPage: this.state.currentPage + 1 });
   }
   submitEventData() {
-    this.state.currentPage = 0;
+    this.setState({ currentPage: 0 });
     this.props.handleAddEventData(this.state);
   }
   handlePageChange(pageNumber) {
     this.didChange = false;
-    this.state.currentPage = pageNumber;
-    this.setState(this.state);
+    this.setState({ currentPage: pageNumber });
   }
   render() {
     if (this.props.addEvent) {
-      // if (this.currentPage > 2) {
-      //   return (
-      //     <div id="add-event">
-      //       <h1>Submit event</h1>
-      //       {JSON.stringify(this.state)}
-      //       <button type="button" onClick={this.submitEventData}>Submit</button>
-      //     </div>
-      //   );
-      // }
-          // <PageSlider onPageChange={this.currentPage => this.setState({ this.currentPage })} timeBarData={this.props.timeBarData} />
       return (
         <div id="add-event">
           <h1>Add new event</h1>
