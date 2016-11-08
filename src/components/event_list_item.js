@@ -16,7 +16,7 @@ const EventListItem = (props) => {
         <font size="2">
           <li className="description">Description: {props.event.description}</li>
           <li>Organizer: {props.event.organizer}</li>
-          <li>Date: {props.event.date._i} {props.event.start_time.format("hh:mm A")}</li>
+          <li>Date: {props.event.date._i} {props.event.start_time.format('hh:mm A')}</li>
         </font>
       </div>
     );
