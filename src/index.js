@@ -30,14 +30,25 @@ class App extends Component {
       selectedLocation: null,
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
+      mapHeight: (0.8 * window.innerHeight).toString().concat('px'),
+      mapWidth: (0.8 * window.innerWidth).toString().concat('px'),
     };
+    this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
     this.showBalloon = this.showBalloon.bind(this);
     this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
+
+    window.addEventListener('resize', () => {
+      this.setState({ mapHeight: (0.8 * window.innerHeight).toString().concat('px') });
+      this.setState({ mapWidth: (0.8 * window.innerWidth).toString().concat('px') });
+    }, true);
   }
   componentDidMount() {
     getAllEvents((eventList) => { this.setState({ eventList }); });
+  }
+  closeAddEventDialog() {
+    this.setState({ addEvent: false });
   }
   handleAddEventData(data) {
     console.log('data from add-event dialog:');
@@ -68,12 +79,17 @@ class App extends Component {
           <MapContainer events={this.state.eventList}
             showBalloonEventId={this.state.showBalloonEventId}
             showStickyBalloonEventId={this.state.showStickyBalloonEventId}
+            height={this.state.mapHeight}
+            width={this.state.mapWidth}
           />
           <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
             showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
           />
           <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
-          <AddEventDialog addEvent={this.state.addEvent} handleAddEventData={this.handleAddEventData} />
+          <AddEventDialog addEvent={this.state.addEvent}
+            handleAddEventData={this.handleAddEventData}
+            closeAddEventDialog={this.closeAddEventDialog}
+          />
         </div>
       </div>
     );
