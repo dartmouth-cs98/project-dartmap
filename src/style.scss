@@ -40,6 +40,7 @@ $blue: #3f51b5;
 }
 
 html, body {
+  font-family: 'Old Standard TT', 'Times New Roman', Times, serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -56,7 +57,6 @@ html, body {
 #nav-bar {
   background-color: $green;
   color: white;
-  font-family: 'Old Standard TT';
   font-size: 30pt;
   height: 10%;
   padding-left: 10px;
@@ -177,8 +177,10 @@ html, body {
   top: 10%;
   left: 10%;
   background-color: white;
+  padding: 30px;
   border-radius: 50px;
   .addEventForm input, .addEventForm textarea {
+    padding-bottom: 30px;
     width: 50%;
     
   }
@@ -194,6 +196,15 @@ html, body {
   }
   .validNextBtn {
     background-color: $green;
+  }
+  #close-button {
+    position: absolute;
+    right: 20px;
+    top: 5px;
+    &:hover {
+      color: #DC143C;
+      cursor: pointer;
+    }
   }
 }
 
