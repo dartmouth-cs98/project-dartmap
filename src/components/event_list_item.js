@@ -2,6 +2,8 @@
 import React from 'react';
 
 const EventListItem = (props) => {
+  // console.log(props.event)
+  console.debug()
   if (!props.selectedLocation || props.selectedLocation === props.event.location) {
     return (
       <div className="event-item"
@@ -9,8 +11,16 @@ const EventListItem = (props) => {
         onMouseOut={() => props.showBalloon(null)}
         onClick={() => props.showStickyBalloon(props.event.id)}
       >
-        {props.event.name}
+        <h5 className="name">
+          {props.event.name}
+        </h5>
+
+        <font size="2" className="attributes">
+          <li>{props.event.description}</li>
+          <li>{props.event.organizer}</li>
+        </font>
       </div>
+
     );
   }
   return (
