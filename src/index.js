@@ -20,10 +20,11 @@ import FilterContainer from './components/filter_container';
 
 // import for time filtering
 import moment from 'moment';
-// import TimeFilter from './components/time_filter';
 
 const INDEX_OF_MIDNIGHT = 8;
 const TIMES_DATA_DISPLAY = { 0: '8:00 AM', 1: '10:00 AM', 2: '12:00 PM', 3: '2:00 PM', 4: '4:00 PM', 5: '6:00 PM', 6: '8:00 PM', 7: '10:00 PM', 8: '12:00 AM', 9: '2:00 AM' };
+const DEFAULT_DATE_FILTER = [0,1]
+const DEFAULT_TIME_FILTER = [0,9]
 
 class App extends Component {
   constructor(props) {
@@ -69,7 +70,24 @@ class App extends Component {
     }, 1000);
   }
   filterEvents(filters) {
+    console.log("filters::::::::::::");
+    console.log(filters);
+
+    console.log("this.state.eventList:");
+    console.log(this.state.eventList);
+
     var filteredEvents = []
+
+    if (filters.selectedDate == null) {
+      filters.selectedDate = DEFAULT_DATE_FILTER;
+    }
+    if (filters.selectedTime == null) {
+      filters.selectedTime = DEFAULT_TIME_FILTER;
+    }
+
+    console.log("filters:::::2::::::");
+    console.log(filters);
+
     // filter by date, then filter THAT by time
     if (filters != null) {
       if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
@@ -98,7 +116,7 @@ class App extends Component {
     }
     for (i = 0; i < eventList.length; i+=1) {
       var event = eventList[i];
-      var eventDate = moment(eventList[i]['date']).date();
+      var eventDate = eventList[i]['date'].date();
       // if this date is one of the allowed filter dates
       if (filterDates.indexOf(eventDate) >= 0) {
         filteredEvents.push(event);
