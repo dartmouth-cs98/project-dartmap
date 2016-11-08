@@ -48,6 +48,14 @@ class App extends Component {
   componentDidMount() {
     getAllEvents((eventList) => { this.setState({ eventList }); });
   }
+  onEventListItemClick(eventId, newCenter) {
+    this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
+
+    // Reset the state so that the popup is a onetime popup.
+    setTimeout(() => {
+      this.setState({ showStickyBalloonEventId: null });
+    }, 1000);
+  }
   closeAddEventDialog() {
     this.setState({ addEvent: false });
   }
@@ -63,14 +71,6 @@ class App extends Component {
   }
   showBalloon(eventId) {
     this.setState({ showBalloonEventId: eventId });
-  }
-  onEventListItemClick(eventId, newCenter) {
-    this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
-
-    // Reset the state so that the popup is a onetime popup.
-    setTimeout(() => {
-      this.setState({ showStickyBalloonEventId: null });
-    }, 1000);
   }
   render() {
     return (

@@ -41,7 +41,7 @@ class AddEventPage3 extends Component {
           height={mapHeight}
           width={mapWidth}
           selectLocation={this.selectLocation}
-          center= {this.state.center}
+          center={this.state.center}
         />
         <h2>Location Name to Display:*</h2>
         <input
