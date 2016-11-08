@@ -7,7 +7,7 @@ const EventListItem = (props) => {
       <div className="event-item"
         onMouseOver={() => props.showBalloon(props.event.id)}
         onMouseOut={() => props.showBalloon(null)}
-        onClick={() => props.showStickyBalloon(props.event.id)}
+        onClick={() => props.onEventListItemClick(props.event.id, [props.event.lat, props.event.lng])}
       >
         <h5 className="name">
           {props.event.name}
@@ -25,7 +25,7 @@ const EventListItem = (props) => {
     <div className="location-not-selected"
       onMouseOver={() => props.showBalloon(props.event.id)}
       onMouseOut={() => props.showBalloon(null)}
-      onClick={() => props.showStickyBalloon(props.event.id)}
+      onClick={() => props.onEventListItemClick(props.event.id, [props.event.lat, props.event.lng])}
     />
   );
 };

@@ -21,7 +21,6 @@ export default class MapContainer extends Component {
   };
 
   static defaultProps = {
-    center: [43.703337, -72.288578],
     zoom: 15,
   };
 
