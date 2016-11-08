@@ -88,8 +88,8 @@ export function getAllEvents(saveEventList) {
     dataType: 'json',
     success: (data) => {
       console.log(' /events GET was successful! ');
-      console.log(data.results);
-      const eventList = data.results.map((event) => {
+      console.log(data);
+      const eventList = data.events.map((event) => {
         return formatAPIEventData(event);
       });
       return saveEventList(eventList);
