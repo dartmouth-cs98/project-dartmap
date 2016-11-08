@@ -47,13 +47,12 @@ function formatEventDataforAPI(event) {
   eventData.start_time = event.start_time.format('HH:mm');
   eventData.end_time = event.end_time.format('HH:mm');
   eventData.date = event.date.format('YYYY-MM-DD');
-  eventData.location = {};
   if (event.location.id) {
-    eventData.location.id = event.location.id;
+    eventData.location_id = event.location.id;
   } else {
-    eventData.location.name = event.location.name;
-    eventData.location.lat = event.location.lat;
-    eventData.location.long = event.location.lng;
+    eventData.location_name = event.location.name;
+    eventData.location_latitude = event.location.latitude;
+    eventData.location_longitude = event.location.longitude;
   }
   return eventData;
 }

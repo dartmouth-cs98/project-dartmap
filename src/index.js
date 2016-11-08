@@ -32,11 +32,12 @@ class App extends Component {
       showStickyBalloonEventId: null,
       mapHeight: (0.8 * window.innerHeight).toString().concat('px'),
       mapWidth: (0.8 * window.innerWidth).toString().concat('px'),
+      center: [43.703337, -72.288578],
     };
     this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
     this.showBalloon = this.showBalloon.bind(this);
-    this.showStickyBalloon = this.showStickyBalloon.bind(this);
+    this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
 
     window.addEventListener('resize', () => {
@@ -63,8 +64,8 @@ class App extends Component {
   showBalloon(eventId) {
     this.setState({ showBalloonEventId: eventId });
   }
-  showStickyBalloon(eventId) {
-    this.setState({ showStickyBalloonEventId: eventId });
+  onEventListItemClick(eventId, newCenter) {
+    this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
 
     // Reset the state so that the popup is a onetime popup.
     setTimeout(() => {
@@ -81,9 +82,10 @@ class App extends Component {
             showStickyBalloonEventId={this.state.showStickyBalloonEventId}
             height={this.state.mapHeight}
             width={this.state.mapWidth}
+            center={this.state.center}
           />
           <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
-            showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
+            showBalloon={this.showBalloon} onEventListItemClick={this.onEventListItemClick}
           />
           <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
           <AddEventDialog addEvent={this.state.addEvent}

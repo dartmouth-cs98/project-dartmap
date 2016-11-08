@@ -9,6 +9,7 @@ class AddEventPage3 extends Component {
     this.state = {
       location: null,
       location_string: null,
+      center: [43.703337, -72.288578],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectLocation = this.selectLocation.bind(this);
@@ -40,6 +41,7 @@ class AddEventPage3 extends Component {
           height={mapHeight}
           width={mapWidth}
           selectLocation={this.selectLocation}
+          center= {this.state.center}
         />
         <h2>Location Name to Display:*</h2>
         <input
