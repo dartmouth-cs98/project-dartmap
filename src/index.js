@@ -32,7 +32,11 @@ class App extends Component {
     this.dateBarData = createDateData();
     // this.timeBarData = {}; <-- most likely not necessary
     this.state = {
-      filters: null,
+      filters: {
+        selectedDate: null,
+        selectedTime: null,
+        selectedCategories: [],
+      },
       addEvent: false,
       filteredEventList: null,  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
@@ -75,6 +79,8 @@ class App extends Component {
 
     console.log("this.state.eventList:");
     console.log(this.state.eventList);
+    console.log("this.state.filteredEventList:");
+    console.log(this.state.filteredEventList);
 
     var filteredEvents = []
 
@@ -96,12 +102,13 @@ class App extends Component {
       } else if (filters.selectedDate != null) {
         filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
       } else if (filters.selectedTime != null) {
-        filteredEvents = this.filterTimes(filters, TIMES_DATA_DISPLAY, this.state.eventList);
+        filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
       }
     }
     this.setState({ filters: filters, filteredEventList: filteredEvents });
-    console.log("filtered list of events:");
-    console.log(filteredEvents);
+
+    // only important for the very beginning (see the render() method)
+    return filteredEvents;
   }
   // 
   filterDates(filters, dateKey, eventList) {
@@ -117,6 +124,8 @@ class App extends Component {
     for (i = 0; i < eventList.length; i+=1) {
       var event = eventList[i];
       var eventDate = eventList[i]['date'].date();
+      console.log("date:");
+      console.log(eventDate);
       // if this date is one of the allowed filter dates
       if (filterDates.indexOf(eventDate) >= 0) {
         filteredEvents.push(event);
@@ -161,16 +170,23 @@ class App extends Component {
     return filteredEvents;
   }
   render() {
-    // this.filterEvents();
+    // sets the filtered event list at the very beginning
+    if (this.state.filteredEventList == null) {
+      this.state.filteredEventList = this.filterEvents(this.state.filters);;
+      console.log("filters:");
+      console.log(this.state.filters);
+      console.log("filtered event list:");
+      console.log(this.state.filteredEventList);
+    }
     return (
       <div className="app-container">
         <NavBar toggleAddEvent={this.toggleAddEvent} />
         <div className="home-container">
-          <MapContainer events={this.state.eventList}
+          <MapContainer events={this.state.filteredEventList}
             showBalloonEventId={this.state.showBalloonEventId}
             showStickyBalloonEventId={this.state.showStickyBalloonEventId}
           />
-          <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
+          <EventList events={this.state.filteredEventList} selectedLocation={this.state.selectedLocation}
             showBalloon={this.showBalloon} showStickyBalloon={this.showStickyBalloon}
           />
           <FilterContainer filterEvents={this.filterEvents} onApplyFilter={filters => this.filterEvents(filters)} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
