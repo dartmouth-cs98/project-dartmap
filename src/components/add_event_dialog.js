@@ -53,7 +53,10 @@ class AddEventDialog extends Component {
     if (this.props.addEvent) {
       return (
         <div id="add-event">
-          <h1>Add new event</h1>
+          <div>
+            <h1>Add new event</h1>
+            <div id="close-button" onClick={() => this.props.closeAddEventDialog()}>x</div>
+          </div>
           <PageSlider handlePageChange={this.handlePageChange} didChange={this.didChange} currentPage={this.state.currentPage} />
           {this.pageCode[this.state.currentPage]}
         </div>

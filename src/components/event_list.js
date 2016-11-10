@@ -16,7 +16,7 @@ class EventList extends Component {
             selectedLocation={this.props.selectedLocation}
             key={event.id}
             showBalloon={this.props.showBalloon}
-            showStickyBalloon={this.props.showStickyBalloon}
+            onEventListItemClick={this.props.onEventListItemClick}
           />
         );
       });
