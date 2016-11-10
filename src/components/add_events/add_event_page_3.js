@@ -1,6 +1,8 @@
 // add_event_page_3.js
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import MapContainer from '../map_container';
+import Dropdown from 'react-drop-down'
+import ReactDOM from 'react-dom'
 
 class AddEventPage3 extends Component {
   static nullFunction() {}
@@ -10,6 +12,7 @@ class AddEventPage3 extends Component {
       location: null,
       location_string: null,
       center: [43.703337, -72.288578],
+      value: 'Academic'
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.selectLocation = this.selectLocation.bind(this);
@@ -17,6 +20,10 @@ class AddEventPage3 extends Component {
     this.visibleErrorMessages = ['location', 'room'].map((data) => {
       return <div key={data} className="errorMessage"> The {data} of the event is required. </div>;
     });
+  }
+  handleChange (e) {
+    this.setState({value: e})
+    console.log(e)
   }
   handleSubmit(event) {
     event.preventDefault();
@@ -52,6 +59,12 @@ class AddEventPage3 extends Component {
           className={(this.state.location_string !== '') ? 'addEventBox' : 'formBoxError'}
         />
         {roomErrorMessage}
+        <h2>Select icon:</h2>
+        <div>
+          <Dropdown value={this.state.value}
+                  onChange={this.handleChange.bind(this)}
+                  options={[ 'Academic', 'Art', 'Sports', 'Performance', 'Meeting', 'Greek Life']} />
+        </div>
         <input
           type="submit"
           value="Next"
