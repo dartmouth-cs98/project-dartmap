@@ -4,6 +4,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+// import for time filtering
+import moment from 'moment';
+
 // add the style sheet onto the page
 import './style.scss';
 
@@ -18,13 +21,10 @@ import MapContainer from './components/map_container';
 import AddEventDialog from './components/add_event_dialog';
 import FilterContainer from './components/filter_container';
 
-// import for time filtering
-import moment from 'moment';
-
 const INDEX_OF_MIDNIGHT = 8;
-const TIMES_DATA_DISPLAY = { 0: '8:00 AM', 1: '10:00 AM', 2: '12:00 PM', 3: '2:00 PM', 4: '4:00 PM', 5: '6:00 PM', 6: '8:00 PM', 7: '10:00 PM', 8: '12:00 AM', 9: '2:00 AM' };
-const DEFAULT_DATE_FILTER = [0,1]
-const DEFAULT_TIME_FILTER = [0,9]
+// const TIMES_DATA_DISPLAY = { 0: '8:00 AM', 1: '10:00 AM', 2: '12:00 PM', 3: '2:00 PM', 4: '4:00 PM', 5: '6:00 PM', 6: '8:00 PM', 7: '10:00 PM', 8: '12:00 AM', 9: '2:00 AM' };
+const DEFAULT_DATE_FILTER = [0, 1];
+const DEFAULT_TIME_FILTER = [0, 9];
 
 class App extends Component {
   constructor(props) {
@@ -93,16 +93,17 @@ class App extends Component {
       this.setState({ showStickyBalloonEventId: null });
     }, 1000);
   }
-  filterEvents(filters) {
-    console.log("filters::::::::::::");
+  filterEvents(theFilters) {
+    let filteredEvents = [];
+    const filters = theFilters;
+
+    console.log('filters::::::::::::');
     console.log(filters);
 
-    console.log("this.state.eventList:");
+    console.log('this.state.eventList:');
     console.log(this.state.eventList);
-    console.log("this.state.filteredEventList:");
+    console.log('this.state.filteredEventList:');
     console.log(this.state.filteredEventList);
-
-    var filteredEvents = []
 
     if (filters.selectedDate == null) {
       filters.selectedDate = DEFAULT_DATE_FILTER;
@@ -111,18 +112,19 @@ class App extends Component {
       filters.selectedTime = DEFAULT_TIME_FILTER;
     }
 
-    console.log("filters:::::2::::::");
+    console.log('filters:::::2::::::');
     console.log(filters);
 
     // filter by date, then filter THAT by time
     if (filters != null) {
       if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
         filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
-        filteredEvents = this.filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
+        // filteredEvents = this.filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       } else if (filters.selectedDate != null) {
         filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
       } else if (filters.selectedTime != null) {
         filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
+        // filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
       }
     }
     this.setState({ filters: filters, filteredEventList: filteredEvents });
@@ -130,22 +132,42 @@ class App extends Component {
     // only important for the very beginning (see the render() method)
     return filteredEvents;
   }
-  // 
   filterDates(filters, dateKey, eventList) {
-    var filterDates = [];
-    var filteredEvents = [];
+    const filterDates = [];
+    const filteredEvents = [];
+    console.log('filterDates:');
+    console.log(filterDates);
     // iterate through each selected date
-    var i;
+    let i;
+    console.log('filters.selectedDate.length:');
+    console.log(filters.selectedDate.length);
     for (i = 0; i < filters.selectedDate.length; i += 1) {
-      var dateIdx = filters.selectedDate[i];
+      const dateIdx = filters.selectedDate[i];
+      console.log('dateIdx:');
+      console.log(dateIdx);
       // add to list as int day of month
-      filterDates.push(dateKey[dateIdx].getDate());
+      // if the date index indicates "next 2 weeks"
+      if (dateIdx > 6) {
+        console.log('GOT HERE');
+        let j;
+        // add every date within the next 2 weeks
+        for (j = 7; j < filters.selectedDate.length; j += 1) {
+          const di = filters.selectedDate[j];
+          console.log('di:');
+          console.log(di);
+          filterDates.push(dateKey[di].getDate());
+        }
+      } else {
+        filterDates.push(dateKey[dateIdx].getDate());
+      }
     }
-    for (i = 0; i < eventList.length; i+=1) {
-      var event = eventList[i];
-      var eventDate = eventList[i]['date'].date();
-      console.log("date:");
-      console.log(eventDate);
+    console.log('filterDates final:');
+    console.log(filterDates);
+    for (i = 0; i < eventList.length; i += 1) {
+      const event = eventList[i];
+      const eventDate = eventList[i]['date'].date();
+      // console.log("date:");
+      // console.log(eventDate);
       // if this date is one of the allowed filter dates
       if (filterDates.indexOf(eventDate) >= 0) {
         filteredEvents.push(event);
@@ -159,8 +181,8 @@ class App extends Component {
     // NOTE: WILL NEED A SPECIAL EXCEPTION FOR WHEN SELECT NEXT 2 WEEKS FOR FILTERDATES
     var startTime;
     var endTime;
-    var startIdx = filters.selectedTime[0];
-    var endIdx = filters.selectedTime[1];
+    const startIdx = filters.selectedTime[0];
+    const endIdx = filters.selectedTime[1];
 
     if (startIdx < INDEX_OF_MIDNIGHT) {
       startTime = '01/01/2010 ' + timeKey[startIdx];
@@ -172,10 +194,10 @@ class App extends Component {
     } else {
       endTime = '01/02/2010 ' + timeKey[endIdx];
     }
-    var filteredEvents = [];
-    var i = 0;
-    for (i = 0; i < eventList.length; i+=1) {
-      var dayTime = null;
+    const filteredEvents = [];
+    let i = 0;
+    for (i = 0; i < eventList.length; i += 1) {
+      let dayTime = null;
       if (i < INDEX_OF_MIDNIGHT) {
         dayTime = '01/01/2010 ' + eventList[i]['start_time'];
       } else {
@@ -192,10 +214,10 @@ class App extends Component {
   render() {
     // sets the filtered event list at the very beginning
     if (this.state.filteredEventList == null) {
-      this.state.filteredEventList = this.filterEvents(this.state.filters);;
-      console.log("filters:");
+      this.state.filteredEventList = this.filterEvents(this.state.filters);
+      console.log('filters:');
       console.log(this.state.filters);
-      console.log("filtered event list:");
+      console.log('filtered event list:');
       console.log(this.state.filteredEventList);
     }
     return (

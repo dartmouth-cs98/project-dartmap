@@ -9,15 +9,15 @@ function createDateData() {
   const obj = {};
   let i;
   // iterate over the week and add in each day
-  for (i = 0; i < 7; i += 1) {
+  for (i = 0; i < 14; i += 1) {
     const newDate = new Date();
     newDate.setDate(today.getDate() + i);
     obj[i] = newDate;
   }
-  // add in the day that is two weeks from now
-  const newDate = new Date();
-  newDate.setDate(today.getDate() + 14);
-  obj[7] = newDate;
+  // // add in the day that is two weeks from now
+  // const newDate = new Date();
+  // newDate.setDate(today.getDate() + 14);
+  // obj[7] = newDate;
   return obj;
 }
 
@@ -26,7 +26,7 @@ function getDayString(dateObj) {
   const dayArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const today = new Date();
   const twoWeeks = new Date();
-  twoWeeks.setDate(today.getDate() + 14);
+  twoWeeks.setDate(today.getDate() + 7);
 
   if (dateObj.getDate() === today.getDate()) {
     return 'today';
