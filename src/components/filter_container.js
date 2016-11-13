@@ -15,7 +15,6 @@ class FilterContainer extends Component {
       selectedCategories: [],
     };
     this.applyFilters = this.applyFilters.bind(this);
-    // this.filterEvents = this.filterEvents.bind(this);
   }
   applyFilters(event) {
     // TODO: once we know that all the filters work, we can delete these console.log() prompts

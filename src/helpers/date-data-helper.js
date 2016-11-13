@@ -14,10 +14,6 @@ function createDateData() {
     newDate.setDate(today.getDate() + i);
     obj[i] = newDate;
   }
-  // // add in the day that is two weeks from now
-  // const newDate = new Date();
-  // newDate.setDate(today.getDate() + 14);
-  // obj[7] = newDate;
   return obj;
 }
 
@@ -29,9 +25,9 @@ function getDayString(dateObj) {
   twoWeeks.setDate(today.getDate() + 7);
 
   if (dateObj.getDate() === today.getDate()) {
-    return 'today';
+    return 'Today';
   } else if (dateObj.getDate() === twoWeeks.getDate()) {
-    return '2 weeks from now';
+    return 'All of next 2 weeks';
   } else {
     const day = dateObj.getDay();
     return dayArray[day];

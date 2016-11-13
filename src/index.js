@@ -4,15 +4,14 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-// import for time filtering
-import moment from 'moment';
-
 // add the style sheet onto the page
 import './style.scss';
 
 // import the API functions
 import { postNewEvent, getAllEvents } from './helpers/dartmap-api';
 import createDateData from './helpers/date-data-helper';
+import { filterDates, filterTimes, sortDateTime } from './helpers/date-time-filters-helper';
+// import filterTimes from './helpers/date-time-filters-helper';
 
 // import the react Components
 import EventList from './components/event_list';
@@ -21,8 +20,8 @@ import MapContainer from './components/map_container';
 import AddEventDialog from './components/add_event_dialog';
 import FilterContainer from './components/filter_container';
 
-const INDEX_OF_MIDNIGHT = 8;
 // const TIMES_DATA_DISPLAY = { 0: '8:00 AM', 1: '10:00 AM', 2: '12:00 PM', 3: '2:00 PM', 4: '4:00 PM', 5: '6:00 PM', 6: '8:00 PM', 7: '10:00 PM', 8: '12:00 AM', 9: '2:00 AM' };
+const TIMES_DATA_DISPLAY = { 0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 24, 9: 26 };
 const DEFAULT_DATE_FILTER = [0, 1];
 const DEFAULT_TIME_FILTER = [0, 9];
 
@@ -97,14 +96,6 @@ class App extends Component {
     let filteredEvents = [];
     const filters = theFilters;
 
-    console.log('filters::::::::::::');
-    console.log(filters);
-
-    console.log('this.state.eventList:');
-    console.log(this.state.eventList);
-    console.log('this.state.filteredEventList:');
-    console.log(this.state.filteredEventList);
-
     if (filters.selectedDate == null) {
       filters.selectedDate = DEFAULT_DATE_FILTER;
     }
@@ -112,105 +103,26 @@ class App extends Component {
       filters.selectedTime = DEFAULT_TIME_FILTER;
     }
 
-    console.log('filters:::::2::::::');
-    console.log(filters);
-
     // filter by date, then filter THAT by time
     if (filters != null) {
       if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
-        filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
-        // filteredEvents = this.filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
+        filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
+        filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       } else if (filters.selectedDate != null) {
-        filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
+        filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
       } else if (filters.selectedTime != null) {
-        filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
-        // filteredEvents = this.filterDates(filters, this.dateBarData, this.state.eventList);
+        filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       }
     }
-    this.setState({ filters: filters, filteredEventList: filteredEvents });
+    this.setState({ filters, filteredEventList: filteredEvents });
+
+    // sort all filtered events first by date and then by time
+    filteredEvents.sort(sortDateTime);
 
     // only important for the very beginning (see the render() method)
     return filteredEvents;
   }
-  filterDates(filters, dateKey, eventList) {
-    const filterDates = [];
-    const filteredEvents = [];
-    console.log('filterDates:');
-    console.log(filterDates);
-    // iterate through each selected date
-    let i;
-    console.log('filters.selectedDate.length:');
-    console.log(filters.selectedDate.length);
-    for (i = 0; i < filters.selectedDate.length; i += 1) {
-      const dateIdx = filters.selectedDate[i];
-      console.log('dateIdx:');
-      console.log(dateIdx);
-      // add to list as int day of month
-      // if the date index indicates "next 2 weeks"
-      if (dateIdx > 6) {
-        console.log('GOT HERE');
-        let j;
-        // add every date within the next 2 weeks
-        for (j = 7; j < filters.selectedDate.length; j += 1) {
-          const di = filters.selectedDate[j];
-          console.log('di:');
-          console.log(di);
-          filterDates.push(dateKey[di].getDate());
-        }
-      } else {
-        filterDates.push(dateKey[dateIdx].getDate());
-      }
-    }
-    console.log('filterDates final:');
-    console.log(filterDates);
-    for (i = 0; i < eventList.length; i += 1) {
-      const event = eventList[i];
-      const eventDate = eventList[i]['date'].date();
-      // console.log("date:");
-      // console.log(eventDate);
-      // if this date is one of the allowed filter dates
-      if (filterDates.indexOf(eventDate) >= 0) {
-        filteredEvents.push(event);
-      }
-      filterDates.push(dateKey[dateIdx].getDate());
-    }
-    return filteredEvents;
-  }
-  // takes in all filters and the list of events and returns a list of only the events that pass through the filter
-  filterTimes(filters, timeKey, eventList) {
-    // NOTE: WILL NEED A SPECIAL EXCEPTION FOR WHEN SELECT NEXT 2 WEEKS FOR FILTERDATES
-    var startTime;
-    var endTime;
-    const startIdx = filters.selectedTime[0];
-    const endIdx = filters.selectedTime[1];
 
-    if (startIdx < INDEX_OF_MIDNIGHT) {
-      startTime = '01/01/2010 ' + timeKey[startIdx];
-    } else {
-      startTime = '01/02/2010 ' + timeKey[startIdx];
-    }
-    if (endIdx < INDEX_OF_MIDNIGHT) {
-      endTime = '01/01/2010 ' + timeKey[endIdx];
-    } else {
-      endTime = '01/02/2010 ' + timeKey[endIdx];
-    }
-    const filteredEvents = [];
-    let i = 0;
-    for (i = 0; i < eventList.length; i += 1) {
-      let dayTime = null;
-      if (i < INDEX_OF_MIDNIGHT) {
-        dayTime = '01/01/2010 ' + eventList[i]['start_time'];
-      } else {
-        dayTime = '01/02/2010 ' + eventList[i]['start_time'];
-      }
-      if (moment(dayTime).isSameOrAfter(startTime)) {
-        if (moment(dayTime).isSameOrBefore(endTime)) {
-          filteredEvents.push(eventList[i]);
-        }
-      }
-    }
-    return filteredEvents;
-  }
   render() {
     // sets the filtered event list at the very beginning
     if (this.state.filteredEventList == null) {
