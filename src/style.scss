@@ -138,7 +138,7 @@ html, body {
 .event-item {
   background-color: $event-item-color;
   border-bottom: thin solid black;
-  height: 90px;
+  height: 87px;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;
@@ -240,4 +240,7 @@ html, body {
 
 .name {
   font-size: 13.1pt;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
