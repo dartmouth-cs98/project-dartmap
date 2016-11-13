@@ -59,12 +59,15 @@ html, body {
   height: 10%;
   padding-left: 10px;
   position: relative;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
 
   // This is (currently) the dartmap logo in the nav bar
   h1 {
     display: inline-block;
     position: absolute;
-    bottom: 2px;
+    bottom: 10px;
     left: 8px;
   }
 
@@ -125,13 +128,14 @@ html, body {
   }
 }
 
-#event-menu .event-item {
+.event-item {
   background-color: $event-item-color;
   border-bottom: thin solid black;
-  height: 100px;
+  height: 87px;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;
+  font-size: 15px;
 
   &:hover {
     background-color: #b3b3cb;
@@ -242,6 +246,19 @@ html, body {
   display: none;
 }
 
+.date-display {
+  background-color: $green;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
+.name {
+  font-size: 13.1pt;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .error-msg {
   color: red;
 }
