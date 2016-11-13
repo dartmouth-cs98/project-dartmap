@@ -207,6 +207,9 @@ html, body {
     }
   }
 }
+.add-event-logo{
+  width: 50%;
+}
 
 .date-filter {
   @include flex-space-around;
