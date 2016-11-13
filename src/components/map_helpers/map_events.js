@@ -16,6 +16,11 @@ export default class EventsWithControllableHover extends Component {
     this.offsetY = 50;
   }
 
+  createPopupHtml() {
+    return `<b>${this.props.name}</b><br />${this.props.description}`;
+    // return '<b>' + this.props.name + '</b><br />' + this.props.location_string + '<br />' + this.props.description;
+  }
+
   createHoverPopup() {
     const eventNode = document.getElementById(this.props.id);
     const rect = eventNode.getBoundingClientRect();
@@ -25,19 +30,37 @@ export default class EventsWithControllableHover extends Component {
     popupDiv.style.position = 'absolute';
     popupDiv.style.left = (rect.left + this.offsetX).toString().concat('px');
     popupDiv.style.top = (rect.top + this.offsetY).toString().concat('px');
-    popupDiv.innerHTML = this.props.description;
+    popupDiv.innerHTML = this.createPopupHtml();
   }
 
   createStickyPopup(id) {
-    const eventNode = document.getElementById(id);
-    const rect = eventNode.getBoundingClientRect();
-    const popupDiv = document.createElement('div');
-    popupDiv.className = 'popup';
-    document.getElementsByTagName('body')[0].appendChild(popupDiv);
-    popupDiv.style.position = 'absolute';
-    popupDiv.style.left = (rect.left + this.offsetX).toString().concat('px');
-    popupDiv.style.top = (rect.top + this.offsetY).toString().concat('px');
-    popupDiv.innerHTML = this.props.description;
+    const parent = document.getElementsByTagName('body')[0];
+    const popupsToRemove = document.getElementsByClassName('popup');
+    while (popupsToRemove.length > 0) {
+      parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
+    }
+    setTimeout(() => {
+      const eventNode = document.getElementById(id);
+      const rect = eventNode.getBoundingClientRect();
+      const popupDiv = document.createElement('div');
+      popupDiv.className = 'popup stickyPopup'.concat(this.props.id);
+      document.getElementsByTagName('body')[0].appendChild(popupDiv);
+      popupDiv.style.position = 'absolute';
+      popupDiv.style.left = (rect.left + this.offsetX).toString().concat('px');
+      popupDiv.style.top = (rect.top + this.offsetY).toString().concat('px');
+      popupDiv.innerHTML = this.createPopupHtml();
+
+      const closeButtonDiv = document.createElement('div');
+      closeButtonDiv.className = 'close-button';
+      closeButtonDiv.innerHTML = 'x';
+      closeButtonDiv.addEventListener('click', (event) => {
+        const stickyPopupsToRemove = document.getElementsByClassName('stickyPopup'.concat(id));
+        while (stickyPopupsToRemove.length > 0) {
+          parent.removeChild(stickyPopupsToRemove[stickyPopupsToRemove.length - 1]);
+        }
+      });
+      popupDiv.appendChild(closeButtonDiv);
+    }, 100);
   }
 
   render() {

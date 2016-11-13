@@ -48,12 +48,10 @@ html, body {
 
 #main, .app-container {
   height: inherit;
+  min-width: 768px;
 }
 
-.hidden{
-  display: none;
-}
-
+// Top Navigation Bar
 #nav-bar {
   background-color: $green;
   color: white;
@@ -85,16 +83,10 @@ html, body {
   height: 90%;
 }
 
+// Map Components
 #map {
   float: left;
 }
-
-// .mapImage {
-//   width: 100%;
-//   height: 100%;
-//   position: absolute;
-//   // cursor: url(../images/cursor.png) 15 15, pointer;
-// }
 
 .event {
   border: 5px solid $red;
@@ -127,7 +119,12 @@ html, body {
   }
 }
 
+<<<<<<< HEAD
 #event-banner {
+=======
+// Event List Components
+#event-menu #event-banner {
+>>>>>>> f055f9581acfa34be64d64904d31d81bab495ef3
   border-bottom: thin solid black;
    .event-banner-item {
     float: left;
@@ -155,12 +152,21 @@ html, body {
   padding: 5px;
 }
 
+.description {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 #test-button {
   position: absolute;
   top: 10px;
 }
 
+// Filter Container
 #filter-container {
+  height: 20%;
   width: 80%;
   float: left;
   display: block;
@@ -172,9 +178,13 @@ html, body {
     float: right;
   }
 }
+.date-filter, .time-filter {
+  @include flex-space-around;
+}
 
+// Add Event Dialog
 #add-event {
-  border: 10px solid black;
+  border: 5px solid black;
   height: 80%;
   width: 80%;
   position: absolute;
@@ -183,52 +193,61 @@ html, body {
   background-color: white;
   padding: 30px;
   border-radius: 50px;
-  .addEventForm input, .addEventForm textarea {
-    padding-bottom: 30px;
-    width: 50%;
+}
 
-  }
-  .formBoxError {
-    border-color: red;
-  }
-  .errorMessage {
-    color: red;
-    display: inline-block;
-  }
-  .invalidNextBtn {
-    background-color: $light-grey;
-  }
-  .validNextBtn {
-    background-color: $green;
-  }
-  #close-button {
-    position: absolute;
-    right: 20px;
-    top: 5px;
-    &:hover {
-      color: #DC143C;
-      cursor: pointer;
-    }
+#close-button {
+  position: absolute;
+  right: 20px;
+  top: 5px;
+  &:hover {
+    color: #DC143C;
+    cursor: pointer;
   }
 }
 
-.date-filter {
-  @include flex-space-around;
+.add-event-text {
+  width: 50%;
+  vertical-align: middle;
+  height: 30px;
 }
 
-.time-filter {
-  @include flex-space-around;
+.add-event-loc-string {
+  width: 150px;
+}
+
+.add-event-error-message {
+  display: inline-block;
+  width: 50%;
+  vertical-align: middle;
+  height: 30px;
+}
+.add-event-btns {
+  display: inline-block;
+  width: 100%;
+}
+.add-event-btn {
+  background-color: $green;
+}
+
+.back-btn {
+  float: left;
+}
+
+.nxt-btn {
+  float: right;
+}
+
+.invalid-nxt-btn {
+  background-color: $light-grey;
 }
 
 .page-slider {
   @include flex-space-around;
 }
 
-.description {
-  width: 250px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+// Generic Classes
+.hidden {
+  display: none;
 }
 
 .date-display {
@@ -243,4 +262,27 @@ html, body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.error-msg {
+  color: red;
+}
+
+.error-box {
+  border-color: red;
+}
+
+.popup {
+  color: white;
+  background-color: $green;
+  width: 20%;
+}
+
+.close-button {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  &:hover {
+    color: #DC143C;
+    cursor: pointer;
+  }
 }

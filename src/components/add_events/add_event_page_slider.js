@@ -1,13 +1,10 @@
+// add_event_page_slider.js
 /*
   Filters by page within the "add event" dialog
 */
 
 import React, { Component } from 'react';
 import Rcslider from 'rc-slider';
-
-// function log(value) {
-//   console.log(value);
-// }
 
 class PageSlider extends Component {
 
@@ -32,7 +29,7 @@ class PageSlider extends Component {
     } else {
       return (
         <div className="page-slider">
-          <Rcslider tipFormatter={null} min={0} max={3} dots step={1} defaultValue={0} onAfterChange={this.handleChange} />
+          <Rcslider tipFormatter={null} min={0} max={3} dots step={1} defaultValue={0} onChange={this.handleChange} />
         </div>
       );
     }
