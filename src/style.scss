@@ -61,6 +61,9 @@ html, body {
   height: 10%;
   padding-left: 10px;
   position: relative;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
 
   // This is (currently) the dartmap logo in the nav bar
   h1 {
@@ -135,7 +138,7 @@ html, body {
 .event-item {
   background-color: $event-item-color;
   border-bottom: thin solid black;
-  height: 130px;
+  height: 90px;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;
@@ -226,4 +229,15 @@ html, body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.date-display {
+  background-color: $green;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
+.name {
+  font-size: 13.1pt;
 }
