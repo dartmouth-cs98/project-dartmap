@@ -66,7 +66,7 @@ html, body {
   h1 {
     display: inline-block;
     position: absolute;
-    bottom: 2px;
+    bottom: 10px;
     left: 8px;
   }
 
@@ -124,7 +124,7 @@ html, body {
   }
 }
 
-#event-menu #event-banner {
+#event-banner {
   border-bottom: thin solid black;
    .event-banner-item {
     float: left;
@@ -132,13 +132,14 @@ html, body {
   }
 }
 
-#event-menu .event-item {
+.event-item {
   background-color: $event-item-color;
   border-bottom: thin solid black;
-  height: 100px;
+  height: 130px;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;
+  font-size: 15px;
 
   &:hover {
     background-color: #b3b3cb;

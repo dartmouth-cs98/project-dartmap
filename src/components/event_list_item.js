@@ -9,15 +9,15 @@ const EventListItem = (props) => {
         onMouseOut={() => props.showBalloon(null)}
         onClick={() => props.onEventListItemClick(props.event.id, [props.event.lat, props.event.lng])}
       >
+        <
         <h5 className="name">
           {props.event.name}
         </h5>
-
-        <font size="2">
-          <li className="description">Description: {props.event.description}</li>
-          <li>Organizer: {props.event.organizer}</li>
-          <li>Date: {props.event.date._i} {props.event.start_time.format('hh:mm A')}</li>
-        </font>
+        {props.event.date.format('ddd MM/DD/YYYY')}
+        <br />
+        {props.event.start_time.format('h:mm A')}~{props.event.end_time.format('h:mm A')}
+        <div className="description">{props.event.description}</div>
+        Organizer: {props.event.organizer}
       </div>
     );
   }
