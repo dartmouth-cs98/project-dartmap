@@ -30,7 +30,7 @@ class App extends Component {
       selectedLocation: null,
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
-      mapHeight: (0.8 * window.innerHeight).toString().concat('px'),
+      mapHeight: (0.65 * window.innerHeight).toString().concat('px'),
       mapWidth: (0.8 * window.innerWidth).toString().concat('px'),
       center: [43.703337, -72.288578],
     };
