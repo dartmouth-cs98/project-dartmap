@@ -10,6 +10,8 @@ import './style.scss';
 // import the API functions
 import { postNewEvent, getAllEvents } from './helpers/dartmap-api';
 import createDateData from './helpers/date-data-helper';
+import { filterDates, filterTimes, sortDateTime } from './helpers/date-time-filters-helper';
+// import filterTimes from './helpers/date-time-filters-helper';
 
 // import the react Components
 import EventList from './components/event_list';
@@ -18,15 +20,25 @@ import MapContainer from './components/map_container';
 import AddEventDialog from './components/add_event_dialog';
 import FilterContainer from './components/filter_container';
 
+// const TIMES_DATA_DISPLAY = { 0: '8:00 AM', 1: '10:00 AM', 2: '12:00 PM', 3: '2:00 PM', 4: '4:00 PM', 5: '6:00 PM', 6: '8:00 PM', 7: '10:00 PM', 8: '12:00 AM', 9: '2:00 AM' };
+const TIMES_DATA_DISPLAY = { 0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 24, 9: 26 };
+const DEFAULT_DATE_FILTER = [0, 1];
+const DEFAULT_TIME_FILTER = [0, 9];
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.dateBarData = createDateData();
     // this.timeBarData = {}; <-- most likely not necessary
     this.state = {
-      filters: null,
+      filters: {
+        selectedDate: null,
+        selectedTime: null,
+        selectedCategories: [],
+      },
       addEvent: false,
-      eventList: [],  // the filtered list of events received from the back-end
+      filteredEventList: null,  // the filtered list of events received from the back-end
+      eventList: [],  // the full list of events received from the back-end
       selectedLocation: null,
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
@@ -72,22 +84,69 @@ class App extends Component {
   showBalloon(eventId) {
     this.setState({ showBalloonEventId: eventId });
   }
+  showStickyBalloon(eventId) {
+    this.setState({ showStickyBalloonEventId: eventId });
+
+    // Reset the state so that the popup is a onetime popup.
+    setTimeout(() => {
+      this.setState({ showStickyBalloonEventId: null });
+    }, 1000);
+  }
+  filterEvents(theFilters) {
+    let filteredEvents = [];
+    const filters = theFilters;
+
+    if (filters.selectedDate == null) {
+      filters.selectedDate = DEFAULT_DATE_FILTER;
+    }
+    if (filters.selectedTime == null) {
+      filters.selectedTime = DEFAULT_TIME_FILTER;
+    }
+
+    // filter by date, then filter THAT by time
+    if (filters != null) {
+      if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
+        filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
+        filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
+      } else if (filters.selectedDate != null) {
+        filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
+      } else if (filters.selectedTime != null) {
+        filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
+      }
+    }
+    this.setState({ filters, filteredEventList: filteredEvents });
+
+    // sort all filtered events first by date and then by time
+    filteredEvents.sort(sortDateTime);
+
+    // only important for the very beginning (see the render() method)
+    return filteredEvents;
+  }
+
   render() {
+    // sets the filtered event list at the very beginning
+    if (this.state.filteredEventList == null) {
+      this.state.filteredEventList = this.filterEvents(this.state.filters);
+      console.log('filters:');
+      console.log(this.state.filters);
+      console.log('filtered event list:');
+      console.log(this.state.filteredEventList);
+    }
     return (
       <div className="app-container">
         <NavBar toggleAddEvent={this.toggleAddEvent} />
         <div className="home-container">
-          <MapContainer events={this.state.eventList}
+          <MapContainer events={this.state.filteredEventList}
             showBalloonEventId={this.state.showBalloonEventId}
             showStickyBalloonEventId={this.state.showStickyBalloonEventId}
             height={this.state.mapHeight}
             width={this.state.mapWidth}
             center={this.state.center}
           />
-          <EventList events={this.state.eventList} selectedLocation={this.state.selectedLocation}
+          <EventList events={this.state.filteredEventList} selectedLocation={this.state.selectedLocation}
             showBalloon={this.showBalloon} onEventListItemClick={this.onEventListItemClick}
           />
-          <FilterContainer onApplyFilter={filters => this.setState({ filters })} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
+          <FilterContainer filterEvents={this.filterEvents} onApplyFilter={filters => this.filterEvents(filters)} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
           <AddEventDialog addEvent={this.state.addEvent}
             handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
