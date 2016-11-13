@@ -19,7 +19,7 @@ class AddEventDialog extends Component {
       date: null,
       start_time: null,
       end_time: null,
-      location_string: '',
+      location_string: null,
       location: null,
       currentPage: 0,
     };
@@ -34,7 +34,7 @@ class AddEventDialog extends Component {
   handlePageData(data) {
     this.didChange = true;
     this.setState(data);
-    this.setState({ currentPage: this.state.currentPage + 1 });
+    // this.setState({ currentPage: this.state.currentPage + 1 });
   }
   submitEventData() {
     this.setState({ currentPage: 0 });
@@ -49,9 +49,9 @@ class AddEventDialog extends Component {
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
     const page3Data = { location: this.state.location, location_string: this.state.location_string };
     this.pageCode = [
-      <AddEventPage1 data={page1Data} handleData={this.handlePageData} />,
-      <AddEventPage2 data={page2Data} handleData={this.handlePageData} />,
-      <AddEventPage3 data={page3Data} handleData={this.handlePageData} />,
+      <AddEventPage1 currentPage={this.state.currentPage} data={page1Data} handleData={this.handlePageData} />,
+      <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,
+      <AddEventPage3 currentPage={this.state.currentPage} data={page3Data} handleData={this.handlePageData} />,
       <div><h1>Submit event</h1>{JSON.stringify(this.state)}<button type="button" onClick={this.submitEventData}>Submit</button></div>,
     ];
     if (this.props.addEvent) {
