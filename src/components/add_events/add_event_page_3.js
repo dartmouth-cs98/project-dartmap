@@ -1,9 +1,8 @@
 // add_event_page_3.js
-import React, { Component, PropTypes } from 'react';
-import MapContainer from '../map_container';
-import Dropdown from 'react-drop-down'
-import ReactDOM from 'react-dom'
+import React, { Component } from 'react';
 import ReactUIDropdown from 'react-ui-dropdown';
+import MapContainer from '../map_container';
+
 
 class AddEventPage3 extends Component {
   static nullFunction() {}
@@ -13,9 +12,10 @@ class AddEventPage3 extends Component {
       location: null,
       location_string: null,
       center: [43.703337, -72.288578],
-      value: 'Academic'
+      value: 'Academic',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.selectLocation = this.selectLocation.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = ['location', 'room'].map((data) => {
@@ -23,9 +23,9 @@ class AddEventPage3 extends Component {
     });
   }
 
-  handleChange (e) {
-    this.setState({value: e})
-    console.log(e)
+  handleChange(e) {
+    this.setState({ value: e });
+    console.log(e);
   }
   handleSubmit(event) {
     event.preventDefault();
@@ -42,41 +42,41 @@ class AddEventPage3 extends Component {
     const mapHeight = '300px';
     const mapWidth = '300px';
     const icons = [
-    {
-      id: 1,
-      title: "Academic",
-      image: "./../../../icon_set_1/academic.png"
-    },
-    {
-      id: 2,
-      title: "Art",
-      image: "./../../../icon_set_1/art.png"
-    },
-    {
-      id: 3,
-      title: "Sports",
-      image: "./../../../icon_set_1/game.png"
-    },
-    {
-      id: 4,
-      title: "Performance",
-      image: "./../../../icon_set_1/music.png"
-    },
-    {
-      id: 5,
-      title: "Lecture",
-      image: "./../../../icon_set_1/talk.png"
-    },
-    {
-      id: 6,
-      title: "Greek Life",
-      image: "./../../../icon_set_2/party.png"
-    },
-    {
-      id: 7,
-      title: "Free food",
-      image: "./../../../icon_set_2/food.png"
-    },
+      {
+        id: 1,
+        title: 'Academic',
+        image: './../../../icon_set_1/academic.png',
+      },
+      {
+        id: 2,
+        title: 'Art',
+        image: './../../../icon_set_1/art.png',
+      },
+      {
+        id: 3,
+        title: 'Sports',
+        image: './../../../icon_set_1/game.png',
+      },
+      {
+        id: 4,
+        title: 'Performance',
+        image: './../../../icon_set_1/music.png',
+      },
+      {
+        id: 5,
+        title: 'Lecture',
+        image: './../../../icon_set_1/talk.png',
+      },
+      {
+        id: 6,
+        title: 'Greek Life',
+        image: './../../../icon_set_2/party.png',
+      },
+      {
+        id: 7,
+        title: 'Free food',
+        image: './../../../icon_set_2/food.png',
+      },
     ];
     return (
       <form className="addEventForm" onSubmit={this.handleSubmit}>
@@ -103,7 +103,7 @@ class AddEventPage3 extends Component {
           label="Select all the relevant categories"
           placeholder="e.g. Academic"
           initialItems={icons}
-          onChange={this.handleChange.bind(this)}
+          onChange={this.handleChange}
         />
         <input
           type="submit"
