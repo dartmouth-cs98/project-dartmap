@@ -1,13 +1,10 @@
+// add_event_page_slider.js
 /*
   Filters by page within the "add event" dialog
 */
 
 import React, { Component } from 'react';
 import Rcslider from 'rc-slider';
-
-// function log(value) {
-//   console.log(value);
-// }
 
 class PageSlider extends Component {
 
