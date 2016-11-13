@@ -17,7 +17,7 @@ export default class EventsWithControllableHover extends Component {
   }
 
   createPopupHtml() {
-    return '<b>' + this.props.name + '</b><br />' + this.props.description;
+    return `<b>${this.props.name}</b><br />${this.props.description}`;
     // return '<b>' + this.props.name + '</b><br />' + this.props.location_string + '<br />' + this.props.description;
   }
 
@@ -53,7 +53,7 @@ export default class EventsWithControllableHover extends Component {
       const closeButtonDiv = document.createElement('div');
       closeButtonDiv.className = 'close-button';
       closeButtonDiv.innerHTML = 'x';
-      closeButtonDiv.addEventListener('click', function(event) {
+      closeButtonDiv.addEventListener('click', (event) => {
         const stickyPopupsToRemove = document.getElementsByClassName('stickyPopup'.concat(id));
         while (stickyPopupsToRemove.length > 0) {
           parent.removeChild(stickyPopupsToRemove[stickyPopupsToRemove.length - 1]);
