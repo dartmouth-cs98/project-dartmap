@@ -8,6 +8,7 @@ class AddEventPage3 extends Component {
     super(props);
     this.state = {
       location: null,
+      location_name: null,
       location_string: null,
       center: [43.703337, -72.288578],
     };
@@ -20,7 +21,11 @@ class AddEventPage3 extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.location && this.state.location_string) {
+    if (this.state.location && this.state.location_name) {
+      if (this.state.location_string == '') {
+        this.state.location_string = this.state.location_name;
+      }
+      this.state.location.name = this.state.location_name;
       this.props.handleData(this.state);
     }
   }
@@ -43,7 +48,15 @@ class AddEventPage3 extends Component {
           selectLocation={this.selectLocation}
           center={this.state.center}
         />
-        <h2>Location Name to Display:*</h2>
+        <h2>Location:*</h2>
+        <input
+          type="text"
+          placeholder="e.g. Collis"
+          value={this.state.location_name || ''}
+          onChange={event => this.setState({ location_name: event.target.value })}
+          className={(this.state.location_name !== '') ? 'addEventBox' : 'formBoxError'}
+        />
+        <h2>Location Name to Display (if different):</h2>
         <input
           type="text"
           placeholder="e.g. Collis 112"
@@ -55,7 +68,7 @@ class AddEventPage3 extends Component {
         <input
           type="submit"
           value="Next"
-          className={(!this.state.location || !this.state.location_string) ? 'invalidNextBtn' : 'validNextBtn'}
+          className={(!this.state.location || !this.state.location_name) ? 'invalidNextBtn' : 'validNextBtn'}
         />
       </form>
     );
