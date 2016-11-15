@@ -24,6 +24,8 @@ import FilterContainer from './components/filter_container';
 const TIMES_DATA_DISPLAY = { 0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 24, 9: 26 };
 const DEFAULT_DATE_FILTER = [0, 1];
 const DEFAULT_TIME_FILTER = [0, 9];
+const MAP_HEIGHT_MULTIPLIER = 0.65;
+const MAP_WIDTH_MULTIPLIER = 0.8;
 
 class App extends Component {
   constructor(props) {
@@ -37,13 +39,13 @@ class App extends Component {
         selectedCategories: [],
       },
       addEvent: false,
-      filteredEventList: null,  // the filtered list of events received from the back-end
+      filteredEventList: [],  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
       selectedLocation: null,
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
-      mapHeight: (0.65 * window.innerHeight).toString().concat('px'),
-      mapWidth: (0.8 * window.innerWidth).toString().concat('px'),
+      mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
+      mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
       center: [43.703337, -72.288578],
     };
     this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
@@ -51,14 +53,18 @@ class App extends Component {
     this.showBalloon = this.showBalloon.bind(this);
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
+    this.filterEvents = this.filterEvents.bind(this);
 
     window.addEventListener('resize', () => {
-      this.setState({ mapHeight: (0.8 * window.innerHeight).toString().concat('px') });
-      this.setState({ mapWidth: (0.8 * window.innerWidth).toString().concat('px') });
+      this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
+      this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
     }, true);
   }
   componentDidMount() {
-    getAllEvents((eventList) => { this.setState({ eventList }); });
+    getAllEvents((eventList) => {
+      this.setState({ eventList });
+      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+    });
   }
   onEventListItemClick(eventId, newCenter) {
     this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
@@ -76,7 +82,10 @@ class App extends Component {
     console.log(data);
     postNewEvent(data);
     this.setState({ addEvent: false });
-    getAllEvents((eventList) => { this.setState({ eventList }); });
+    getAllEvents((eventList) => {
+      this.setState({ eventList });
+      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+    });
   }
   toggleAddEvent() {
     this.setState({ addEvent: true });
@@ -124,14 +133,6 @@ class App extends Component {
   }
 
   render() {
-    // sets the filtered event list at the very beginning
-    if (this.state.filteredEventList == null) {
-      this.state.filteredEventList = this.filterEvents(this.state.filters);
-      console.log('filters:');
-      console.log(this.state.filters);
-      console.log('filtered event list:');
-      console.log(this.state.filteredEventList);
-    }
     return (
       <div className="app-container">
         <NavBar toggleAddEvent={this.toggleAddEvent} />
