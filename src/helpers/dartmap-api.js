@@ -17,6 +17,7 @@ function formatAPIEventData(event) {
   // event data
   newEvent.name = event.name;
   newEvent.id = event.id;
+  newEvent.organizer = event.organizer;
   newEvent.description = event.description;
   newEvent.location_string = event.location_string;
   newEvent.date = moment(event.date, 'YYYY-MM-DD');
@@ -41,17 +42,17 @@ function formatEventDataforAPI(event) {
   const eventData = {};
   eventData.name = event.name;
   eventData.description = event.description;
+  eventData.organizer = event.organizer;
   eventData.location_string = event.location_string;
   eventData.start_time = event.start_time.format('HH:mm');
   eventData.end_time = event.end_time.format('HH:mm');
   eventData.date = event.date.format('YYYY-MM-DD');
-  eventData.location = {};
   if (event.location.id) {
-    eventData.location.id = event.location.id;
+    eventData.location_id = event.location.id;
   } else {
-    eventData.location.name = event.location.name;
-    eventData.location.lat = event.location.lat;
-    eventData.location.long = event.location.lng;
+    eventData.location_name = event.location.name;
+    eventData.location_latitude = event.location.latitude;
+    eventData.location_longitude = event.location.longitude;
   }
   return eventData;
 }
@@ -86,8 +87,8 @@ export function getAllEvents(saveEventList) {
     dataType: 'json',
     success: (data) => {
       console.log(' /events GET was successful! ');
-      console.log(data.results);
-      const eventList = data.results.map((event) => {
+      console.log(data);
+      const eventList = data.events.map((event) => {
         return formatAPIEventData(event);
       });
       return saveEventList(eventList);

@@ -40,6 +40,7 @@ $blue: #3f51b5;
 }
 
 html, body {
+  font-family: 'Old Standard TT', 'Times New Roman', Times, serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -47,25 +48,25 @@ html, body {
 
 #main, .app-container {
   height: inherit;
+  min-width: 768px;
 }
 
-.hidden{
-  display: none;
-}
-
+// Top Navigation Bar
 #nav-bar {
   background-color: $green;
   color: white;
-  font-family: 'Old Standard TT';
   font-size: 30pt;
   height: 10%;
   padding-left: 10px;
   position: relative;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
 
   // This is (currently) the dartmap logo in the nav bar
   h1 {
     display: inline-block;
-    position: absolute;
+    position: relative;
     bottom: 2px;
     left: 8px;
   }
@@ -73,7 +74,7 @@ html, body {
   // This is (currently) the add event button
   button {
     float: right;
-    height: 100%; 
+    height: 100%;
   }
 }
 
@@ -82,16 +83,10 @@ html, body {
   height: 90%;
 }
 
+// Map Components
 #map {
   float: left;
 }
-
-// .mapImage {
-//   width: 100%;
-//   height: 100%;
-//   position: absolute;
-//   // cursor: url(../images/cursor.png) 15 15, pointer;
-// }
 
 .event {
   border: 5px solid $red;
@@ -124,6 +119,7 @@ html, body {
   }
 }
 
+// Event List Components
 #event-menu #event-banner {
   border-bottom: thin solid black;
    .event-banner-item {
@@ -132,13 +128,14 @@ html, body {
   }
 }
 
-#event-menu .event-item {
+.event-item {
   background-color: $event-item-color;
   border-bottom: thin solid black;
-  height: 100px;
+  height: 87px;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;
+  font-size: 15px;
 
   &:hover {
     background-color: #b3b3cb;
@@ -151,12 +148,21 @@ html, body {
   padding: 5px;
 }
 
+.description {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 #test-button {
   position: absolute;
   top: 10px;
 }
 
+// Filter Container
 #filter-container {
+  height: 20%;
   width: 80%;
   float: left;
   display: block;
@@ -168,43 +174,111 @@ html, body {
     float: right;
   }
 }
+.date-filter, .time-filter {
+  @include flex-space-around;
+}
 
+// Add Event Dialog
 #add-event {
-  border: 10px solid black;
+  border: 5px solid black;
   height: 80%;
   width: 80%;
   position: absolute;
   top: 10%;
   left: 10%;
   background-color: white;
+  padding: 30px;
   border-radius: 50px;
-  .addEventForm input, .addEventForm textarea {
-    width: 50%;
-    
-  }
-  .formBoxError {
-    border-color: red;
-  }
-  .errorMessage {
-    color: red;
-    display: inline-block;
-  }
-  .invalidNextBtn {
-    background-color: $light-grey;
-  }
-  .validNextBtn {
-    background-color: $green;
+}
+
+#close-button {
+  position: absolute;
+  right: 20px;
+  top: 5px;
+  &:hover {
+    color: #DC143C;
+    cursor: pointer;
   }
 }
 
-.date-filter {
-  @include flex-space-around;
+.add-event-text {
+  width: 50%;
+  vertical-align: middle;
+  height: 30px;
 }
 
-.time-filter {
-  @include flex-space-around;
+.add-event-loc-string {
+  width: 150px;
+}
+
+.add-event-error-message {
+  display: inline-block;
+  width: 50%;
+  vertical-align: middle;
+  height: 30px;
+}
+.add-event-btns {
+  display: inline-block;
+  width: 100%;
+}
+.add-event-btn {
+  background-color: $green;
+}
+
+.back-btn {
+  float: left;
+}
+
+.nxt-btn {
+  float: right;
+}
+
+.invalid-nxt-btn {
+  background-color: $light-grey;
 }
 
 .page-slider {
   @include flex-space-around;
+}
+
+// Generic Classes
+.hidden {
+  display: none;
+}
+
+.date-display {
+  background-color: $green;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
+.name {
+  font-size: 13.1pt;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.error-msg {
+  color: red;
+}
+
+.error-box {
+  border-color: red;
+}
+
+.popup {
+  color: white;
+  background-color: $green;
+  width: 20%;
+}
+
+.close-button {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  &:hover {
+    color: #DC143C;
+    cursor: pointer;
+  }
 }
