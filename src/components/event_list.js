@@ -21,7 +21,7 @@ class EventList extends Component {
           onEventListItemClick={this.props.onEventListItemClick}
         />];
         if (i >= 1) {
-          this.isSameDay = this.prevDate === event.date;
+          this.isSameDay = this.prevDate.isSame(event.date);
         }
         if (i === 0 || (i >= 1 && !this.isSameDay)) {
           this.eventItems.push(
