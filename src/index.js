@@ -4,8 +4,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-// add the style sheet onto the page
+// add the style sheets onto the page
+import 'react-datetime/css/react-datetime.css';
+import 'rc-slider/assets/index.css';
+import 'react-select/dist/react-select.css';
 import './style.scss';
+
 
 // import the API functions
 import { postNewEvent, getAllEvents } from './helpers/dartmap-api';

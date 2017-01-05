@@ -23,12 +23,12 @@ class AddEventDialog extends Component {
       end_time: null,
       location_string: null,
       location: null,
-      category: null,
+      categories: null,
       currentPage: 0,
     };
-    if (this.props.addEvent && (this.state.currentPage < 1 || this.state.currentPage > 3)) {
-      this.state.currentPage = 1;
-    }
+    // if (this.props.addEvent && (this.state.currentPage < 1 || this.state.currentPage > 5)) {
+    //   this.state.currentPage = 1;
+    // }
     this.handlePageData = this.handlePageData.bind(this);
     this.submitEventData = this.submitEventData.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -46,7 +46,7 @@ class AddEventDialog extends Component {
       end_time: null,
       location_string: null,
       location: null,
-      category: null,
+      categories: [],
       currentPage: 0,
     });
   }
@@ -64,7 +64,7 @@ class AddEventDialog extends Component {
       end_time: this.state.end_time,
       location_string: this.state.location_string,
       location: this.state.location,
-      category: this.state.category,
+      categories: this.state.categories,
     };
     this.resetState();
     this.props.handleAddEventData(data);
@@ -81,7 +81,7 @@ class AddEventDialog extends Component {
     const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description };
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
     const page3Data = { location: this.state.location, location_string: this.state.location_string };
-    const page4Data = { category: this.state.category };
+    const page4Data = { categories: this.state.categories };
     this.pageCode = [
       <AddEventPage1 currentPage={this.state.currentPage} data={page1Data} handleData={this.handlePageData} />,
       <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,
@@ -89,6 +89,7 @@ class AddEventDialog extends Component {
       <AddEventPage4 currentPage={this.state.currentPage} data={page4Data} handleData={this.handlePageData} />,
       <AddEventSubmitPage data={this.state} submitEventData={this.submitEventData} />,
     ];
+
     if (this.props.addEvent) {
       return (
         <div id="add-event">
