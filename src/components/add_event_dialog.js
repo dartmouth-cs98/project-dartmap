@@ -29,20 +29,50 @@ class AddEventDialog extends Component {
     this.handlePageData = this.handlePageData.bind(this);
     this.submitEventData = this.submitEventData.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.resetState = this.resetState.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.didChange = false;
+  }
+  resetState() {
+    this.setState({
+      name: null,
+      organizer: null,
+      description: null,
+      date: null,
+      start_time: null,
+      end_time: null,
+      location_string: null,
+      location: null,
+      category: null,
+      currentPage: 0,
+    });
   }
   handlePageData(data) {
     this.didChange = true;
     this.setState(data);
-    // this.setState({ currentPage: this.state.currentPage + 1 });
   }
   submitEventData() {
-    this.setState({ currentPage: 0 });
-    this.props.handleAddEventData(this.state);
+    const data = {
+      name: this.state.name,
+      organizer: this.state.organizer,
+      description: this.state.description,
+      date: this.state.date,
+      start_time: this.state.start_time,
+      end_time: this.state.end_time,
+      location_string: this.state.location_string,
+      location: this.state.location,
+      category: this.state.category,
+    };
+    this.resetState();
+    this.props.handleAddEventData(data);
   }
   handlePageChange(pageNumber) {
     this.didChange = false;
     this.setState({ currentPage: pageNumber });
+  }
+  handleClose() {
+    this.resetState();
+    this.props.closeAddEventDialog();
   }
   render() {
     const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description };
@@ -59,7 +89,7 @@ class AddEventDialog extends Component {
         <div id="add-event">
           <div>
             <h1>Add new event</h1>
-            <div id="close-button" onClick={() => this.props.closeAddEventDialog()}>x</div>
+            <div id="close-button" onClick={this.handleClose}>x</div>
           </div>
           <PageSlider handlePageChange={this.handlePageChange} didChange={this.didChange} currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
           {this.pageCode[this.state.currentPage]}
