@@ -23,7 +23,7 @@ class AddEventPage2 extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.date && this.state.start_time && this.state.end_time) {
+    if (this.state.date && this.state.start_time && this.state.end_time && this.isValidTime()) {
       const data = {
         date: this.state.date,
         start_time: this.state.start_time,
