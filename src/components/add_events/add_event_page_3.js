@@ -51,37 +51,37 @@ class AddEventPage3 extends Component {
       {
         id: 1,
         title: 'Academic',
-        image: './../../../icon_set_1/academic.png',
+        image: 'https://s23.postimg.org/8i1v2t8cb/academic.png',
       },
       {
         id: 2,
         title: 'Art',
-        image: './../../../icon_set_1/art.png',
+        image: 'https://s27.postimg.org/bwiklsppf/art.png',
       },
       {
         id: 3,
         title: 'Sports',
-        image: './../../../icon_set_1/game.png',
+        image: 'https://s30.postimg.org/bxmzys9gh/game.png',
       },
       {
         id: 4,
         title: 'Performance',
-        image: './../../../icon_set_1/music.png',
+        image: 'https://s24.postimg.org/o84drbk3p/music.png',
       },
       {
         id: 5,
         title: 'Lecture',
-        image: './../../../icon_set_1/talk.png',
+        image: 'https://s23.postimg.org/ji4pb0yyz/talk.png',
       },
       {
         id: 6,
         title: 'Greek Life',
-        image: './../../../icon_set_2/party.png',
+        image: 'https://s28.postimg.org/cdfv0i8ot/party.png',
       },
       {
         id: 7,
         title: 'Free food',
-        image: './../../../icon_set_2/food.png',
+        image: 'https://s27.postimg.org/3t1ikm5ar/food.png',
       },
     ];
     return (
