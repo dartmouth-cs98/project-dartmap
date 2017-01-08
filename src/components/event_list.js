@@ -10,7 +10,7 @@ class EventList extends Component {
   }
   render() {
     this.eventItems = [];
-    if (this.props.events) {
+    if (this.props.events.length > 0) {
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
         const eListItem = [<EventListItem
@@ -33,10 +33,15 @@ class EventList extends Component {
         this.eventItems.push(eListItem);
         this.prevDate = event.date;
       }
+      return (
+        <div id="event-menu">
+          {this.eventItems}
+        </div>
+        );
     }
     return (
-      <div id="event-menu">
-        {this.eventItems}
+      <div id="event-none">
+        No events for the filter
       </div>
     );
   }
