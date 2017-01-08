@@ -174,6 +174,11 @@ html, body {
   @include flex-space-around;
 }
 
+//over-writing an issue with the rc-slider stylesheet
+.rc-slider-step {
+  margin: 0;
+}
+
 // Add Event Dialog
 #add-event {
   border: 5px solid black;

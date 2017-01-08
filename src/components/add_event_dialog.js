@@ -31,10 +31,8 @@ class AddEventDialog extends Component {
     // }
     this.handlePageData = this.handlePageData.bind(this);
     this.submitEventData = this.submitEventData.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
     this.resetState = this.resetState.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.didChange = false;
   }
   resetState() {
     this.setState({
@@ -51,7 +49,6 @@ class AddEventDialog extends Component {
     });
   }
   handlePageData(data) {
-    this.didChange = true;
     this.setState(data);
   }
   submitEventData() {
@@ -68,10 +65,6 @@ class AddEventDialog extends Component {
     };
     this.resetState();
     this.props.handleAddEventData(data);
-  }
-  handlePageChange(pageNumber) {
-    this.didChange = false;
-    this.setState({ currentPage: pageNumber });
   }
   handleClose() {
     this.resetState();
@@ -97,7 +90,7 @@ class AddEventDialog extends Component {
             <h1>Add new event</h1>
             <div id="close-button" onClick={this.handleClose}>x</div>
           </div>
-          <PageSlider handlePageChange={this.handlePageChange} didChange={this.didChange} currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
+          <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
           {this.pageCode[this.state.currentPage]}
         </div>
       );
