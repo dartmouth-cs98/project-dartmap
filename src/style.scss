@@ -131,7 +131,7 @@ html, body {
 .event-item {
   background-color: $event-item-color;
   border-bottom: thin solid black;
-  height: 87px;
+  height: 80px;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;
@@ -259,6 +259,13 @@ html, body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.atrribute {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .error-msg {
   color: red;
 }
