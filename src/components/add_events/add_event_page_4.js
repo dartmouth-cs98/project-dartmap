@@ -1,4 +1,4 @@
-// add_event_page_3.js
+// add_event_page_4.js
 import React, { Component } from 'react';
 import Select from 'react-select';
 

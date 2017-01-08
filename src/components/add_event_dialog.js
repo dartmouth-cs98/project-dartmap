@@ -7,6 +7,7 @@ import AddEventPage1 from './add_events/add_event_page_1';
 import AddEventPage2 from './add_events/add_event_page_2';
 import AddEventPage3 from './add_events/add_event_page_3';
 import AddEventPage4 from './add_events/add_event_page_4';
+import AddEventPage5 from './add_events/add_event_page_5';
 import AddEventSubmitPage from './add_events/add_event_submit_page';
 
 import PageSlider from './add_events/add_event_page_slider';
@@ -24,11 +25,9 @@ class AddEventDialog extends Component {
       location_string: null,
       location: null,
       categories: null,
+      iconUrl: null,
       currentPage: 0,
     };
-    // if (this.props.addEvent && (this.state.currentPage < 1 || this.state.currentPage > 5)) {
-    //   this.state.currentPage = 1;
-    // }
     this.handlePageData = this.handlePageData.bind(this);
     this.submitEventData = this.submitEventData.bind(this);
     this.resetState = this.resetState.bind(this);
@@ -45,6 +44,7 @@ class AddEventDialog extends Component {
       location_string: null,
       location: null,
       categories: [],
+      iconUrl: null,
       currentPage: 0,
     });
   }
@@ -61,6 +61,7 @@ class AddEventDialog extends Component {
       end_time: this.state.end_time,
       location_string: this.state.location_string,
       location: this.state.location,
+      iconUrl: this.state.iconUrl,
       categories: this.state.categories,
     };
     this.resetState();
@@ -75,11 +76,13 @@ class AddEventDialog extends Component {
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
     const page3Data = { location: this.state.location, location_string: this.state.location_string };
     const page4Data = { categories: this.state.categories };
+    const page5Data = { iconUrl: this.state.iconUrl };
     this.pageCode = [
       <AddEventPage1 currentPage={this.state.currentPage} data={page1Data} handleData={this.handlePageData} />,
       <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,
       <AddEventPage3 currentPage={this.state.currentPage} data={page3Data} handleData={this.handlePageData} />,
       <AddEventPage4 currentPage={this.state.currentPage} data={page4Data} handleData={this.handlePageData} />,
+      <AddEventPage5 currentPage={this.state.currentPage} data={page5Data} handleData={this.handlePageData} />,
       <AddEventSubmitPage data={this.state} submitEventData={this.submitEventData} />,
     ];
 
