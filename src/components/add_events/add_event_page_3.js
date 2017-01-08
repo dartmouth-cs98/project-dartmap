@@ -61,7 +61,7 @@ class AddEventPage3 extends Component {
       {
         id: 3,
         title: 'Sports',
-        image: 'https://s30.postimg.org/bxmzys9gh/game.png,
+        image: 'https://s30.postimg.org/bxmzys9gh/game.png',
       },
       {
         id: 4,
