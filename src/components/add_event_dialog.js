@@ -6,6 +6,9 @@ import React, { Component } from 'react';
 import AddEventPage1 from './add_events/add_event_page_1';
 import AddEventPage2 from './add_events/add_event_page_2';
 import AddEventPage3 from './add_events/add_event_page_3';
+import AddEventPage4 from './add_events/add_event_page_4';
+import AddEventPage5 from './add_events/add_event_page_5';
+import AddEventSubmitPage from './add_events/add_event_submit_page';
 
 import PageSlider from './add_events/add_event_page_slider';
 
@@ -21,47 +24,78 @@ class AddEventDialog extends Component {
       end_time: null,
       location_string: null,
       location: null,
+      categories: null,
+      iconUrl: null,
       currentPage: 0,
     };
-    if (this.props.addEvent && (this.state.currentPage < 1 || this.state.currentPage > 3)) {
-      this.state.currentPage = 1;
-    }
     this.handlePageData = this.handlePageData.bind(this);
     this.submitEventData = this.submitEventData.bind(this);
-    this.handlePageChange = this.handlePageChange.bind(this);
-    this.didChange = false;
+    this.resetState = this.resetState.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
+  resetState() {
+    this.setState({
+      name: null,
+      organizer: null,
+      description: null,
+      date: null,
+      start_time: null,
+      end_time: null,
+      location_string: null,
+      location: null,
+      categories: [],
+      iconUrl: null,
+      currentPage: 0,
+    });
   }
   handlePageData(data) {
-    this.didChange = true;
     this.setState(data);
-    // this.setState({ currentPage: this.state.currentPage + 1 });
   }
   submitEventData() {
-    this.setState({ currentPage: 0 });
-    this.props.handleAddEventData(this.state);
+    const data = {
+      name: this.state.name,
+      organizer: this.state.organizer,
+      description: this.state.description,
+      date: this.state.date,
+      start_time: this.state.start_time,
+      end_time: this.state.end_time,
+      location_string: this.state.location_string,
+      location: this.state.location,
+      iconUrl: this.state.iconUrl,
+      categories: this.state.categories,
+    };
+    this.resetState();
+    this.props.handleAddEventData(data);
   }
-  handlePageChange(pageNumber) {
-    this.didChange = false;
-    this.setState({ currentPage: pageNumber });
+  handleClose() {
+    this.resetState();
+    this.props.closeAddEventDialog();
   }
   render() {
     const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description };
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
     const page3Data = { location: this.state.location, location_string: this.state.location_string };
+    const page4Data = { categories: this.state.categories };
+    const page5Data = { iconUrl: this.state.iconUrl };
     this.pageCode = [
       <AddEventPage1 currentPage={this.state.currentPage} data={page1Data} handleData={this.handlePageData} />,
       <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,
       <AddEventPage3 currentPage={this.state.currentPage} data={page3Data} handleData={this.handlePageData} />,
-      <div><h1>Submit event</h1>{JSON.stringify(this.state)}<button type="button" onClick={this.submitEventData}>Submit</button></div>,
+      <AddEventPage4 currentPage={this.state.currentPage} data={page4Data} handleData={this.handlePageData} />,
+      <AddEventPage5 currentPage={this.state.currentPage} data={page5Data} handleData={this.handlePageData} />,
+      <AddEventSubmitPage data={this.state} submitEventData={this.submitEventData} />,
     ];
+
     if (this.props.addEvent) {
       return (
         <div id="add-event">
-          <div>
-            <h1>Add new event</h1>
-            <div id="close-button" onClick={() => this.props.closeAddEventDialog()}>x</div>
+          <div className="add-event-top">
+            <div>
+              <h1>Add new event</h1>
+              <div id="close-button" onClick={this.handleClose}>x</div>
+            </div>
+            <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
           </div>
-          <PageSlider handlePageChange={this.handlePageChange} didChange={this.didChange} currentPage={this.state.currentPage} />
           {this.pageCode[this.state.currentPage]}
         </div>
       );
