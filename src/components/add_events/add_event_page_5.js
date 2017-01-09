@@ -51,28 +51,28 @@ class AddEventPage5 extends Component {
     const iconErrorMessage = (this.state.iconUrl === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const iconURLs = [
       {
-        label: 'academic',
-        value: '/icon_set_1/academic.png',
+        label: 'Academic',
+        value: 'https://s23.postimg.org/8i1v2t8cb/academic.png',
       },
       {
-        label: 'art',
-        value: '/icon_set_1/art.png',
+        label: 'Art',
+        value: 'https://s27.postimg.org/bwiklsppf/art.png',
       },
       {
-        label: 'game',
-        value: '/icon_set_1/game.png',
+        label: 'Sports',
+        value: 'https://s30.postimg.org/bxmzys9gh/game.png',
       },
       {
-        label: 'music',
-        value: '/icon_set_1/music.png',
+        label: 'Performance',
+        value: 'https://s24.postimg.org/o84drbk3p/music.png',
       },
       {
-        label: 'talk',
-        value: '/icon_set_1/talk.png',
+        label: 'Lecture',
+        value: 'https://s23.postimg.org/ji4pb0yyz/talk.png',
       },
       {
-        label: 'food',
-        value: '/icon_set_2/food.png',
+        label: 'Free Food',
+        value: 'https://s27.postimg.org/3t1ikm5ar/food.png',
       },
       {
         label: 'games',
@@ -87,8 +87,8 @@ class AddEventPage5 extends Component {
         value: '/icon_set_2/openmeeting.png',
       },
       {
-        label: 'party',
-        value: '/icon_set_2/party.png',
+        label: 'Greek Life',
+        value: 'https://s28.postimg.org/cdfv0i8ot/party.png',
       },
     ];
     return (
