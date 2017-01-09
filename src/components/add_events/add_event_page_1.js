@@ -33,32 +33,34 @@ class AddEventPage1 extends Component {
     const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessage;
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
-        <h2>Name of Event:* </h2>
-        <input
-          type="text"
-          placeholder="e.g. Homecoming Bonfire"
-          value={this.state.name || ''}
-          onChange={event => this.setState({ name: event.target.value })}
-          className={(this.state.name !== '') ? 'add-event-text' : 'add-event-text error-box'}
-        />
-        {nameErrorMessage}
-        <h2>Event Organizer:*</h2>
-        <input
-          type="text"
-          placeholder="e.g. Collis Governing Board"
-          value={this.state.organizer || ''}
-          onChange={event => this.setState({ organizer: event.target.value })}
-          className={(this.state.organizer !== '') ? 'add-event-text' : 'add-event-text error-box'}
-        />
-        {organizerErrorMessage}
-        <h2>Description:*</h2>
-        <textarea
-          placeholder="e.g. See freshmen running in circles"
-          value={this.state.description || ''}
-          onChange={event => this.setState({ description: event.target.value })}
-          className={(this.state.description === '') ? 'add-event-text error-box' : 'add-event-text'}
-        />
-        {desciptionErrorMessage}
+        <div className="add-event-fields">
+          <h2>Name of Event:* </h2>
+          <input
+            type="text"
+            placeholder="e.g. Homecoming Bonfire"
+            value={this.state.name || ''}
+            onChange={event => this.setState({ name: event.target.value })}
+            className={(this.state.name !== '') ? 'add-event-text' : 'add-event-text error-box'}
+          />
+          {nameErrorMessage}
+          <h2>Event Organizer:*</h2>
+          <input
+            type="text"
+            placeholder="e.g. Collis Governing Board"
+            value={this.state.organizer || ''}
+            onChange={event => this.setState({ organizer: event.target.value })}
+            className={(this.state.organizer !== '') ? 'add-event-text' : 'add-event-text error-box'}
+          />
+          {organizerErrorMessage}
+          <h2>Description:*</h2>
+          <textarea
+            placeholder="e.g. See freshmen running in circles"
+            value={this.state.description || ''}
+            onChange={event => this.setState({ description: event.target.value })}
+            className={(this.state.description === '') ? 'add-event-text error-box' : 'add-event-text'}
+          />
+          {desciptionErrorMessage}
+        </div>
         <div className="add-event-btns">
           <input
             type="submit"

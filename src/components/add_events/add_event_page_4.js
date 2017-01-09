@@ -44,13 +44,15 @@ class AddEventPage4 extends Component {
     console.log(dropdownValues);
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
-        {categoryErrorMessage}
-        <h2>Select event category:*</h2>
-        <Select.Creatable multi joinValues
-          options={dropdownValues}
-          value={this.state.categories}
-          onChange={categories => this.setState({ categories })}
-        />
+        <div className="add-event-fields">
+          {categoryErrorMessage}
+          <h2>Select event category:*</h2>
+          <Select.Creatable multi joinValues
+            options={dropdownValues}
+            value={this.state.categories}
+            onChange={categories => this.setState({ categories })}
+          />
+        </div>
         <div className="add-event-btns">
           <input
             type="button"

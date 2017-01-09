@@ -47,24 +47,25 @@ class AddEventPage3 extends Component {
     const mapWidth = '300px';
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
-        <br /><br />
-        <MapContainer events={[]}
-          showBalloonEventId={this.nullFunction}
-          showStickyBalloonEventId={this.nullFunction}
-          height={mapHeight}
-          width={mapWidth}
-          selectLocation={(location) => { this.setState({ location }); }}
-          center={this.state.center}
-        />
-        <h2>Location Name to Display:*</h2>
-        <input
-          type="text"
-          placeholder="e.g. Collis 112"
-          value={this.state.location_string || ''}
-          onChange={event => this.setState({ location_string: event.target.value })}
-          className={(this.state.location_string !== '') ? 'add-event-text add-event-loc-string' : 'add-event-text add-event-loc-string error-box'}
-        />
-        {roomErrorMessage}
+        <div className="add-event-fields">
+          <MapContainer events={[]}
+            showBalloonEventId={this.nullFunction}
+            showStickyBalloonEventId={this.nullFunction}
+            height={mapHeight}
+            width={mapWidth}
+            selectLocation={(location) => { this.setState({ location }); }}
+            center={this.state.center}
+          />
+          <h2>Location Name to Display:*</h2>
+          <input
+            type="text"
+            placeholder="e.g. Collis 112"
+            value={this.state.location_string || ''}
+            onChange={event => this.setState({ location_string: event.target.value })}
+            className={(this.state.location_string !== '') ? 'add-event-text add-event-loc-string' : 'add-event-text add-event-loc-string error-box'}
+          />
+          {roomErrorMessage}
+        </div>
         <div className="add-event-btns">
           <input
             type="button"

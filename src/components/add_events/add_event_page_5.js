@@ -29,7 +29,7 @@ class AddEventPage5 extends Component {
     event.preventDefault();
     if (this.state.iconUrl) {
       const data = {
-        categories: this.state.iconUrl,
+        iconUrl: this.state.iconUrl,
         currentPage: this.props.currentPage + 1,
       };
       this.props.handleData(data);
@@ -37,7 +37,7 @@ class AddEventPage5 extends Component {
   }
   renderIcon(option) {
     console.log(this.state.iconUrl, option);
-    return <img src={option.value} alt={option.label} />;
+    return <img className="selected-icon" src={option.value} alt={option.label} />;
   }
   renderOption(option) {
     console.log(this.state.iconUrl, option);
@@ -49,7 +49,6 @@ class AddEventPage5 extends Component {
   }
   render() {
     const iconErrorMessage = (this.state.iconUrl === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
-    // const catLabels = ['Academic', 'Art', 'Sports', 'Performance', 'Lecture', 'Greek Life', 'Free food'];
     const iconURLs = [
       {
         label: 'academic',
@@ -94,16 +93,18 @@ class AddEventPage5 extends Component {
     ];
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
-        {iconErrorMessage}
-        <h2>Select event category:*</h2>
-        <Select
-          className="icon-select"
-          options={iconURLs}
-          value={this.state.iconUrl}
-          onChange={iconUrl => this.setState({ iconUrl })}
-          valueRenderer={this.renderIcon}
-          optionRenderer={this.renderOption}
-        />
+        <div className="add-event-fields">
+          {iconErrorMessage}
+          <h2>Select event category:*</h2>
+          <Select openOnFocus
+            className="icon-select"
+            options={iconURLs}
+            value={this.state.iconUrl}
+            onChange={iconUrl => this.setState({ iconUrl })}
+            valueRenderer={this.renderIcon}
+            optionRenderer={this.renderOption}
+          />
+        </div>
         <div className="add-event-btns">
           <input
             type="button"
