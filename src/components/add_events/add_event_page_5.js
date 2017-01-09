@@ -95,7 +95,7 @@ class AddEventPage5 extends Component {
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
           {iconErrorMessage}
-          <h2>Select event category:*</h2>
+          <h2>Select event map icon:*</h2>
           <Select openOnFocus
             className="icon-select"
             options={iconURLs}
