@@ -21,6 +21,7 @@ function formatAPIEventData(event) {
   newEvent.iconUrl = event.icon_url;
   newEvent.description = event.description;
   newEvent.location_string = event.location_string;
+  newEvent.icon_url = event.icon_url;
   newEvent.date = moment(event.date, 'YYYY-MM-DD');
   newEvent.start_time = moment(event.start_time, 'HH:mm');
   newEvent.end_time = moment(event.end_time, 'HH:mm');
