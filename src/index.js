@@ -45,6 +45,8 @@ class App extends Component {
       addEvent: false,
       filteredEventList: [],  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
+
+      // State variables used for the map.
       selectedLocation: null,
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
@@ -59,6 +61,7 @@ class App extends Component {
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
     this.filterEvents = this.filterEvents.bind(this);
 
+    // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
       this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
       this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
@@ -70,6 +73,9 @@ class App extends Component {
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     });
   }
+
+  // Things to do when the event list is clicked:
+  // 1. Show the sticky baloon if an event list item is clicked.
   onEventListItemClick(eventId, newCenter) {
     this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
 
@@ -78,9 +84,11 @@ class App extends Component {
       this.setState({ showStickyBalloonEventId: null });
     }, 1000);
   }
+
   closeAddEventDialog() {
     this.setState({ addEvent: false });
   }
+
   handleAddEventData(data) {
     console.log('data from add-event dialog:');
     console.log(data);
@@ -91,12 +99,17 @@ class App extends Component {
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     });
   }
+
   toggleAddEvent() {
     this.setState({ addEvent: true });
   }
+
+  // Show balloons with event info on the map.
+  // The state is sent to the MapContainer.
   showBalloon(eventId) {
     this.setState({ showBalloonEventId: eventId });
   }
+
   showStickyBalloon(eventId) {
     this.setState({ showStickyBalloonEventId: eventId });
 
@@ -105,6 +118,7 @@ class App extends Component {
       this.setState({ showStickyBalloonEventId: null });
     }, 1000);
   }
+
   filterEvents(theFilters) {
     let filteredEvents = [];
     const filters = theFilters;
@@ -160,7 +174,7 @@ class App extends Component {
       </div>
     );
   }
-}
+} // QUICK TO REVIEW: what does this bracket close?
 
 
 ReactDOM.render(<App />, document.getElementById('main'));
