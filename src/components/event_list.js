@@ -8,8 +8,14 @@ class EventList extends Component {
     this.isSameDay = false;
     this.prevDate = null;
   }
+  state = { searchString: '' };
+  handleChange = (e) => {
+    this.setState({ searchString: e.target.value });
+  };
+
   render() {
     this.eventItems = [];
+
     if (this.props.events.length > 0) {
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
@@ -33,15 +39,33 @@ class EventList extends Component {
         this.eventItems.push(eListItem);
         this.prevDate = event.date;
       }
-      return (
-        <div id="event-menu">
-          {this.eventItems}
-        </div>
+
+      const searchString = this.state.searchString.trim().toLowerCase();
+      if (searchString.length > 0) {
+        console.log(this.eventItems);
+        this.eventItems = this.eventItems.filter(i => ((i.constructor !== Array)
+          ? null : i[0].props.event.name.toLowerCase().match(searchString)));
+      }
+
+      // Case of matching events.
+      if (this.eventItems.length > 0) {
+        return (
+          <div id="event-menu">
+            <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
+            {this.eventItems}
+          </div>
         );
+      }
     }
+
+    // Case of no matching events.
     return (
       <div id="event-none">
-        No events for the filter
+        <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
+        <text id="text">
+          No Matching Events. <br />
+          Please Try Again.
+        </text>
       </div>
     );
   }
