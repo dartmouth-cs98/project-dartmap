@@ -7,7 +7,7 @@ class AddEventPage5 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      iconUrl: null,
+      icon_url: props.data.icon_url,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBack = this.handleBack.bind(this);
@@ -19,7 +19,7 @@ class AddEventPage5 extends Component {
 
   handleBack(event) {
     const data = {
-      iconUrl: this.state.iconUrl,
+      icon_url: this.state.icon_url.value.toString(),
       currentPage: this.props.currentPage - 1,
     };
     this.props.handleData(data);
@@ -27,20 +27,20 @@ class AddEventPage5 extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.iconUrl) {
+    if (this.state.icon_url) {
       const data = {
-        iconUrl: this.state.iconUrl,
+        icon_url: this.state.icon_url.value.toString(),
         currentPage: this.props.currentPage + 1,
       };
       this.props.handleData(data);
     }
   }
   renderIcon(option) {
-    console.log(this.state.iconUrl, option);
+    console.log(this.state.icon_url, option);
     return <img className="selected-icon" src={option.value} alt={option.label} />;
   }
   renderOption(option) {
-    console.log(this.state.iconUrl, option);
+    console.log(this.state.icon_url, option);
     return (
       <div className="icon-select-option">
         <img src={option.value} alt={option.label} />
@@ -48,7 +48,7 @@ class AddEventPage5 extends Component {
     );
   }
   render() {
-    const iconErrorMessage = (this.state.iconUrl === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
+    const iconErrorMessage = (this.state.icon_url === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const iconURLs = [
       {
         label: 'Academic',
@@ -99,8 +99,8 @@ class AddEventPage5 extends Component {
           <Select openOnFocus
             className="icon-select"
             options={iconURLs}
-            value={this.state.iconUrl}
-            onChange={iconUrl => this.setState({ iconUrl })}
+            value={this.state.icon_url}
+            onChange={iconUrl => this.setState({ icon_url: iconUrl })}
             valueRenderer={this.renderIcon}
             optionRenderer={this.renderOption}
           />
@@ -115,7 +115,7 @@ class AddEventPage5 extends Component {
           <input
             type="submit"
             value="Next"
-            className={(!this.state.iconUrl) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
+            className={(!this.state.icon_url) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
           />
         </div>
       </form>

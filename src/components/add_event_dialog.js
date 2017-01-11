@@ -25,7 +25,7 @@ class AddEventDialog extends Component {
       location_string: null,
       location: null,
       categories: null,
-      iconUrl: null,
+      icon_url: null,
       currentPage: 0,
     };
     this.handlePageData = this.handlePageData.bind(this);
@@ -44,7 +44,7 @@ class AddEventDialog extends Component {
       location_string: null,
       location: null,
       categories: [],
-      iconUrl: null,
+      icon_url: null,
       currentPage: 0,
     });
   }
@@ -61,7 +61,7 @@ class AddEventDialog extends Component {
       end_time: this.state.end_time,
       location_string: this.state.location_string,
       location: this.state.location,
-      iconUrl: this.state.iconUrl,
+      icon_url: this.state.icon_url,
       categories: this.state.categories,
     };
     this.resetState();
@@ -76,7 +76,7 @@ class AddEventDialog extends Component {
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
     const page3Data = { location: this.state.location, location_string: this.state.location_string };
     const page4Data = { categories: this.state.categories };
-    const page5Data = { iconUrl: this.state.iconUrl };
+    const page5Data = { icon_url: this.state.icon_url };
     this.pageCode = [
       <AddEventPage1 currentPage={this.state.currentPage} data={page1Data} handleData={this.handlePageData} />,
       <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,
