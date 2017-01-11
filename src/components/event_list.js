@@ -37,7 +37,7 @@ class EventList extends Component {
         <div id="event-menu">
           {this.eventItems}
         </div>
-        );
+      );
     }
     return (
       <div id="event-none">
