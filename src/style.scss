@@ -131,6 +131,19 @@ html, body {
   }
 }
 
+#event-none {
+  float: right;
+  width: 20%;
+  height: 100%;
+  overflow: scroll;
+  background-color: $event-item-color;
+  border-bottom: thin solid black;
+  padding-left: 8px;
+  padding-top: 8px;
+  font-size: 20px;
+  text-align: center;
+}
+
 // Event List Components
 #event-menu #event-banner {
   border-bottom: thin solid black;
@@ -143,7 +156,7 @@ html, body {
 .event-item {
   background-color: $event-item-color;
   border-bottom: thin solid black;
-  height: 87px;
+  height: 80px;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;
@@ -301,6 +314,13 @@ html, body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.atrribute {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .error-msg {
   color: red;
 }
