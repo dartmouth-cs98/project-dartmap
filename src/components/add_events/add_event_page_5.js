@@ -100,7 +100,7 @@ class AddEventPage5 extends Component {
             className="icon-select"
             options={iconURLs}
             value={this.state.icon_url}
-            onChange={icon_url => this.setState({ icon_url })}
+            onChange={iconUrl => this.setState({ icon_url: iconUrl })}
             valueRenderer={this.renderIcon}
             optionRenderer={this.renderOption}
           />
