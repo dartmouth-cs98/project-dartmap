@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-// import React, { PropTypes, Component } from 'react';
 
+
+/**
+ * This Class includes all the functions that draw the popup balloons in the window.
+ */
 export default class EventsWithControllableHover extends Component {
-  // static propTypes = {
-  //   // use hover from controllable
-  //   hover: PropTypes.bool,
-  //   text: PropTypes.string,
-  // };
 
   static defaultProps = {};
 
@@ -17,8 +15,9 @@ export default class EventsWithControllableHover extends Component {
   }
 
   createPopupHtml() {
-    return `<b>${this.props.name}</b><br />${this.props.description}`;
-    // return '<b>' + this.props.name + '</b><br />' + this.props.location_string + '<br />' + this.props.description;
+    return `<img src=${this.props.icon_url} height="20" width="20">
+    <br /><b>${this.props.name} @ ${this.props.start_time.format('h:mm A')}</b>
+    <br />${this.props.description}<br />Organizer: ${this.props.organizer}`;
   }
 
   createHoverPopup() {
@@ -64,10 +63,10 @@ export default class EventsWithControllableHover extends Component {
   }
 
   render() {
-    if (this.props.showStickyBalloon === this.props.id) {
+    if (this.props.showStickyBalloonId === this.props.id) {
       this.createStickyPopup(this.props.id);
     }
-    if (this.props.showBalloon) {
+    if (this.props.showBalloonId) {
       this.createHoverPopup();
     } else {
       const parent = document.getElementsByTagName('body')[0];
@@ -77,7 +76,7 @@ export default class EventsWithControllableHover extends Component {
       }
     }
 
-    const currentClass = this.props.showBalloon ? 'event-hover' : 'event';
+    const currentClass = this.props.showBalloonId ? 'event-hover' : 'event';
     return (
       <button type="button" onClick={() => this.createStickyPopup(this.props.id)} id={this.props.id} className={currentClass}>
         <div>{this.props.text}</div>
