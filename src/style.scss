@@ -131,16 +131,25 @@ html, body {
   }
 }
 
+.warning-msg {
+  background-color: $event-item-color;
+}
+
+#search-bar {
+  width: 100%;
+  background-color: $event-item-color;
+}
+
+.highlight {
+  background-color: #fffd77;
+}
+
 #event-none {
   float: right;
   width: 20%;
   height: 100%;
   overflow: scroll;
   background-color: $event-item-color;
-  border-bottom: thin solid black;
-  padding-left: 8px;
-  padding-top: 8px;
-  font-size: 20px;
   text-align: center;
 }
 
