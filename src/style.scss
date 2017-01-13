@@ -1,5 +1,4 @@
 $green: #008000;
-$event-item-color: #d1d1e0;
 $light-grey: #d1d1e0;
 $K_SIZE: 18px;
 $red: #f44336;
@@ -132,12 +131,12 @@ html, body {
 }
 
 .warning-msg {
-  background-color: $event-item-color;
+  background-color: $light-grey;
 }
 
 #search-bar {
   width: 100%;
-  background-color: $event-item-color;
+  background-color: $light-grey;
 }
 
 .highlight {
@@ -149,7 +148,7 @@ html, body {
   width: 20%;
   height: 100%;
   overflow: scroll;
-  background-color: $event-item-color;
+  background-color: $light-grey;
   text-align: center;
 }
 
@@ -163,7 +162,7 @@ html, body {
 }
 
 .event-item {
-  background-color: $event-item-color;
+  background-color: $light-grey;
   border-bottom: thin solid black;
   height: 80px;
   padding-left: 8px;
@@ -178,7 +177,7 @@ html, body {
 }
 
 .popup {
-  background-color: $event-item-color;
+  background-color: $light-grey;
   padding: 5px;
 }
 

@@ -13,8 +13,6 @@ class AddEventPage5 extends Component {
     this.handleBack = this.handleBack.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = <div className="error-msg"> The event icon is required. </div>;
-    this.renderIcon = this.renderIcon.bind(this);
-    this.renderOption = this.renderOption.bind(this);
   }
 
   handleBack(event) {
@@ -34,18 +32,6 @@ class AddEventPage5 extends Component {
       };
       this.props.handleData(data);
     }
-  }
-  renderIcon(option) {
-    console.log(this.state.icon_url, option);
-    return <img className="selected-icon" src={option.value} alt={option.label} />;
-  }
-  renderOption(option) {
-    console.log(this.state.icon_url, option);
-    return (
-      <div className="icon-select-option">
-        <img src={option.value} alt={option.label} />
-      </div>
-    );
   }
   render() {
     const iconErrorMessage = (this.state.icon_url === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
@@ -101,8 +87,14 @@ class AddEventPage5 extends Component {
             options={iconURLs}
             value={this.state.icon_url}
             onChange={iconUrl => this.setState({ icon_url: iconUrl })}
-            valueRenderer={this.renderIcon}
-            optionRenderer={this.renderOption}
+            valueRenderer={(icon) => { return <img className="selected-icon" src={icon.value} alt={icon.label} />; }}
+            optionRenderer={(option) => {
+              return (
+                <div className="icon-select-option">
+                  <img src={option.value} alt={option.label} />
+                </div>
+              );
+            }}
           />
         </div>
         <div className="add-event-btns">
