@@ -20,19 +20,20 @@ class PageSlider extends Component {
   }
 
   render() {
-    if (this.props.didChange) {
-      return (
-        <div className="page-slider">
-          <Rcslider tipFormatter={null} min={0} max={3} dots step={1} value={this.props.currentPage} defaultValue={0} onBeforeChange={this.handleChange} />
-        </div>
-      );
-    } else {
-      return (
-        <div className="page-slider">
-          <Rcslider tipFormatter={null} min={0} max={3} dots step={1} defaultValue={0} onChange={this.handleChange} />
-        </div>
-      );
-    }
+    // the commented lines would allow the user to switch between pages using the slider
+    // if (this.props.didChange) {
+    return (
+      <div className="page-slider">
+        <Rcslider tipFormatter={null} min={0} max={3} dots step={1} value={this.props.currentPage} defaultValue={0} onBeforeChange={this.handleChange} />
+      </div>
+    );
+    // } else {
+    //   return (
+    //     <div className="page-slider">
+    //       <Rcslider tipFormatter={null} min={0} max={3} dots step={1} defaultValue={0} onChange={this.handleChange} />
+    //     </div>
+    //   );
+    // }
   }
 }
 
