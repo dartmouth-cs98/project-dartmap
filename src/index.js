@@ -90,8 +90,8 @@ class App extends Component {
   }
 
   handleAddEventData(data) {
-    console.log('data from add-event dialog:');
-    console.log(data);
+    // console.log('data from add-event dialog:');
+    // console.log(data);
     postNewEvent(data);
     this.setState({ addEvent: false });
     getAllEvents((eventList) => {

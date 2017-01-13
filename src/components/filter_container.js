@@ -62,7 +62,7 @@ class FilterContainer extends Component {
         <br />
         <TimeFilter onTimeChange={this.onTimeChange} timeBarData={this.props.timeBarData} />
         <br />
-        <CategoryFilter onCategoryChange={this.onTimeChange} />
+        <CategoryFilter onCategoryChange={this.onCategoryChange} />
       </div>
     );
   }
