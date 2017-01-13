@@ -8,23 +8,10 @@ class AddEventPage3 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: props.data.location,
+      location_obj: props.data.location_obj,
       location_string: props.data.location_string,
-      lat: props.data.lat,
-      lng: props.data.lng,
       center: [43.703337, -72.288578],
     };
-    this.prevSelectedEvent = [];
-    if (props.data.lat) {
-      this.prevSelectedEvent = [{
-        id: 'x',
-        name: 'New Event 1',
-        location: 1,
-        lat: props.data.lat,
-        lng: props.data.lng,
-        description: 'Location of new event',
-      }];
-    }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleSelectedLocation = this.handleSelectedLocation.bind(this);
@@ -36,10 +23,8 @@ class AddEventPage3 extends Component {
 
   handleBack(event) {
     const data = {
-      location: this.state.location,
+      location_obj: this.state.location_obj,
       location_string: this.state.location_string,
-      lat: this.state.lat,
-      lng: this.state.lng,
       currentPage: this.props.currentPage - 1,
     };
     this.props.handleData(data);
@@ -47,12 +32,10 @@ class AddEventPage3 extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.location && this.state.location_string) {
+    if (this.state.location_obj && this.state.location_string) {
       const data = {
-        location: this.state.location,
+        location_obj: this.state.location_obj,
         location_string: this.state.location_string,
-        lat: this.state.lat,
-        lng: this.state.lng,
         currentPage: this.props.currentPage + 1,
       };
       this.props.handleData(data);
@@ -71,7 +54,7 @@ class AddEventPage3 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <MapContainer events={this.prevSelectedEvent}
+          <MapContainer events={this.state.location_obj || []}
             showBalloonEventId={this.nullFunction}
             showStickyBalloonEventId={this.nullFunction}
             height={mapHeight}
@@ -99,7 +82,7 @@ class AddEventPage3 extends Component {
           <input
             type="submit"
             value="Next"
-            className={(!this.state.location || !this.state.location_string) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
+            className={(!this.state.location_obj || !this.state.location_string) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
           />
         </div>
       </form>

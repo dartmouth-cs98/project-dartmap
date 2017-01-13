@@ -55,7 +55,7 @@ export default class MapContainer extends Component {
   }
 
   maybeSelectLocation = (event) => {
-    if (this.props.selectLocation) {
+    if (this.props.handleSelectedLocation) {
       const selectedLocation = {
         id: 'x',
         name: 'New Event 1',
@@ -64,7 +64,7 @@ export default class MapContainer extends Component {
         lng: event.lng,
         description: 'Location of new event',
       };
-      this.props.selectLocation({ lat: event.lat, lng: event.lng, location: 1 });
+      this.props.handleSelectedLocation({ location_obj: [selectedLocation] });
       this.setState({ events: [selectedLocation] });
     }
   }
