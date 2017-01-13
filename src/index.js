@@ -78,12 +78,14 @@ class App extends Component {
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
   onEventListItemClick(eventId, newCenter) {
-    this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
+    if (!this.state.addEvent) {
+      this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
 
-    // Reset the state so that the popup is a onetime popup.
-    setTimeout(() => {
-      this.setState({ showStickyBalloonEventId: null });
-    }, 1000);
+      // Reset the state so that the popup is a onetime popup.
+      setTimeout(() => {
+        this.setState({ showStickyBalloonEventId: null });
+      }, 1000);
+    }
   }
 
   closeAddEventDialog() {
@@ -91,8 +93,8 @@ class App extends Component {
   }
 
   handleAddEventData(data) {
-    console.log('data from add-event dialog:');
-    console.log(data);
+    // console.log('data from add-event dialog:');
+    // console.log(data);
     postNewEvent(data);
     this.setState({ addEvent: false });
     getAllEvents((eventList) => {
@@ -108,16 +110,20 @@ class App extends Component {
   // Show balloons with event info on the map.
   // The state is sent to the MapContainer.
   showBalloon(eventId) {
-    this.setState({ showBalloonEventId: eventId });
+    if (!this.state.addEvent) {
+      this.setState({ showBalloonEventId: eventId });
+    }
   }
 
   showStickyBalloon(eventId) {
-    this.setState({ showStickyBalloonEventId: eventId });
+    if (!this.state.addEvent) {
+      this.setState({ showStickyBalloonEventId: eventId });
 
-    // Reset the state so that the popup is a onetime popup.
-    setTimeout(() => {
-      this.setState({ showStickyBalloonEventId: null });
-    }, 1000);
+      // Reset the state so that the popup is a onetime popup.
+      setTimeout(() => {
+        this.setState({ showStickyBalloonEventId: null });
+      }, 1000);
+    }
   }
 
   filterEvents(theFilters) {
