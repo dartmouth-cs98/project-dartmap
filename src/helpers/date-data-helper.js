@@ -26,6 +26,8 @@ function getDayString(dateObj) {
 
   if (dateObj.getDate() === today.getDate()) {
     return 'Today';
+  } else if (dateObj.getDate() === today.getDate() + 1) {
+    return 'Tomorrow';
   } else if (dateObj.getDate() === twoWeeks.getDate()) {
     return 'All of next 2 weeks';
   } else {

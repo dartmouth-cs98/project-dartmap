@@ -6,6 +6,7 @@
 import React from 'react';
 import Rcslider from 'rc-slider';
 
+
 const PageSlider = (props) => {
   return (
     <div className="page-slider">
