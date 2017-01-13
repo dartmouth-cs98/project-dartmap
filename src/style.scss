@@ -1,13 +1,9 @@
 $green: #008000;
 $event-item-color: #d1d1e0;
 $light-grey: #d1d1e0;
-$K_SIZE: 40px;
+$K_SIZE: 18px;
 $red: #f44336;
 $blue: #3f51b5;
-
-// Imports
-@import "../node_modules/react-datetime/css/react-datetime.css";
-@import "../node_modules/rc-slider/assets/index.css";
 
 // Mixins
 @mixin event-style {
@@ -18,7 +14,6 @@ $blue: #3f51b5;
   top: -$K_SIZE / 2;
 
   border-radius: $K_SIZE;
-  background-color: white;
   text-align: center;
   font-size: 16px;
   font-weight: bold;
@@ -32,11 +27,28 @@ $blue: #3f51b5;
   display: -moz-flex;
 }
 
+@mixin inline-flex {
+  display: inline-flex;
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+}
+
 @mixin flex-space-around {
   justify-content: space-around;
   -webkit-justify-content: space-around;
   -moz-justify-content: space-around;
-  @include flex-box;
+}
+
+@mixin flex-space-between {
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+}
+
+@mixin flex-column {
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
 }
 
 html, body {
@@ -89,8 +101,8 @@ html, body {
 }
 
 .event {
-  border: 5px solid $red;
-  color: $blue;
+  border: 0px solid $red;
+  background-color: $green;
   @include event-style;
 
   &:focus {
@@ -99,8 +111,8 @@ html, body {
 }
 
 .event-hover {
-  border: 5px solid $blue;
-  color: $red;
+  border: 0px solid $blue;
+  background-color: $light-grey;
   @include event-style;
 
   &:focus {
@@ -119,6 +131,28 @@ html, body {
   }
 }
 
+.warning-msg {
+  background-color: $event-item-color;
+}
+
+#search-bar {
+  width: 100%;
+  background-color: $event-item-color;
+}
+
+.highlight {
+  background-color: #fffd77;
+}
+
+#event-none {
+  float: right;
+  width: 20%;
+  height: 100%;
+  overflow: scroll;
+  background-color: $event-item-color;
+  text-align: center;
+}
+
 // Event List Components
 #event-menu #event-banner {
   border-bottom: thin solid black;
@@ -131,7 +165,7 @@ html, body {
 .event-item {
   background-color: $event-item-color;
   border-bottom: thin solid black;
-  height: 87px;
+  height: 80px;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;
@@ -176,6 +210,12 @@ html, body {
 }
 .date-filter, .time-filter {
   @include flex-space-around;
+  @include flex-box;
+}
+
+//over-writing an issue with the rc-slider stylesheet
+.rc-slider-step {
+  margin: 0;
 }
 
 // Add Event Dialog
@@ -200,6 +240,16 @@ html, body {
     cursor: pointer;
   }
 }
+.add-event-top {
+  height: 20%;
+}
+
+.add-event-form {
+  height: 80%;
+  @include flex-box;
+  @include flex-column;
+  @include flex-space-between;
+}
 
 .add-event-text {
   width: 50%;
@@ -220,6 +270,9 @@ html, body {
 .add-event-btns {
   display: inline-block;
   width: 100%;
+  // align-self: flex-end;
+  // -webkit-align-self: flex-end;
+  // -moz-align-self: flex-end;
 }
 .add-event-btn {
   background-color: $green;
@@ -239,6 +292,17 @@ html, body {
 
 .page-slider {
   @include flex-space-around;
+  @include flex-box;
+}
+
+.icon-select {
+  height: 30px;
+  @include flex-box;
+}
+
+.selected-icon {
+  height: 30px;
+  width: 30px;
 }
 
 // Generic Classes
@@ -259,6 +323,13 @@ html, body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.atrribute {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .error-msg {
   color: red;
 }

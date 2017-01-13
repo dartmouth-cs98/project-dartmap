@@ -18,8 +18,10 @@ function formatAPIEventData(event) {
   newEvent.name = event.name;
   newEvent.id = event.id;
   newEvent.organizer = event.organizer;
+  newEvent.icon_url = event.icon_url;
   newEvent.description = event.description;
   newEvent.location_string = event.location_string;
+  newEvent.icon_url = event.icon_url;
   newEvent.date = moment(event.date, 'YYYY-MM-DD');
   newEvent.start_time = moment(event.start_time, 'HH:mm');
   newEvent.end_time = moment(event.end_time, 'HH:mm');
@@ -43,6 +45,7 @@ function formatEventDataforAPI(event) {
   eventData.name = event.name;
   eventData.description = event.description;
   eventData.organizer = event.organizer;
+  eventData.icon_url = event.icon_url;
   eventData.location_string = event.location_string;
   eventData.start_time = event.start_time.format('HH:mm');
   eventData.end_time = event.end_time.format('HH:mm');

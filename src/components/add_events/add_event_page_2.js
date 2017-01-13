@@ -23,7 +23,7 @@ class AddEventPage2 extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.date && this.state.start_time && this.state.end_time) {
+    if (this.state.date && this.state.start_time && this.state.end_time && this.isValidTime()) {
       const data = {
         date: this.state.date,
         start_time: this.state.start_time,
@@ -58,37 +58,39 @@ class AddEventPage2 extends Component {
     const timeErrorMessage = (this.isValidTime()) ? this.hiddenErrorMessage : this.timeErrorMessage;
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
-        <h2>Date:* </h2>
-        <DateTime
-          timeFormat={false}
-          value={this.state.date}
-          onChange={(moment) => { this.setState({ date: moment }); }}
-          closeOnSelect
-          isValidDate={(current) => {
-            // this function ensures that events cannot be created for dates before today
-            const yesterday = DateTime.moment().subtract(1, 'day');
-            return current.isAfter(yesterday);
-          }}
-          className={(this.state.date !== '') ? 'add-event-date' : 'add-event-date error-box'}
-        />
-        {dateErrorMessage}
-        <h2>Start Time:* </h2>
-        <DateTime
-          dateFormat={false}
-          value={this.state.start_time}
-          onChange={(moment) => { this.setState({ start_time: moment }); }}
-          className={((this.state.start_time !== '') && this.isValidTime()) ? 'add-event-time' : 'add-event-time error-box'}
-        />
-        {startErrorMessage}
-        <h2>End Time:*</h2>
-        <DateTime
-          dateFormat={false}
-          value={this.state.end_time}
-          onChange={(moment) => { this.setState({ end_time: moment }); }}
-          className={((this.state.end_time !== '') && this.isValidTime()) ? 'add-event-time' : 'add-event-time error-box'}
-        />
-        {endErrorMessage}
-        {timeErrorMessage}
+        <div className="add-event-fields">
+          <h2>Date:* </h2>
+          <DateTime
+            timeFormat={false}
+            value={this.state.date}
+            onChange={(moment) => { this.setState({ date: moment }); }}
+            closeOnSelect
+            isValidDate={(current) => {
+              // this function ensures that events cannot be created for dates before today
+              const yesterday = DateTime.moment().subtract(1, 'day');
+              return current.isAfter(yesterday);
+            }}
+            className={(this.state.date !== '') ? 'add-event-date' : 'add-event-date error-box'}
+          />
+          {dateErrorMessage}
+          <h2>Start Time:* </h2>
+          <DateTime
+            dateFormat={false}
+            value={this.state.start_time}
+            onChange={(moment) => { this.setState({ start_time: moment }); }}
+            className={((this.state.start_time !== '') && this.isValidTime()) ? 'add-event-time' : 'add-event-time error-box'}
+          />
+          {startErrorMessage}
+          <h2>End Time:*</h2>
+          <DateTime
+            dateFormat={false}
+            value={this.state.end_time}
+            onChange={(moment) => { this.setState({ end_time: moment }); }}
+            className={((this.state.end_time !== '') && this.isValidTime()) ? 'add-event-time' : 'add-event-time error-box'}
+          />
+          {endErrorMessage}
+          {timeErrorMessage}
+        </div>
         <div className="add-event-btns">
           <input
             type="button"
