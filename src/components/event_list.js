@@ -56,18 +56,17 @@ class EventList extends Component {
           </div>
         );
       }
+    } else { // Case of no matching events.
+      return (
+        <div id="event-none">
+          <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
+          <text className="warning-msg">
+            No Matching Events. <br />
+            Please Try Again.
+          </text>
+        </div>
+      );
     }
-
-    // Case of no matching events.
-    return (
-      <div id="event-none">
-        <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
-        <text id="text">
-          No Matching Events. <br />
-          Please Try Again.
-        </text>
-      </div>
-    );
   }
 }
 
