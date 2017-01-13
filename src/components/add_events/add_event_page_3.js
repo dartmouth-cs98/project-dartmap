@@ -8,12 +8,13 @@ class AddEventPage3 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: props.data.location,
+      location_obj: props.data.location_obj,
       location_string: props.data.location_string,
       center: [43.703337, -72.288578],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.handleSelectedLocation = this.handleSelectedLocation.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = ['location', 'room'].map((data) => {
       return <div key={data} className="error-msg"> The {data} of the event is required. </div>;
@@ -22,7 +23,7 @@ class AddEventPage3 extends Component {
 
   handleBack(event) {
     const data = {
-      location: this.state.location,
+      location_obj: this.state.location_obj,
       location_string: this.state.location_string,
       currentPage: this.props.currentPage - 1,
     };
@@ -31,15 +32,20 @@ class AddEventPage3 extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.location && this.state.location_string) {
+    if (this.state.location_obj && this.state.location_string) {
       const data = {
-        location: this.state.location,
+        location_obj: this.state.location_obj,
         location_string: this.state.location_string,
         currentPage: this.props.currentPage + 1,
       };
       this.props.handleData(data);
     }
   }
+
+  handleSelectedLocation(data) {
+    this.setState(data);
+  }
+
   render() {
     // const locationErrorMessage = (this.state.location === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
@@ -48,12 +54,12 @@ class AddEventPage3 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <MapContainer events={[]}
+          <MapContainer events={this.state.location_obj || []}
             showBalloonEventId={this.nullFunction}
             showStickyBalloonEventId={this.nullFunction}
             height={mapHeight}
             width={mapWidth}
-            selectLocation={(location) => { this.setState({ location }); }}
+            handleSelectedLocation={this.handleSelectedLocation}
             center={this.state.center}
           />
           <h2>Location Name to Display:*</h2>
@@ -76,7 +82,7 @@ class AddEventPage3 extends Component {
           <input
             type="submit"
             value="Next"
-            className={(!this.state.location || !this.state.location_string) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
+            className={(!this.state.location_obj || !this.state.location_string) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
           />
         </div>
       </form>
