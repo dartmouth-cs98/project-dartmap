@@ -47,7 +47,7 @@ class AddEventPage4 extends Component {
         <div className="add-event-fields">
           {categoryErrorMessage}
           <h2>Select event category:*</h2>
-          <Select.Creatable multi joinValues
+          <Select multi joinValues
             options={dropdownValues}
             value={this.state.categories}
             onChange={categories => this.setState({ categories })}
