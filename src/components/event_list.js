@@ -8,9 +8,15 @@ class EventList extends Component {
     this.isSameDay = false;
     this.prevDate = null;
   }
+  state = { searchString: '' };
+  handleChange = (e) => {
+    this.setState({ searchString: e.target.value });
+  };
+
   render() {
     this.eventItems = [];
-    if (this.props.events) {
+
+    if (this.props.events.length > 0) {
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
         const eListItem = [<EventListItem
@@ -21,7 +27,7 @@ class EventList extends Component {
           onEventListItemClick={this.props.onEventListItemClick}
         />];
         if (i >= 1) {
-          this.isSameDay = this.prevDate === event.date;
+          this.isSameDay = this.prevDate.isSame(event.date);
         }
         if (i === 0 || (i >= 1 && !this.isSameDay)) {
           this.eventItems.push(
@@ -33,10 +39,32 @@ class EventList extends Component {
         this.eventItems.push(eListItem);
         this.prevDate = event.date;
       }
+
+      const searchString = this.state.searchString.trim().toLowerCase();
+      if (searchString.length > 0) {
+        console.log(this.eventItems);
+        this.eventItems = this.eventItems.filter(i => ((i.constructor !== Array)
+          ? null : i[0].props.event.name.toLowerCase().match(searchString)));
+      }
+
+      // Case of matching events.
+      if (this.eventItems.length > 0) {
+        return (
+          <div id="event-menu">
+            <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
+            {this.eventItems}
+          </div>
+        );
+      }
     }
+    // Case of no matching events.
     return (
-      <div id="event-menu">
-        {this.eventItems}
+      <div id="event-none">
+        <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
+        <text className="warning-msg">
+          No Matching Events. <br />
+          Please Try Again.
+        </text>
       </div>
     );
   }

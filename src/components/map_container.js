@@ -12,7 +12,6 @@ export default class MapContainer extends Component {
     center: PropTypes.arrayOf(PropTypes.number), // @controllable
     zoom: PropTypes.number, // @controllable
     hoverKey: PropTypes.string, // @controllable
-    // clickKey: PropTypes.string, // @controllable
     onCenterChange: PropTypes.func, // @controllable generated fn
     onZoomChange: PropTypes.func, // @controllable generated fn
     onHoverKeyChange: PropTypes.func, // @controllable generated fn
@@ -21,13 +20,13 @@ export default class MapContainer extends Component {
   };
 
   static defaultProps = {
-    zoom: 15,
+    zoom: 15, // The level in which Google Maps should zoom into. Higher is more zoomed in.
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      events: props.events,
+      events: props.events, // what is events?
     };
   }
 
@@ -79,14 +78,17 @@ export default class MapContainer extends Component {
       .map((mapEvent) => {
         const { id, ...coords } = mapEvent;
         return (
+          // EventsWithControllableHover is defined in map_helpers/map_events.js
+          // The actual frontend code that displays the balloons is in map_events.js
+          // This is the information that is passed to EventsWithControllableHover.
           <EventsWithControllableHover
             {...coords}
             key={id}
             id={id}
-            text={String(id)}
+            // text={String(id)}
             // use your hover state (from store, react-controllables etc...)
-            showStickyBalloon={this.props.showStickyBalloonEventId}
-            showBalloon={this.props.showBalloonEventId === id
+            showStickyBalloonId={this.props.showStickyBalloonEventId}
+            showBalloonId={this.props.showBalloonEventId === id
                 || parseInt(this.props.hoverKey, 10) === id}
           />
         );

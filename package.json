@@ -47,7 +47,7 @@
     "react-datetime": "^2.6.0",
     "react-dom": "^15.3.2",
     "react-router": "^2.8.1",
-    "react-ui-dropdown": "^0.3.4"
+    "react-select": "^1.0.0-rc.2"
   },
   "bugs": {
     "url": "https://github.com/dartmouth-cs98/project-dartmap/issues"
