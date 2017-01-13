@@ -60,7 +60,7 @@ class DateFilter extends Component {
     } else {
       checked.push(val);
       // if the next two weeks are selected
-      if (val === 7) {
+      if (val === '7') {
         console.log('ENTERED');
         // check every box
         document.getElementById('cb0').checked = true;

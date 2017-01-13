@@ -40,9 +40,9 @@ class FilterContainer extends Component {
     console.log('applying the filters:');
     console.log(this.state);
     // TODO: this is a hack that needs to be fixed in the future. Delays the setState call
-    setTimeout(function delayFilter() {
+    setTimeout(() => {
       this.props.onApplyFilter(this.state);
-    }.bind(this), 500);
+    }, 500);
     // this.props.filterEvents();
   }
   // filterEvents(event) {
