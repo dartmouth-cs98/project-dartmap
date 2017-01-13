@@ -64,7 +64,7 @@ export default class MapContainer extends Component {
         lng: event.lng,
         description: 'Location of new event',
       };
-      this.props.selectLocation({ latitude: event.lat, longitude: event.lng, name: 'temp' });
+      this.props.selectLocation({ lat: event.lat, lng: event.lng, location: 1 });
       this.setState({ events: [selectedLocation] });
     }
   }

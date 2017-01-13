@@ -10,10 +10,24 @@ class AddEventPage3 extends Component {
     this.state = {
       location: props.data.location,
       location_string: props.data.location_string,
+      lat: props.data.lat,
+      lng: props.data.lng,
       center: [43.703337, -72.288578],
     };
+    this.prevSelectedEvent = [];
+    if (props.data.lat) {
+      this.prevSelectedEvent = [{
+        id: 'x',
+        name: 'New Event 1',
+        location: 1,
+        lat: props.data.lat,
+        lng: props.data.lng,
+        description: 'Location of new event',
+      }];
+    }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.handleSelectedLocation = this.handleSelectedLocation.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = ['location', 'room'].map((data) => {
       return <div key={data} className="error-msg"> The {data} of the event is required. </div>;
@@ -24,6 +38,8 @@ class AddEventPage3 extends Component {
     const data = {
       location: this.state.location,
       location_string: this.state.location_string,
+      lat: this.state.lat,
+      lng: this.state.lng,
       currentPage: this.props.currentPage - 1,
     };
     this.props.handleData(data);
@@ -35,11 +51,18 @@ class AddEventPage3 extends Component {
       const data = {
         location: this.state.location,
         location_string: this.state.location_string,
+        lat: this.state.lat,
+        lng: this.state.lng,
         currentPage: this.props.currentPage + 1,
       };
       this.props.handleData(data);
     }
   }
+
+  handleSelectedLocation(data) {
+    this.setState(data);
+  }
+
   render() {
     // const locationErrorMessage = (this.state.location === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
@@ -48,12 +71,12 @@ class AddEventPage3 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <MapContainer events={[]}
+          <MapContainer events={this.prevSelectedEvent}
             showBalloonEventId={this.nullFunction}
             showStickyBalloonEventId={this.nullFunction}
             height={mapHeight}
             width={mapWidth}
-            selectLocation={(location) => { this.setState({ location }); }}
+            handleSelectedLocation={this.handleSelectedLocation}
             center={this.state.center}
           />
           <h2>Location Name to Display:*</h2>
