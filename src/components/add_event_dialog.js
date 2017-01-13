@@ -61,7 +61,7 @@ class AddEventDialog extends Component {
       end_time: this.state.end_time,
       location_obj: this.state.location_obj,
       location_string: this.state.location_string,
-      iconUrl: this.state.iconUrl,
+      icon_url: this.state.icon_url,
       categories: this.state.categories,
     };
     this.resetState();
