@@ -1,9 +1,11 @@
 $green: #008000;
-$event-item-color: #d1d1e0;
+$event-item-color: white;
+$light-green: #90EE90;
 $light-grey: #d1d1e0;
 $K_SIZE: 18px;
 $red: #f44336;
 $blue: #3f51b5;
+$nav-bar-height: 45px;
 
 // Mixins
 @mixin event-style {
@@ -65,21 +67,17 @@ html, body {
 
 // Top Navigation Bar
 #nav-bar {
-  background-color: $green;
-  color: white;
+  background-color: white;
+  color: $green;
   font-size: 30pt;
-  height: 10%;
+  height: $nav-bar-height;
   padding-left: 10px;
   position: relative;
-  border-style: solid;
-  border-width: 1px;
-  border-color: white;
 
   // This is (currently) the dartmap logo in the nav bar
   h1 {
     display: inline-block;
     position: relative;
-    bottom: 2px;
     left: 8px;
   }
 
@@ -87,6 +85,13 @@ html, body {
   button {
     float: right;
     height: 100%;
+    padding-right: 16px;
+    background-color: $light-grey;
+    border: none;
+  }
+  #logo {
+    height: $nav-bar-height;
+    width: $nav-bar-height;
   }
 }
 
@@ -98,6 +103,7 @@ html, body {
 // Map Components
 #map {
   float: left;
+  padding: 16px;
 }
 
 .event {
@@ -125,6 +131,8 @@ html, body {
   width: 20%;
   height: 100%;
   overflow: scroll;
+  padding-right: 16px;
+  padding-top: 16px;
 
   .location-not-selected {
     display: none;
@@ -151,6 +159,8 @@ html, body {
   overflow: scroll;
   background-color: $event-item-color;
   text-align: center;
+  padding-right: 16px;
+  padding-top: 16px;
 }
 
 // Event List Components
@@ -172,14 +182,9 @@ html, body {
   font-size: 15px;
 
   &:hover {
-    background-color: #b3b3cb;
+    background-color: $light-grey;
     cursor: pointer;
   }
-}
-
-.popup {
-  background-color: $event-item-color;
-  padding: 5px;
 }
 
 .description {
@@ -339,8 +344,11 @@ html, body {
 }
 
 .popup {
-  color: white;
-  background-color: $green;
+  background-color: white;
+  border: 1px solid;
+  border-color: $green;
+  color: black;
+  padding: 5px;
   width: 20%;
 }
 
