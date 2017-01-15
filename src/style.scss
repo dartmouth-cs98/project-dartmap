@@ -1,7 +1,7 @@
 $green: #008000;
 $event-item-color: white;
 $light-green: #90EE90;
-$light-grey: #d1d1e0;
+$light-grey: rgb(209, 209, 224);// #d1d1e0;
 $K_SIZE: 18px;
 $red: #f44336;
 $blue: #3f51b5;
@@ -229,6 +229,15 @@ html, body {
 }
 
 // Add Event Dialog
+.add-event-cover {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(209, 209, 224, .5);
+}
+
 #add-event {
   border: 5px solid black;
   height: 80%;
@@ -300,19 +309,35 @@ html, body {
   background-color: $light-grey;
 }
 
-.page-slider {
-  @include flex-space-around;
+.icon-select {
   @include flex-box;
 }
 
-.icon-select {
-  height: 30px;
-  @include flex-box;
+.icon-btn {
+  height: 54px;
+  width: 54px;
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: 54px;
+  padding: 0;
+  margin: 5px;
+
+  &:focus {
+    outline: 0;
+  }
+}
+.icon-btn-img {
+  height: 50px;
+  width: 50px;
 }
 
 .selected-icon {
-  height: 30px;
-  width: 30px;
+  border-color: $green;
+}
+
+.page-slider {
+  @include flex-space-around;
+  @include flex-box;
 }
 
 // Generic Classes

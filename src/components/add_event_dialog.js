@@ -25,7 +25,7 @@ class AddEventDialog extends Component {
       location_obj: null,
       location_string: null,
       categories: null,
-      icon_url: null,
+      icon: null,
       currentPage: 0,
     };
     this.handlePageData = this.handlePageData.bind(this);
@@ -44,7 +44,7 @@ class AddEventDialog extends Component {
       location_obj: null,
       location_string: null,
       categories: [],
-      icon_url: null,
+      icon: null,
       currentPage: 0,
     });
   }
@@ -61,7 +61,7 @@ class AddEventDialog extends Component {
       end_time: this.state.end_time,
       location_obj: this.state.location_obj,
       location_string: this.state.location_string,
-      icon_url: this.state.icon_url,
+      icon_url: this.state.icon.url,
       categories: this.state.categories,
     };
     this.resetState();
@@ -76,7 +76,7 @@ class AddEventDialog extends Component {
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
     const page3Data = { location_obj: this.state.location_obj, location_string: this.state.location_string };
     const page4Data = { categories: this.state.categories };
-    const page5Data = { icon_url: this.state.icon_url };
+    const page5Data = { icon: this.state.icon };
     this.pageCode = [
       <AddEventPage1 currentPage={this.state.currentPage} data={page1Data} handleData={this.handlePageData} />,
       <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,
@@ -88,15 +88,17 @@ class AddEventDialog extends Component {
 
     if (this.props.addEvent) {
       return (
-        <div id="add-event">
-          <div className="add-event-top">
-            <div>
-              <h1>Add new event</h1>
-              <div id="close-button" onClick={this.handleClose}>x</div>
+        <div className="add-event-cover">
+          <div id="add-event">
+            <div className="add-event-top">
+              <div>
+                <h1>Add new event</h1>
+                <div id="close-button" onClick={this.handleClose}>x</div>
+              </div>
+              <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
             </div>
-            <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
+            {this.pageCode[this.state.currentPage]}
           </div>
-          {this.pageCode[this.state.currentPage]}
         </div>
       );
     }
