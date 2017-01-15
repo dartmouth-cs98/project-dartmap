@@ -8,7 +8,8 @@ import ReactDOM from 'react-dom';
 import 'react-datetime/css/react-datetime.css';
 import 'rc-slider/assets/index.css';
 import 'react-select/dist/react-select.css';
-import './style.scss';
+import './style/style.scss';
+import './style/segmented-controls.css';
 
 
 // import the API functions
