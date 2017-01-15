@@ -50,12 +50,12 @@ function formatEventDataforAPI(event) {
   eventData.start_time = event.start_time.format('HH:mm');
   eventData.end_time = event.end_time.format('HH:mm');
   eventData.date = event.date.format('YYYY-MM-DD');
-  if (event.location.id) {
-    eventData.location_id = event.location.id;
+  if (event.location_obj.id) {
+    eventData.location_id = event.location_obj.id;
   } else {
-    eventData.location_name = event.location.name;
-    eventData.location_latitude = event.location.latitude;
-    eventData.location_longitude = event.location.longitude;
+    eventData.location_name = event.location_obj.name;
+    eventData.location_latitude = event.location_obj.latitude;
+    eventData.location_longitude = event.location_obj.longitude;
   }
   return eventData;
 }
