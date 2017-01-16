@@ -30,6 +30,7 @@ function formatAPIEventData(event) {
   newEvent.lat = event.location.latitude;
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
+  newEvent.categories = event.categories;
 
   return newEvent;
 }
@@ -50,6 +51,7 @@ function formatEventDataforAPI(event) {
   eventData.start_time = event.start_time.format('HH:mm');
   eventData.end_time = event.end_time.format('HH:mm');
   eventData.date = event.date.format('YYYY-MM-DD');
+  eventData.categories = event.categories.map(cat => cat.label).toString();
   const locObj = event.location_obj[0];
   if (locObj.id && locObj.id !== 'x') {
     eventData.location_id = locObj.id;
