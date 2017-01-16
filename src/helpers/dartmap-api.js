@@ -51,15 +51,12 @@ function formatEventDataforAPI(event) {
   eventData.end_time = event.end_time.format('HH:mm');
   eventData.date = event.date.format('YYYY-MM-DD');
   const locObj = event.location_obj[0];
-  console.log(event, locObj);
   if (locObj.id && locObj.id !== 'x') {
-    console.log('hi!');
     eventData.location_id = locObj.id;
   } else {
     eventData.location_name = locObj.name;
     eventData.location_latitude = locObj.lat;
     eventData.location_longitude = locObj.lng;
-    console.log('hello', eventData);
   }
   return eventData;
 }
