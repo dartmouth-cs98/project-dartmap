@@ -41,7 +41,6 @@ class AddEventPage4 extends Component {
       i += 1;
       return { label: cat, value: i };
     });
-    console.log(dropdownValues);
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
