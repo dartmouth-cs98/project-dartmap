@@ -13,7 +13,7 @@ import './style/segmented-controls.css';
 
 
 // import the API functions
-import { postNewEvent, getAllEvents } from './helpers/dartmap-api';
+import { postNewEvent, getAllEvents, getAllCategories } from './helpers/dartmap-api';
 import createDateData from './helpers/date-data-helper';
 import { filterDates, filterTimes, sortDateTime } from './helpers/date-time-filters-helper';
 // import filterTimes from './helpers/date-time-filters-helper';
@@ -46,6 +46,7 @@ class App extends Component {
       addEvent: false,
       filteredEventList: [],  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
+      categoryList: [],
 
       // State variables used for the map.
       selectedLocation: null,
@@ -73,6 +74,7 @@ class App extends Component {
       this.setState({ eventList });
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     });
+    getAllCategories(categoryList => this.setState({ categoryList }));
   }
 
   // Things to do when the event list is clicked:

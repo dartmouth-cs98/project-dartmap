@@ -5,6 +5,7 @@ import moment from 'moment';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const EVENT_URL = 'events/';
+const CATEGORY_URL = 'category/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -99,6 +100,25 @@ export function getAllEvents(saveEventList) {
     },
     error: (xhr, status, err) => {
       console.log(' /events GET was not successful.');
+      console.error(fullUrl, status, err);
+    },
+  });
+}
+
+export function getAllCategories(saveCatList) {
+  const fullUrl = API_URL.concat(CATEGORY_URL);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      console.log(' /category GET was successful! ');
+      console.log(data);
+      const catList = data.categories;
+      return saveCatList(catList);
+    },
+    error: (xhr, status, err) => {
+      console.log(' /category GET was not successful.');
       console.error(fullUrl, status, err);
     },
   });
