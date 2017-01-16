@@ -14,7 +14,7 @@ import './style.scss';
 // import the API functions
 import { postNewEvent, getAllEvents } from './helpers/dartmap-api';
 import createDateData from './helpers/date-data-helper';
-import { filterDates, filterTimes, sortDateTime } from './helpers/date-time-filters-helper';
+import { filterDates, filterTimes, sortDateTime, filterLocation } from './helpers/date-time-filters-helper';
 // import filterTimes from './helpers/date-time-filters-helper';
 
 // import the react Components
@@ -60,6 +60,7 @@ class App extends Component {
     this.showBalloon = this.showBalloon.bind(this);
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
+    this.filterEventsInitial = this.filterEventsInitial.bind(this);
     this.filterEvents = this.filterEvents.bind(this);
 
     // Listener that resizes the map, if the user changes the window dimensions.
@@ -124,6 +125,14 @@ class App extends Component {
         this.setState({ showStickyBalloonEventId: null });
       }, 1000);
     }
+  }
+
+  filterEventsInitial(theFilters) {
+    let filteredEvents = [];
+    const filters = theFilters;
+    filteredEvents = filterLocation(this.state.eventList, latitude, longitude);
+    this.setState({ filters, filteredEventList: filteredEvents });
+    return filteredEvents;
   }
 
   filterEvents(theFilters) {
