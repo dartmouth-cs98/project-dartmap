@@ -1,0 +1,117 @@
+//add_event.scss
+//This file contains the styles for the add event dialog
+
+@import "./variables.scss";
+
+// Add Event Dialog
+.add-event-cover {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(209, 209, 224, .5);
+}
+
+#add-event {
+  border: 5px solid black;
+  height: 80%;
+  width: 80%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  background-color: white;
+  padding: 30px;
+  border-radius: 50px;
+}
+
+#close-button {
+  position: absolute;
+  right: 20px;
+  top: 5px;
+
+  &:hover {
+    color: $red;
+    cursor: pointer;
+  }
+}
+.add-event-top {
+  height: 20%;
+}
+
+.add-event-form {
+  height: 80%;
+  @include flex-box;
+  @include flex-column;
+  @include flex-space-between;
+}
+
+.add-event-text {
+  width: 50%;
+  vertical-align: middle;
+  height: 30px;
+}
+
+.add-event-loc-string {
+  width: 150px;
+}
+
+.add-event-error-message {
+  display: inline-block;
+  width: 50%;
+  vertical-align: middle;
+  height: 30px;
+}
+
+.add-event-btns {
+  display: inline-block;
+  width: 100%;
+}
+
+.add-event-btn {
+  background-color: $green;
+}
+
+.back-btn {
+  float: left;
+}
+
+.nxt-btn {
+  float: right;
+}
+
+.invalid-nxt-btn {
+  background-color: $light-grey;
+}
+
+.icon-select {
+  @include flex-box;
+  @include flex-wrapping;
+}
+
+.icon-btn {
+  height: 54px;
+  width: 54px;
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: 54px;
+  padding: 0;
+  margin: 5px;
+
+  &:focus {
+    outline: 0;
+  }
+}
+.icon-btn-img {
+  height: 50px;
+  width: 50px;
+}
+
+.selected-icon {
+  border-color: $green;
+}
+
+.page-slider {
+  @include flex-space-around;
+  @include flex-box;
+}

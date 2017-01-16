@@ -9,7 +9,6 @@ import 'react-datetime/css/react-datetime.css';
 import 'rc-slider/assets/index.css';
 import 'react-select/dist/react-select.css';
 import './style/style.scss';
-import './style/segmented-controls.css';
 
 
 // import the API functions
@@ -95,8 +94,6 @@ class App extends Component {
   }
 
   handleAddEventData(data) {
-    // console.log('data from add-event dialog:');
-    // console.log(data);
     postNewEvent(data);
     this.setState({ addEvent: false });
     getAllEvents((eventList) => {
