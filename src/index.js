@@ -8,7 +8,8 @@ import ReactDOM from 'react-dom';
 import 'react-datetime/css/react-datetime.css';
 import 'rc-slider/assets/index.css';
 import 'react-select/dist/react-select.css';
-import './style.scss';
+import './style/style.scss';
+import './style/segmented-controls.css';
 
 
 // import the API functions
@@ -104,6 +105,13 @@ class App extends Component {
 
   toggleAddEvent() {
     this.setState({ addEvent: true });
+
+    // Remove sticky popups.
+    const parent = document.getElementsByTagName('body')[0];
+    const popupsToRemove = document.getElementsByClassName('popup');
+    while (popupsToRemove.length > 0) {
+      parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
+    }
   }
 
   // Show balloons with event info on the map.
