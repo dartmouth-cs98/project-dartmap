@@ -183,6 +183,7 @@ class App extends Component {
           />
           <FilterContainer filterEvents={this.filterEvents} onApplyFilter={filters => this.filterEvents(filters)} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
           <AddEventDialog addEvent={this.state.addEvent}
+            catList={this.state.categoryList}
             handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
           />

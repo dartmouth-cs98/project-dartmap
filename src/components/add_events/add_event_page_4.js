@@ -41,6 +41,9 @@ class AddEventPage4 extends Component {
       i += 1;
       return { label: cat, value: i };
     });
+    // const dropdownValues = this.props.catList.map((cat) => {
+    //   return { label: cat.name, value: cat.id };
+    // });
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">

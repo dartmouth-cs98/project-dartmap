@@ -81,7 +81,7 @@ class AddEventDialog extends Component {
       <AddEventPage1 currentPage={this.state.currentPage} data={page1Data} handleData={this.handlePageData} />,
       <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,
       <AddEventPage3 currentPage={this.state.currentPage} data={page3Data} handleData={this.handlePageData} />,
-      <AddEventPage4 currentPage={this.state.currentPage} data={page4Data} handleData={this.handlePageData} />,
+      <AddEventPage4 currentPage={this.state.currentPage} catList={this.props.catList} data={page4Data} handleData={this.handlePageData} />,
       <AddEventPage5 currentPage={this.state.currentPage} data={page5Data} handleData={this.handlePageData} />,
       <AddEventSubmitPage data={this.state} submitEventData={this.submitEventData} />,
     ];
