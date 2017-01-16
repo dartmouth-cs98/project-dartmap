@@ -50,12 +50,16 @@ function formatEventDataforAPI(event) {
   eventData.start_time = event.start_time.format('HH:mm');
   eventData.end_time = event.end_time.format('HH:mm');
   eventData.date = event.date.format('YYYY-MM-DD');
-  if (event.location_obj.id) {
-    eventData.location_id = event.location_obj.id;
+  const locObj = event.location_obj[0];
+  console.log(event, locObj);
+  if (locObj.id && locObj.id !== 'x') {
+    console.log('hi!');
+    eventData.location_id = locObj.id;
   } else {
-    eventData.location_name = event.location_obj.name;
-    eventData.location_latitude = event.location_obj.latitude;
-    eventData.location_longitude = event.location_obj.longitude;
+    eventData.location_name = locObj.name;
+    eventData.location_latitude = locObj.lat;
+    eventData.location_longitude = locObj.lng;
+    console.log('hello', eventData);
   }
   return eventData;
 }
