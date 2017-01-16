@@ -1,0 +1,64 @@
+//variables.scss
+//This file contains all the variables and mix-ins used in our stylesheets
+
+//Variables
+$green: #008000;
+$event-item-color: white;
+$light-green: #90EE90;
+$light-grey: rgb(209, 209, 224);// #d1d1e0;
+$K_SIZE: 18px;
+$red: #f44336;
+$blue: #3f51b5;
+$nav-bar-height: 45px;
+
+// Mixins
+@mixin event-style {
+  position: absolute;
+  width: $K_SIZE;
+  height: $K_SIZE;
+  left: -$K_SIZE / 2;
+  top: -$K_SIZE / 2;
+
+  border-radius: $K_SIZE;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 4px;
+  cursor: pointer;
+}
+
+@mixin flex-box {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+}
+
+@mixin inline-flex {
+  display: inline-flex;
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+}
+
+@mixin flex-space-around {
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+}
+
+@mixin flex-space-between {
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+}
+
+@mixin flex-column {
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+}
+
+@mixin flex-wrapping {
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+}
