@@ -9,11 +9,10 @@ import 'react-datetime/css/react-datetime.css';
 import 'rc-slider/assets/index.css';
 import 'react-select/dist/react-select.css';
 import './style/style.scss';
-import './style/segmented-controls.css';
 
 
 // import the API functions
-import { postNewEvent, getAllEvents } from './helpers/dartmap-api';
+import { postNewEvent, getAllEvents, getAllCategories } from './helpers/dartmap-api';
 import createDateData from './helpers/date-data-helper';
 import { filterDates, filterTimes, sortDateTime } from './helpers/date-time-filters-helper';
 // import filterTimes from './helpers/date-time-filters-helper';
@@ -46,6 +45,7 @@ class App extends Component {
       addEvent: false,
       filteredEventList: [],  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
+      categoryList: [],
 
       // State variables used for the map.
       selectedLocation: null,
@@ -73,6 +73,7 @@ class App extends Component {
       this.setState({ eventList });
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     });
+    getAllCategories(categoryList => this.setState({ categoryList }));
   }
 
   // Things to do when the event list is clicked:
@@ -93,8 +94,6 @@ class App extends Component {
   }
 
   handleAddEventData(data) {
-    // console.log('data from add-event dialog:');
-    // console.log(data);
     postNewEvent(data);
     this.setState({ addEvent: false });
     getAllEvents((eventList) => {
@@ -181,6 +180,7 @@ class App extends Component {
           />
           <FilterContainer filterEvents={this.filterEvents} onApplyFilter={filters => this.filterEvents(filters)} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
           <AddEventDialog addEvent={this.state.addEvent}
+            catList={this.state.categoryList}
             handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
           />
