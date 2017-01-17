@@ -17,6 +17,7 @@ class FilterContainer extends Component {
     this.applyFilters = this.applyFilters.bind(this);
     this.onTimeChange = this.onTimeChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
+    this.onCategoryChange = this.onCategoryChange.bind(this);
     this.shouldApplyFiltersInitial = true;
   }
   onDateChange(selectedDate) {
@@ -32,7 +33,12 @@ class FilterContainer extends Component {
     this.applyFilters();
   }
   onCategoryChange(selectedCategories) {
+    console.log('before set state:');
+    console.log(this.state);
+    console.log(selectedCategories);
     this.setState({ selectedCategories });
+    console.log('before apply filters:');
+    console.log(this.state);
     this.applyFilters();
   }
   applyFilters(event) {

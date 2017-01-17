@@ -54,7 +54,7 @@ class DateFilter extends Component {
       checked.splice(checked.indexOf(val), 1);
       // if a different box is being unchecked and box 7 is checked
       if ((checked.includes('7'))) {
-        document.getElementById('cb7').checked = false;
+        document.getElementById('d7').checked = false;
         checked.splice(checked.indexOf('7'), 1);
       }
     } else {
@@ -63,13 +63,13 @@ class DateFilter extends Component {
       if (val === '7') {
         // console.log('ENTERED');
         // check every box
-        document.getElementById('cb0').checked = true;
-        document.getElementById('cb1').checked = true;
-        document.getElementById('cb2').checked = true;
-        document.getElementById('cb3').checked = true;
-        document.getElementById('cb4').checked = true;
-        document.getElementById('cb5').checked = true;
-        document.getElementById('cb6').checked = true;
+        document.getElementById('d0').checked = true;
+        document.getElementById('d1').checked = true;
+        document.getElementById('d2').checked = true;
+        document.getElementById('d3').checked = true;
+        document.getElementById('d4').checked = true;
+        document.getElementById('d5').checked = true;
+        document.getElementById('d6').checked = true;
         checked = ['0', '1', '2', '3', '4', '5', '6', '7'];
       }
     }
@@ -99,36 +99,36 @@ class DateFilter extends Component {
     return (
       <div className="date-filter section-inner" style={{ color: '#008000', height: '30px' }}>
         <div className="segmented-control">
-          <input type="checkbox" id="cb0" name="cb0" value="0" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[0]} />
-          <label htmlFor="cb0" data-value={this.datesDataDisplay[0]}>{this.datesDataDisplay[0]}</label>
+          <input type="checkbox" id="d0" name="d0" value="0" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[0]} />
+          <label htmlFor="d0" data-value={this.datesDataDisplay[0]}>{this.datesDataDisplay[0]}</label>
         </div>
         <div className="segmented-control">
-          <input type="checkbox" id="cb1" name="cb1" value="1" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[1]} />
-          <label htmlFor="cb1" data-value={this.datesDataDisplay[1]}>{this.datesDataDisplay[1]}</label>
+          <input type="checkbox" id="d1" name="d1" value="1" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[1]} />
+          <label htmlFor="d1" data-value={this.datesDataDisplay[1]}>{this.datesDataDisplay[1]}</label>
         </div>
         <div className="segmented-control">
-          <input type="checkbox" id="cb2" name="cb2" value="2" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[2]} />
-          <label htmlFor="cb2" data-value={this.datesDataDisplay[2]}>{this.datesDataDisplay[2]}</label>
+          <input type="checkbox" id="d2" name="d2" value="2" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[2]} />
+          <label htmlFor="d2" data-value={this.datesDataDisplay[2]}>{this.datesDataDisplay[2]}</label>
         </div>
         <div className="segmented-control">
-          <input type="checkbox" id="cb3" name="cb3" value="3" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[3]} />
-          <label htmlFor="cb3" data-value={this.datesDataDisplay[3]}>{this.datesDataDisplay[3]}</label>
+          <input type="checkbox" id="d3" name="d3" value="3" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[3]} />
+          <label htmlFor="d3" data-value={this.datesDataDisplay[3]}>{this.datesDataDisplay[3]}</label>
         </div>
         <div className="segmented-control">
-          <input type="checkbox" id="cb4" name="cb4" value="4" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[4]} />
-          <label htmlFor="cb4" data-value={this.datesDataDisplay[4]}>{this.datesDataDisplay[4]}</label>
+          <input type="checkbox" id="d4" name="d4" value="4" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[4]} />
+          <label htmlFor="d4" data-value={this.datesDataDisplay[4]}>{this.datesDataDisplay[4]}</label>
         </div>
         <div className="segmented-control">
-          <input type="checkbox" id="cb5" name="cb5" value="5" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[5]} />
-          <label htmlFor="cb5" data-value={this.datesDataDisplay[5]}>{this.datesDataDisplay[5]}</label>
+          <input type="checkbox" id="d5" name="d5" value="5" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[5]} />
+          <label htmlFor="d5" data-value={this.datesDataDisplay[5]}>{this.datesDataDisplay[5]}</label>
         </div>
         <div className="segmented-control">
-          <input type="checkbox" id="cb6" name="cb6" value="6" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[6]} />
-          <label htmlFor="cb6" data-value={this.datesDataDisplay[6]}>{this.datesDataDisplay[6]}</label>
+          <input type="checkbox" id="d6" name="d6" value="6" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[6]} />
+          <label htmlFor="d6" data-value={this.datesDataDisplay[6]}>{this.datesDataDisplay[6]}</label>
         </div>
         <div className="segmented-control">
-          <input type="checkbox" id="cb7" name="cb7" value="7" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[7]} />
-          <label htmlFor="cb7" data-value={this.datesDataDisplay[7]}>{this.datesDataDisplay[7]}</label>
+          <input type="checkbox" id="d7" name="d7" value="7" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[7]} />
+          <label htmlFor="d7" data-value={this.datesDataDisplay[7]}>{this.datesDataDisplay[7]}</label>
         </div>
         <br />
       </div>

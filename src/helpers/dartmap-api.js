@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const EVENT_URL = 'events/';
-const CATEGORY_URL = 'category/';
+const CATEGORY_URL = 'categories/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -15,6 +15,8 @@ const CATEGORY_URL = 'category/';
  */
 function formatAPIEventData(event) {
   const newEvent = {};
+  // console.log('event');
+  // console.log(event);
   // event data
   newEvent.name = event.name;
   newEvent.id = event.id;
@@ -31,7 +33,9 @@ function formatAPIEventData(event) {
   newEvent.lat = event.location.latitude;
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
-  newEvent.categories = event.categories;
+  // categories data
+  const catString = event.categories.replace(/'/g, '\"').replace(/ u"/g, ' \"');
+  newEvent.categories = $.parseJSON(catString);
 
   return newEvent;
 }
@@ -43,6 +47,8 @@ function formatAPIEventData(event) {
  * @return {Object} the event information formatted for a post to the API
  */
 function formatEventDataforAPI(event) {
+  console.log('event');
+  console.log(event);
   const eventData = {};
   eventData.name = event.name;
   eventData.description = event.description;
@@ -61,11 +67,14 @@ function formatEventDataforAPI(event) {
     eventData.location_latitude = locObj.lat;
     eventData.location_longitude = locObj.lng;
   }
+  console.log('eventData');
+  console.log(eventData);
   return eventData;
 }
 
 export function postNewEvent(event) {
   const eventData = formatEventDataforAPI(event);
+  console.log('posting new event...');
   console.log(event);
   console.log(eventData);
   const fullUrl = API_URL.concat(EVENT_URL);
@@ -114,13 +123,13 @@ export function getAllCategories(saveCatList) {
     type: 'GET',
     dataType: 'json',
     success: (data) => {
-      console.log(' /category GET was successful! ');
+      console.log(' /categories GET was successful! ');
       console.log(data);
       const catList = data.categories;
       return saveCatList(catList);
     },
     error: (xhr, status, err) => {
-      console.log(' /category GET was not successful.');
+      console.log(' /categories GET was not successful.');
       console.error(fullUrl, status, err);
     },
   });
