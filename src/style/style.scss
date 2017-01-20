@@ -12,6 +12,12 @@ html, body {
   padding: 0;
 }
 
+hr {
+    border: 0;
+    border-bottom: 1px solid $light-grey;
+    padding: 0;
+}
+
 #main, .app-container {
   height: inherit;
   min-width: 768px;
@@ -23,7 +29,10 @@ html, body {
   color: $green;
   font-size: 30pt;
   height: $nav-bar-height;
-  padding-left: 10px;
+  line-height: $nav-bar-height;
+  padding-left: 12px;
+  padding-top: 10px;
+  padding-right: 16px;
   position: relative;
 
   // This is (currently) the dartmap logo in the nav bar
@@ -35,15 +44,28 @@ html, body {
 
   // This is (currently) the add event button
   button {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 20px;
     float: right;
+    font-size: 20pt;
     height: 100%;
-    padding-right: 16px;
-    background-color: $light-grey;
-    border: none;
+    line-height: 100%;
+
+    &:hover {
+      background-color: $light-grey;
+      cursor: pointer;
+    }
   }
+
   #logo {
     height: $nav-bar-height;
     width: $nav-bar-height;
+  }
+  #plus {
+    height: 30px;
+    width: 30px;
+    margin-left: 20px;
   }
 }
 
@@ -92,12 +114,12 @@ html, body {
 }
 
 .warning-msg {
-  background-color: $light-grey;
+  background-color: white;
 }
 
 #search-bar {
   width: 100%;
-  background-color: $light-grey;
+  background-color: white;
 }
 
 .highlight {
@@ -109,7 +131,7 @@ html, body {
   width: 20%;
   height: 100%;
   overflow: scroll;
-  background-color: $light-grey;
+  background-color: white;
   text-align: center;
   padding-right: 16px;
   padding-top: 16px;
@@ -125,7 +147,7 @@ html, body {
 }
 
 .event-item {
-  background-color: $light-grey;
+  background-color: white;
   border-bottom: thin solid black;
   height: 80px;
   padding-left: 8px;

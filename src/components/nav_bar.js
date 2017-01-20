@@ -6,7 +6,10 @@ const NavBar = (props) => {
     <div id="nav-bar">
       <img id="logo" src="./../../images/dartmap.png" role="presentation" />
       <h1 className="app-name">dartmap</h1>
-      <button type="button" onClick={props.toggleAddEvent}>Add Event</button>
+      <button type="button" onClick={props.toggleAddEvent}>
+      	Add Event
+	    <img id="plus" src="./../../icon_set_1/plus.png" role="presentation" />
+      </button>
     </div>
   );
 };
