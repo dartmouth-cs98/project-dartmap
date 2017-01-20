@@ -36,7 +36,7 @@ class Geolocation extends React.Component {
     //     alert('An unknown error occurred.');
     //     break;
     // }
-    this.props.handleOpenModal();
+    this.props.handleOpenLocationDialog();
   }
 
   render() {

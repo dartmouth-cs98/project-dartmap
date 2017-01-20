@@ -13,7 +13,6 @@ class LocationDialog extends Component {
     this.handleDialogData = this.handleDialogData.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.submitModalData = this.submitModalData.bind(this);
-    // this.resetState = this.resetState.bind(this);
   }
 
   handleDialogData = (e) => {
@@ -21,11 +20,9 @@ class LocationDialog extends Component {
   }
 
   handleOpenModal() {
-    if (this.props.showModal === true) {
-      this.setState({
-        showModal: true,
-      });
-    }
+    this.setState({
+      showModal: true,
+    });
   }
 
   handleCloseModal() {
@@ -33,12 +30,6 @@ class LocationDialog extends Component {
       showModal: false,
     });
   }
-  // resetState() {
-  //   this.setState({
-  //     latitude: null,
-  //     longitude: null,
-  //   });
-  // }
 
   submitModalData() {
     console.log(this.state.zipcode);
@@ -46,7 +37,6 @@ class LocationDialog extends Component {
       latitude: null,
       longitude: null,
     };
-    // this.resetState();
     this.props.submitModalData(data);
     this.handleCloseModal();
   }
@@ -70,3 +60,4 @@ class LocationDialog extends Component {
 }
 
 export default LocationDialog;
+// export { handleOpenModal };

@@ -67,6 +67,7 @@ class App extends Component {
     this.filterEvents = this.filterEvents.bind(this);
     this.getLocation = this.getLocation.bind(this);
     this.submitModalData = this.submitModalData.bind(this);
+    this.handleOpenLocationDialog = this.handleOpenLocationDialog.bind(this);
 
     // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
@@ -104,11 +105,12 @@ class App extends Component {
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     }, latitude, longitude);
   }
-  handleOpenModal() {
-    this.setState({
-      showModal: true,
-    });
+
+  handleOpenLocationDialog() {
+    this.setState({ showModal: true });
+    LocationDialog.handleOpenModal();
   }
+
   submitModalData(data) {
     this.setState({
       latitude: data.latitude,
@@ -218,8 +220,8 @@ class App extends Component {
             handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
           />
-          <LocationDialog submitModalData={this.submitModalData} showModal={this.handleOpenModal} />
-          <Geolocation getLocation={this.getLocation} handleOpenModal={this.handleOpenModal} />
+          <LocationDialog submitModalData={this.submitModalData} />
+          <Geolocation getLocation={this.getLocation} handleOpenLocationDialog={this.handleOpenLocationDialog} />
         </div>
       </div>
     );
