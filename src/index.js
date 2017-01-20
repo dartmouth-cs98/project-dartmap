@@ -14,7 +14,7 @@ import './style.scss';
 // import the API functions
 import { postNewEvent, getAllEvents } from './helpers/dartmap-api';
 import createDateData from './helpers/date-data-helper';
-import { filterDates, filterTimes, sortDateTime, filterLocation } from './helpers/date-time-filters-helper';
+import { filterDates, filterTimes, sortDateTime } from './helpers/date-time-filters-helper';
 // import filterTimes from './helpers/date-time-filters-helper';
 
 // import the react Components
@@ -54,14 +54,17 @@ class App extends Component {
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
       center: [43.703337, -72.288578],
+      latitude: null,
+      longitude: null,
     };
     this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
     this.showBalloon = this.showBalloon.bind(this);
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
-    this.filterEventsInitial = this.filterEventsInitial.bind(this);
+    // this.filterEventsInitial = this.filterEventsInitial.bind(this);
     this.filterEvents = this.filterEvents.bind(this);
+    this.getLocation = this.getLocation.bind(this);
 
     // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
@@ -69,12 +72,12 @@ class App extends Component {
       this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
     }, true);
   }
-  componentDidMount() {
-    getAllEvents((eventList) => {
-      this.setState({ eventList });
-      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    });
-  }
+  // componentDidMount() {
+  //   getAllEvents((eventList, latitude, longitude) => {
+  //     this.setState({ eventList });
+  //     this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+  //   });
+  // }
 
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
@@ -89,6 +92,17 @@ class App extends Component {
     }
   }
 
+  getLocation(latitude, longitude) {
+    this.setState({
+      latitude,
+      longitude,
+    });
+    getAllEvents((eventList) => {
+      this.setState({ eventList });
+      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+    }, latitude, longitude);
+  }
+
   closeAddEventDialog() {
     this.setState({ addEvent: false });
   }
@@ -98,7 +112,7 @@ class App extends Component {
     // console.log(data);
     postNewEvent(data);
     this.setState({ addEvent: false });
-    getAllEvents((eventList) => {
+    getAllEvents((eventList, latitude, longitude) => {
       this.setState({ eventList });
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     });
@@ -127,13 +141,13 @@ class App extends Component {
     }
   }
 
-  filterEventsInitial(theFilters) {
-    let filteredEvents = [];
-    const filters = theFilters;
-    filteredEvents = filterLocation(this.state.eventList, latitude, longitude);
-    this.setState({ filters, filteredEventList: filteredEvents });
-    return filteredEvents;
-  }
+  // filterEventsInitial(theFilters) {
+  //   let filteredEvents = [];
+  //   const filters = theFilters;
+  //   filteredEvents = filterLocation(this.state.eventList, this.state.latitude, this.state.longitude);
+  //   this.setState({ filters, filteredEventList: filteredEvents });
+  //   return filteredEvents;
+  // }
 
   filterEvents(theFilters) {
     let filteredEvents = [];
@@ -186,7 +200,7 @@ class App extends Component {
             handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
           />
-          <Geolocation />
+          <Geolocation getLocation={this.getLocation} />
         </div>
       </div>
     );

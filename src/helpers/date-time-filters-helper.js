@@ -1,6 +1,4 @@
 // date-data-helper.js
-import google from 'google-map-react';
-
 // import for time filtering
 import moment from 'moment';
 
@@ -86,28 +84,28 @@ function sortDateTime(a, b) {
   return parseFloat(aTime) - parseFloat(bTime);
 }
 
-function arePointsNear(point1, point2) {
-  const sw = new google.maps.LatLng(point2.lat() - 0.005, point2.lng() - 0.005);
-  const ne = new google.maps.LatLng(point2.lat() + 0.005, point2.lng() + 0.005);
-  const bounds = new google.maps.LatLngBounds(sw, ne);
-  if (bounds.contains(point1)) {
-    return true;
-  }
-  return false;
-}
+// function arePointsNear(point1, point2) {
+//   const sw = new google.maps.LatLng(point2.lat() - 0.005, point2.lng() - 0.005);
+//   const ne = new google.maps.LatLng(point2.lat() + 0.005, point2.lng() + 0.005);
+//   const bounds = new google.maps.LatLngBounds(sw, ne);
+//   if (bounds.contains(point1)) {
+//     return true;
+//   }
+//   return false;
+// }
 
-// filter events by geolocation
-function filterLocation(eventList, latitude, longitude) {
-  const filteredEvents = [];
-  // const user_position = new point(latitude, longitude);
-  let i;
-  for (i = 0; i < eventList.length; i += 1) {
-    if (arePointsNear(eventList[i].location.latitude, eventList[i].location.longitude)) {
-      filteredEvents.push(eventList[i]);
-    }
-  }
-  return filteredEvents;
-}
+// // filter events by geolocation
+// function filterLocation(eventList, latitude, longitude) {
+//   const filteredEvents = [];
+//   // const user_position = new point(latitude, longitude);
+//   let i;
+//   for (i = 0; i < eventList.length; i += 1) {
+//     if (arePointsNear(eventList[i].location.latitude, eventList[i].location.longitude)) {
+//       filteredEvents.push(eventList[i]);
+//     }
+//   }
+//   return filteredEvents;
+// }
 
 export default filterDates;
 export { filterDates, filterTimes, sortDateTime };

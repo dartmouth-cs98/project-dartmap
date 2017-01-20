@@ -83,6 +83,8 @@ export function postNewEvent(event) {
 }
 
 export function getAllEvents(saveEventList, latitude, longitude) {
+  console.log(latitude);
+  console.log(longitude);
   const fullUrl = API_URL.concat(EVENT_URL);
   $.ajax({
     url: fullUrl,

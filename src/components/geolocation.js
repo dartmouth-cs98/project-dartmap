@@ -1,6 +1,5 @@
 // geolocation.js
 import React from 'react';
-import EventList from './event_list';
 
 class Geolocation extends React.Component {
   constructor(props) {
@@ -10,38 +9,44 @@ class Geolocation extends React.Component {
       latitude: null,
       longitude: null,
     };
+    this.geoSuccess = this.geoSuccess.bind(this);
+    this.geoError = this.geoError.bind(this);
   }
+
+  geoSuccess(position) {
+    this.setState({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+    });
+    this.props.getLocation(this.state.latitude, this.state.longitude);
+  }
+
+  geoError(error) {
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        alert('User denied the request for Geolocation.');
+        break;
+      case error.POSITION_UNAVAILABLE:
+        alert('Location information is unavailable.');
+        break;
+      case error.TIMEOUT:
+        alert('The request to get user location timed out.');
+        break;
+      default:
+        alert('An unknown error occurred.');
+        break;
+    }
+  }
+
   render() {
-    // const coords = null;
-    function geoSuccess(position) {
-      const lat = position.coords.latitude;
-      const long = position.coords.longitude;
-
-
-      console.log(position);
-      document.getElementById('startLat').innerHTML = position.coords.latitude;
-      document.getElementById('startLon').innerHTML = position.coords.longitude;
-
-
-
-      // this.setState({
-      //   latitude: position.coords.latitude,
-      //   longitude: position.coords.longitude,
-      // });
-    }
-
-    function geoError() {
-      console.log('Sorry, position is not available.');
-    }
-
     if ('geolocation' in navigator) {
-      console.log('YAYAYAYAYAYA!!!');
-      navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+      // console.log('YAYAYAYAYAYA!!!');
+      navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError);
     } else {
-      console.log('NONONONONOONONO!!!');
+      // console.log('NONONONONOONONO!!!');
     }
     return (
-      <div>
+      <div className="hidden">
         <p id="startLat">
           Some text here
         </p>
