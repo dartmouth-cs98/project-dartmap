@@ -21,6 +21,7 @@ import { filterDates, filterTimes, sortDateTime } from './helpers/date-time-filt
 import EventList from './components/event_list';
 import NavBar from './components/nav_bar';
 import MapContainer from './components/map_container';
+import LocationDialog from './components/location_dialog';
 import AddEventDialog from './components/add_event_dialog';
 import FilterContainer from './components/filter_container';
 import Geolocation from './components/geolocation';
@@ -46,7 +47,7 @@ class App extends Component {
       addEvent: false,
       filteredEventList: [],  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
-
+      showModal: false,
       // State variables used for the map.
       selectedLocation: null,
       showBalloonEventId: null,
@@ -65,6 +66,7 @@ class App extends Component {
     // this.filterEventsInitial = this.filterEventsInitial.bind(this);
     this.filterEvents = this.filterEvents.bind(this);
     this.getLocation = this.getLocation.bind(this);
+    this.submitModalData = this.submitModalData.bind(this);
 
     // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
@@ -102,6 +104,22 @@ class App extends Component {
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     }, latitude, longitude);
   }
+  handleOpenModal() {
+    this.setState({
+      showModal: true,
+    });
+  }
+  submitModalData(data) {
+    this.setState({
+      latitude: data.latitude,
+      longitude: data.longitude,
+    });
+
+    getAllEvents((eventList) => {
+      this.setState({ eventList });
+      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+    }, this.state.latitude, this.state.longitude);
+  }
 
   closeAddEventDialog() {
     this.setState({ addEvent: false });
@@ -112,10 +130,10 @@ class App extends Component {
     // console.log(data);
     postNewEvent(data);
     this.setState({ addEvent: false });
-    getAllEvents((eventList, latitude, longitude) => {
+    getAllEvents((eventList) => {
       this.setState({ eventList });
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    });
+    }, this.state.latitude, this.state.longitude);
   }
 
   toggleAddEvent() {
@@ -200,7 +218,8 @@ class App extends Component {
             handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
           />
-          <Geolocation getLocation={this.getLocation} />
+          <LocationDialog submitModalData={this.submitModalData} showModal={this.handleOpenModal} />
+          <Geolocation getLocation={this.getLocation} handleOpenModal={this.handleOpenModal} />
         </div>
       </div>
     );

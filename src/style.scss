@@ -218,6 +218,15 @@ html, body {
   margin: 0;
 }
 
+// Location Dialog
+#location {
+  border: 5px solid black;
+  position: center;
+  background-color: white;
+  padding: 30px;
+  border-radius: 50px;
+}
+
 // Add Event Dialog
 #add-event {
   border: 5px solid black;
@@ -352,4 +361,17 @@ html, body {
     color: #DC143C;
     cursor: pointer;
   }
+}
+
+.Modal {
+  border: 5px solid black;
+  position: absolute;
+  text-align: center;
+  top:40%;
+  left:40%;
+  width: 20%;
+  height: 20%;
+  background-color: white;
+  padding: 30px;
+  border-radius: 50px;
 }
