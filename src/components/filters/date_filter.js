@@ -9,11 +9,6 @@ import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 // dates that are checked by default
 const DEFAULT_DATES = [true, true, false, false, false, false, false, false];
 
-// function log(val) {
-//   console.log(val);
-// }
-
-
 class DateFilter extends Component {
 
   constructor(props) {
@@ -96,6 +91,9 @@ class DateFilter extends Component {
 
 
   render() {
+    if (this.props.datesDataDisplay === null) {
+      return <div className="hidden" />;
+    }
     return (
       <div className="date-filter section-inner" style={{ color: '#008000', height: '30px' }}>
         <div className="segmented-control">

@@ -29,7 +29,6 @@ import FilterContainer from './components/filter_container';
 const TIMES_DATA_DISPLAY = { 0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 24, 9: 26 };
 const DEFAULT_DATE_FILTER = [0, 1];
 const DEFAULT_TIME_FILTER = [0, 9];
-const CATEGORYLABELS = ['Academic', 'Art', 'Sports', 'Performance', 'Lecture', 'Greek Life', 'Free Food'];
 const MAP_HEIGHT_MULTIPLIER = 0.65;
 const MAP_WIDTH_MULTIPLIER = 0.8;
 
@@ -47,20 +46,7 @@ class App extends Component {
       addEvent: false,
       filteredEventList: [],  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
-      categoryList: [
-        {
-          'id': 1, 
-          'name': 'Performance',
-        }, 
-        {
-          'id': 2, 
-          'name': 'Greek Life',
-        }, 
-        {
-          'id': 3, 
-          'name': 'Lecture',
-        }
-      ],
+      categoriesList: [],
 
       // State variables used for the map.
       selectedLocation: null,
@@ -88,7 +74,7 @@ class App extends Component {
       this.setState({ eventList });
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     });
-    getAllCategories(categoryList => this.setState({ categoryList }));
+    getAllCategories(categoriesList => this.setState({ categoriesList }));
   }
 
   // Things to do when the event list is clicked:
@@ -151,8 +137,16 @@ class App extends Component {
     let filteredEvents = [];
     const filters = theFilters;
 
-    console.log('ALL OF EVENTLIST:');
-    console.log(this.state.eventList);
+    // console.log('ALL OF EVENTLIST:');
+    // console.log(this.state.eventList);
+
+    // console.log('this.state.categoriesList');
+    // console.log(this.state.categoriesList);
+    // console.log(this.state.categoriesList.length);
+
+    // console.log('filters.selectedCategories');
+    // console.log(filters.selectedCategories);
+    // console.log(filters.selectedCategories.length);
 
     if (filters.selectedDate == null) {
       filters.selectedDate = DEFAULT_DATE_FILTER;
@@ -160,10 +154,18 @@ class App extends Component {
     if (filters.selectedTime == null) {
       filters.selectedTime = DEFAULT_TIME_FILTER;
     }
+    if (filters.selectedCategories.length <= 0) {
+      // fill with all the categories that exist, so the default is for all categories to be selected
+      let i;
+      for (i = 0; i < this.state.categoriesList.length; i += 1) {
+        filters.selectedCategories.push(this.state.categoriesList[i]);
+      }
+    }
 
     // filter by date, then filter THAT by time
     // TODO: I think we could make this just 3 if statements
     if (filters != null) {
+      filteredEvents = this.state.eventList;
       // OLD:
       if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
         filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
@@ -174,6 +176,10 @@ class App extends Component {
         filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       }
 
+      // console.log('filters.selectedCategories:::::::::::');
+      // console.log(filters.selectedCategories);
+      // console.log(filters.selectedCategories.length);
+
       // NEW:
       // if (filters.selectedDate != null) {
       //   filteredEvents = filterDates(filters, this.dateBarData, filteredEvents.slice());
@@ -181,41 +187,54 @@ class App extends Component {
       // if (filters.selectedTime != null) {
       //   filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       // }
-      
-      if (filters.selectedCategories != null) {
-        filteredEvents = filterCategories(filters, CATEGORYLABELS, this.state.eventList);
-      }
+
+      // if (filters.selectedCategories.length > 0) {
+      filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
+      // }
     }
     this.setState({ filters, filteredEventList: filteredEvents });
 
     // sort all filtered events first by date and then by time
     filteredEvents.sort(sortDateTime);
 
-    console.log("ALL FILTERED EVENTS:");
-    console.log(filteredEvents);
+    // console.log('ALL FILTERED EVENTS:');
+    // console.log(filteredEvents);
 
     // only important for the very beginning (see the render() method)
     return filteredEvents;
   }
 
   render() {
+    // console.log('this.state.categoriesList');
+    // console.log(this.state.categoriesList);
     return (
       <div className="app-container">
         <NavBar toggleAddEvent={this.toggleAddEvent} />
         <div className="home-container">
-          <MapContainer events={this.state.filteredEventList}
+          <MapContainer
+            events={this.state.filteredEventList}
             showBalloonEventId={this.state.showBalloonEventId}
             showStickyBalloonEventId={this.state.showStickyBalloonEventId}
             height={this.state.mapHeight}
             width={this.state.mapWidth}
             center={this.state.center}
           />
-          <EventList events={this.state.filteredEventList} selectedLocation={this.state.selectedLocation}
-            showBalloon={this.showBalloon} onEventListItemClick={this.onEventListItemClick}
+          <EventList
+            events={this.state.filteredEventList}
+            selectedLocation={this.state.selectedLocation}
+            showBalloon={this.showBalloon}
+            onEventListItemClick={this.onEventListItemClick}
           />
-          <FilterContainer filterEvents={this.filterEvents} onApplyFilter={filters => this.filterEvents(filters)} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
-          <AddEventDialog addEvent={this.state.addEvent}
-            catList={this.state.categoryList}
+          <FilterContainer
+            filterEvents={this.filterEvents}
+            onApplyFilter={filters => this.filterEvents(filters)}
+            dateBarData={this.dateBarData}
+            timeBarData={this.timeBarData}
+            categoriesList={this.state.categoriesList}
+          />
+          <AddEventDialog
+            addEvent={this.state.addEvent}
+            catList={this.state.categoriesList}
             handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
           />

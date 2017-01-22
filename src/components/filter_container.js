@@ -33,12 +33,12 @@ class FilterContainer extends Component {
     this.applyFilters();
   }
   onCategoryChange(selectedCategories) {
-    console.log('before set state:');
-    console.log(this.state);
-    console.log(selectedCategories);
+    // console.log('before set state:');
+    // console.log(this.state);
+    // console.log(selectedCategories);
     this.setState({ selectedCategories });
-    console.log('before apply filters:');
-    console.log(this.state);
+    // console.log('before apply filters:');
+    // console.log(this.state);
     this.applyFilters();
   }
   applyFilters(event) {
@@ -66,9 +66,9 @@ class FilterContainer extends Component {
         <DateFilter onDateChange={this.onDateChange} dateBarData={this.props.dateBarData} />
         <br />
         <br />
-        <TimeFilter onTimeChange={this.onTimeChange} timeBarData={this.props.timeBarData} />
+        <TimeFilter onTimeChange={this.onTimeChange} />
         <br />
-        <CategoryFilter onCategoryChange={this.onCategoryChange} />
+        <CategoryFilter onCategoryChange={this.onCategoryChange} categoriesList={this.props.categoriesList} />
       </div>
     );
   }

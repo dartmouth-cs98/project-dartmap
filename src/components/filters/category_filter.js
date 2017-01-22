@@ -6,12 +6,20 @@
 import React, { Component } from 'react';
 
 // categories that are checked by default
-const DEFAULT_CATEGORIES = [true, true, true, true, true, true, true, true];
+// TODO: this should eventually be made more elegant than just having 100 default category boxes
+const DEFAULT_CATEGORIES = [];
+let j;
+for (j = 0; j < 100; j += 1) {
+  DEFAULT_CATEGORIES.push(true);
+}
 
 class CategoryFilter extends Component {
 
   constructor(props) {
     super(props);
+
+    // console.log('props');
+    // console.log(this.props);
 
     // set which categories (strings) should be checked by default
     const defaultCategories = [];
@@ -19,15 +27,13 @@ class CategoryFilter extends Component {
       if (DEFAULT_CATEGORIES[i]) defaultCategories.push(i.toString());
     }
 
-    // // receives the dates data object passed down from index.js
-    // const datesData = props.dateBarData;
-
-    // // dictionary of date strings to be displayed onscreen
-    // this.datesDataDisplay = convertDatesToDisplay(datesData);
+    // console.log('defaultCategories');
+    // console.log(defaultCategories);
 
     this.state = { checked: defaultCategories };
     this.handleChange = this.handleChange.bind(this);
     this.onCategoryChange = props.onCategoryChange;
+    this.firstTimeThrough = true;
   }
 
   handleChange(event) {
@@ -36,70 +42,86 @@ class CategoryFilter extends Component {
     const val = event.target.value;
     let checked = this.state.checked.slice(); // copy
 
-    // the array of checked categories to send, e.g. [0, 1, 2, 5, 6]
+    // the array of checked categories to send, e.g. [obj, obj, obj]
     const categoryArray = [];
 
-    console.log('vallllllllllll 1');
-    console.log(val);
-    console.log('checkedddddddd 1');
-    console.log(checked);
+    // console.log('vallllllllllll 1');
+    // console.log(val);
+    // console.log('checkedddddddd 1');
+    // console.log(checked);
 
     if (checked.includes(val)) {
       checked.splice(checked.indexOf(val), 1);
-      // if a different box is being unchecked and box 7 is checked
+      // if a different box is being unchecked and box 0 is checked
       if ((checked.includes('0'))) {
         document.getElementById('c0').checked = false;
         checked.splice(checked.indexOf('0'), 1);
       }
     } else {
       checked.push(val);
-      // if the next two weeks are selected
+      // if the all categories button is selected
       if (val === '0') {
-        // console.log('ENTERED');
+        checked = ['0'];
         // check every box
-        document.getElementById('c0').checked = true;
-        document.getElementById('c1').checked = true;
-        document.getElementById('c2').checked = true;
-        document.getElementById('c3').checked = true;
-        document.getElementById('c4').checked = true;
-        document.getElementById('c5').checked = true;
-        document.getElementById('c6').checked = true;
-        checked = ['0', '1', '2', '3', '4', '5', '6', '7'];
+        this.props.categoriesList.map((cat) => {
+          const cID = `c${cat.id}`; // c1, c2, etc...
+          checked.push((cat.id).toString());
+          document.getElementById(cID).checked = true;
+          return 0;
+        });
       }
     }
 
     this.setState({ checked });
 
-    // convert checked strings to ints and add them to categoryArray (sorted)
+    // convert checked strings to ints and add each category to categoryArray
     let c, n;
     for (c in checked) {
       if (checked[c]) {
         n = parseInt(checked[c], 10);
-        categoryArray.push(n);
+        if (n > 0) {
+          categoryArray.push(this.props.categoriesList[n - 1]);
+        }
       }
     }
-    categoryArray.sort();
+    // categoryArray.sort();
 
     this.onCategoryChange(categoryArray);
 
-    console.log('vallllllllllll 2');
-    console.log(val);
-    console.log('checkedddddddd 2');
-    console.log(checked);
+    // console.log('vallllllllllll 2');
+    // console.log(val);
+    // console.log('checkedddddddd 2');
+    // console.log(checked);
   }
 
 
   render() {
+    let boxes;
+    if (this.props.categoriesList.length === 0) {
+      return <div className="hidden" />;
+    } else {
+      // at the very beginning (happens once)
+      if (this.firstTimeThrough) {
+        // set the default "checked" to be true for every category
+        const checked = [];
+        let i;
+        for (i = 0; i <= this.props.categoriesList.length; i += 1) {
+          checked.push(i.toString());
+        }
+        this.setState({ checked });
+        this.firstTimeThrough = false;
+      }
+
+      boxes = this.props.categoriesList.map((cat) => {
+        const cID = `c${cat.id}`; // c1, c2, etc...
+        return <div key={cat.id}><input type="checkbox" id={cID} value={(cat.id).toString()} onChange={this.handleChange} defaultChecked />{cat.name}</div>;
+      });
+    }
+
     return (
       <div className="category-filter">
-        <div><input type="checkbox" id="c0" value="0" onChange={this.handleChange} defaultChecked={DEFAULT_CATEGORIES[0]} /> all cats</div>
-        <div><input type="checkbox" id="c1" value="1" onChange={this.handleChange} defaultChecked={DEFAULT_CATEGORIES[1]} /> cat1</div>
-        <div><input type="checkbox" id="c2" value="2" onChange={this.handleChange} defaultChecked={DEFAULT_CATEGORIES[2]} /> cat2</div>
-        <div><input type="checkbox" id="c3" value="3" onChange={this.handleChange} defaultChecked={DEFAULT_CATEGORIES[3]} /> cat3</div>
-        <div><input type="checkbox" id="c4" value="4" onChange={this.handleChange} defaultChecked={DEFAULT_CATEGORIES[4]} /> cat4</div>
-        <div><input type="checkbox" id="c5" value="5" onChange={this.handleChange} defaultChecked={DEFAULT_CATEGORIES[5]} /> cat5</div>
-        <div><input type="checkbox" id="c6" value="6" onChange={this.handleChange} defaultChecked={DEFAULT_CATEGORIES[6]} /> cat6</div>
-        <div><input type="checkbox" id="c7" value="7" onChange={this.handleChange} defaultChecked={DEFAULT_CATEGORIES[7]} /> cat7</div>
+        <div><input type="checkbox" id={'c0'} value={'0'} onChange={this.handleChange} defaultChecked />All categories</div>
+        {boxes}
         <br />
       </div>
     );
