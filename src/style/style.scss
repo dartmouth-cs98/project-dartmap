@@ -192,7 +192,7 @@ hr {
     float: right;
   }
 }
-.date-filter, .time-filter {
+.date-filter, .time-filter, .category-filter {
   @include flex-space-around;
   @include flex-box;
 }
