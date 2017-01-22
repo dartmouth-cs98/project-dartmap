@@ -137,17 +137,6 @@ class App extends Component {
     let filteredEvents = [];
     const filters = theFilters;
 
-    // console.log('ALL OF EVENTLIST:');
-    // console.log(this.state.eventList);
-
-    // console.log('this.state.categoriesList');
-    // console.log(this.state.categoriesList);
-    // console.log(this.state.categoriesList.length);
-
-    // console.log('filters.selectedCategories');
-    // console.log(filters.selectedCategories);
-    // console.log(filters.selectedCategories.length);
-
     if (filters.selectedDate == null) {
       filters.selectedDate = DEFAULT_DATE_FILTER;
     }
@@ -176,10 +165,6 @@ class App extends Component {
         filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       }
 
-      // console.log('filters.selectedCategories:::::::::::');
-      // console.log(filters.selectedCategories);
-      // console.log(filters.selectedCategories.length);
-
       // NEW:
       // if (filters.selectedDate != null) {
       //   filteredEvents = filterDates(filters, this.dateBarData, filteredEvents.slice());
@@ -197,16 +182,11 @@ class App extends Component {
     // sort all filtered events first by date and then by time
     filteredEvents.sort(sortDateTime);
 
-    // console.log('ALL FILTERED EVENTS:');
-    // console.log(filteredEvents);
-
     // only important for the very beginning (see the render() method)
     return filteredEvents;
   }
 
   render() {
-    // console.log('this.state.categoriesList');
-    // console.log(this.state.categoriesList);
     return (
       <div className="app-container">
         <NavBar toggleAddEvent={this.toggleAddEvent} />

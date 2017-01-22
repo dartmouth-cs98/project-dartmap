@@ -32,18 +32,11 @@ class DateFilter extends Component {
   }
 
   handleChange(event) {
-    console.log('this.state');
-    console.log(this.state);
     const val = event.target.value;
     let checked = this.state.checked.slice(); // copy
 
     // the array of checked dates to send, e.g. [0, 1, 2, 5, 6]
     const dateArray = [];
-
-    // console.log('vallllllllllll 1');
-    // console.log(val);
-    // console.log('checkedddddddd 1');
-    // console.log(checked);
 
     if (checked.includes(val)) {
       checked.splice(checked.indexOf(val), 1);
@@ -56,7 +49,6 @@ class DateFilter extends Component {
       checked.push(val);
       // if the next two weeks are selected
       if (val === '7') {
-        // console.log('ENTERED');
         // check every box
         document.getElementById('d0').checked = true;
         document.getElementById('d1').checked = true;
@@ -82,11 +74,6 @@ class DateFilter extends Component {
     dateArray.sort();
 
     this.onDateChange(dateArray);
-
-    // console.log('vallllllllllll 2');
-    // console.log(val);
-    // console.log('checkedddddddd 2');
-    // console.log(checked);
   }
 
 

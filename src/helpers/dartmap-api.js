@@ -15,8 +15,6 @@ const CATEGORY_URL = 'categories/';
  */
 function formatAPIEventData(event) {
   const newEvent = {};
-  // console.log('event');
-  // console.log(event);
   // event data
   newEvent.name = event.name;
   newEvent.id = event.id;
@@ -47,8 +45,6 @@ function formatAPIEventData(event) {
  * @return {Object} the event information formatted for a post to the API
  */
 function formatEventDataforAPI(event) {
-  console.log('event');
-  console.log(event);
   const eventData = {};
   eventData.name = event.name;
   eventData.description = event.description;
@@ -67,16 +63,11 @@ function formatEventDataforAPI(event) {
     eventData.location_latitude = locObj.lat;
     eventData.location_longitude = locObj.lng;
   }
-  console.log('eventData');
-  console.log(eventData);
   return eventData;
 }
 
 export function postNewEvent(event) {
   const eventData = formatEventDataforAPI(event);
-  console.log('posting new event...');
-  console.log(event);
-  console.log(eventData);
   const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
     url: fullUrl,
@@ -84,8 +75,6 @@ export function postNewEvent(event) {
     type: 'POST',
     data: eventData,
     success: (data) => {
-      console.log('SUCCESS!!!!!!');
-      console.log(data);
       return data;
     },
     error: (xhr, status, err) => {
@@ -102,8 +91,6 @@ export function getAllEvents(saveEventList) {
     type: 'GET',
     dataType: 'json',
     success: (data) => {
-      console.log(' /events GET was successful! ');
-      console.log(data);
       const eventList = data.events.map((event) => {
         return formatAPIEventData(event);
       });
@@ -123,8 +110,6 @@ export function getAllCategories(saveCatList) {
     type: 'GET',
     dataType: 'json',
     success: (data) => {
-      console.log(' /categories GET was successful! ');
-      console.log(data);
       const catList = data.categories;
       return saveCatList(catList);
     },

@@ -18,17 +18,11 @@ class CategoryFilter extends Component {
   constructor(props) {
     super(props);
 
-    // console.log('props');
-    // console.log(this.props);
-
     // set which categories (strings) should be checked by default
     const defaultCategories = [];
     for (let i = 0; i < DEFAULT_CATEGORIES.length; i += 1) {
       if (DEFAULT_CATEGORIES[i]) defaultCategories.push(i.toString());
     }
-
-    // console.log('defaultCategories');
-    // console.log(defaultCategories);
 
     this.state = { checked: defaultCategories };
     this.handleChange = this.handleChange.bind(this);
@@ -37,18 +31,11 @@ class CategoryFilter extends Component {
   }
 
   handleChange(event) {
-    console.log('this.state');
-    console.log(this.state);
     const val = event.target.value;
     let checked = this.state.checked.slice(); // copy
 
     // the array of checked categories to send, e.g. [obj, obj, obj]
     const categoryArray = [];
-
-    // console.log('vallllllllllll 1');
-    // console.log(val);
-    // console.log('checkedddddddd 1');
-    // console.log(checked);
 
     if (checked.includes(val)) {
       checked.splice(checked.indexOf(val), 1);
@@ -87,11 +74,6 @@ class CategoryFilter extends Component {
     // categoryArray.sort();
 
     this.onCategoryChange(categoryArray);
-
-    // console.log('vallllllllllll 2');
-    // console.log(val);
-    // console.log('checkedddddddd 2');
-    // console.log(checked);
   }
 
 

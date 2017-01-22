@@ -31,13 +31,6 @@ function filterCategories(filters, categoriesList, eventList) {
     // get the categories the event is tagged with
     const eventCategs = event.categories;
 
-    // console.log('eventCategs:');
-    // console.log(eventCategs);
-    // console.log('filterCategs:');
-    // console.log(filterCategs);
-    // console.log('filters:');
-    // console.log(filters);
-
     // skip an event if it is not tagged with any categories, and...
     // if any one of the event's categories (eventCategs) is the same as any one of the selected categories (filterCategs)
     if ((eventCategs != null) && (compareCategoryLists(eventCategs, filterCategs))) {
