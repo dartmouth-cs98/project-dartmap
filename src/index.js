@@ -15,6 +15,7 @@ import './style/style.scss';
 import { postNewEvent, getAllEvents, getAllCategories } from './helpers/dartmap-api';
 import createDateData from './helpers/date-data-helper';
 import { filterDates, filterTimes, sortDateTime } from './helpers/date-time-filters-helper';
+import { filterCategories } from './helpers/category-filters-helper';
 // import filterTimes from './helpers/date-time-filters-helper';
 
 // import the react Components
@@ -45,7 +46,7 @@ class App extends Component {
       addEvent: false,
       filteredEventList: [],  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
-      categoryList: [],
+      categoriesList: [],
 
       // State variables used for the map.
       selectedLocation: null,
@@ -73,7 +74,7 @@ class App extends Component {
       this.setState({ eventList });
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     });
-    getAllCategories(categoryList => this.setState({ categoryList }));
+    getAllCategories(categoriesList => this.setState({ categoriesList }));
   }
 
   // Things to do when the event list is clicked:
@@ -142,9 +143,19 @@ class App extends Component {
     if (filters.selectedTime == null) {
       filters.selectedTime = DEFAULT_TIME_FILTER;
     }
+    if (filters.selectedCategories.length <= 0) {
+      // fill with all the categories that exist, so the default is for all categories to be selected
+      let i;
+      for (i = 0; i < this.state.categoriesList.length; i += 1) {
+        filters.selectedCategories.push(this.state.categoriesList[i]);
+      }
+    }
 
     // filter by date, then filter THAT by time
+    // TODO: I think we could make this just 3 if statements
     if (filters != null) {
+      filteredEvents = this.state.eventList;
+      // OLD:
       if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
         filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
         filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
@@ -153,6 +164,18 @@ class App extends Component {
       } else if (filters.selectedTime != null) {
         filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       }
+
+      // NEW:
+      // if (filters.selectedDate != null) {
+      //   filteredEvents = filterDates(filters, this.dateBarData, filteredEvents.slice());
+      // }
+      // if (filters.selectedTime != null) {
+      //   filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
+      // }
+
+      // if (filters.selectedCategories.length > 0) {
+      filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
+      // }
     }
     this.setState({ filters, filteredEventList: filteredEvents });
 
@@ -168,19 +191,30 @@ class App extends Component {
       <div className="app-container">
         <NavBar toggleAddEvent={this.toggleAddEvent} />
         <div className="home-container">
-          <MapContainer events={this.state.filteredEventList}
+          <MapContainer
+            events={this.state.filteredEventList}
             showBalloonEventId={this.state.showBalloonEventId}
             showStickyBalloonEventId={this.state.showStickyBalloonEventId}
             height={this.state.mapHeight}
             width={this.state.mapWidth}
             center={this.state.center}
           />
-          <EventList events={this.state.filteredEventList} selectedLocation={this.state.selectedLocation}
-            showBalloon={this.showBalloon} onEventListItemClick={this.onEventListItemClick}
+          <EventList
+            events={this.state.filteredEventList}
+            selectedLocation={this.state.selectedLocation}
+            showBalloon={this.showBalloon}
+            onEventListItemClick={this.onEventListItemClick}
           />
-          <FilterContainer filterEvents={this.filterEvents} onApplyFilter={filters => this.filterEvents(filters)} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
-          <AddEventDialog addEvent={this.state.addEvent}
-            catList={this.state.categoryList}
+          <FilterContainer
+            filterEvents={this.filterEvents}
+            onApplyFilter={filters => this.filterEvents(filters)}
+            dateBarData={this.dateBarData}
+            timeBarData={this.timeBarData}
+            categoriesList={this.state.categoriesList}
+          />
+          <AddEventDialog
+            addEvent={this.state.addEvent}
+            catList={this.state.categoriesList}
             handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
           />

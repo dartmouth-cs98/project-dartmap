@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const EVENT_URL = 'events/';
-const CATEGORY_URL = 'category/';
+const CATEGORY_URL = 'categories/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -31,6 +31,9 @@ function formatAPIEventData(event) {
   newEvent.lat = event.location.latitude;
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
+  // categories data
+  const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
+  newEvent.categories = $.parseJSON(catString);
 
   return newEvent;
 }
@@ -51,6 +54,7 @@ function formatEventDataforAPI(event) {
   eventData.start_time = event.start_time.format('HH:mm');
   eventData.end_time = event.end_time.format('HH:mm');
   eventData.date = event.date.format('YYYY-MM-DD');
+  eventData.categories = event.categories.map(cat => cat.label).toString();
   const locObj = event.location_obj[0];
   if (locObj.id && locObj.id !== 'x') {
     eventData.location_id = locObj.id;
@@ -64,8 +68,6 @@ function formatEventDataforAPI(event) {
 
 export function postNewEvent(event) {
   const eventData = formatEventDataforAPI(event);
-  console.log(event);
-  console.log(eventData);
   const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
     url: fullUrl,
@@ -73,8 +75,6 @@ export function postNewEvent(event) {
     type: 'POST',
     data: eventData,
     success: (data) => {
-      console.log('SUCCESS!!!!!!');
-      console.log(data);
       return data;
     },
     error: (xhr, status, err) => {
@@ -91,8 +91,6 @@ export function getAllEvents(saveEventList) {
     type: 'GET',
     dataType: 'json',
     success: (data) => {
-      console.log(' /events GET was successful! ');
-      console.log(data);
       const eventList = data.events.map((event) => {
         return formatAPIEventData(event);
       });
@@ -112,13 +110,11 @@ export function getAllCategories(saveCatList) {
     type: 'GET',
     dataType: 'json',
     success: (data) => {
-      console.log(' /category GET was successful! ');
-      console.log(data);
       const catList = data.categories;
       return saveCatList(catList);
     },
     error: (xhr, status, err) => {
-      console.log(' /category GET was not successful.');
+      console.log(' /categories GET was not successful.');
       console.error(fullUrl, status, err);
     },
   });
