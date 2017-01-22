@@ -23,26 +23,9 @@ export default class MapContainer extends Component {
     zoom: 15, // The level in which Google Maps should zoom into. Higher is more zoomed in.
   };
 
-  constructor(props) {
-    super(props);
-    this.createLocationsFromEvents = this.createLocationsFromEvents.bind(this);
-    var locations = this.createLocationsFromEvents(props.events);
-    this.state = {
-      locations: locations,
-    };
-  }
-
-  componentWillReceiveProps(newProps) {
-    // newProps.events is a pre-filtered list of events to display on the map.
-    if (newProps.events && newProps.events.length > 0) {
-      var locations = this.createLocationsFromEvents(newProps.events);
-      this.setState({ locations: locations });
-    }
-  }
-
-  createLocationsFromEvents(eventList) {
-    var locations = new Map();
-    for (var i = 0; i < eventList.length; i++) {
+  static createLocationsFromEvents(eventList) {
+    const locations = new Map();
+    for (let i = 0; i < eventList.length; i += 1) {
       if (locations.has(eventList[i].location_id)) {
         locations.get(eventList[i].location_id).push(eventList[i]);
       } else {
@@ -50,6 +33,23 @@ export default class MapContainer extends Component {
       }
     }
     return locations;
+  }
+
+  constructor(props) {
+    super(props);
+    // this.createLocationsFromEvents = this.createLocationsFromEvents.bind(this);
+    const locations = MapContainer.createLocationsFromEvents(props.events);
+    this.state = {
+      locations,
+    };
+  }
+
+  componentWillReceiveProps(newProps) {
+    // newProps.events is a pre-filtered list of events to display on the map.
+    if (newProps.events && newProps.events.length > 0) {
+      const locations = MapContainer.createLocationsFromEvents(newProps.events);
+      this.setState({ locations });
+    }
   }
 
   _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
@@ -82,8 +82,8 @@ export default class MapContainer extends Component {
         description: 'Location of new event',
       };
       this.props.handleSelectedLocation({ location_obj: [selectedLocation] });
-      var locations = this.createLocationsFromEvents([selectedLocation]);
-      this.setState({ locations: locations });
+      const locations = MapContainer.createLocationsFromEvents([selectedLocation]);
+      this.setState({ locations });
     }
   }
 
@@ -92,9 +92,9 @@ export default class MapContainer extends Component {
   }
 
   render() {
-    var mapEvents = [];
+    const mapEvents = [];
     if (this.state.locations.size > 0) {
-      this.state.locations.forEach(function(location) {
+      this.state.locations.forEach((location) => {
         const { id, ...coords } = location[0];
         // EventsWithControllableHover is defined in map_helpers/map_events.js
         // The actual frontend code that displays the balloons is in map_events.js
@@ -110,7 +110,7 @@ export default class MapContainer extends Component {
               || parseInt(this.props.hoverKey, 10) === id}
           eventsForLocation={location}
         />);
-      }.bind(this));
+      });
     }
     const mapStyle = {
       height: this.props.height,
