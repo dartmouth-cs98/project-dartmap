@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const EVENT_URL = 'events/';
-const CATEGORY_URL = 'category/';
+const CATEGORY_URL = 'categories/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end

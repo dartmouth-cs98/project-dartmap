@@ -102,6 +102,7 @@ export default class MapContainer extends Component {
         <GoogleMap
           bootstrapURLKeys={{
             key: 'AIzaSyAmi90D8Iw5A51foVbt3m87kmuN7FSN_ek',
+            libraries: 'places',
           }}
           center={this.props.center}
           zoom={this.props.zoom}
