@@ -99,28 +99,26 @@ class App extends Component {
     this.setState({
       latitude,
       longitude,
-    });
+    }, this.getEvents);
+  }
+
+  getEvents() {
     getAllEvents((eventList) => {
       this.setState({ eventList });
       this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    }, latitude, longitude);
-  }
-
-  handleOpenLocationDialog() {
-    this.setState({ showModal: true });
-    LocationDialog.handleOpenModal();
+    }, this.state.latitude, this.state.longitude);
   }
 
   submitModalData(data) {
     this.setState({
       latitude: data.latitude,
       longitude: data.longitude,
-    });
+    }, this.getEvents);
+  }
 
-    getAllEvents((eventList) => {
-      this.setState({ eventList });
-      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    }, this.state.latitude, this.state.longitude);
+  handleOpenLocationDialog(error) {
+    console.log('error code', error.code);
+    this.setState({ showModal: true });
   }
 
   closeAddEventDialog() {
@@ -220,13 +218,21 @@ class App extends Component {
             handleAddEventData={this.handleAddEventData}
             closeAddEventDialog={this.closeAddEventDialog}
           />
-          <LocationDialog submitModalData={this.submitModalData} />
           <Geolocation getLocation={this.getLocation} handleOpenLocationDialog={this.handleOpenLocationDialog} />
+          <LocationModal showModal={this.state.showModal} submitModalData={this.submitModalData} />
         </div>
       </div>
     );
   }
 } // QUICK TO REVIEW: what does this bracket close?
 
+function LocationModal(props) {
+  const show = props.showModal;
+  if (show) {
+    return <LocationDialog submitModalData={props.submitModalData} />;
+  } else {
+    return null;
+  }
+}
 
 ReactDOM.render(<App />, document.getElementById('main'));

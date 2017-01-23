@@ -5,14 +5,14 @@ class LocationDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      zipcode: '',
-      showModal: false,
+      showModal: true,
     };
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleDialogData = this.handleDialogData.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.submitModalData = this.submitModalData.bind(this);
+    this.handlePopup = this.handlePopup(this);
   }
 
   handleDialogData = (e) => {
@@ -34,14 +34,52 @@ class LocationDialog extends Component {
   submitModalData() {
     console.log(this.state.zipcode);
     const data = {
-      latitude: null,
-      longitude: null,
+      latitude: -47,
+      longitude: -49,
+    };
+    const address = this.state.zipcode;
+    this.geocoder = new google.maps.Geocoder();
+    this.geocoder.geocode({ 'address': address }, function handle(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        data.latitude = results[0].geometry.location.lat();
+        data.longitude = results[0].geometry.location.lng();
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    }, (() => {
+      console.log('hello');
+      console.log(this.state.longitude);
+      // const data = {
+      //   latitude: this.state.latitude,
+      //   longitude: this.state.longitude,
+      // };
+      console.log(data.latitude);
+      console.log(data.longitude);
+      this.props.submitModalData(data);
+      this.handleCloseModal();
+    }));
+
+    // this.props.submitModalData(data);
+    // this.handleCloseModal();
+  }
+
+  handlePopup() {
+    console.log('hello');
+    console.log(this.state.longitude);
+    const data = {
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
     };
     this.props.submitModalData(data);
     this.handleCloseModal();
   }
-
+  // function handleOpenModal() {
+  //   this.setState({
+  //       showModal: true,
+  //     });
+  // }
   render() {
+    console.log('hi');
     return (
       <div>
         <ReactModal
@@ -60,4 +98,4 @@ class LocationDialog extends Component {
 }
 
 export default LocationDialog;
-// export { handleOpenModal };
+

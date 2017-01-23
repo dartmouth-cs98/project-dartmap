@@ -4,13 +4,23 @@ import React from 'react';
 class Geolocation extends React.Component {
   constructor(props) {
     super(props);
-    this.coords = null;
     this.state = {
       latitude: null,
       longitude: null,
     };
     this.geoSuccess = this.geoSuccess.bind(this);
     this.geoError = this.geoError.bind(this);
+    this.getLocation = this.getLocation.bind(this);
+    this.getLocation();
+  }
+
+  getLocation() {
+    if ('geolocation' in navigator) {
+      console.log('YAY!!!');
+      navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError);
+    } else {
+      // console.log('NONONONONOONONO!!!');
+    }
   }
 
   geoSuccess(position) {
@@ -36,25 +46,24 @@ class Geolocation extends React.Component {
     //     alert('An unknown error occurred.');
     //     break;
     // }
-    this.props.handleOpenLocationDialog();
+    this.props.handleOpenLocationDialog(error);
   }
 
+  // convertZipToLatLong = function convertZipToLatLong(zipcode) {
+  //   // Add zipcode to lat long function here.
+
+  //   const location = {
+  //     latitude: 43.7022,
+  //     longitude: 72.2896,
+  //   };
+  //   console.log(zipcode);
+  //   return location;
+  // }
+
+
   render() {
-    if ('geolocation' in navigator) {
-      // console.log('YAYAYAYAYAYA!!!');
-      navigator.geolocation.getCurrentPosition(this.geoSuccess, this.geoError);
-    } else {
-      // console.log('NONONONONOONONO!!!');
-    }
     return (
-      <div className="hidden">
-        <p id="startLat">
-          Some text here
-        </p>
-        <p id="startLon">
-          Some text here
-        </p>
-      </div>
+      <div className="hidden" />
     );
   }
 }
