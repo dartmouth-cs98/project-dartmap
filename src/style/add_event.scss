@@ -84,6 +84,18 @@
   background-color: $light-grey;
 }
 
+// Location Selection Page
+#add-event-map {
+  width: 300px;
+  height: 300px;
+  float: left;
+}
+
+#map-search-box {
+  width: 200px;
+}
+
+// Icon Selection Page
 .icon-select {
   @include flex-box;
   @include flex-wrapping;
