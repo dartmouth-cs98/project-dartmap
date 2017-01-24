@@ -35,6 +35,9 @@ hr {
   padding-right: 16px;
   position: relative;
 
+  @include flex-space-between;
+  @include flex-box;
+
   // This is (currently) the dartmap logo in the nav bar
   h1 {
     display: inline-block;
@@ -42,31 +45,42 @@ hr {
     left: 8px;
   }
 
-  // This is (currently) the add event button
-  button {
-    background-color: white;
-    border: 1px solid;
-    border-radius: 20px;
-    float: right;
-    font-size: 20pt;
-    height: 100%;
-    line-height: 100%;
-
-    &:hover {
-      background-color: $light-grey;
-      cursor: pointer;
-    }
-  }
-
   #logo {
     height: $nav-bar-height;
     width: $nav-bar-height;
   }
-  #plus {
-    height: 30px;
-    width: 30px;
-    margin-left: 20px;
+}
+
+.nav-btn {
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: black;
   }
+}
+
+
+// This is (currently) the add event button
+.add-event-plus {
+  background-color: white;
+  border: 1px solid;
+  border-radius: 20px;
+  float: right;
+  font-size: 20pt;
+  height: 100%;
+  line-height: 100%;
+
+  &:hover {
+    background-color: $light-grey;
+    cursor: pointer;
+  }
+}
+
+#plus {
+  height: 30px;
+  width: 30px;
+  margin-left: 20px;
 }
 
 // This is the div that encompasses everything that is not in the navigation bar
