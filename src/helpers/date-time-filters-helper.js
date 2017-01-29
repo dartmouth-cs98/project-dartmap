@@ -22,8 +22,6 @@ function filterDates(filters, dateKey, eventList) {
       filteredDates.push(dateKey[dateIdx].getDate());
     }
   }
-  // console.log('filteredDates:');
-  // console.log(filteredDates);
   for (i = 0; i < eventList.length; i += 1) {
     const event = eventList[i];
     const eventDate = eventList[i].date.date();

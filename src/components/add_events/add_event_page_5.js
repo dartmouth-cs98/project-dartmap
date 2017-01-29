@@ -1,25 +1,80 @@
 // add_event_page_5.js
 import React, { Component } from 'react';
-import Select from 'react-select';
-
+import AddEventIconBtn from './add_event_icon_btn';
 
 class AddEventPage5 extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      icon_url: props.data.icon_url,
+      icon: props.data.icon,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = <div className="error-msg"> The event icon is required. </div>;
-    this.renderIcon = this.renderIcon.bind(this);
-    this.renderOption = this.renderOption.bind(this);
+    this.iconURLs = [
+      {
+        id: 1,
+        name: 'Academic',
+        url: 'https://s23.postimg.org/8i1v2t8cb/academic.png',
+      },
+      {
+        id: 2,
+        name: 'Art',
+        url: 'https://s27.postimg.org/bwiklsppf/art.png',
+      },
+      {
+        id: 3,
+        name: 'Sports',
+        url: 'https://s30.postimg.org/bxmzys9gh/game.png',
+      },
+      {
+        id: 4,
+        name: 'Performance',
+        url: 'https://s24.postimg.org/o84drbk3p/music.png',
+      },
+      {
+        id: 5,
+        name: 'Lecture',
+        url: 'https://s23.postimg.org/ji4pb0yyz/talk.png',
+      },
+      {
+        id: 6,
+        name: 'Free Food',
+        url: 'https://s27.postimg.org/3t1ikm5ar/food.png',
+      },
+      {
+        id: 7,
+        name: 'games',
+        url: 'https://s27.postimg.org/61lunzpg3/games.png',
+      },
+      {
+        id: 8,
+        name: 'music2',
+        url: 'https://s29.postimg.org/k3jw3sw53/music.png',
+      },
+      {
+        id: 9,
+        name: 'openmeeting',
+        url: 'https://s30.postimg.org/77dhr4t6p/openmeeting.png',
+      },
+      {
+        id: 10,
+        name: 'Greek Life',
+        url: 'https://s28.postimg.org/cdfv0i8ot/party.png',
+      },
+      {
+        id: 11,
+        name: 'Unknown',
+        url: 'https://s27.postimg.org/ws3spwi9f/unknown.png',
+      },
+    ];
   }
 
   handleBack(event) {
+    event.preventDefault();
     const data = {
-      icon_url: this.state.icon_url.value.toString(),
+      icon: this.state.icon,
       currentPage: this.props.currentPage - 1,
     };
     this.props.handleData(data);
@@ -27,83 +82,27 @@ class AddEventPage5 extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.icon_url) {
+    if (this.state.icon) {
       const data = {
-        icon_url: this.state.icon_url.value.toString(),
+        icon: this.state.icon,
         currentPage: this.props.currentPage + 1,
       };
       this.props.handleData(data);
     }
   }
-  renderIcon(option) {
-    console.log(this.state.icon_url, option);
-    return <img className="selected-icon" src={option.value} alt={option.label} />;
-  }
-  renderOption(option) {
-    console.log(this.state.icon_url, option);
-    return (
-      <div className="icon-select-option">
-        <img src={option.value} alt={option.label} />
-      </div>
-    );
-  }
   render() {
-    const iconErrorMessage = (this.state.icon_url === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
-    const iconURLs = [
-      {
-        label: 'Academic',
-        value: 'https://s23.postimg.org/8i1v2t8cb/academic.png',
-      },
-      {
-        label: 'Art',
-        value: 'https://s27.postimg.org/bwiklsppf/art.png',
-      },
-      {
-        label: 'Sports',
-        value: 'https://s30.postimg.org/bxmzys9gh/game.png',
-      },
-      {
-        label: 'Performance',
-        value: 'https://s24.postimg.org/o84drbk3p/music.png',
-      },
-      {
-        label: 'Lecture',
-        value: 'https://s23.postimg.org/ji4pb0yyz/talk.png',
-      },
-      {
-        label: 'Free Food',
-        value: 'https://s27.postimg.org/3t1ikm5ar/food.png',
-      },
-      {
-        label: 'games',
-        value: '/icon_set_2/games.png',
-      },
-      {
-        label: 'music2',
-        value: '/icon_set_2/music.png',
-      },
-      {
-        label: 'openmeeting',
-        value: '/icon_set_2/openmeeting.png',
-      },
-      {
-        label: 'Greek Life',
-        value: 'https://s28.postimg.org/cdfv0i8ot/party.png',
-      },
-    ];
+    const iconBtns = this.iconURLs.map((obj) => {
+      return (
+        <AddEventIconBtn key={obj.id} icon={obj} selected={this.state.icon} handleSelect={iconData => this.setState({ icon: iconData })} />
+      );
+    });
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          {iconErrorMessage}
           <h2>Select event map icon:*</h2>
-          <Select openOnFocus
-            className="icon-select"
-            options={iconURLs}
-            value={this.state.icon_url}
-            onChange={iconUrl => this.setState({ icon_url: iconUrl })}
-            valueRenderer={this.renderIcon}
-            optionRenderer={this.renderOption}
-          />
+          <div className="icon-select">
+            {iconBtns}
+          </div>
         </div>
         <div className="add-event-btns">
           <input
@@ -115,7 +114,7 @@ class AddEventPage5 extends Component {
           <input
             type="submit"
             value="Next"
-            className={(!this.state.icon_url) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
+            className={(!this.state.icon) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
           />
         </div>
       </form>

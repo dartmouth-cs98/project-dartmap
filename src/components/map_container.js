@@ -23,18 +23,35 @@ export default class MapContainer extends Component {
     zoom: 15, // The level in which Google Maps should zoom into. Higher is more zoomed in.
   };
 
+  static createLocationsFromEvents(eventList) {
+    const locations = new Map();
+    for (let i = 0; i < eventList.length; i += 1) {
+      if (locations.has(eventList[i].location_id)) {
+        locations.get(eventList[i].location_id).push(eventList[i]);
+      } else {
+        locations.set(eventList[i].location_id, [eventList[i]]);
+      }
+    }
+    return locations;
+  }
+
   constructor(props) {
     super(props);
+    // this.createLocationsFromEvents = this.createLocationsFromEvents.bind(this);
+    const locations = MapContainer.createLocationsFromEvents(props.events);
     this.state = {
-      events: props.events, // what is events?
+      locations,
     };
   }
 
   componentWillReceiveProps(newProps) {
+    // newProps.events is a pre-filtered list of events to display on the map.
     if (newProps.events && newProps.events.length > 0) {
-      this.setState({ events: newProps.events });
+      const locations = MapContainer.createLocationsFromEvents(newProps.events);
+      this.setState({ locations });
     }
   }
+
   _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
     this.props.onCenterChange(center);
     this.props.onZoomChange(zoom);
@@ -65,7 +82,8 @@ export default class MapContainer extends Component {
         description: 'Location of new event',
       };
       this.props.handleSelectedLocation({ location_obj: [selectedLocation] });
-      this.setState({ events: [selectedLocation] });
+      const locations = MapContainer.createLocationsFromEvents([selectedLocation]);
+      this.setState({ locations });
     }
   }
 
@@ -74,25 +92,26 @@ export default class MapContainer extends Component {
   }
 
   render() {
-    const mapEvents = this.state.events
-      .map((mapEvent) => {
-        const { id, ...coords } = mapEvent;
-        return (
-          // EventsWithControllableHover is defined in map_helpers/map_events.js
-          // The actual frontend code that displays the balloons is in map_events.js
-          // This is the information that is passed to EventsWithControllableHover.
-          <EventsWithControllableHover
-            {...coords}
-            key={id}
-            id={id}
-            // text={String(id)}
-            // use your hover state (from store, react-controllables etc...)
-            showStickyBalloonId={this.props.showStickyBalloonEventId}
-            showBalloonId={this.props.showBalloonEventId === id
-                || parseInt(this.props.hoverKey, 10) === id}
-          />
-        );
+    const mapEvents = [];
+    if (this.state.locations.size > 0) {
+      this.state.locations.forEach((location) => {
+        const { id, ...coords } = location[0];
+        // EventsWithControllableHover is defined in map_helpers/map_events.js
+        // The actual frontend code that displays the balloons is in map_events.js
+        // This is the information that is passed to EventsWithControllableHover.
+        mapEvents.push(<EventsWithControllableHover
+          {...coords}
+          key={id}
+          id={id}
+          // text={String(id)}
+          // use your hover state (from store, react-controllables etc...)
+          showStickyBalloonId={this.props.showStickyBalloonEventId}
+          showBalloonId={this.props.showBalloonEventId === id
+              || parseInt(this.props.hoverKey, 10) === id}
+          eventsForLocation={location}
+        />);
       });
+    }
     const mapStyle = {
       height: this.props.height,
       width: this.props.width,

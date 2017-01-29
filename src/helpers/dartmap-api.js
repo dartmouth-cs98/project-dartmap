@@ -5,6 +5,7 @@ import moment from 'moment';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const EVENT_URL = 'events/';
+const CATEGORY_URL = 'categories/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -30,6 +31,9 @@ function formatAPIEventData(event) {
   newEvent.lat = event.location.latitude;
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
+  // categories data
+  const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
+  newEvent.categories = $.parseJSON(catString);
 
   return newEvent;
 }
@@ -50,20 +54,20 @@ function formatEventDataforAPI(event) {
   eventData.start_time = event.start_time.format('HH:mm');
   eventData.end_time = event.end_time.format('HH:mm');
   eventData.date = event.date.format('YYYY-MM-DD');
-  if (event.location.id) {
-    eventData.location_id = event.location.id;
+  eventData.categories = event.categories.map(cat => cat.label).toString();
+  const locObj = event.location_obj[0];
+  if (locObj.id && locObj.id !== 'x') {
+    eventData.location_id = locObj.id;
   } else {
-    eventData.location_name = event.location.name;
-    eventData.location_latitude = event.location.latitude;
-    eventData.location_longitude = event.location.longitude;
+    eventData.location_name = locObj.name;
+    eventData.location_latitude = locObj.lat;
+    eventData.location_longitude = locObj.lng;
   }
   return eventData;
 }
 
 export function postNewEvent(event) {
   const eventData = formatEventDataforAPI(event);
-  console.log(event);
-  console.log(eventData);
   const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
     url: fullUrl,
@@ -71,8 +75,6 @@ export function postNewEvent(event) {
     type: 'POST',
     data: eventData,
     success: (data) => {
-      console.log('SUCCESS!!!!!!');
-      console.log(data);
       return data;
     },
     error: (xhr, status, err) => {
@@ -96,8 +98,6 @@ export function getAllEvents(saveEventList, latitude, longitude, radius) {
     },
     dataType: 'json',
     success: (data) => {
-      console.log(' /events GET was successful! ');
-      console.log(data);
       const eventList = data.events.map((event) => {
         return formatAPIEventData(event);
       });
@@ -105,6 +105,23 @@ export function getAllEvents(saveEventList, latitude, longitude, radius) {
     },
     error: (xhr, status, err) => {
       console.log(' /events GET was not successful.');
+      console.error(fullUrl, status, err);
+    },
+  });
+}
+
+export function getAllCategories(saveCatList) {
+  const fullUrl = API_URL.concat(CATEGORY_URL);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      const catList = data.categories;
+      return saveCatList(catList);
+    },
+    error: (xhr, status, err) => {
+      console.log(' /categories GET was not successful.');
       console.error(fullUrl, status, err);
     },
   });

@@ -13,7 +13,6 @@ import { filterCategories } from '../helpers/category-filters-helper';
 
 // import the react Components
 import EventList from './event_list';
-import NavBar from './nav_bar';
 import MapContainer from './map_container';
 import LocationDialog from './location_dialog';
 import AddEventDialog from './add_event_dialog';
@@ -43,6 +42,8 @@ class Home extends Component {
       filteredEventList: [],  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
       showModal: false,
+      categoriesList: [],
+
       // State variables used for the map.
       selectedLocation: null,
       showBalloonEventId: null,
@@ -58,7 +59,6 @@ class Home extends Component {
     this.showBalloon = this.showBalloon.bind(this);
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
-    // this.filterEventsInitial = this.filterEventsInitial.bind(this);
     this.filterEvents = this.filterEvents.bind(this);
     this.getLocation = this.getLocation.bind(this);
     this.submitModalData = this.submitModalData.bind(this);

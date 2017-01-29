@@ -17,14 +17,11 @@ class FilterContainer extends Component {
     this.applyFilters = this.applyFilters.bind(this);
     this.onTimeChange = this.onTimeChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
+    this.onCategoryChange = this.onCategoryChange.bind(this);
     this.shouldApplyFiltersInitial = true;
   }
   onDateChange(selectedDate) {
-    // console.log('before set state:');
-    // console.log(this.state);
     this.setState({ selectedDate });
-    // console.log('before apply filters:');
-    // console.log(this.state);
     this.applyFilters();
   }
   onTimeChange(selectedTime) {
@@ -36,19 +33,12 @@ class FilterContainer extends Component {
     this.applyFilters();
   }
   applyFilters(event) {
-    // TODO: once we know that all the filters work, we can delete these console.log() prompts
-    console.log('applying the filters:');
-    console.log(this.state);
     // TODO: this is a hack that needs to be fixed in the future. Delays the setState call
     setTimeout(() => {
       this.props.onApplyFilter(this.state);
     }, 500);
     // this.props.filterEvents();
   }
-  // filterEvents(event) {
-  //   // TODO: once we know that all the filters work, we can delete these console.log() prompts
-  //   console.log('entered');
-  // }
   render() {
     // ensures that the filters are applied when the page first loads
     if (this.shouldApplyFiltersInitial) {
@@ -60,9 +50,9 @@ class FilterContainer extends Component {
         <DateFilter onDateChange={this.onDateChange} dateBarData={this.props.dateBarData} />
         <br />
         <br />
-        <TimeFilter onTimeChange={this.onTimeChange} timeBarData={this.props.timeBarData} />
+        <TimeFilter onTimeChange={this.onTimeChange} />
         <br />
-        <CategoryFilter onCategoryChange={this.onCategoryChange} />
+        <CategoryFilter onCategoryChange={this.onCategoryChange} categoriesList={this.props.categoriesList} />
       </div>
     );
   }
