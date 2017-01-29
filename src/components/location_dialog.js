@@ -66,8 +66,6 @@ class LocationDialog extends Component {
   }
 
   handlePopup() {
-    console.log('hello');
-    console.log(this.state.longitude);
     const data = {
       latitude: this.state.latitude,
       longitude: this.state.longitude,
@@ -77,7 +75,6 @@ class LocationDialog extends Component {
   }
 
   render() {
-    console.log('hi');
     return (
       <div>
         <ReactModal
