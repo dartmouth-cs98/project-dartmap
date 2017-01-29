@@ -6,13 +6,21 @@ class LocationDialog extends Component {
     super(props);
     this.state = {
       showModal: true,
+      data: {
+        latitude: null,
+        longitude: null,
+      },
+      zipcode: '',
     };
+
+    this.gMaps = (window.google && window.google.maps);
 
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleDialogData = this.handleDialogData.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.submitModalData = this.submitModalData.bind(this);
-    this.handlePopup = this.handlePopup(this);
+    this.handlePopup = this.handlePopup.bind(this);
+    this.handleGeocoderResponse = this.handleGeocoderResponse.bind(this);
   }
 
   handleDialogData = (e) => {
@@ -31,36 +39,30 @@ class LocationDialog extends Component {
     });
   }
 
-  submitModalData() {
-    console.log(this.state.zipcode);
-    const data = {
-      latitude: -47,
-      longitude: -49,
-    };
-    const address = this.state.zipcode;
-    this.geocoder = new google.maps.Geocoder();
-    this.geocoder.geocode({ 'address': address }, function handle(results, status) {
-      if (status === google.maps.GeocoderStatus.OK) {
-        data.latitude = results[0].geometry.location.lat();
-        data.longitude = results[0].geometry.location.lng();
-      } else {
-        alert('Geocode was not successful for the following reason: ' + status);
+  handleGeocoderResponse(results, status) {
+    if (status === this.gMaps.GeocoderStatus.OK) {
+      this.setState({ data: {
+        latitude: results[0].geometry.location.lat(),
+        longitude: results[0].geometry.location.lng(),
+      } });
+      if (results[0].geometry.location.lat() && results[0].geometry.location.lng()) {
+        const data = {
+          latitude: results[0].geometry.location.lat(),
+          longitude: results[0].geometry.location.lng(),
+        };
+        this.props.submitModalData(data);
+        this.handleCloseModal();
       }
-    }, (() => {
-      console.log('hello');
-      console.log(this.state.longitude);
-      // const data = {
-      //   latitude: this.state.latitude,
-      //   longitude: this.state.longitude,
-      // };
-      console.log(data.latitude);
-      console.log(data.longitude);
-      this.props.submitModalData(data);
-      this.handleCloseModal();
-    }));
+    } else {
+      console.error('Geocode was not successful for the following reason: '.concat(status));
+    }
+  }
 
-    // this.props.submitModalData(data);
-    // this.handleCloseModal();
+  submitModalData() {
+    const address = this.state.zipcode;
+    this.geocoder = new this.gMaps.Geocoder();
+
+    this.geocoder.geocode({ address }, this.handleGeocoderResponse);
   }
 
   handlePopup() {
@@ -73,11 +75,7 @@ class LocationDialog extends Component {
     this.props.submitModalData(data);
     this.handleCloseModal();
   }
-  // function handleOpenModal() {
-  //   this.setState({
-  //       showModal: true,
-  //     });
-  // }
+
   render() {
     console.log('hi');
     return (

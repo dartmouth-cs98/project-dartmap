@@ -1,30 +1,24 @@
-// index.js
+// home.js
 
 // import React onto the page
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-
-// add the style sheets onto the page
-import 'react-datetime/css/react-datetime.css';
-import 'rc-slider/assets/index.css';
-import 'react-select/dist/react-select.css';
-import './style.scss';
 
 
 // import the API functions
-import { postNewEvent, getAllEvents } from './helpers/dartmap-api';
-import createDateData from './helpers/date-data-helper';
-import { filterDates, filterTimes, sortDateTime } from './helpers/date-time-filters-helper';
+import { postNewEvent, getAllEvents, getAllCategories } from '../helpers/dartmap-api';
+import createDateData from '../helpers/date-data-helper';
+import { filterDates, filterTimes, sortDateTime } from '../helpers/date-time-filters-helper';
+import { filterCategories } from '../helpers/category-filters-helper';
 // import filterTimes from './helpers/date-time-filters-helper';
 
 // import the react Components
-import EventList from './components/event_list';
-import NavBar from './components/nav_bar';
-import MapContainer from './components/map_container';
-import LocationDialog from './components/location_dialog';
-import AddEventDialog from './components/add_event_dialog';
-import FilterContainer from './components/filter_container';
-import Geolocation from './components/geolocation';
+import EventList from './event_list';
+import NavBar from './nav_bar';
+import MapContainer from './map_container';
+import LocationDialog from './location_dialog';
+import AddEventDialog from './add_event_dialog';
+import FilterContainer from './filter_container';
+import Geolocation from './geolocation';
 
 // const TIMES_DATA_DISPLAY = { 0: '8:00 AM', 1: '10:00 AM', 2: '12:00 PM', 3: '2:00 PM', 4: '4:00 PM', 5: '6:00 PM', 6: '8:00 PM', 7: '10:00 PM', 8: '12:00 AM', 9: '2:00 AM' };
 const TIMES_DATA_DISPLAY = { 0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 24, 9: 26 };
@@ -34,7 +28,7 @@ const MAP_HEIGHT_MULTIPLIER = 0.65;
 const MAP_WIDTH_MULTIPLIER = 0.8;
 const RADIUS = 10000;
 
-class App extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.dateBarData = createDateData();
@@ -77,10 +71,11 @@ class App extends Component {
     }, true);
   }
   // componentDidMount() {
-  //   getAllEvents((eventList, latitude, longitude) => {
+  //   getAllEvents((eventList) => {
   //     this.setState({ eventList });
   //     this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
   //   });
+  //   getAllCategories(categoriesList => this.setState({ categoriesList }));
   // }
 
   // Things to do when the event list is clicked:
@@ -137,6 +132,13 @@ class App extends Component {
 
   toggleAddEvent() {
     this.setState({ addEvent: true });
+
+    // Remove sticky popups.
+    const parent = document.getElementsByTagName('body')[0];
+    const popupsToRemove = document.getElementsByClassName('popup');
+    while (popupsToRemove.length > 0) {
+      parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
+    }
   }
 
   // Show balloons with event info on the map.
@@ -168,9 +170,19 @@ class App extends Component {
     if (filters.selectedTime == null) {
       filters.selectedTime = DEFAULT_TIME_FILTER;
     }
+    if (filters.selectedCategories.length <= 0) {
+      // fill with all the categories that exist, so the default is for all categories to be selected
+      let i;
+      for (i = 0; i < this.state.categoriesList.length; i += 1) {
+        filters.selectedCategories.push(this.state.categoriesList[i]);
+      }
+    }
 
     // filter by date, then filter THAT by time
+    // TODO: I think we could make this just 3 if statements
     if (filters != null) {
+      filteredEvents = this.state.eventList;
+      // OLD:
       if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
         filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
         filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
@@ -179,6 +191,18 @@ class App extends Component {
       } else if (filters.selectedTime != null) {
         filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       }
+
+      // NEW:
+      // if (filters.selectedDate != null) {
+      //   filteredEvents = filterDates(filters, this.dateBarData, filteredEvents.slice());
+      // }
+      // if (filters.selectedTime != null) {
+      //   filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
+      // }
+
+      // if (filters.selectedCategories.length > 0) {
+      filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
+      // }
     }
     this.setState({ filters, filteredEventList: filteredEvents });
 
@@ -191,27 +215,43 @@ class App extends Component {
 
   render() {
     return (
-      <div className="app-container">
-        <NavBar toggleAddEvent={this.toggleAddEvent} />
-        <div className="home-container">
-          <MapContainer events={this.state.filteredEventList}
-            showBalloonEventId={this.state.showBalloonEventId}
-            showStickyBalloonEventId={this.state.showStickyBalloonEventId}
-            height={this.state.mapHeight}
-            width={this.state.mapWidth}
-            center={this.state.center}
-          />
-          <EventList events={this.state.filteredEventList} selectedLocation={this.state.selectedLocation}
-            showBalloon={this.showBalloon} onEventListItemClick={this.onEventListItemClick}
-          />
-          <FilterContainer filterEvents={this.filterEvents} onApplyFilter={filters => this.filterEvents(filters)} dateBarData={this.dateBarData} timeBarData={this.timeBarData} />
-          <AddEventDialog addEvent={this.state.addEvent}
-            handleAddEventData={this.handleAddEventData}
-            closeAddEventDialog={this.closeAddEventDialog}
-          />
-          <Geolocation getLocation={this.getLocation} handleOpenLocationDialog={this.handleOpenLocationDialog} />
-          <LocationModal showModal={this.state.showModal} submitModalData={this.submitModalData} />
-        </div>
+      <div className="home-container">
+        <MapContainer
+          events={this.state.filteredEventList}
+          showBalloonEventId={this.state.showBalloonEventId}
+          showStickyBalloonEventId={this.state.showStickyBalloonEventId}
+          height={this.state.mapHeight}
+          width={this.state.mapWidth}
+          center={this.state.center}
+        />
+        <EventList
+          toggleAddEvent={this.toggleAddEvent}
+          events={this.state.filteredEventList}
+          selectedLocation={this.state.selectedLocation}
+          showBalloon={this.showBalloon}
+          onEventListItemClick={this.onEventListItemClick}
+        />
+        <FilterContainer
+          filterEvents={this.filterEvents}
+          onApplyFilter={filters => this.filterEvents(filters)}
+          dateBarData={this.dateBarData}
+          timeBarData={this.timeBarData}
+          categoriesList={this.state.categoriesList}
+        />
+        <AddEventDialog
+          addEvent={this.state.addEvent}
+          catList={this.state.categoriesList}
+          handleAddEventData={this.handleAddEventData}
+          closeAddEventDialog={this.closeAddEventDialog}
+        />
+        <Geolocation
+          getLocation={this.getLocation}
+          handleOpenLocationDialog={this.handleOpenLocationDialog}
+        />
+        <LocationModal
+          showModal={this.state.showModal}
+          submitModalData={this.submitModalData}
+        />
       </div>
     );
   }
@@ -226,4 +266,4 @@ function LocationModal(props) {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById('main'));
+export default Home;

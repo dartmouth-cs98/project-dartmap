@@ -82,7 +82,7 @@ export function postNewEvent(event) {
   return response;
 }
 
-export function getAllEvents(saveEventList, latitude, longitude) {
+export function getAllEvents(saveEventList, latitude, longitude, radius) {
   console.log(latitude);
   console.log(longitude);
   const fullUrl = API_URL.concat(EVENT_URL);
@@ -92,6 +92,7 @@ export function getAllEvents(saveEventList, latitude, longitude) {
     data: {
       lat: latitude,
       long: longitude,
+      rad: radius,
     },
     dataType: 'json',
     success: (data) => {
