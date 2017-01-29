@@ -6,7 +6,7 @@
 @import "./variables.scss";
 
 html, body {
-  font-family: 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -101,6 +101,7 @@ hr {
 }
 
 #event-menu {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   float: right;
   width: 20%;
   height: 100%;
@@ -197,6 +198,13 @@ hr {
   @include flex-box;
 }
 
+.segmented-control {
+  &:hover {
+    background-color: #ccffcc;
+    opacity: .5;
+  }
+}
+
 //over-writing an issue with the rc-slider stylesheet
 .rc-slider-step {
   margin: 0;
@@ -239,6 +247,7 @@ hr {
   background-color: white;
   border: 1px solid;
   border-color: $green;
+  box-shadow: 0 0 8px 2px #888;
   color: black;
   padding: 5px;
   width: 20%;

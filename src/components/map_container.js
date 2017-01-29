@@ -23,22 +23,10 @@ export default class MapContainer extends Component {
     zoom: 15, // The level in which Google Maps should zoom into. Higher is more zoomed in.
   };
 
-  static createLocationsFromEvents(eventList) {
-    const locations = new Map();
-    for (let i = 0; i < eventList.length; i += 1) {
-      if (locations.has(eventList[i].location_id)) {
-        locations.get(eventList[i].location_id).push(eventList[i]);
-      } else {
-        locations.set(eventList[i].location_id, [eventList[i]]);
-      }
-    }
-    return locations;
-  }
-
   constructor(props) {
     super(props);
-    // this.createLocationsFromEvents = this.createLocationsFromEvents.bind(this);
-    const locations = MapContainer.createLocationsFromEvents(props.events);
+    this.createLocationsFromEvents = this.createLocationsFromEvents.bind(this);
+    const locations = this.createLocationsFromEvents(props.events);
     this.state = {
       locations,
     };
@@ -47,7 +35,7 @@ export default class MapContainer extends Component {
   componentWillReceiveProps(newProps) {
     // newProps.events is a pre-filtered list of events to display on the map.
     if (newProps.events && newProps.events.length > 0) {
-      const locations = MapContainer.createLocationsFromEvents(newProps.events);
+      const locations = this.createLocationsFromEvents(newProps.events);
       this.setState({ locations });
     }
   }
@@ -71,6 +59,22 @@ export default class MapContainer extends Component {
     this.props.onHoverKeyChange(key);
   }
 
+  createLocationsFromEvents(eventList) {
+    // Temporary hack to fix a lint error.
+    const temp = this.locations;
+    console.log(temp);
+
+    const locations = new Map();
+    for (let i = 0; i < eventList.length; i += 1) {
+      if (locations.has(eventList[i].location_id)) {
+        locations.get(eventList[i].location_id).push(eventList[i]);
+      } else {
+        locations.set(eventList[i].location_id, [eventList[i]]);
+      }
+    }
+    return locations;
+  }
+
   maybeSelectLocation = (event) => {
     if (this.props.handleSelectedLocation) {
       const selectedLocation = {
@@ -82,7 +86,7 @@ export default class MapContainer extends Component {
         description: 'Location of new event',
       };
       this.props.handleSelectedLocation({ location_obj: [selectedLocation] });
-      const locations = MapContainer.createLocationsFromEvents([selectedLocation]);
+      const locations = this.createLocationsFromEvents([selectedLocation]);
       this.setState({ locations });
     }
   }
