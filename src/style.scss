@@ -1,61 +1,21 @@
-$green: #008000;
-$event-item-color: #d1d1e0;
-$light-grey: #d1d1e0;
-$K_SIZE: 18px;
-$red: #f44336;
-$blue: #3f51b5;
+//style.scss
 
-// Mixins
-@mixin event-style {
-  position: absolute;
-  width: $K_SIZE;
-  height: $K_SIZE;
-  left: -$K_SIZE / 2;
-  top: -$K_SIZE / 2;
-
-  border-radius: $K_SIZE;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 4px;
-  cursor: pointer;
-}
-
-@mixin flex-box {
-  display: flex;
-  display: -webkit-flex;
-  display: -moz-flex;
-}
-
-@mixin inline-flex {
-  display: inline-flex;
-  display: -webkit-inline-flex;
-  display: -moz-inline-flex;
-}
-
-@mixin flex-space-around {
-  justify-content: space-around;
-  -webkit-justify-content: space-around;
-  -moz-justify-content: space-around;
-}
-
-@mixin flex-space-between {
-  justify-content: space-between;
-  -webkit-justify-content: space-between;
-  -moz-justify-content: space-between;
-}
-
-@mixin flex-column {
-  flex-direction: column;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-}
+//Imports
+@import "./segmented-controls.css";
+@import "./add_event.scss";
+@import "./variables.scss";
 
 html, body {
   font-family: 'Old Standard TT', 'Times New Roman', Times, serif;
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+hr {
+    border: 0;
+    border-bottom: 1px solid $light-grey;
+    padding: 0;
 }
 
 #main, .app-container {
@@ -65,29 +25,61 @@ html, body {
 
 // Top Navigation Bar
 #nav-bar {
-  background-color: $green;
-  color: white;
+  background-color: white;
+  color: $green;
   font-size: 30pt;
-  height: 10%;
-  padding-left: 10px;
+  height: $nav-bar-height;
+  line-height: $nav-bar-height;
+  padding-left: 12px;
+  padding-top: 10px;
+  padding-right: 16px;
   position: relative;
-  border-style: solid;
-  border-width: 1px;
-  border-color: white;
+
+  @include flex-space-between;
+  @include flex-box;
 
   // This is (currently) the dartmap logo in the nav bar
   h1 {
     display: inline-block;
     position: relative;
-    bottom: 2px;
     left: 8px;
   }
 
-  // This is (currently) the add event button
-  button {
-    float: right;
-    height: 100%;
+  #logo {
+    height: $nav-bar-height;
+    width: $nav-bar-height;
   }
+}
+
+.nav-btn {
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: black;
+  }
+}
+
+// This is (currently) the add event button
+.add-event-plus {
+  background-color: white;
+  border: 1px solid;
+  border-radius: 20px;
+  float: right;
+  font-size: 20pt;
+  height: 100%;
+  line-height: 100%;
+
+  &:hover {
+    background-color: $light-grey;
+    cursor: pointer;
+  }
+}
+
+#plus {
+  height: 30px;
+  width: 30px;
+  margin-left: 20px;
 }
 
 // This is the div that encompasses everything that is not in the navigation bar
