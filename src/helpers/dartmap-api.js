@@ -32,7 +32,7 @@ function formatAPIEventData(event) {
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
   // categories data
-  const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
+  const catString = event.categories.replace(/'/g, '\"').replace(/ u"/g, ' \"');
   newEvent.categories = $.parseJSON(catString);
 
   return newEvent;

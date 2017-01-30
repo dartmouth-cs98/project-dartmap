@@ -96,13 +96,21 @@ class CategoryFilter extends Component {
 
       boxes = this.props.categoriesList.map((cat) => {
         const cID = `c${cat.id}`; // c1, c2, etc...
-        return <div key={cat.id}><input type="checkbox" id={cID} value={(cat.id).toString()} onChange={this.handleChange} defaultChecked />{cat.name}</div>;
+        return (
+          <div key={cID} className="segmented-control">
+            <input type="checkbox" id={cID} name={cID} value={(cat.id).toString()} onChange={this.handleChange} defaultChecked />
+            <label htmlFor={cID} data-value={cat.name}>{cat.name}</label>
+          </div>
+        );
       });
     }
 
     return (
-      <div className="category-filter">
-        <div><input type="checkbox" id={'c0'} value={'0'} onChange={this.handleChange} defaultChecked />All categories</div>
+      <div className="category-filter section-inner" style={{ color: '#008000', height: '30px' }}>
+        <div className="segmented-control">
+          <input type="checkbox" id="c0" name="c0" value="0" onChange={this.handleChange} defaultChecked />
+          <label htmlFor="c0" data-value={'All categories'}>All categories</label>
+        </div>
         {boxes}
         <br />
       </div>

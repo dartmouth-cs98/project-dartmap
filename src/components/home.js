@@ -165,9 +165,11 @@ class Home extends Component {
       //   filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       // }
 
-      // if (filters.selectedCategories.length > 0) {
-      filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
-      // }
+      if (filters.selectedCategories.length <= 0) {
+        filteredEvents = [];
+      } else {
+        filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
+      }
     }
     this.setState({ filters, filteredEventList: filteredEvents });
 
