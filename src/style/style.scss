@@ -6,7 +6,7 @@
 @import "./variables.scss";
 
 html, body {
-  font-family: 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -115,6 +115,7 @@ hr {
 }
 
 #event-menu {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   float: right;
   width: 20%;
   height: 100%;
@@ -211,9 +212,112 @@ hr {
   @include flex-box;
 }
 
+.segmented-control {
+  &:hover {
+    background-color: #ccffcc;
+    opacity: .5;
+  }
+}
+
 //over-writing an issue with the rc-slider stylesheet
 .rc-slider-step {
   margin: 0;
+}
+
+// Location Dialog
+#location {
+  border: 5px solid black;
+  position: center;
+  background-color: white;
+  padding: 30px;
+  border-radius: 50px;
+}
+
+// Add Event Dialog
+#add-event {
+  border: 5px solid black;
+  height: 80%;
+  width: 80%;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  background-color: white;
+  padding: 30px;
+  border-radius: 50px;
+}
+
+#close-button {
+  position: absolute;
+  right: 20px;
+  top: 5px;
+  &:hover {
+    color: #DC143C;
+    cursor: pointer;
+  }
+}
+.add-event-top {
+  height: 20%;
+}
+
+.add-event-form {
+  height: 80%;
+  @include flex-box;
+  @include flex-column;
+  @include flex-space-between;
+}
+
+.add-event-text {
+  width: 50%;
+  vertical-align: middle;
+  height: 30px;
+}
+
+.add-event-loc-string {
+  width: 150px;
+}
+
+.add-event-error-message {
+  display: inline-block;
+  width: 50%;
+  vertical-align: middle;
+  height: 30px;
+}
+.add-event-btns {
+  display: inline-block;
+  width: 100%;
+  // align-self: flex-end;
+  // -webkit-align-self: flex-end;
+  // -moz-align-self: flex-end;
+}
+.add-event-btn {
+  background-color: $green;
+}
+
+.back-btn {
+  float: left;
+}
+
+.nxt-btn {
+  float: right;
+}
+
+.invalid-nxt-btn {
+  background-color: $light-grey;
+}
+
+.page-slider {
+  @include flex-space-around;
+  @include flex-box;
+}
+
+.icon-select {
+  height: 30px;
+  @include flex-box;
+}
+
+.selected-icon {
+  height: 30px;
+  width: 30px;
 }
 
 // Generic Classes
@@ -253,6 +357,7 @@ hr {
   background-color: white;
   border: 1px solid;
   border-color: $green;
+  box-shadow: 0 0 8px 2px #888;
   color: black;
   padding: 5px;
   width: 20%;
@@ -266,4 +371,17 @@ hr {
     color: #DC143C;
     cursor: pointer;
   }
+}
+
+.Modal {
+  border: 5px solid black;
+  position: absolute;
+  text-align: center;
+  top:40%;
+  left:40%;
+  width: 20%;
+  height: 20%;
+  background-color: white;
+  padding: 30px;
+  border-radius: 50px;
 }

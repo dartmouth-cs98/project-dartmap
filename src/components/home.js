@@ -14,8 +14,10 @@ import { filterCategories } from '../helpers/category-filters-helper';
 // import the react Components
 import EventList from './event_list';
 import MapContainer from './map_container';
+import LocationDialog from './location_dialog';
 import AddEventDialog from './add_event_dialog';
 import FilterContainer from './filter_container';
+import Geolocation from './geolocation';
 
 // const TIMES_DATA_DISPLAY = { 0: '8:00 AM', 1: '10:00 AM', 2: '12:00 PM', 3: '2:00 PM', 4: '4:00 PM', 5: '6:00 PM', 6: '8:00 PM', 7: '10:00 PM', 8: '12:00 AM', 9: '2:00 AM' };
 const TIMES_DATA_DISPLAY = { 0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 24, 9: 26 };
@@ -23,6 +25,7 @@ const DEFAULT_DATE_FILTER = [0, 1];
 const DEFAULT_TIME_FILTER = [0, 9];
 const MAP_HEIGHT_MULTIPLIER = 0.65;
 const MAP_WIDTH_MULTIPLIER = 0.8;
+const RADIUS = 10000;
 
 class Home extends Component {
   constructor(props) {
@@ -38,6 +41,7 @@ class Home extends Component {
       addEvent: false,
       filteredEventList: [],  // the filtered list of events received from the back-end
       eventList: [],  // the full list of events received from the back-end
+      showModal: false,
       categoriesList: [],
 
       // State variables used for the map.
@@ -47,6 +51,8 @@ class Home extends Component {
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
       center: [43.703337, -72.288578],
+      latitude: null,
+      longitude: null,
     };
     this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
@@ -54,6 +60,9 @@ class Home extends Component {
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
     this.filterEvents = this.filterEvents.bind(this);
+    this.getLocation = this.getLocation.bind(this);
+    this.submitModalData = this.submitModalData.bind(this);
+    this.handleOpenLocationDialog = this.handleOpenLocationDialog.bind(this);
 
     // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
@@ -61,13 +70,13 @@ class Home extends Component {
       this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
     }, true);
   }
-  componentDidMount() {
-    getAllEvents((eventList) => {
-      this.setState({ eventList });
-      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    });
-    getAllCategories(categoriesList => this.setState({ categoriesList }));
-  }
+  // componentDidMount() {
+  //   getAllEvents((eventList) => {
+  //     this.setState({ eventList });
+  //     this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+  //   });
+  //   getAllCategories(categoriesList => this.setState({ categoriesList }));
+  // }
 
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
@@ -82,17 +91,43 @@ class Home extends Component {
     }
   }
 
+  getLocation(latitude, longitude) {
+    this.setState({
+      latitude,
+      longitude,
+    }, this.getEvents);
+  }
+
+  getEvents() {
+    getAllEvents((eventList) => {
+      this.setState({ eventList });
+      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+    }, this.state.latitude, this.state.longitude, RADIUS);
+  }
+
+  submitModalData(data) {
+    this.setState({
+      latitude: data.latitude,
+      longitude: data.longitude,
+    }, this.getEvents);
+  }
+
+  handleOpenLocationDialog(error) {
+    console.log('error code', error.code);
+    this.setState({ showModal: true });
+  }
+
   closeAddEventDialog() {
     this.setState({ addEvent: false });
   }
 
   handleAddEventData(data) {
     postNewEvent(data);
-    this.setState({ addEvent: false });
-    getAllEvents((eventList) => {
-      this.setState({ eventList });
-      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    });
+    this.setState({ addEvent: false }, this.getEvents);
+    // getAllEvents((eventList) => {
+    //   this.setState({ eventList });
+    //   this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+    // }, this.state.latitude, this.state.longitude);
   }
 
   toggleAddEvent() {
@@ -143,10 +178,13 @@ class Home extends Component {
       }
     }
 
+    // console.log(this.state.eventList);
+
     // filter by date, then filter THAT by time
     // TODO: I think we could make this just 3 if statements
     if (filters != null) {
       filteredEvents = this.state.eventList;
+      console.log(filteredEvents);
       // OLD:
       if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
         filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
@@ -156,7 +194,7 @@ class Home extends Component {
       } else if (filters.selectedTime != null) {
         filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       }
-
+      console.log(filteredEvents);
       // NEW:
       // if (filters.selectedDate != null) {
       //   filteredEvents = filterDates(filters, this.dateBarData, filteredEvents.slice());
@@ -168,6 +206,7 @@ class Home extends Component {
       // if (filters.selectedCategories.length > 0) {
       filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
       // }
+      console.log(filteredEvents);
     }
     this.setState({ filters, filteredEventList: filteredEvents });
 
@@ -175,6 +214,7 @@ class Home extends Component {
     filteredEvents.sort(sortDateTime);
 
     // only important for the very beginning (see the render() method)
+    // console.log(filteredEvents);
     return filteredEvents;
   }
 
@@ -209,9 +249,26 @@ class Home extends Component {
           handleAddEventData={this.handleAddEventData}
           closeAddEventDialog={this.closeAddEventDialog}
         />
+        <Geolocation
+          getLocation={this.getLocation}
+          handleOpenLocationDialog={this.handleOpenLocationDialog}
+        />
+        <LocationModal
+          showModal={this.state.showModal}
+          submitModalData={this.submitModalData}
+        />
       </div>
     );
   }
 } // QUICK TO REVIEW: what does this bracket close?
+
+function LocationModal(props) {
+  const show = props.showModal;
+  if (show) {
+    return <LocationDialog submitModalData={props.submitModalData} />;
+  } else {
+    return null;
+  }
+}
 
 export default Home;
