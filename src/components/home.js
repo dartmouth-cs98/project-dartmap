@@ -70,6 +70,10 @@ class Home extends Component {
       this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
     }, true);
   }
+
+  componentDidMount() {
+    getAllCategories(categoriesList => this.setState({ categoriesList }));
+  }
   // componentDidMount() {
   //   getAllEvents((eventList) => {
   //     this.setState({ eventList });
