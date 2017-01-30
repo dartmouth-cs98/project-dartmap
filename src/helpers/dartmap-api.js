@@ -39,7 +39,7 @@ function formatAPIEventData(event) {
 }
 
 /**
- * formatEventDataforAPI() returns an event formatted to work with the front-end
+ * formatEventDataforAPI() returns an event formatted to work with the back-end
  *
  * @param {Object} the event object created by the AddEventDialog component
  * @return {Object} the event information formatted for a post to the API
@@ -84,16 +84,24 @@ export function postNewEvent(event) {
   return response;
 }
 
-export function getAllEvents(saveEventList) {
+export function getAllEvents(saveEventList, latitude, longitude, radius) {
+  console.log(latitude);
+  console.log(longitude);
   const fullUrl = API_URL.concat(EVENT_URL);
   $.ajax({
     url: fullUrl,
     type: 'GET',
+    data: {
+      location_latitude: latitude,
+      location_longitude: longitude,
+      location_radius: radius,
+    },
     dataType: 'json',
     success: (data) => {
       const eventList = data.events.map((event) => {
         return formatAPIEventData(event);
       });
+      console.log(data);
       return saveEventList(eventList);
     },
     error: (xhr, status, err) => {
