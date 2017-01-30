@@ -92,15 +92,16 @@ export function getAllEvents(saveEventList, latitude, longitude, radius) {
     url: fullUrl,
     type: 'GET',
     data: {
-      lat: latitude,
-      long: longitude,
-      rad: radius,
+      location_latitude: latitude,
+      location_longitude: longitude,
+      location_radius: radius,
     },
     dataType: 'json',
     success: (data) => {
       const eventList = data.events.map((event) => {
         return formatAPIEventData(event);
       });
+      console.log(data);
       return saveEventList(eventList);
     },
     error: (xhr, status, err) => {

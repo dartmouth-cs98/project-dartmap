@@ -178,10 +178,13 @@ class Home extends Component {
       }
     }
 
+    // console.log(this.state.eventList);
+
     // filter by date, then filter THAT by time
     // TODO: I think we could make this just 3 if statements
     if (filters != null) {
       filteredEvents = this.state.eventList;
+      console.log(filteredEvents);
       // OLD:
       if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
         filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
@@ -191,7 +194,7 @@ class Home extends Component {
       } else if (filters.selectedTime != null) {
         filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       }
-
+      console.log(filteredEvents);
       // NEW:
       // if (filters.selectedDate != null) {
       //   filteredEvents = filterDates(filters, this.dateBarData, filteredEvents.slice());
@@ -203,6 +206,7 @@ class Home extends Component {
       // if (filters.selectedCategories.length > 0) {
       filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
       // }
+      console.log(filteredEvents);
     }
     this.setState({ filters, filteredEventList: filteredEvents });
 
@@ -210,6 +214,7 @@ class Home extends Component {
     filteredEvents.sort(sortDateTime);
 
     // only important for the very beginning (see the render() method)
+    // console.log(filteredEvents);
     return filteredEvents;
   }
 
