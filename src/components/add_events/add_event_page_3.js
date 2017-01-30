@@ -13,10 +13,13 @@ class AddEventPage3 extends Component {
       loc_tmp: null,
       c: [43.703337, -72.288578],
       center: { lat: 43.703337, lng: -72.288578 },
+      nearby_loc: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBack = this.handleBack.bind(this);
     this.handleSelectedLocation = this.handleSelectedLocation.bind(this);
+    this.nearbySearch = this.nearbySearch.bind(this);
+    this.createMarker = this.createMarker.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = ['location'].map((data) => {
       return (
@@ -27,7 +30,101 @@ class AddEventPage3 extends Component {
     });
     this.map = null;
     this.gPlaces = null;
-    this.gMaps = null;
+    this.gMaps = (window.google && window.google.maps);
+    this.infoWindow = null;
+    this.marker = null;
+    this.markers = [];
+  }
+
+  componentDidMount() {
+    const mapHTML = document.getElementById('add-event-map');
+    const searchHTML = document.getElementById('map-search-box');
+    this.map = new this.gMaps.Map(mapHTML, {
+      center: this.state.center,
+      zoom: 15,
+      streetViewControl: false,
+      fullscreenControl: false,
+      mapTypeControl: false,
+    });
+    this.infoWindow = new this.gMaps.InfoWindow();
+    this.gPlaces = new this.gMaps.places.PlacesService(this.map);
+    this.textBox = new this.gMaps.places.Autocomplete(searchHTML);
+    this.textBox.bindTo('bounds', this.map);
+    this.map.addListener('click', (event) => {
+      console.log(event.latLng.lat(), event.latLng.lng());
+      // this.nearbySearch(event.latLng);
+    });
+    this.map.addListener('bounds_changed', (event) => {
+      this.nearbySearch(this.map.getBounds());
+    //   // const bounds = this.map.getBounds();
+    //   this.textBox.setBounds(this.map.getBounds());
+    //   // console.log(bounds);
+    //   // console.log(typeof bounds);
+    //   // if (bounds) {
+    //   //   this.nearbySearch(bounds);
+    //   // }
+    });
+    this.textBox.addListener('place_changed', (event) => {
+      const place = this.textBox.getPlace();
+      if (this.marker) {
+        this.marker.setVisible(false);
+      } else {
+        this.marker = new this.gMaps.Marker({
+          map: this.map,
+          position: place.geometry.location,
+        });
+        this.marker.setVisible(false);
+      }
+      if (!place.geometry) {
+        // User entered the name of a Place that was not suggested and
+        // pressed the Enter key, or the Place Details request failed.
+        window.alert('No details available for input: \''.concat(place.name).concat('\''));
+      }
+      // If the place has a geometry, then present it on a map.
+      if (place.geometry.viewport) {
+        this.map.fitBounds(place.geometry.viewport);
+      } else {
+        this.map.setCenter(place.geometry.location);
+        this.map.setZoom(17);  // Why 17? Because it looks good.
+      }
+      this.marker.setPosition(place.geometry.location);
+      this.marker.setVisible(true);
+    });
+  }
+
+  nearbySearch(bounds) {
+    this.gPlaces.nearbySearch({ bounds },
+      (result) => {
+        console.log(result);
+        this.setState({ nearby_loc: result });
+        for (let i = 0; i < result.length; i += 1) {
+          const marker = this.createMarker(result[i].name, result[i].geometry.location);
+          this.markers.push(marker);
+          // new this.gMaps.Marker({
+          //   map: this.map,
+          //   position: result[i].geometry.location,
+          // });
+          // this.gMaps.event.addListener(marker, 'click', function callback() {
+          //   infoWindow.setContent(result[i].name);
+          //   infoWindow.open(map, this);
+          // });
+        }
+      }
+    );
+  }
+
+  createMarker(name, location) {
+    const infoWindow = this.infoWindow;
+    const map = this.map;
+    const marker = new this.gMaps.Marker({
+      map: this.map,
+      position: location,
+    });
+    this.gMaps.event.addListener(marker, 'click', function callback() {
+      infoWindow.setContent(name);
+      infoWindow.open(map, this);
+    });
+    return marker;
   }
 
   handleBack(event) {
@@ -54,24 +151,6 @@ class AddEventPage3 extends Component {
     console.log(data);
   }
 
-  componentDidMount() {
-    const mapHTML = document.getElementById('add-event-map');
-    const searchHTML = document.getElementById('map-search-box');
-    this.gMaps = (window.google && window.google.maps);
-    this.map = new this.gMaps.Map(mapHTML, { center: this.state.center, zoom: 15 });
-    this.map.addListener('click', (event) => {
-      console.log(event.latLng.lat(), event.latLng.lng());
-    });
-    this.gPlaces = new this.gMaps.places.PlacesService(this.map);
-    this.gPlaces.nearbySearch({ location: this.state.center, radius: 100 }, (result) => { console.log(result); });
-    this.textBox = new this.gMaps.places.Autocomplete(searchHTML);
-    this.textBox.bindTo('bounds', this.map);
-    this.textBox.addListener('place_changed', (event) => {
-      console.log(this.textBox.getPlace());
-    });
-    console.log(this.map, this.gPlaces);
-  }
-
   render() {
     // const locationErrorMessage = (this.state.location === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     // const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
@@ -80,18 +159,17 @@ class AddEventPage3 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <div id="add-event-map" />
-          <h2>Location String TEMP!!!:*</h2>
           <input
             id="map-search-box"
             type="text"
-            placeholder="e.g. hi"
+            placeholder="Search for or select location"
             value={this.state.loc_tmp || ''}
             onChange={(event) => {
               this.setState({ loc_tmp: event.target.value });
             }}
             className={(this.state.loc_tmp !== '') ? 'add-event-text add-event-loc-string' : 'add-event-text add-event-loc-string error-box'}
           />
+          <div id="add-event-map" />
         </div>
         <div className="add-event-btns">
           <input
