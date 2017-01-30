@@ -16,7 +16,6 @@ import NavBar from './components/nav_bar';
 import Home from './components/home';
 import UserPage from './components/user_page';
 
-
 const App = (props) => {
   return (
     <div className="app-container">
