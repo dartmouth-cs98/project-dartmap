@@ -74,7 +74,7 @@ class AddEventDialog extends Component {
   render() {
     const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description, location_string: this.state.location_string };
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
-    const page3Data = { location_obj: this.state.location_obj };
+    const page3Data = { location_obj: this.state.location_obj, userLocation: this.props.userLocation };
     const page4Data = { categories: this.state.categories };
     const page5Data = { icon: this.state.icon };
     this.pageCode = [

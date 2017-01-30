@@ -124,7 +124,7 @@ export default class MapContainer extends Component {
       <div id="map" style={mapStyle}>
         <GoogleMap
           bootstrapURLKeys={{
-            key: 'AIzaSyAmi90D8Iw5A51foVbt3m87kmuN7FSN_ek',
+            key: 'AIzaSyBiWgQfyoDdvwJR-x8o06wV-jbXhKrOQNo',
             libraries: 'places',
           }}
           center={this.props.center}
@@ -142,3 +142,5 @@ export default class MapContainer extends Component {
     );
   }
 }
+
+// key: 'AIzaSyAmi90D8Iw5A51foVbt3m87kmuN7FSN_ek',

@@ -40,7 +40,7 @@ class AddEventPage3 extends Component {
     const mapHTML = document.getElementById('add-event-map');
     const searchHTML = document.getElementById('map-search-box');
     this.map = new this.gMaps.Map(mapHTML, {
-      center: this.state.center,
+      center: this.props.data.userLocation,
       zoom: 15,
       streetViewControl: false,
       fullscreenControl: false,
