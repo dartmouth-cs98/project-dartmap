@@ -60,6 +60,7 @@ class LocationDialog extends Component {
 
   submitModalData() {
     const address = this.state.zipcode;
+    this.gMaps = this.gMaps || (window.google && window.google.maps);
     this.geocoder = new this.gMaps.Geocoder();
 
     this.geocoder.geocode({ address }, this.handleGeocoderResponse);
@@ -93,4 +94,3 @@ class LocationDialog extends Component {
 }
 
 export default LocationDialog;
-
