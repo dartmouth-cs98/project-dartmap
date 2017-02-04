@@ -1,6 +1,7 @@
 // add_event_page_5.js
 import React, { Component } from 'react';
 import AddEventIconBtn from './add_event_icon_btn';
+import ImageUpload from '../upload_images';
 
 class AddEventPage5 extends Component {
   constructor(props) {
@@ -104,6 +105,7 @@ class AddEventPage5 extends Component {
             {iconBtns}
           </div>
         </div>
+        <ImageUpload />
         <div className="add-event-btns">
           <input
             type="button"
