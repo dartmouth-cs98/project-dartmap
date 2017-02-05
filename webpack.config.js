@@ -1,6 +1,7 @@
 // webpack.config.js
 // Configuration file for Webpack
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const DotEnvPlugin = require('dotenv-webpack');
 
 module.exports = {
   stats: { colors: true },
@@ -34,6 +35,8 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin('bundle.css'),
+    new DotEnvPlugin({
+      path: './.env',
+    }),
   ],
 };
-

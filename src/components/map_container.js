@@ -124,7 +124,7 @@ export default class MapContainer extends Component {
       <div id="map" style={mapStyle}>
         <GoogleMap
           bootstrapURLKeys={{
-            key: 'AIzaSyBiWgQfyoDdvwJR-x8o06wV-jbXhKrOQNo',
+            key: process.env.GOOGLE_API_KEY,
             libraries: 'places',
           }}
           center={this.props.center}
