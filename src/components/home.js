@@ -63,7 +63,8 @@ class Home extends Component {
     this.getLocation = this.getLocation.bind(this);
     this.submitModalData = this.submitModalData.bind(this);
     this.handleOpenLocationDialog = this.handleOpenLocationDialog.bind(this);
-
+  }
+  componentDidMount() {
     // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
       this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
@@ -73,15 +74,11 @@ class Home extends Component {
 
   componentDidMount() {
     getAllCategories(categoriesList => this.setState({ categoriesList }));
-  }
-  // componentDidMount() {
   //   getAllEvents((eventList) => {
   //     this.setState({ eventList });
   //     this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
   //   });
-  //   getAllCategories(categoriesList => this.setState({ categoriesList }));
-  // }
-
+  }
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
   onEventListItemClick(eventId, newCenter) {
@@ -188,7 +185,6 @@ class Home extends Component {
     // TODO: I think we could make this just 3 if statements
     if (filters != null) {
       filteredEvents = this.state.eventList;
-      console.log(filteredEvents);
       // OLD:
       if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
         filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
@@ -198,7 +194,6 @@ class Home extends Component {
       } else if (filters.selectedTime != null) {
         filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       }
-      console.log(filteredEvents);
       // NEW:
       // if (filters.selectedDate != null) {
       //   filteredEvents = filterDates(filters, this.dateBarData, filteredEvents.slice());
@@ -206,7 +201,6 @@ class Home extends Component {
       // if (filters.selectedTime != null) {
       //   filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       // }
-
       if (filters.selectedCategories.length <= 0) {
         filteredEvents = [];
       } else {
@@ -251,10 +245,6 @@ class Home extends Component {
         <AddEventDialog
           addEvent={this.state.addEvent}
           catList={this.state.categoriesList}
-          userLocation={{
-            lng: this.state.longitude,
-            lat: this.state.latitude,
-          }}
           handleAddEventData={this.handleAddEventData}
           closeAddEventDialog={this.closeAddEventDialog}
         />
@@ -269,7 +259,7 @@ class Home extends Component {
       </div>
     );
   }
-} // QUICK TO REVIEW: what does this bracket close?
+}
 
 function LocationModal(props) {
   const show = props.showModal;

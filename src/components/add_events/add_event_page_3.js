@@ -102,9 +102,11 @@ class AddEventPage3 extends Component {
   nearbySearch(bounds) {
     this.gPlaces.nearbySearch({ bounds },
       (result) => {
-        for (let i = 0; i < result.length; i += 1) {
-          const marker = this.createMarker(result[i].name, result[i].geometry.location, result[i].place_id);
-          this.markers.push(marker);
+        if (result) {
+          for (let i = 0; i < result.length; i += 1) {
+            const marker = this.createMarker(result[i].name, result[i].geometry.location, result[i].place_id);
+            this.markers.push(marker);
+          }
         }
       }
     );

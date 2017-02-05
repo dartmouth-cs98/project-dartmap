@@ -4,8 +4,9 @@ import $ from 'jquery';
 import moment from 'moment';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
-const EVENT_URL = 'events/';
+const AUTH_URL = 'auth/';
 const CATEGORY_URL = 'categories/';
+const EVENT_URL = 'events/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -81,8 +82,6 @@ export function postNewEvent(event) {
 }
 
 export function getAllEvents(saveEventList, latitude, longitude, radius) {
-  console.log(latitude);
-  console.log(longitude);
   const fullUrl = API_URL.concat(EVENT_URL);
   $.ajax({
     url: fullUrl,
@@ -122,4 +121,23 @@ export function getAllCategories(saveCatList) {
       console.error(fullUrl, status, err);
     },
   });
+}
+
+export function postFbToken(token) {
+  const tokenData = {};
+  tokenData.access_token = token.accessToken;
+  const fullUrl = API_URL.concat(AUTH_URL);
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'POST',
+    data: tokenData,
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
 }
