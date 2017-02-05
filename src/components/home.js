@@ -9,15 +9,14 @@ import { postNewEvent, getAllEvents, getAllCategories } from '../helpers/dartmap
 import createDateData from '../helpers/date-data-helper';
 import { filterDates, filterTimes, sortDateTime } from '../helpers/date-time-filters-helper';
 import { filterCategories } from '../helpers/category-filters-helper';
-// import filterTimes from './helpers/date-time-filters-helper';
 
 // import the react Components
 import EventList from './event_list';
 import MapContainer from './map_container';
-import LocationDialog from './location_dialog';
 import AddEventDialog from './add_event_dialog';
 import FilterContainer from './filter_container';
 import Geolocation from './geolocation';
+import LocationModal from './location_modal';
 
 // const TIMES_DATA_DISPLAY = { 0: '8:00 AM', 1: '10:00 AM', 2: '12:00 PM', 3: '2:00 PM', 4: '4:00 PM', 5: '6:00 PM', 6: '8:00 PM', 7: '10:00 PM', 8: '12:00 AM', 9: '2:00 AM' };
 const TIMES_DATA_DISPLAY = { 0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 24, 9: 26 };
@@ -128,10 +127,6 @@ class Home extends Component {
   handleAddEventData(data) {
     postNewEvent(data);
     this.setState({ addEvent: false }, this.getEvents);
-    // getAllEvents((eventList) => {
-    //   this.setState({ eventList });
-    //   this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    // }, this.state.latitude, this.state.longitude);
   }
 
   toggleAddEvent() {
@@ -270,14 +265,5 @@ class Home extends Component {
     );
   }
 } // QUICK TO REVIEW: what does this bracket close?
-
-function LocationModal(props) {
-  const show = props.showModal;
-  if (show) {
-    return <LocationDialog submitModalData={props.submitModalData} />;
-  } else {
-    return null;
-  }
-}
 
 export default Home;
