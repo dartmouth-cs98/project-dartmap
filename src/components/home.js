@@ -251,6 +251,10 @@ class Home extends Component {
         <AddEventDialog
           addEvent={this.state.addEvent}
           catList={this.state.categoriesList}
+          userLocation={{
+            lng: this.state.longitude,
+            lat: this.state.latitude,
+          }}
           handleAddEventData={this.handleAddEventData}
           closeAddEventDialog={this.closeAddEventDialog}
         />

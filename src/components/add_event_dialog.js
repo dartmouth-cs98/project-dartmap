@@ -22,7 +22,7 @@ class AddEventDialog extends Component {
       date: null,
       start_time: null,
       end_time: null,
-      location_obj: null,
+      location: null,
       location_string: null,
       categories: null,
       icon: null,
@@ -41,7 +41,7 @@ class AddEventDialog extends Component {
       date: null,
       start_time: null,
       end_time: null,
-      location_obj: null,
+      location: null,
       location_string: null,
       categories: [],
       icon: null,
@@ -59,7 +59,7 @@ class AddEventDialog extends Component {
       date: this.state.date,
       start_time: this.state.start_time,
       end_time: this.state.end_time,
-      location_obj: this.state.location_obj,
+      location: this.state.location,
       location_string: this.state.location_string,
       icon_url: this.state.icon.url,
       categories: this.state.categories,
@@ -72,9 +72,9 @@ class AddEventDialog extends Component {
     this.props.closeAddEventDialog();
   }
   render() {
-    const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description };
+    const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description, location_string: this.state.location_string };
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
-    const page3Data = { location_obj: this.state.location_obj, location_string: this.state.location_string };
+    const page3Data = { location: this.state.location, userLocation: this.props.userLocation };
     const page4Data = { categories: this.state.categories };
     const page5Data = { icon: this.state.icon };
     this.pageCode = [
