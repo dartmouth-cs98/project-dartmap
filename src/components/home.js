@@ -76,6 +76,25 @@ class Home extends Component {
     //   this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
     // });
     getAllCategories(categoriesList => this.setState({ categoriesList }));
+
+    window.fbAsyncInit = () => {
+      FB.init({ // eslint-disable-line no-undef
+        appId: '1776894129299505',
+        xfbml: true,
+        version: 'v2.8',
+      });
+    };
+
+    // Load the SDK asynchronously
+    ((d, s, id) => { // eslint-disable-line id-length
+      const element = d.getElementsByTagName(s)[0];
+      const fjs = element;
+      let js = element;
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = '//connect.facebook.net/en_US/sdk.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'facebook-jssdk');
   }
 
   // Things to do when the event list is clicked:
@@ -260,6 +279,11 @@ class Home extends Component {
         <LocationModal
           showModal={this.state.showModal}
           submitModalData={this.submitModalData}
+        />
+        <div id="fb-root" />
+        <div className="fb-comments"
+          data-href="https://dartmouth-cs98.github.io/project-dartmap/"
+          data-numposts="10"
         />
       </div>
     );
