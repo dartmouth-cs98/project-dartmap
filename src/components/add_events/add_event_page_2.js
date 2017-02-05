@@ -1,6 +1,5 @@
 // add_event_page_2.js
 
-// TODO: add validation to the end time so that it must be after the start time!!
 import React, { Component } from 'react';
 import DateTime from 'react-datetime';
 

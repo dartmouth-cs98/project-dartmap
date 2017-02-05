@@ -35,19 +35,15 @@ class AddEventPage4 extends Component {
   }
   render() {
     const categoryErrorMessage = (this.state.categories === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
-    const catLabels = ['Academic', 'Art', 'Sports', 'Performance', 'Lecture', 'Greek Life', 'Free food'];
-    let i = 0;
-    const dropdownValues = catLabels.map((cat) => {
-      i += 1;
-      return { label: cat, value: i };
+    const dropdownValues = this.props.catList.map((cat) => {
+      return { label: cat.name, value: cat.id };
     });
-    console.log(dropdownValues);
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
           {categoryErrorMessage}
           <h2>Select event category:*</h2>
-          <Select.Creatable multi joinValues
+          <Select multi joinValues
             options={dropdownValues}
             value={this.state.categories}
             onChange={categories => this.setState({ categories })}

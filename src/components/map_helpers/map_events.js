@@ -15,9 +15,18 @@ export default class EventsWithControllableHover extends Component {
   }
 
   createPopupHtml() {
-    return `<img src=${this.props.icon_url} height="20" width="20">
-    <br /><b>${this.props.name} @ ${this.props.start_time.format('h:mm A')}</b>
-    <br />${this.props.description}<br />Organizer: ${this.props.organizer}`;
+    let popupHtml = '';
+    for (let i = 0; i < this.props.eventsForLocation.length; i += 1) {
+      // Add a horizontal line break between event items.
+      if (i > 0) {
+        popupHtml = `${popupHtml} + <br /><hr />`;
+      }
+      const evt = this.props.eventsForLocation[i];
+      popupHtml = `${popupHtml} <img src=${evt.icon_url} height="20" width="20">
+      <br /><b>${evt.name} @ ${evt.start_time.format('h:mm A')}</b>
+      <br />${evt.description}<br />Organizer: ${evt.organizer}`;
+    }
+    return popupHtml;
   }
 
   createHoverPopup() {

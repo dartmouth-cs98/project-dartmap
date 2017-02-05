@@ -1,5 +1,4 @@
 // date-data-helper.js
-
 // import for time filtering
 import moment from 'moment';
 
@@ -23,8 +22,6 @@ function filterDates(filters, dateKey, eventList) {
       filteredDates.push(dateKey[dateIdx].getDate());
     }
   }
-  // console.log('filteredDates:');
-  // console.log(filteredDates);
   for (i = 0; i < eventList.length; i += 1) {
     const event = eventList[i];
     const eventDate = eventList[i].date.date();
@@ -84,6 +81,29 @@ function sortDateTime(a, b) {
   const bTime = moment(b.start_time).hour() + ((moment(b.start_time).minute()) / 100);
   return parseFloat(aTime) - parseFloat(bTime);
 }
+
+// function arePointsNear(point1, point2) {
+//   const sw = new google.maps.LatLng(point2.lat() - 0.005, point2.lng() - 0.005);
+//   const ne = new google.maps.LatLng(point2.lat() + 0.005, point2.lng() + 0.005);
+//   const bounds = new google.maps.LatLngBounds(sw, ne);
+//   if (bounds.contains(point1)) {
+//     return true;
+//   }
+//   return false;
+// }
+
+// // filter events by geolocation
+// function filterLocation(eventList, latitude, longitude) {
+//   const filteredEvents = [];
+//   // const user_position = new point(latitude, longitude);
+//   let i;
+//   for (i = 0; i < eventList.length; i += 1) {
+//     if (arePointsNear(eventList[i].location.latitude, eventList[i].location.longitude)) {
+//       filteredEvents.push(eventList[i]);
+//     }
+//   }
+//   return filteredEvents;
+// }
 
 export default filterDates;
 export { filterDates, filterTimes, sortDateTime };

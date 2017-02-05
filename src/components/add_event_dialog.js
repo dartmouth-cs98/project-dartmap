@@ -1,5 +1,4 @@
 // add_event_dialog.js
-// TODO: add validations to the slider so that you cannot go forward
 
 import React, { Component } from 'react';
 
@@ -22,10 +21,10 @@ class AddEventDialog extends Component {
       date: null,
       start_time: null,
       end_time: null,
-      location_obj: null,
+      location: null,
       location_string: null,
       categories: null,
-      icon_url: null,
+      icon: null,
       currentPage: 0,
     };
     this.handlePageData = this.handlePageData.bind(this);
@@ -41,10 +40,10 @@ class AddEventDialog extends Component {
       date: null,
       start_time: null,
       end_time: null,
-      location_obj: null,
+      location: null,
       location_string: null,
       categories: [],
-      icon_url: null,
+      icon: null,
       currentPage: 0,
     });
   }
@@ -59,9 +58,9 @@ class AddEventDialog extends Component {
       date: this.state.date,
       start_time: this.state.start_time,
       end_time: this.state.end_time,
-      location_obj: this.state.location_obj,
+      location: this.state.location,
       location_string: this.state.location_string,
-      icon_url: this.state.icon_url,
+      icon_url: this.state.icon.url,
       categories: this.state.categories,
     };
     this.resetState();
@@ -72,31 +71,33 @@ class AddEventDialog extends Component {
     this.props.closeAddEventDialog();
   }
   render() {
-    const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description };
+    const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description, location_string: this.state.location_string };
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
-    const page3Data = { location_obj: this.state.location_obj, location_string: this.state.location_string };
+    const page3Data = { location: this.state.location, userLocation: this.props.userLocation };
     const page4Data = { categories: this.state.categories };
-    const page5Data = { icon_url: this.state.icon_url };
+    const page5Data = { icon: this.state.icon };
     this.pageCode = [
       <AddEventPage1 currentPage={this.state.currentPage} data={page1Data} handleData={this.handlePageData} />,
       <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,
       <AddEventPage3 currentPage={this.state.currentPage} data={page3Data} handleData={this.handlePageData} />,
-      <AddEventPage4 currentPage={this.state.currentPage} data={page4Data} handleData={this.handlePageData} />,
+      <AddEventPage4 currentPage={this.state.currentPage} catList={this.props.catList} data={page4Data} handleData={this.handlePageData} />,
       <AddEventPage5 currentPage={this.state.currentPage} data={page5Data} handleData={this.handlePageData} />,
       <AddEventSubmitPage data={this.state} submitEventData={this.submitEventData} />,
     ];
 
     if (this.props.addEvent) {
       return (
-        <div id="add-event">
-          <div className="add-event-top">
-            <div>
-              <h1>Add new event</h1>
-              <div id="close-button" onClick={this.handleClose}>x</div>
+        <div className="add-event-cover">
+          <div id="add-event">
+            <div className="add-event-top">
+              <div>
+                <h1>Add new event</h1>
+                <div id="close-button" onClick={this.handleClose}>x</div>
+              </div>
+              <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
             </div>
-            <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
+            {this.pageCode[this.state.currentPage]}
           </div>
-          {this.pageCode[this.state.currentPage]}
         </div>
       );
     }
