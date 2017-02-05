@@ -37,7 +37,7 @@ class UserPage extends Component {
     return (
       <div className="profile">
         <div className="photo-container">
-          <img className="photo" src="./../../images/edrei_headshot.jpg" alt="You" />
+          <img className="photo" src="https://s27.postimg.org/ws3spwi9f/unknown.png" alt="You" />
           <div className="change-photo">
             <button className="change-photo-button" type="button" onClick={this.openChangePhotoDialog}>
             Change Photo

@@ -1,5 +1,4 @@
 // add_event_dialog.js
-// TODO: add validations to the slider so that you cannot go forward
 
 import React, { Component } from 'react';
 

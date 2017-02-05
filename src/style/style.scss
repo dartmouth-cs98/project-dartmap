@@ -4,6 +4,7 @@
 @import "./segmented-controls.css";
 @import "./add_event.scss";
 @import "./variables.scss";
+@import "./user-profile.scss";
 
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
@@ -223,63 +224,6 @@ hr {
 //over-writing an issue with the rc-slider stylesheet
 .rc-slider-step {
   margin: 0;
-}
-
-// Profile Page
-.photo-container {
-    position: relative;
-    width: 30%;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 40px;
-    padding-bottom: 40px;
-}
-
-.photo {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
-  height: auto;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  padding: 5px;
-}
-
-.change-photo {
-  transition: .5s ease;
-  opacity: 0;
-  position: absolute;
-  z-index: 100;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%)
-}
-
-.change-photo-button {
-  background-color: #00693E;
-  color: white;
-  font-size: 14px;
-  padding: 14px 28px;
-  text-align: center;
-}
-
-.photo-container:hover > .photo {
-  opacity: 0.3;
-}
-
-.photo-container:hover > .change-photo {
-  opacity: 1;
-}
-
-
-.change-photo:hover {
-  opacity: 1;
-  cursor: pointer;
-  box-shadow: 4px 4px 2px #000000;
 }
 
 // Location Dialog
