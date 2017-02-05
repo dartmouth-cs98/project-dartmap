@@ -2,7 +2,7 @@
 // Profile Page
 .photo-container {
     position: relative;
-    width: 30%;
+    width: 20%;
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 40px;
@@ -15,7 +15,6 @@
   width: 100%;
   height: auto;
   transition: .5s ease;
-  backface-visibility: hidden;
   height: auto;
   border: 1px solid #ddd;
   border-radius: 50%;

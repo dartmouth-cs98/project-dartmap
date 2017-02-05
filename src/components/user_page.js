@@ -57,9 +57,3 @@ class UserPage extends Component {
 }
 
 export default UserPage;
-
-
-// <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
-//   Add Event
-//   <img id="plus" src="./../../icon_set_1/plus.png" role="presentation" />
-// </button>

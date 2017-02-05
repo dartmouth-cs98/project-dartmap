@@ -35,12 +35,6 @@ class AddEventPage4 extends Component {
   }
   render() {
     const categoryErrorMessage = (this.state.categories === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
-    // const catLabels = ['Academic', 'Art', 'Sports', 'Performance', 'Lecture', 'Greek Life', 'Free food'];
-    // let i = 0;
-    // const dropdownValues = catLabels.map((cat) => {
-    //   i += 1;
-    //   return { label: cat, value: i };
-    // });
     const dropdownValues = this.props.catList.map((cat) => {
       return { label: cat.name, value: cat.id };
     });
