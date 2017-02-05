@@ -1,10 +1,10 @@
 //add_event.scss
-//This file contains the styles for the add event dialog
+//This file contains the styles for the upload image dialog
 
 @import "./variables.scss";
 
-// Add Event Dialog
-.add-event-cover {
+// Upload Image Dialog
+.upload-image-cover {
   height: 100%;
   width: 100%;
   position: absolute;
@@ -13,13 +13,13 @@
   background-color: rgba(209, 209, 224, .5);
 }
 
-#add-event {
+#upload-image {
   border: 5px solid black;
-  height: 80%;
-  width: 80%;
+  height: 50%;
+  width: 50%;
   position: absolute;
-  top: 10%;
-  left: 10%;
+  top: 25%;
+  left: 25%;
   background-color: white;
   padding: 30px;
   border-radius: 50px;
@@ -36,40 +36,40 @@
     cursor: pointer;
   }
 }
-.add-event-top {
+.upload-image-top {
   height: 20%;
 }
 
-.add-event-form {
+.upload-image-form {
   height: 80%;
   @include flex-box;
   @include flex-column;
   @include flex-space-between;
 }
 
-.add-event-text {
+.upload-image-text {
   width: 50%;
   vertical-align: middle;
   height: 30px;
 }
 
-.add-event-loc-string {
+/*.upload-image-loc-string {
   width: 150px;
-}
+}*/
 
-.add-event-error-message {
+.upload-image-error-message {
   display: inline-block;
   width: 50%;
   vertical-align: middle;
   height: 30px;
 }
 
-.add-event-btns {
+/*.upload-image-btns {
   display: inline-block;
   width: 100%;
 }
 
-.add-event-btn {
+.upload-image-btn {
   background-color: $green;
 }
 
@@ -86,7 +86,7 @@
 }
 
 // Location Selection Page
-#add-event-map {
+#upload-image-map {
   width: 100%;
   height: 300px;
 }
@@ -128,4 +128,4 @@
 .page-slider {
   @include flex-space-around;
   @include flex-box;
-}
+}*/
