@@ -48,9 +48,47 @@ hr {
     left: 8px;
   }
 
+  // This is (currently) the add event button
+  #add-event-button {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 20px;
+    float: right;
+    font-size: 20pt;
+    height: 100%;
+    line-height: 100%;
+
+    &:hover {
+      background-color: $light-grey;
+      cursor: pointer;
+    }
+  }
+
   #logo {
     height: $nav-bar-height;
     width: $nav-bar-height;
+  }
+
+  #fb-pic {
+    border-radius: 50%;
+    height: $nav-bar-height;
+    width: $nav-bar-height;
+  }
+
+  .fb-user {
+    background-color: #3b5998;
+    border: 0px;
+    color: white;
+    font-family: 'Lucida Grande';
+    font-size: 12px;
+    float: right;
+    line-height: 16px;
+    margin-left: 8px;
+    padding: 5px;
+    &:hover {
+      cursor: pointer;
+      opacity: .8;
+    }
   }
 }
 
@@ -184,6 +222,7 @@ hr {
 .popup {
   background-color: $light-grey;
   padding: 5px;
+  z-index: 15;
 }
 
 .description {
