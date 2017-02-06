@@ -6,6 +6,7 @@ import moment from 'moment';
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const EVENT_URL = 'events/';
 const CATEGORY_URL = 'categories/';
+const IMAGE_URL = 'sign_s3/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -59,6 +60,7 @@ function formatEventDataforAPI(event) {
   eventData.location_name = event.location.name;
   eventData.location_latitude = event.location.lat;
   eventData.location_longitude = event.location.lng;
+  eventData.image_url = event.image_url;
   return eventData;
 }
 
@@ -122,4 +124,27 @@ export function getAllCategories(saveCatList) {
       console.error(fullUrl, status, err);
     },
   });
+}
+
+export function getSignedImageURL(file) {
+  const fullUrl = API_URL.concat(IMAGE_URL);
+  const imageData = {
+    file_name: file.name,
+    file_type: file.type,
+  };
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'POST',
+    data: imageData,
+    success: (data) => {
+      console.log(data.data);
+      console.log(data.url);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
 }

@@ -96,7 +96,7 @@
   z-index: 1;
 }
 
-// Icon Selection Page
+// Icon and Image Selection Page
 .icon-select {
   @include flex-box;
   @include flex-wrapping;
@@ -122,6 +122,16 @@
 
 .selected-icon {
   border-color: $green;
+}
+
+.image-select {
+  height: 50%;
+  width: 50%;
+}
+
+.selected-image {
+  float: right;
+  width: 200px;
 }
 
 .page-slider {
