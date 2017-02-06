@@ -94,11 +94,12 @@ class ImageUpload extends Component {
 
   getSignedRequest(file) {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', `/sign-s3?file-name=${file.name}&file-type=${file.type}`);
+    xhr.open('GET', `/sign_s3?file-name=${file.name}&file-type=${file.type}`);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
           const response = JSON.parse(xhr.responseText);
+          console.log('YAY, got signed request from the backend.');
           this.uploadFile(file, response.data, response.url);
         } else {
           alert('Could not get signed URL.');
