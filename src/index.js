@@ -19,6 +19,8 @@ import UserPage from './components/user_page';
 // Helper function imports
 import { postFbToken } from './helpers/dartmap-api';
 
+/* global FB:true */
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -34,13 +36,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
       FB.init({
-        appId      : '240355553073589',
-        cookie     : true,  // enable cookies to allow the server to access
-                          // the session
-        xfbml      : true,  // parse social plugins on this page
-        version    : 'v2.8' // use version 2.8
+        appId: '240355553073589',
+        cookie: true,   // enable cookies to allow the server to access
+                        // the session
+        xfbml: true,    // parse social plugins on this page
+        version: 'v2.8', // use version 2.8
       });
 
       // Now that we've initialized the JavaScript SDK, we call
@@ -58,36 +60,37 @@ class App extends Component {
     }.bind(this);
 
     // Load the SDK asynchronously
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
+    (function (d, s, id) {
+      const fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/en_US/sdk.js";
+      const js = d.createElement(s);
+      js.id = id;
+      js.src = '//connect.facebook.net/en_US/sdk.js';
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   }
 
   checkLoginState() {
     setTimeout(() => {
-      FB.getLoginStatus(function(response) {
+      FB.getLoginStatus((response) => {
         if (response.status === 'connected') {
           // Logged into your app and Facebook.
           this.setState({ logged_in: true });
           postFbToken(response.authResponse);
           if (response.authResponse.userID) {
-            const fb_user_url = "/" + response.authResponse.userID + "/picture";
+            const fbUserUrl = `/${response.authResponse.userID}/picture`;
             FB.api(
-              fb_user_url,
+              fbUserUrl,
               this.handleImageResponse
             );
           }
-        } else if (response.status === 'not_authorized') {
+        // } else if (response.status === 'not_authorized') {
         } else {
           // The person is not logged into Facebook, so we're not sure if
           // they are logged into this app or not.
           this.setState({ logged_in: false });
         }
-      }.bind(this));
+      });
     }, 500);
   }
 
@@ -98,13 +101,13 @@ class App extends Component {
   }
 
   handleLoginClick() {
-    FB.getLoginStatus(function(response) {
+    FB.getLoginStatus((response) => {
       if (response.status === 'connected') {
         this.setState({ logged_in: true });
       } else {
         FB.login(this.checkLoginState());
       }
-    }.bind(this));
+    });
   }
 
   handleLogoutClick() {
@@ -116,8 +119,8 @@ class App extends Component {
     return (
       <div className="app-container">
         <NavBar logged_in={this.state.logged_in}
-                fb_profile_image_url={this.state.fb_profile_image_url} 
-                handleLoginClick={this.handleLoginClick}
+          fb_profile_image_url={this.state.fb_profile_image_url}
+          handleLoginClick={this.handleLoginClick}
         />
         {this.props.children}
       </div>

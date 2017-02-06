@@ -3,18 +3,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 
 export default class NavBar extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentWillReceiveProps(newProps) {
     if (newProps.fb_profile_image_url) {
-      const user_link = document.getElementById("user-link")
-      user_link.innerHTML = '';
-      const img = new Image(); // width, height values are optional params 
+      const userLink = document.getElementById('user-link');
+      userLink.innerHTML = '';
+      const img = new Image(); // width, height values are optional params
       img.src = newProps.fb_profile_image_url;
-      img.id = 'fb-pic'
-      user_link.appendChild(img);
+      img.id = 'fb-pic';
+      userLink.appendChild(img);
     }
   }
 
@@ -41,4 +37,4 @@ export default class NavBar extends Component {
       );
     }
   }
-};
+}

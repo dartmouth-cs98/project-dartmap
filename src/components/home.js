@@ -70,15 +70,15 @@ class Home extends Component {
       this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
       this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
     }, true);
-  }
 
-  componentDidMount() {
     getAllCategories(categoriesList => this.setState({ categoriesList }));
+
   //   getAllEvents((eventList) => {
   //     this.setState({ eventList });
   //     this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
   //   });
   }
+
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
   onEventListItemClick(eventId, newCenter) {
