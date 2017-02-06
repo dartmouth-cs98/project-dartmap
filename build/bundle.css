@@ -1148,6 +1148,9 @@ td.rdtYear:hover {
   left: 0;
   background-color: rgba(209, 209, 224, 0.5); }
 
+.add-event-cover > * {
+  z-index: 15; }
+
 #add-event {
   border: 5px solid black;
   height: 80%;
@@ -1337,9 +1340,37 @@ hr {
     display: inline-block;
     position: relative;
     left: 8px; }
+  #nav-bar #add-event-button {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 20px;
+    float: right;
+    font-size: 20pt;
+    height: 100%;
+    line-height: 100%; }
+    #nav-bar #add-event-button:hover {
+      background-color: #d1d1e0;
+      cursor: pointer; }
   #nav-bar #logo {
     height: 45px;
     width: 45px; }
+  #nav-bar #fb-pic {
+    border-radius: 50%;
+    height: 45px;
+    width: 45px; }
+  #nav-bar .fb-user {
+    background-color: #3b5998;
+    border: 0px;
+    color: white;
+    font-family: 'Lucida Grande';
+    font-size: 12px;
+    float: right;
+    line-height: 16px;
+    margin-left: 8px;
+    padding: 5px; }
+    #nav-bar .fb-user:hover {
+      cursor: pointer;
+      opacity: .8; }
 
 .nav-btn {
   color: black;
@@ -1456,7 +1487,8 @@ hr {
 
 .popup {
   background-color: #d1d1e0;
-  padding: 5px; }
+  padding: 5px;
+  z-index: 15; }
 
 .description {
   width: 250px;
