@@ -4,6 +4,7 @@
 @import "./segmented-controls.css";
 @import "./add_event.scss";
 @import "./variables.scss";
+@import "./user-profile.scss";
 
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
@@ -17,6 +18,7 @@ hr {
     border-bottom: 1px solid $light-grey;
     padding: 0;
 }
+
 
 #main, .app-container {
   height: inherit;

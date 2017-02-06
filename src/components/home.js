@@ -70,13 +70,17 @@ class Home extends Component {
       this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
     }, true);
   }
+
   componentDidMount() {
-    // getAllEvents((eventList) => {
-    //   this.setState({ eventList });
-    //   this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    // });
     getAllCategories(categoriesList => this.setState({ categoriesList }));
   }
+  // componentDidMount() {
+  //   getAllEvents((eventList) => {
+  //     this.setState({ eventList });
+  //     this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+  //   });
+  //   getAllCategories(categoriesList => this.setState({ categoriesList }));
+  // }
 
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
@@ -203,10 +207,11 @@ class Home extends Component {
       //   filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
       // }
 
-      // if (filters.selectedCategories.length > 0) {
-      filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
-      // }
-      console.log(filteredEvents);
+      if (filters.selectedCategories.length <= 0) {
+        filteredEvents = [];
+      } else {
+        filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
+      }
     }
     this.setState({ filters, filteredEventList: filteredEvents });
 
