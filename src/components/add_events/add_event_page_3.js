@@ -1,8 +1,5 @@
 // add_event_page_3.js
 import React, { Component } from 'react';
-// import MapContainer from '../map_container';
-// import { nearbyMapSearch, textSearch, autoCompleteSearch } from '../../helpers/google-places-api';
-
 
 class AddEventPage3 extends Component {
   // static nullFunction() {}
@@ -199,12 +196,3 @@ class AddEventPage3 extends Component {
 }
 
 export default AddEventPage3;
-
-// <MapContainer events={this.state.location_obj || []}
-//   showBalloonEventId={this.nullFunction}
-//   showStickyBalloonEventId={this.nullFunction}
-//   height={mapHeight}
-//   width={mapWidth}
-//   handleSelectedLocation={this.handleSelectedLocation}
-//   center={this.state.center}
-// />
