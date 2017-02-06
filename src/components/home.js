@@ -49,7 +49,7 @@ class Home extends Component {
       showStickyBalloonEventId: null,
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
-      center: [43.703337, -72.288578],
+      center: null,
       latitude: null,
       longitude: null,
     };
@@ -238,6 +238,10 @@ class Home extends Component {
           showStickyBalloon={this.showStickyBalloon}
           showBalloon={this.showBalloon}
           removePopUps={this.removePopUps}
+          userLocation={{
+            lng: this.state.longitude,
+            lat: this.state.latitude,
+          }}
         />
         <EventList
           toggleAddEvent={this.toggleAddEvent}

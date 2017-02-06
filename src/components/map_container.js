@@ -126,7 +126,7 @@ export default class MapContainer extends Component {
             key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
             libraries: 'places',
           }}
-          center={this.props.center}
+          center={this.props.center || this.props.userLocation}
           zoom={this.props.zoom}
           hoverDistance={K_SIZE / 2}
           onBoundsChange={this._onBoundsChange}
