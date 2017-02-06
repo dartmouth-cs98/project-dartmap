@@ -94,7 +94,9 @@ hr {
 // Map Components
 #map {
   float: left;
-  padding: 16px;
+  padding: 5px;
+  margin: 16px 16px 16px 16px;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
 }
 
 .event {
@@ -199,7 +201,7 @@ hr {
 // Filter Container
 #filter-container {
   height: 20%;
-  width: 80%;
+  width: 75%;
   float: left;
   display: block;
   padding: 0 25px;

@@ -24,7 +24,7 @@ const TIMES_DATA_DISPLAY = { 0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 
 const DEFAULT_DATE_FILTER = [0, 1];
 const DEFAULT_TIME_FILTER = [0, 9];
 const MAP_HEIGHT_MULTIPLIER = 0.65;
-const MAP_WIDTH_MULTIPLIER = 0.8;
+const MAP_WIDTH_MULTIPLIER = 0.75;
 const RADIUS = 10000;
 
 class Home extends Component {
