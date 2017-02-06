@@ -56,13 +56,14 @@ class Home extends Component {
     this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
     this.showBalloon = this.showBalloon.bind(this);
+    this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
     this.filterEvents = this.filterEvents.bind(this);
     this.getLocation = this.getLocation.bind(this);
     this.submitModalData = this.submitModalData.bind(this);
     this.handleOpenLocationDialog = this.handleOpenLocationDialog.bind(this);
-
+    this.removePopUps = this.removePopUps.bind(this);
     // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
       this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
@@ -84,13 +85,13 @@ class Home extends Component {
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
   onEventListItemClick(eventId, newCenter) {
-    if (!this.state.addEvent) {
+    if (!this.state.addEvent && (this.state.showStickyBalloonEventId !== eventId)) {
       this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
 
-      // Reset the state so that the popup is a onetime popup.
-      setTimeout(() => {
-        this.setState({ showStickyBalloonEventId: null });
-      }, 1000);
+      // // Reset the state so that the popup is a onetime popup.
+      // setTimeout(() => {
+      //   this.setState({ showStickyBalloonEventId: null });
+      // }, 1000);
     }
   }
 
@@ -130,33 +131,39 @@ class Home extends Component {
   }
 
   toggleAddEvent() {
+    this.removePopUps();
     this.setState({ addEvent: true });
 
-    // Remove sticky popups.
-    const parent = document.getElementsByTagName('body')[0];
-    const popupsToRemove = document.getElementsByClassName('popup');
-    while (popupsToRemove.length > 0) {
-      parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
-    }
+    // // Remove sticky popups.
+    // const parent = document.getElementsByTagName('body')[0];
+    // const popupsToRemove = document.getElementsByClassName('popup');
+    // while (popupsToRemove.length > 0) {
+    //   parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
+    // }
   }
 
   // Show balloons with event info on the map.
   // The state is sent to the MapContainer.
   showBalloon(eventId) {
-    if (!this.state.addEvent) {
-      this.setState({ showBalloonEventId: eventId });
-    }
+    this.setState({ showBalloonEventId: eventId });
   }
 
   showStickyBalloon(eventId) {
-    if (!this.state.addEvent) {
+    if (this.state.showStickyBalloonEventId !== eventId) {
       this.setState({ showStickyBalloonEventId: eventId });
 
-      // Reset the state so that the popup is a onetime popup.
-      setTimeout(() => {
-        this.setState({ showStickyBalloonEventId: null });
-      }, 1000);
+      // // Reset the state so that the popup is a onetime popup.
+      // setTimeout(() => {
+      //   this.setState({ showStickyBalloonEventId: null });
+      // }, 1000);
     }
+  }
+
+  removePopUps() {
+    this.setState({
+      showBalloonEventId: null,
+      showStickyBalloonEventId: null,
+    });
   }
 
   filterEvents(theFilters) {
@@ -228,6 +235,9 @@ class Home extends Component {
           height={this.state.mapHeight}
           width={this.state.mapWidth}
           center={this.state.center}
+          showStickyBalloon={this.showStickyBalloon}
+          showBalloon={this.showBalloon}
+          removePopUps={this.removePopUps}
         />
         <EventList
           toggleAddEvent={this.toggleAddEvent}
