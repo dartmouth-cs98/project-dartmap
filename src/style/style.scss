@@ -122,6 +122,12 @@ hr {
   position: relative;
 }
 
+.popup-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 5px;
+}
+
 #event-menu {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   float: right;
@@ -186,13 +192,15 @@ hr {
 
 .popup {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-size: 1rem;
   background-color: white;
   border: 1px solid;
   border-color: $green;
   box-shadow: 0 0 8px 2px #888;
   color: black;
   padding: 5px;
-  width: 200px;
+  width: 250px;
+  z-index: 1;
   @include flex-box;
   @include flex-column;
 }

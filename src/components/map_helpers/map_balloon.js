@@ -19,7 +19,9 @@ class MapBalloon extends Component {
         this.popUp.push(<div key={key} className="hbar"><hr /></div>);
       }
       const key = 'balloon'.concat(event.id);
-      this.popUp.push(<MapBalloonEvent event={event} key={key} />);
+      this.popUp.push(
+        <MapBalloonEvent event={event} num={this.events.length} key={key} />
+      );
     }
     if (this.props.showBalloon) {
       const popupClassName = 'popup popup'.concat(this.props.id);
