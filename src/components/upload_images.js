@@ -13,7 +13,7 @@ class ImageUpload extends Component {
     };
 
     this.getSignedRequest = this.getSignedRequest.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
     this.initUpload = this.initUpload.bind(this);
     this.uploadFile = this.uploadFile.bind(this);
   }
