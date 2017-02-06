@@ -1,8 +1,5 @@
 // add_event_page_3.js
 import React, { Component } from 'react';
-// import MapContainer from '../map_container';
-// import { nearbyMapSearch, textSearch, autoCompleteSearch } from '../../helpers/google-places-api';
-
 
 class AddEventPage3 extends Component {
   // static nullFunction() {}
@@ -102,9 +99,11 @@ class AddEventPage3 extends Component {
   nearbySearch(bounds) {
     this.gPlaces.nearbySearch({ bounds },
       (result) => {
-        for (let i = 0; i < result.length; i += 1) {
-          const marker = this.createMarker(result[i].name, result[i].geometry.location, result[i].place_id);
-          this.markers.push(marker);
+        if (result) {
+          for (let i = 0; i < result.length; i += 1) {
+            const marker = this.createMarker(result[i].name, result[i].geometry.location, result[i].place_id);
+            this.markers.push(marker);
+          }
         }
       }
     );
@@ -197,12 +196,3 @@ class AddEventPage3 extends Component {
 }
 
 export default AddEventPage3;
-
-// <MapContainer events={this.state.location_obj || []}
-//   showBalloonEventId={this.nullFunction}
-//   showStickyBalloonEventId={this.nullFunction}
-//   height={mapHeight}
-//   width={mapWidth}
-//   handleSelectedLocation={this.handleSelectedLocation}
-//   center={this.state.center}
-// />
