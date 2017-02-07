@@ -11,6 +11,7 @@ class ChangePhotoDialog extends Component {
     this.onDrop = this.onDrop.bind(this);
   }
   onDrop(acceptedFiles, rejectedFiles) {
+    this.onDrop = this.onDrop; // hack
     console.log('Accepted files: ', acceptedFiles);
     console.log('Rejected files: ', rejectedFiles);
   }

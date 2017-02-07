@@ -2,7 +2,7 @@
 // TODO: add validations to the slider so that you cannot go forward
 
 import React, { Component } from 'react';
-import { getSignedImageURL, postToS3 } from '../helpers/dartmap-api';
+import { getSignedImageURL } from '../helpers/dartmap-api';
 
 class ImageUpload extends Component {
   constructor(props) {
@@ -34,15 +34,11 @@ class ImageUpload extends Component {
     const postData = new FormData();
     let key;
     for (key in s3Data.fields) {
-      postData.append(key, s3Data.fields[key]);
+      if (key) {
+        postData.append(key, s3Data.fields[key]);
+      }
     }
     postData.append('file', file);
-    // postToS3(s3Data.url, postData).then((response) => {
-    //   console.log('YAY, uploaded to s3.');
-    //   document.getElementById('preview').src = url;
-    //   const resp = JSON.parse(response);
-    //   this.props.updateImageURL(resp.location);
-    // });
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
