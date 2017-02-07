@@ -5,10 +5,10 @@
 @import "./add_event.scss";
 @import "./variables.scss";
 @import "./user-profile.scss";
+@import "./event-page.scss";
 
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -25,17 +25,24 @@ hr {
   min-width: 768px;
 }
 
+.app-container {
+  background-color: $light-grey;
+}
+
 // Top Navigation Bar
 #nav-bar {
   background-color: white;
   color: $green;
   font-size: 30pt;
-  height: $nav-bar-height;
+  height: 60px;
   line-height: $nav-bar-height;
   padding-left: 12px;
   padding-top: 10px;
   padding-right: 16px;
   position: relative;
+  box-shadow: 0px 5px 10px -5px black;
+  -webkit-box-shadow: 0px 5px 10px -5px black;
+  -moz-box-shadow: 0px 5px 10px -5px black;
 
   @include flex-space-between;
   @include flex-box;
@@ -94,8 +101,9 @@ hr {
 .nav-btn {
   color: black;
   text-decoration: none;
+  cursor: pointer;
 
-  &:hover {
+  &:hover, &:focus {
     color: black;
   }
 }
@@ -126,6 +134,7 @@ hr {
 // This is the div that encompasses everything that is not in the navigation bar
 .home-container {
   height: 90%;
+  background-color: white;
 }
 
 // Map Components

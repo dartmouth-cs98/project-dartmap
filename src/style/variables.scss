@@ -62,3 +62,15 @@ $nav-bar-height: 45px;
   -webkit-flex-wrap: wrap;
   -moz-flex-wrap: wrap;
 }
+
+@mixin flex-justify-center {
+  justify-content: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+}
+
+@mixin flex-align-center {
+  align-items: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+}
