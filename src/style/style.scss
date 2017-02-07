@@ -5,10 +5,10 @@
 @import "./add_event.scss";
 @import "./variables.scss";
 @import "./user-profile.scss";
+@import "./event-page.scss";
 
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -25,17 +25,24 @@ hr {
   min-width: 768px;
 }
 
+.app-container {
+  background-color: $light-grey;
+}
+
 // Top Navigation Bar
 #nav-bar {
   background-color: white;
   color: $green;
   font-size: 30pt;
-  height: $nav-bar-height;
+  height: 60px;
   line-height: $nav-bar-height;
   padding-left: 12px;
   padding-top: 10px;
   padding-right: 16px;
   position: relative;
+  box-shadow: 0px 5px 10px -5px black;
+  -webkit-box-shadow: 0px 5px 10px -5px black;
+  -moz-box-shadow: 0px 5px 10px -5px black;
 
   @include flex-space-between;
   @include flex-box;
@@ -94,8 +101,9 @@ hr {
 .nav-btn {
   color: black;
   text-decoration: none;
+  cursor: pointer;
 
-  &:hover {
+  &:hover, &:focus {
     color: black;
   }
 }
@@ -126,6 +134,7 @@ hr {
 // This is the div that encompasses everything that is not in the navigation bar
 .home-container {
   height: 90%;
+  background-color: white;
 }
 
 // Map Components
@@ -135,7 +144,7 @@ hr {
 }
 
 .event {
-  border: 0px solid $red;
+  border: 0px;
   background-color: $green;
   @include event-style;
 
@@ -145,13 +154,25 @@ hr {
 }
 
 .event-hover {
-  border: 0px solid $blue;
+  border: 0px;
   background-color: $light-grey;
   @include event-style;
 
   &:focus {
     outline: none;
   }
+}
+
+.map-event-img {
+  height: 20px;
+  width: 20px;
+  position: relative;
+}
+
+.popup-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 5px;
 }
 
 #event-menu {
@@ -217,9 +238,18 @@ hr {
 }
 
 .popup {
-  background-color: $light-grey;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-size: 1rem;
+  background-color: white;
+  border: 1px solid;
+  border-color: $green;
+  box-shadow: 0 0 8px 2px #888;
+  color: black;
   padding: 5px;
+  width: 250px;
   z-index: 15;
+  @include flex-box;
+  @include flex-column;
 }
 
 .description {
@@ -394,20 +424,10 @@ hr {
   border-color: red;
 }
 
-.popup {
-  background-color: white;
-  border: 1px solid;
-  border-color: $green;
-  box-shadow: 0 0 8px 2px #888;
-  color: black;
-  padding: 5px;
-  width: 20%;
-}
-
 .close-button {
-  position: absolute;
-  right: 10px;
-  top: 5px;
+  align-self: flex-end;
+  align-self: -webkit-flex-end;
+  align-self: -moz-flex-end;
   &:hover {
     color: #DC143C;
     cursor: pointer;
