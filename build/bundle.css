@@ -1160,7 +1160,8 @@ td.rdtYear:hover {
   left: 10%;
   background-color: white;
   padding: 30px;
-  border-radius: 50px; }
+  border-radius: 50px;
+  box-shadow: 0px 0px 20px black; }
 
 #close-button {
   position: absolute;
@@ -1283,9 +1284,10 @@ td.rdtYear:hover {
   height: auto;
   border: 1px solid #ddd;
   border-radius: 50%;
-  padding: 5px; }
+  padding: 5px;
+  box-shadow: 0px 0px 10px #000000; }
 
-.change-photo {
+.upload-photo {
   transition: .5s ease;
   opacity: 0;
   position: absolute;
@@ -1295,7 +1297,7 @@ td.rdtYear:hover {
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%); }
 
-.change-photo-button {
+.upload-photo-button {
   background-color: #00693E;
   color: white;
   font-size: 14px;
@@ -1305,14 +1307,136 @@ td.rdtYear:hover {
 .photo-container:hover > .photo {
   opacity: 0.3; }
 
-.photo-container:hover > .change-photo {
+.photo-container:hover > .upload-photo {
   opacity: 1; }
 
-.change-photo:hover {
+.upload-photo:hover {
   opacity: 1;
   cursor: pointer;
   box-shadow: 4px 4px 2px #000000; }
 
+.upload-image-cover {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(209, 209, 224, 0.5); }
+
+#upload-image {
+  border: 5px solid black;
+  height: 50%;
+  width: 50%;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  background-color: white;
+  padding: 30px;
+  border-radius: 50px;
+  box-shadow: 0px 0px 20px black; }
+
+#close-button {
+  position: absolute;
+  right: 20px;
+  top: 5px; }
+  #close-button:hover {
+    color: #f44336;
+    cursor: pointer; }
+
+.upload-image-top {
+  height: 20%; }
+
+.upload-image-form {
+  height: 80%;
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between; }
+
+.upload-image-text {
+  width: 50%;
+  vertical-align: middle;
+  height: 30px; }
+
+/*.upload-image-loc-string {
+  width: 150px;
+}*/
+.upload-image-error-message {
+  display: inline-block;
+  width: 50%;
+  vertical-align: middle;
+  height: 30px; }
+
+/*.upload-image-btns {
+  display: inline-block;
+  width: 100%;
+}
+
+.upload-image-btn {
+  background-color: $green;
+}
+
+.back-btn {
+  float: left;
+}
+
+.nxt-btn {
+  float: right;
+}
+
+.invalid-nxt-btn {
+  background-color: $light-grey;
+}
+
+// Location Selection Page
+#upload-image-map {
+  width: 100%;
+  height: 300px;
+}
+
+#map-search-box {
+  width: 50%;
+  position: absolute;
+  z-index: 1;
+}
+
+// Icon Selection Page
+.icon-select {
+  @include flex-box;
+  @include flex-wrapping;
+}
+
+.icon-btn {
+  height: 54px;
+  width: 54px;
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: 54px;
+  padding: 0;
+  margin: 5px;
+
+  &:focus {
+    outline: 0;
+  }
+}
+.icon-btn-img {
+  height: 50px;
+  width: 50px;
+}
+
+.selected-icon {
+  border-color: $green;
+}
+
+.page-slider {
+  @include flex-space-around;
+  @include flex-box;
+}*/
 .evpg-container {
   padding-top: 20px;
   margin: 0px 50px;
@@ -1405,6 +1529,11 @@ hr {
     display: inline-block;
     position: relative;
     left: 8px; }
+  #nav-bar h2 {
+    display: inline-block;
+    position: relative;
+    right: 8px;
+    color: #B3B3B3; }
   #nav-bar #add-event-button {
     background-color: white;
     border: 1px solid;
@@ -1421,8 +1550,11 @@ hr {
     width: 45px; }
   #nav-bar #fb-pic {
     border-radius: 50%;
-    height: 45px;
-    width: 45px; }
+    height: 35px;
+    width: 35px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px #000000; }
   #nav-bar .fb-user {
     background-color: #3b5998;
     border: 0px;
@@ -1430,6 +1562,7 @@ hr {
     font-family: 'Lucida Grande';
     font-size: 12px;
     float: right;
+    height: 32px;
     line-height: 16px;
     margin-left: 8px;
     padding: 5px; }
@@ -1451,7 +1584,8 @@ hr {
   float: right;
   font-size: 20pt;
   height: 100%;
-  line-height: 100%; }
+  line-height: 100%;
+  margin-bottom: 10px; }
   .add-event-plus:hover {
     background-color: #d1d1e0;
     cursor: pointer; }
@@ -1467,7 +1601,9 @@ hr {
 
 #map {
   float: left;
-  padding: 16px; }
+  padding: 5px;
+  margin: 16px 16px 16px 16px;
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.8); }
 
 .event {
   border: 0px;
@@ -1592,7 +1728,7 @@ hr {
 
 #filter-container {
   height: 20%;
-  width: 80%;
+  width: 75%;
   float: left;
   display: block;
   padding: 0 25px; }
@@ -1621,7 +1757,8 @@ hr {
   position: center;
   background-color: white;
   padding: 30px;
-  border-radius: 50px; }
+  border-radius: 50px;
+  box-shadow: 0px 0px 20px black; }
 
 #add-event {
   border: 5px solid black;
@@ -1632,7 +1769,8 @@ hr {
   left: 10%;
   background-color: white;
   padding: 30px;
-  border-radius: 50px; }
+  border-radius: 50px;
+  box-shadow: 0px 0px 20px black; }
 
 #close-button {
   position: absolute;
