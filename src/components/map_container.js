@@ -9,7 +9,7 @@ const K_SIZE = 40;
 @controllable(['center', 'zoom', 'hoverKey', 'clickKey'])
 export default class MapContainer extends Component {
   static propTypes = {
-    center: PropTypes.arrayOf(PropTypes.number), // @controllable
+    center: PropTypes.objectOf(PropTypes.number), // @controllable
     zoom: PropTypes.number, // @controllable
     hoverKey: PropTypes.string, // @controllable
     onCenterChange: PropTypes.func, // @controllable generated fn

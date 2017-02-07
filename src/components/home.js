@@ -64,7 +64,10 @@ class Home extends Component {
     this.submitModalData = this.submitModalData.bind(this);
     this.handleOpenLocationDialog = this.handleOpenLocationDialog.bind(this);
     this.removePopUps = this.removePopUps.bind(this);
+    this.getEvents = this.getEvents.bind(this);
+    this.onCenterChange = this.onCenterChange.bind(this);
   }
+
   componentDidMount() {
     // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
@@ -219,6 +222,10 @@ class Home extends Component {
     // console.log(filteredEvents);
     return filteredEvents;
   }
+  onCenterChange(center) {
+    console.log(center);
+    this.setState({ center });
+  }
 
   render() {
     return (
@@ -237,6 +244,7 @@ class Home extends Component {
             lng: this.state.longitude,
             lat: this.state.latitude,
           }}
+          onCenterChange={this.onCenterChange}
         />
         <EventList
           toggleAddEvent={this.toggleAddEvent}
