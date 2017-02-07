@@ -1250,6 +1250,14 @@ td.rdtYear:hover {
 .selected-icon {
   border-color: #008000; }
 
+.image-select {
+  height: 50%;
+  width: 50%; }
+
+.selected-image {
+  float: right;
+  width: 200px; }
+
 .page-slider {
   justify-content: space-around;
   -webkit-justify-content: space-around;
@@ -1305,9 +1313,60 @@ td.rdtYear:hover {
   cursor: pointer;
   box-shadow: 4px 4px 2px #000000; }
 
+.evpg-container {
+  padding-top: 20px;
+  margin: 0px 50px;
+  background-color: white;
+  line-height: normal;
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  align-items: center;
+  -webkit-align-items: center;
+  -moz-align-items: center; }
+
+#evpg-map {
+  width: 50%;
+  height: 200px;
+  float: left; }
+
+.evpg-image {
+  margin: 40px 0px;
+  width: 80%;
+  background-color: #d1d1e0;
+  text-align: center;
+  border-radius: 10px; }
+
+.evpg-title {
+  font-size: 32pt;
+  padding-top: 12px; }
+
+.evpg-date {
+  font-size: 18pt; }
+
+.evpg-time {
+  font-size: 24pt; }
+
+.evpg-secondary {
+  width: 80%;
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  justify-content: space-around;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+  align-items: center;
+  -webkit-align-items: center;
+  -moz-align-items: center; }
+
+.evpg-text div {
+  padding: 5px 0; }
+
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  height: 100%;
   margin: 0;
   padding: 0; }
 
@@ -1320,16 +1379,22 @@ hr {
   height: inherit;
   min-width: 768px; }
 
+.app-container {
+  background-color: #d1d1e0; }
+
 #nav-bar {
   background-color: white;
   color: #008000;
   font-size: 30pt;
-  height: 45px;
+  height: 60px;
   line-height: 45px;
   padding-left: 12px;
   padding-top: 10px;
   padding-right: 16px;
   position: relative;
+  box-shadow: 0px 5px 10px -5px black;
+  -webkit-box-shadow: 0px 5px 10px -5px black;
+  -moz-box-shadow: 0px 5px 10px -5px black;
   justify-content: space-between;
   -webkit-justify-content: space-between;
   -moz-justify-content: space-between;
@@ -1374,8 +1439,9 @@ hr {
 
 .nav-btn {
   color: black;
-  text-decoration: none; }
-  .nav-btn:hover {
+  text-decoration: none;
+  cursor: pointer; }
+  .nav-btn:hover, .nav-btn:focus {
     color: black; }
 
 .add-event-plus {
@@ -1396,45 +1462,56 @@ hr {
   margin-left: 20px; }
 
 .home-container {
-  height: 90%; }
+  height: 90%;
+  background-color: white; }
 
 #map {
   float: left;
   padding: 16px; }
 
 .event {
-  border: 0px solid #f44336;
+  border: 0px;
   background-color: #008000;
   position: absolute;
-  width: 18px;
-  height: 18px;
-  left: -9px;
-  top: -9px;
-  border-radius: 18px;
+  width: 24px;
+  height: 24px;
+  left: -12px;
+  top: -12px;
+  border-radius: 24px;
   text-align: center;
   font-size: 16px;
   font-weight: bold;
-  padding: 4px;
+  padding: 0px;
   cursor: pointer; }
   .event:focus {
     outline: none; }
 
 .event-hover {
-  border: 0px solid #3f51b5;
+  border: 0px;
   background-color: #d1d1e0;
   position: absolute;
-  width: 18px;
-  height: 18px;
-  left: -9px;
-  top: -9px;
-  border-radius: 18px;
+  width: 24px;
+  height: 24px;
+  left: -12px;
+  top: -12px;
+  border-radius: 24px;
   text-align: center;
   font-size: 16px;
   font-weight: bold;
-  padding: 4px;
+  padding: 0px;
   cursor: pointer; }
   .event-hover:focus {
     outline: none; }
+
+.map-event-img {
+  height: 20px;
+  width: 20px;
+  position: relative; }
+
+.popup-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 5px; }
 
 #event-menu {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
@@ -1486,9 +1563,22 @@ hr {
     cursor: pointer; }
 
 .popup {
-  background-color: #d1d1e0;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-size: 1rem;
+  background-color: white;
+  border: 1px solid;
+  border-color: #008000;
+  box-shadow: 0 0 8px 2px #888;
+  color: black;
   padding: 5px;
-  z-index: 15; }
+  width: 250px;
+  z-index: 15;
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  flex-direction: column;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column; }
 
 .description {
   width: 250px;
@@ -1641,19 +1731,10 @@ hr {
 .error-box {
   border-color: red; }
 
-.popup {
-  background-color: white;
-  border: 1px solid;
-  border-color: #008000;
-  box-shadow: 0 0 8px 2px #888;
-  color: black;
-  padding: 5px;
-  width: 20%; }
-
 .close-button {
-  position: absolute;
-  right: 10px;
-  top: 5px; }
+  align-self: flex-end;
+  align-self: -webkit-flex-end;
+  align-self: -moz-flex-end; }
   .close-button:hover {
     color: #DC143C;
     cursor: pointer; }
