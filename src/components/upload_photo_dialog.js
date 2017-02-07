@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 
-class ChangePhotoDialog extends Component {
+class UploadPhotoDialog extends Component {
   constructor(props) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
@@ -16,17 +16,17 @@ class ChangePhotoDialog extends Component {
     console.log('Rejected files: ', rejectedFiles);
   }
   handleClose() {
-    this.props.closeChangePhotoDialog();
+    this.props.closeUploadPhotoDialog();
   }
 
   render() {
-    if (this.props.changingPhoto) {
+    if (this.props.uploadingPhoto) {
       return (
-        <div className="add-event-cover">
-          <div id="add-event">
-            <div className="add-event-top">
+        <div className="upload-image-cover">
+          <div id="upload-image">
+            <div className="upload-image-top">
               <div>
-                <h1>Change profile photo</h1>
+                <h1>Upload an image</h1>
                 <div id="close-button" onClick={this.handleClose}>x</div>
                 <Dropzone onDrop={this.onDrop}>
                   <div>Drop an image here, or click to select files.</div>
@@ -43,4 +43,4 @@ class ChangePhotoDialog extends Component {
   }
 }
 
-export default ChangePhotoDialog;
+export default UploadPhotoDialog;

@@ -15,6 +15,10 @@ export default class NavBar extends Component {
   }
 
   render() {
+    let greeting = <h2 className="navbar-greeting">Welcome! Please log in...</h2>;
+    if (this.props.userInfo != null) {
+      greeting = <h2 className="navbar-greeting">Hi, {this.props.userInfo.name}!</h2>;
+    }
     if (this.props.logged_in) {
       return (
         <div id="nav-bar">
@@ -22,6 +26,7 @@ export default class NavBar extends Component {
             <img id="logo" src="./../../images/dartmap.png" role="presentation" />
             <h1 className="app-name">mappit</h1>
           </Link>
+          {greeting}
           <Link to="/user" id="user-link" className="nav-btn">Profile</Link>
         </div>
       );
