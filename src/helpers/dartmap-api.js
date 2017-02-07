@@ -6,6 +6,7 @@ import moment from 'moment';
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const AUTH_URL = 'auth/';
 const CATEGORY_URL = 'categories/';
+const IMAGE_URL = 'sign_s3/';
 const EVENT_URL = 'events/';
 
 /**
@@ -61,6 +62,7 @@ function formatEventDataforAPI(event) {
   eventData.location_name = event.location.name;
   eventData.location_latitude = event.location.lat;
   eventData.location_longitude = event.location.lng;
+  eventData.image_url = event.image_url;
   return eventData;
 }
 
@@ -142,6 +144,27 @@ export function getAllCategories(saveCatList) {
   });
 }
 
+export function getSignedImageURL(file) {
+  const fullUrl = API_URL.concat(IMAGE_URL);
+  const imageData = {
+    file_name: file.name,
+    file_type: file.type,
+  };
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'POST',
+    data: imageData,
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
 export function postFbToken(token) {
   const tokenData = {};
   tokenData.access_token = token.accessToken;
@@ -156,6 +179,29 @@ export function postFbToken(token) {
     },
     error: (xhr, status, err) => {
       console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function postToS3(s3URL, postData) {
+  const response = $.ajax({
+    headers: {
+      'x-amz-acl': 'public-read',
+    },
+    url: s3URL,
+    jsonp: false,
+    type: 'POST',
+    data: postData,
+    processData: false,
+    success: (data) => {
+      console.log(data);
+      console.log(data.data);
+      console.log(data.url);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(s3URL, status, err);
     },
   });
   return response;
