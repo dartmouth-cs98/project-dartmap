@@ -1,0 +1,51 @@
+// event_page.scss
+// This file contains all of the style rules
+// that are specific to the Event Pages
+
+@import "./variables.scss";
+
+.evpg-container {
+  padding-top: 20px;
+  margin: 0px 50px;
+  background-color: white;
+  line-height: normal;
+  @include flex-box;
+  @include flex-column;
+  @include flex-align-center;
+}
+
+#evpg-map {
+  width: 50%;
+  height: 200px;
+  float: left;
+}
+
+.evpg-image {
+  margin: 40px 0px;
+  width: 80%;
+  background-color: $light-grey;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.evpg-title {
+  font-size: 32pt;
+  padding-top: 12px;
+}
+.evpg-date {
+  font-size: 18pt;
+}
+.evpg-time {
+  font-size: 24pt;
+}
+
+.evpg-secondary {
+  width: 80%;
+  @include flex-box;
+  @include flex-space-around;
+  @include flex-align-center;
+}
+
+.evpg-text div {
+  padding: 5px 0;
+}

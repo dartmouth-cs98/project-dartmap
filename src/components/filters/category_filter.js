@@ -27,7 +27,15 @@ class CategoryFilter extends Component {
     this.state = { checked: defaultCategories };
     this.handleChange = this.handleChange.bind(this);
     this.onCategoryChange = props.onCategoryChange;
-    this.firstTimeThrough = true;
+  }
+  componentWillMount() {
+    // set the default "checked" to be true for every category
+    const checked = [];
+    let i;
+    for (i = 0; i <= this.props.categoriesList.length; i += 1) {
+      checked.push(i.toString());
+    }
+    this.setState({ checked });
   }
 
   handleChange(event) {
@@ -82,18 +90,6 @@ class CategoryFilter extends Component {
     if (this.props.categoriesList.length === 0) {
       return <div className="hidden" />;
     } else {
-      // at the very beginning (happens once)
-      if (this.firstTimeThrough) {
-        // set the default "checked" to be true for every category
-        const checked = [];
-        let i;
-        for (i = 0; i <= this.props.categoriesList.length; i += 1) {
-          checked.push(i.toString());
-        }
-        this.setState({ checked });
-        this.firstTimeThrough = false;
-      }
-
       boxes = this.props.categoriesList.map((cat) => {
         const cID = `c${cat.id}`; // c1, c2, etc...
         return (

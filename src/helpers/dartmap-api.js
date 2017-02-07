@@ -4,9 +4,10 @@ import $ from 'jquery';
 import moment from 'moment';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
-const EVENT_URL = 'events/';
+const AUTH_URL = 'auth/';
 const CATEGORY_URL = 'categories/';
 const IMAGE_URL = 'sign_s3/';
+const EVENT_URL = 'events/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -23,7 +24,7 @@ function formatAPIEventData(event) {
   newEvent.icon_url = event.icon_url;
   newEvent.description = event.description;
   newEvent.location_string = event.location_string;
-  newEvent.icon_url = event.icon_url;
+  newEvent.image_url = event.image_url;
   newEvent.date = moment(event.date, 'YYYY-MM-DD');
   newEvent.start_time = moment(event.start_time, 'HH:mm');
   newEvent.end_time = moment(event.end_time, 'HH:mm');
@@ -32,8 +33,9 @@ function formatAPIEventData(event) {
   newEvent.lat = event.location.latitude;
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
+  newEvent.placeId = event.location.place_id;
   // categories data
-  const catString = event.categories.replace(/'/g, '\"').replace(/ u"/g, ' \"');
+  const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
   newEvent.categories = $.parseJSON(catString);
 
   return newEvent;
@@ -82,9 +84,25 @@ export function postNewEvent(event) {
   return response;
 }
 
+export function getEvent(saveEvent, eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      const event = formatAPIEventData(data.events[0]);
+      console.log('SUCCESS! GET /events/'.concat(eventId));
+      return saveEvent(event);
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
+      console.error(fullUrl, status, err);
+    },
+  });
+}
+
 export function getAllEvents(saveEventList, latitude, longitude, radius) {
-  console.log(latitude);
-  console.log(longitude);
   const fullUrl = API_URL.concat(EVENT_URL);
   $.ajax({
     url: fullUrl,
@@ -138,9 +156,25 @@ export function getSignedImageURL(file) {
     type: 'POST',
     data: imageData,
     success: (data) => {
-      console.log(data);
-      console.log(data.data);
-      console.log(data.url);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function postFbToken(token) {
+  const tokenData = {};
+  tokenData.access_token = token.accessToken;
+  const fullUrl = API_URL.concat(AUTH_URL);
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'POST',
+    data: tokenData,
+    success: (data) => {
       return data;
     },
     error: (xhr, status, err) => {
@@ -172,4 +206,3 @@ export function postToS3(s3URL, postData) {
   });
   return response;
 }
-
