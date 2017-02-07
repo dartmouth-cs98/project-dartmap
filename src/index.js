@@ -17,7 +17,7 @@ import Home from './components/home';
 import UserPage from './components/user_page';
 
 // Helper function imports
-import { postFbToken } from './helpers/dartmap-api';
+import { postFbToken, getUserByPassword, getAllUsers } from './helpers/dartmap-api';
 
 /* global FB:true */
 
@@ -28,6 +28,7 @@ class App extends Component {
       logged_in: false,
       fb_profile_image_url: null,
       fb_user_id: null,
+      userInfo: null,
     };
     this.checkLoginState = this.checkLoginState.bind(this);
     this.handleImageResponse = this.handleImageResponse.bind(this);
@@ -78,6 +79,7 @@ class App extends Component {
           this.setState({ logged_in: true });
           postFbToken(response.authResponse);
           if (response.authResponse.userID) {
+            getUserByPassword(userInfo => this.setState({ userInfo }), response.authResponse.userID);
             const fbUserUrl = `/${response.authResponse.userID}/picture`;
             FB.api(
               fbUserUrl,
@@ -116,11 +118,13 @@ class App extends Component {
   }
 
   render() {
+    // if we have the user information, send it to the NavBar, otherwise, do not
     return (
       <div className="app-container">
         <NavBar logged_in={this.state.logged_in}
           fb_profile_image_url={this.state.fb_profile_image_url}
           handleLoginClick={this.handleLoginClick}
+          userInfo={(this.state.userInfo != null) ? this.state.userInfo[0] : null}
         />
         {this.props.children}
       </div>

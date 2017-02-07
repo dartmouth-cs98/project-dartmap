@@ -48,6 +48,14 @@ hr {
     left: 8px;
   }
 
+  // This is (currently) the user's name from facebook in the nav bar
+  h2 {
+    display: inline-block;
+    position: relative;
+    right: 8px;
+    color: #B3B3B3;
+  }
+
   // This is (currently) the add event button
   #add-event-button {
     background-color: white;
@@ -73,6 +81,9 @@ hr {
     border-radius: 50%;
     height: $nav-bar-height;
     width: $nav-bar-height;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px #000000;
   }
 
   .fb-user {
@@ -275,6 +286,7 @@ hr {
   background-color: white;
   padding: 30px;
   border-radius: 50px;
+  box-shadow: 0px 0px 20px black;
 }
 
 // Add Event Dialog
@@ -288,6 +300,7 @@ hr {
   background-color: white;
   padding: 30px;
   border-radius: 50px;
+  box-shadow: 0px 0px 20px black;
 }
 
 #close-button {

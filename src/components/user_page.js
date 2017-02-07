@@ -16,7 +16,6 @@ class UserPage extends Component {
   }
 
   openUploadPhotoDialog() {
-    console.log('CLICKED BUTTON');
     this.setState({ uploadingPhoto: true });
   }
 
@@ -24,20 +23,22 @@ class UserPage extends Component {
     this.setState({ uploadingPhoto: false });
   }
 
+  // TODO: fix profile picture source, as well as user name, etc
   render() {
     return (
       <div className="profile">
         <div className="photo-container">
-          <img 
-            className="photo" 
-            src="https://s27.postimg.org/ws3spwi9f/unknown.png" 
-            alt="You" 
+          <img
+            className="photo"
+            src={document.getElementById('fb-pic').src}
+            alt="You"
           />
           <div className="upload-photo">
-            <button 
-              className="upload-photo-button" 
-              type="button" 
-              onClick={this.openUploadPhotoDialog}>
+            <button
+              className="upload-photo-button"
+              type="button"
+              onClick={this.openUploadPhotoDialog}
+            >
             Change Photo
             </button>
           </div>

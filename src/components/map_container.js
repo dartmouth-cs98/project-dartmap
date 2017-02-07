@@ -62,7 +62,7 @@ export default class MapContainer extends Component {
   createLocationsFromEvents(eventList) {
     // Temporary hack to fix a lint error.
     const temp = this.locations;
-    console.log(temp);
+    // console.log(temp);
 
     const locations = new Map();
     for (let i = 0; i < eventList.length; i += 1) {

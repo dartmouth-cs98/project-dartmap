@@ -7,6 +7,7 @@ const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const AUTH_URL = 'auth/';
 const CATEGORY_URL = 'categories/';
 const EVENT_URL = 'events/';
+const USERS_URL = 'users/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -118,6 +119,45 @@ export function getAllCategories(saveCatList) {
     },
     error: (xhr, status, err) => {
       console.log(' /categories GET was not successful.');
+      console.error(fullUrl, status, err);
+    },
+  });
+}
+
+// TODO: not entirely sure whether this works or if we even need it
+export function getAllUsers() {
+  const fullUrl = API_URL.concat(USERS_URL);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      return data;
+      // const userList = data.users;
+      // return saveUserList(userList);
+    },
+    error: (xhr, status, err) => {
+      console.log(' /users GET was not successful.');
+      console.error(fullUrl, status, err);
+    },
+  });
+}
+
+export function getUserByPassword(saveUserList, userPassword) {
+  const fullUrl = API_URL.concat(USERS_URL).concat(userPassword);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      const userList = data.users;
+      return saveUserList(userList);
+      // console.log('data');
+      // console.log(data);
+      // return data;
+    },
+    error: (xhr, status, err) => {
+      console.log(' /user GET was not successful.');
       console.error(fullUrl, status, err);
     },
   });
