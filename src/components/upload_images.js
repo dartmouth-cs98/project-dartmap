@@ -2,7 +2,7 @@
 // TODO: add validations to the slider so that you cannot go forward
 
 import React, { Component } from 'react';
-import { getSignedImageURL } from '../helpers/dartmap-api';
+import { getSignedImageURL, postToS3 } from '../helpers/dartmap-api';
 
 class ImageUpload extends Component {
   constructor(props) {
@@ -11,58 +11,44 @@ class ImageUpload extends Component {
       image: null,
       image_url: null,
     };
-
     this.getSignedRequest = this.getSignedRequest.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
     this.initUpload = this.initUpload.bind(this);
     this.uploadFile = this.uploadFile.bind(this);
   }
 
   getSignedRequest(file) {
-    // const xhr = new XMLHttpRequest();
-    // xhr.open('POST', '/sign_s3');
-    // xhr.onreadystatechange = () => {
-    //   if (xhr.readyState === 4) {
-    //     if (xhr.status === 200) {
-    //       const response = JSON.parse(xhr.responseText);
-    //       console.log('YAY, got signed request from the backend.');
-    //       this.uploadFile(file, response.data, response.url);
-    //     } else {
-    //       alert('Could not get signed URL.');
-    //     }
-    //   }
-    // };
-    // xhr.send();
-
     getSignedImageURL(file).then((response) => {
       console.log('YAY, got signed request from the backend.');
-      console.log(response.data);
-      console.log(response.url);
-      // this.setState({
-      //   image_url: response.url,
-      // });
-      this.uploadFile(file, response.data, response.url);
+      const resp = JSON.parse(response);
+      console.log(resp);
+      this.uploadFile(file, resp.data, resp.url);
     });
   }
 
   uploadFile(file, s3Data, url) {
+    console.log(s3Data.url);
     const xhr = new XMLHttpRequest();
     xhr.open('POST', s3Data.url);
     xhr.setRequestHeader('x-amz-acl', 'public-read');
 
     const postData = new FormData();
-    for (const key in s3Data.fields) {
+    let key;
+    for (key in s3Data.fields) {
       postData.append(key, s3Data.fields[key]);
     }
     postData.append('file', file);
+    // postToS3(s3Data.url, postData).then((response) => {
+    //   console.log('YAY, uploaded to s3.');
+    //   document.getElementById('preview').src = url;
+    //   const resp = JSON.parse(response);
+    //   this.props.updateImageURL(resp.location);
+    // });
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200 || xhr.status === 204) {
           document.getElementById('preview').src = url;
-          document.getElementById('avatar-url').value = url;
-          const response = JSON.parse(xhr.responseText);
-          this.props.updateImageURL(response.location);
+          this.props.updateImageURL(url);
         } else {
           alert('Could not upload file.');
         }

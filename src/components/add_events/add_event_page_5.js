@@ -79,7 +79,7 @@ class AddEventPage5 extends Component {
     const data = {
       icon: this.state.icon,
       currentPage: this.props.currentPage - 1,
-      imagE_url: this.state.image_url,
+      image_url: this.state.image_url,
     };
     this.props.handleData(data);
   }

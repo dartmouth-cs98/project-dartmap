@@ -138,6 +138,7 @@ export function getSignedImageURL(file) {
     type: 'POST',
     data: imageData,
     success: (data) => {
+      console.log(data);
       console.log(data.data);
       console.log(data.url);
       return data;
@@ -148,3 +149,27 @@ export function getSignedImageURL(file) {
   });
   return response;
 }
+
+export function postToS3(s3URL, postData) {
+  const response = $.ajax({
+    headers: {
+      'x-amz-acl': 'public-read',
+    },
+    url: s3URL,
+    jsonp: false,
+    type: 'POST',
+    data: postData,
+    processData: false,
+    success: (data) => {
+      console.log(data);
+      console.log(data.data);
+      console.log(data.url);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(s3URL, status, err);
+    },
+  });
+  return response;
+}
+
