@@ -15,6 +15,7 @@ import './style/style.scss';
 import NavBar from './components/nav_bar';
 import Home from './components/home';
 import UserPage from './components/user_page';
+import EventPage from './components/event_page';
 
 // Helper function imports
 import { postFbToken, getUserByPassword, getAllUsers } from './helpers/dartmap-api';
@@ -137,6 +138,7 @@ render((
     <Route path="/" component={App}>
       <IndexRoute component={Home} />
       <Route path="/user" component={UserPage} />
+      <Route path="/events/:id" component={EventPage} />
     </Route>
   </Router>
 ), document.getElementById('main'));

@@ -6,6 +6,7 @@ import moment from 'moment';
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const AUTH_URL = 'auth/';
 const CATEGORY_URL = 'categories/';
+const IMAGE_URL = 'sign_s3/';
 const EVENT_URL = 'events/';
 const USERS_URL = 'users/';
 
@@ -24,7 +25,7 @@ function formatAPIEventData(event) {
   newEvent.icon_url = event.icon_url;
   newEvent.description = event.description;
   newEvent.location_string = event.location_string;
-  newEvent.icon_url = event.icon_url;
+  newEvent.image_url = event.image_url;
   newEvent.date = moment(event.date, 'YYYY-MM-DD');
   newEvent.start_time = moment(event.start_time, 'HH:mm');
   newEvent.end_time = moment(event.end_time, 'HH:mm');
@@ -33,6 +34,7 @@ function formatAPIEventData(event) {
   newEvent.lat = event.location.latitude;
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
+  newEvent.placeId = event.location.place_id;
   // categories data
   const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
   newEvent.categories = $.parseJSON(catString);
@@ -61,6 +63,7 @@ function formatEventDataforAPI(event) {
   eventData.location_name = event.location.name;
   eventData.location_latitude = event.location.lat;
   eventData.location_longitude = event.location.lng;
+  eventData.image_url = event.image_url;
   return eventData;
 }
 
@@ -80,6 +83,24 @@ export function postNewEvent(event) {
     },
   });
   return response;
+}
+
+export function getEvent(saveEvent, eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      const event = formatAPIEventData(data.events[0]);
+      console.log('SUCCESS! GET /events/'.concat(eventId));
+      return saveEvent(event);
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
+      console.error(fullUrl, status, err);
+    },
+  });
 }
 
 export function getAllEvents(saveEventList, latitude, longitude, radius) {
@@ -163,6 +184,27 @@ export function getUserByPassword(saveUserList, userPassword) {
   });
 }
 
+export function getSignedImageURL(file) {
+  const fullUrl = API_URL.concat(IMAGE_URL);
+  const imageData = {
+    file_name: file.name,
+    file_type: file.type,
+  };
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'POST',
+    data: imageData,
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
 export function postFbToken(token) {
   const tokenData = {};
   tokenData.access_token = token.accessToken;
@@ -177,6 +219,29 @@ export function postFbToken(token) {
     },
     error: (xhr, status, err) => {
       console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function postToS3(s3URL, postData) {
+  const response = $.ajax({
+    headers: {
+      'x-amz-acl': 'public-read',
+    },
+    url: s3URL,
+    jsonp: false,
+    type: 'POST',
+    data: postData,
+    processData: false,
+    success: (data) => {
+      console.log(data);
+      console.log(data.data);
+      console.log(data.url);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(s3URL, status, err);
     },
   });
   return response;

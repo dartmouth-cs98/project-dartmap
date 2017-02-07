@@ -9,15 +9,14 @@ import { postNewEvent, getAllEvents, getAllCategories, getAllUsers } from '../he
 import createDateData from '../helpers/date-data-helper';
 import { filterDates, filterTimes, sortDateTime } from '../helpers/date-time-filters-helper';
 import { filterCategories } from '../helpers/category-filters-helper';
-// import filterTimes from './helpers/date-time-filters-helper';
 
 // import the react Components
 import EventList from './event_list';
 import MapContainer from './map_container';
-import LocationDialog from './location_dialog';
 import AddEventDialog from './add_event_dialog';
 import FilterContainer from './filter_container';
 import Geolocation from './geolocation';
+import LocationModal from './location_modal';
 
 // const TIMES_DATA_DISPLAY = { 0: '8:00 AM', 1: '10:00 AM', 2: '12:00 PM', 3: '2:00 PM', 4: '4:00 PM', 5: '6:00 PM', 6: '8:00 PM', 7: '10:00 PM', 8: '12:00 AM', 9: '2:00 AM' };
 const TIMES_DATA_DISPLAY = { 0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 24, 9: 26 };
@@ -50,20 +49,25 @@ class Home extends Component {
       showStickyBalloonEventId: null,
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
-      center: [43.703337, -72.288578],
+      center: null,
       latitude: null,
       longitude: null,
     };
     this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
     this.showBalloon = this.showBalloon.bind(this);
+    this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
     this.filterEvents = this.filterEvents.bind(this);
     this.getLocation = this.getLocation.bind(this);
     this.submitModalData = this.submitModalData.bind(this);
     this.handleOpenLocationDialog = this.handleOpenLocationDialog.bind(this);
+    this.removePopUps = this.removePopUps.bind(this);
+    this.getEvents = this.getEvents.bind(this);
+    this.onCenterChange = this.onCenterChange.bind(this);
   }
+
   componentDidMount() {
     // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
@@ -82,13 +86,13 @@ class Home extends Component {
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
   onEventListItemClick(eventId, newCenter) {
-    if (!this.state.addEvent) {
+    if (!this.state.addEvent && (this.state.showStickyBalloonEventId !== eventId)) {
       this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
 
-      // Reset the state so that the popup is a onetime popup.
-      setTimeout(() => {
-        this.setState({ showStickyBalloonEventId: null });
-      }, 1000);
+      // // Reset the state so that the popup is a onetime popup.
+      // setTimeout(() => {
+      //   this.setState({ showStickyBalloonEventId: null });
+      // }, 1000);
     }
   }
 
@@ -125,40 +129,42 @@ class Home extends Component {
   handleAddEventData(data) {
     postNewEvent(data);
     this.setState({ addEvent: false }, this.getEvents);
-    // getAllEvents((eventList) => {
-    //   this.setState({ eventList });
-    //   this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    // }, this.state.latitude, this.state.longitude);
   }
 
   toggleAddEvent() {
+    this.removePopUps();
     this.setState({ addEvent: true });
 
-    // Remove sticky popups.
-    const parent = document.getElementsByTagName('body')[0];
-    const popupsToRemove = document.getElementsByClassName('popup');
-    while (popupsToRemove.length > 0) {
-      parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
-    }
+    // // Remove sticky popups.
+    // const parent = document.getElementsByTagName('body')[0];
+    // const popupsToRemove = document.getElementsByClassName('popup');
+    // while (popupsToRemove.length > 0) {
+    //   parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
+    // }
   }
 
   // Show balloons with event info on the map.
   // The state is sent to the MapContainer.
   showBalloon(eventId) {
-    if (!this.state.addEvent) {
-      this.setState({ showBalloonEventId: eventId });
-    }
+    this.setState({ showBalloonEventId: eventId });
   }
 
   showStickyBalloon(eventId) {
-    if (!this.state.addEvent) {
+    if (this.state.showStickyBalloonEventId !== eventId) {
       this.setState({ showStickyBalloonEventId: eventId });
 
-      // Reset the state so that the popup is a onetime popup.
-      setTimeout(() => {
-        this.setState({ showStickyBalloonEventId: null });
-      }, 1000);
+      // // Reset the state so that the popup is a onetime popup.
+      // setTimeout(() => {
+      //   this.setState({ showStickyBalloonEventId: null });
+      // }, 1000);
     }
+  }
+
+  removePopUps() {
+    this.setState({
+      showBalloonEventId: null,
+      showStickyBalloonEventId: null,
+    });
   }
 
   filterEvents(theFilters) {
@@ -216,6 +222,10 @@ class Home extends Component {
     // console.log(filteredEvents);
     return filteredEvents;
   }
+  onCenterChange(center) {
+    console.log(center);
+    this.setState({ center });
+  }
 
   render() {
     return (
@@ -227,6 +237,14 @@ class Home extends Component {
           height={this.state.mapHeight}
           width={this.state.mapWidth}
           center={this.state.center}
+          showStickyBalloon={this.showStickyBalloon}
+          showBalloon={this.showBalloon}
+          removePopUps={this.removePopUps}
+          userLocation={{
+            lng: this.state.longitude,
+            lat: this.state.latitude,
+          }}
+          onCenterChange={this.onCenterChange}
         />
         <EventList
           toggleAddEvent={this.toggleAddEvent}
@@ -245,6 +263,10 @@ class Home extends Component {
         <AddEventDialog
           addEvent={this.state.addEvent}
           catList={this.state.categoriesList}
+          userLocation={{
+            lng: this.state.longitude,
+            lat: this.state.latitude,
+          }}
           handleAddEventData={this.handleAddEventData}
           closeAddEventDialog={this.closeAddEventDialog}
         />
@@ -258,15 +280,6 @@ class Home extends Component {
         />
       </div>
     );
-  }
-}
-
-function LocationModal(props) {
-  const show = props.showModal;
-  if (show) {
-    return <LocationDialog submitModalData={props.submitModalData} />;
-  } else {
-    return null;
   }
 }
 

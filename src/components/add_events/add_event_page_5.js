@@ -1,15 +1,18 @@
 // add_event_page_5.js
 import React, { Component } from 'react';
 import AddEventIconBtn from './add_event_icon_btn';
+import ImageUpload from '../upload_images';
 
 class AddEventPage5 extends Component {
   constructor(props) {
     super(props);
     this.state = {
       icon: props.data.icon,
+      image_url: props.data.image_url,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBack = this.handleBack.bind(this);
+    this.updateImageURL = this.updateImageURL.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = <div className="error-msg"> The event icon is required. </div>;
     this.iconURLs = [
@@ -76,6 +79,7 @@ class AddEventPage5 extends Component {
     const data = {
       icon: this.state.icon,
       currentPage: this.props.currentPage - 1,
+      image_url: this.state.image_url,
     };
     this.props.handleData(data);
   }
@@ -86,10 +90,18 @@ class AddEventPage5 extends Component {
       const data = {
         icon: this.state.icon,
         currentPage: this.props.currentPage + 1,
+        image_url: this.state.image_url,
       };
       this.props.handleData(data);
     }
   }
+
+  updateImageURL(url) {
+    this.setState({
+      image_url: url,
+    });
+  }
+
   render() {
     const iconBtns = this.iconURLs.map((obj) => {
       return (
@@ -103,6 +115,10 @@ class AddEventPage5 extends Component {
           <div className="icon-select">
             {iconBtns}
           </div>
+        </div>
+        <div className="add-event-fields">
+          <h2>Select event image:</h2>
+          <ImageUpload updateImageURL={this.updateImageURL} />
         </div>
         <div className="add-event-btns">
           <input

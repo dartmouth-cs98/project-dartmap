@@ -24,7 +24,7 @@ export default class NavBar extends Component {
         <div id="nav-bar">
           <Link to="/" className="logo-link nav-btn">
             <img id="logo" src="./../../images/dartmap.png" role="presentation" />
-            <h1 className="app-name">dartmap</h1>
+            <h1 className="app-name">mappit</h1>
           </Link>
           {greeting}
           <Link to="/user" id="user-link" className="nav-btn">Profile</Link>
@@ -35,7 +35,7 @@ export default class NavBar extends Component {
         <div id="nav-bar">
           <Link to="/" className="logo-link nav-btn">
             <img id="logo" src="./../../images/dartmap.png" role="presentation" />
-            <h1 className="app-name">dartmap</h1>
+            <h1 className="app-name">mappit</h1>
           </Link>
           <button className="fb-user" onClick={this.props.handleLoginClick}>Facebook Log In</button>
         </div>
