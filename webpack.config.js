@@ -9,6 +9,9 @@ module.exports = {
     'babel-polyfill',
     './src', //this is where our app lives
   ],
+  devServer: {
+    historyApiFallback: true,
+  },
   output: {
     path: 'build',
     publicPath: 'build/',
@@ -36,4 +39,3 @@ module.exports = {
     new ExtractTextPlugin('bundle.css'),
   ],
 };
-

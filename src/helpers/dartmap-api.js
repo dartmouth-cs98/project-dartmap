@@ -23,7 +23,7 @@ function formatAPIEventData(event) {
   newEvent.icon_url = event.icon_url;
   newEvent.description = event.description;
   newEvent.location_string = event.location_string;
-  newEvent.icon_url = event.icon_url;
+  newEvent.image_url = event.image_url;
   newEvent.date = moment(event.date, 'YYYY-MM-DD');
   newEvent.start_time = moment(event.start_time, 'HH:mm');
   newEvent.end_time = moment(event.end_time, 'HH:mm');
@@ -32,6 +32,7 @@ function formatAPIEventData(event) {
   newEvent.lat = event.location.latitude;
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
+  newEvent.placeId = event.location.place_id;
   // categories data
   const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
   newEvent.categories = $.parseJSON(catString);
@@ -79,6 +80,24 @@ export function postNewEvent(event) {
     },
   });
   return response;
+}
+
+export function getEvent(saveEvent, eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      const event = formatAPIEventData(data.events[0]);
+      console.log('SUCCESS! GET /events/'.concat(eventId));
+      return saveEvent(event);
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
+      console.error(fullUrl, status, err);
+    },
+  });
 }
 
 export function getAllEvents(saveEventList, latitude, longitude, radius) {
