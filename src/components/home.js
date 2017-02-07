@@ -96,6 +96,11 @@ class Home extends Component {
     }
   }
 
+  onCenterChange(center) {
+    console.log(center);
+    this.setState({ center });
+  }
+
   getLocation(latitude, longitude) {
     this.setState({
       latitude,
@@ -221,10 +226,6 @@ class Home extends Component {
     // only important for the very beginning (see the render() method)
     // console.log(filteredEvents);
     return filteredEvents;
-  }
-  onCenterChange(center) {
-    console.log(center);
-    this.setState({ center });
   }
 
   render() {

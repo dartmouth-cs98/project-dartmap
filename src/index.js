@@ -58,7 +58,7 @@ class App extends Component {
       //    your app or not.
       //
       // These three cases are handled in the callback function.
-      this.checkLoginState();
+      this.checkLoginState(100);
     }.bind(this);
 
     // Load the SDK asynchronously
@@ -72,9 +72,10 @@ class App extends Component {
     }(document, 'script', 'facebook-jssdk'));
   }
 
-  checkLoginState() {
+  checkLoginState(timeoutTime) {
     setTimeout(() => {
       FB.getLoginStatus((response) => {
+        console.log(response);
         if (response.status === 'connected') {
           // Logged into your app and Facebook.
           this.setState({ logged_in: true });
@@ -94,7 +95,7 @@ class App extends Component {
           this.setState({ logged_in: false });
         }
       });
-    }, 500);
+    }, timeoutTime);
   }
 
   handleImageResponse(resp) {
@@ -108,7 +109,7 @@ class App extends Component {
       if (response.status === 'connected') {
         this.setState({ logged_in: true });
       } else {
-        FB.login(this.checkLoginState());
+        FB.login(this.checkLoginState(8000));
       }
     });
   }

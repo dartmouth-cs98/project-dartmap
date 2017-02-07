@@ -43,9 +43,8 @@ class UserPage extends Component {
             </button>
           </div>
         </div>
-        <h1>Hi, Edrei!</h1>
+        <h1>Hi!</h1>
         <br />
-        <h2>Name: Edrei Chua</h2>
         <UploadPhotoDialog
           uploadingPhoto={this.state.uploadingPhoto}
           closeUploadPhotoDialog={this.closeUploadPhotoDialog}

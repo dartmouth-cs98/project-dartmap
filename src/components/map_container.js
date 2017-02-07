@@ -15,8 +15,7 @@ export default class MapContainer extends Component {
     onCenterChange: PropTypes.func, // @controllable generated fn
     onZoomChange: PropTypes.func, // @controllable generated fn
     onHoverKeyChange: PropTypes.func, // @controllable generated fn
-
-    events: PropTypes.arrayOf(PropTypes.object),
+    // events: PropTypes.arrayOf(PropTypes.object),
   };
 
   static defaultProps = {
