@@ -2,44 +2,43 @@
 
 import React, { Component } from 'react';
 
-import ChangePhotoDialog from './change_photo_dialog';
+import UploadPhotoDialog from './upload_photo_dialog';
 
 class UserPage extends Component {
-
-  // constructor(props) {
-  //   super(props);
-  // }
-  // state = { changingPhoto: false };
-
-  // openChangePhotoDialog() {
-  //   this.setState({ changingPhoto: true });
-  // };
 
   constructor(props) {
     super(props);
     this.state = {
-      changingPhoto: false,
+      uploadingPhoto: false,
     };
-    this.openChangePhotoDialog = this.openChangePhotoDialog.bind(this);
-    this.closeChangePhotoDialog = this.closeChangePhotoDialog.bind(this);
+    this.openUploadPhotoDialog = this.openUploadPhotoDialog.bind(this);
+    this.closeUploadPhotoDialog = this.closeUploadPhotoDialog.bind(this);
   }
 
-  openChangePhotoDialog() {
-    console.log('CLICKED BUTTON');
-    this.setState({ changingPhoto: true });
+  openUploadPhotoDialog() {
+    this.setState({ uploadingPhoto: true });
   }
 
-  closeChangePhotoDialog() {
-    this.setState({ changingPhoto: false });
+  closeUploadPhotoDialog() {
+    this.setState({ uploadingPhoto: false });
   }
 
+  // TODO: fix profile picture source, as well as user name, etc
   render() {
     return (
       <div className="profile">
         <div className="photo-container">
-          <img className="photo" src="https://s27.postimg.org/ws3spwi9f/unknown.png" alt="You" />
-          <div className="change-photo">
-            <button className="change-photo-button" type="button" onClick={this.openChangePhotoDialog}>
+          <img
+            className="photo"
+            src={document.getElementById('fb-pic').src}
+            alt="You"
+          />
+          <div className="upload-photo">
+            <button
+              className="upload-photo-button"
+              type="button"
+              onClick={this.openUploadPhotoDialog}
+            >
             Change Photo
             </button>
           </div>
@@ -47,9 +46,9 @@ class UserPage extends Component {
         <h1>Hi, Edrei!</h1>
         <br />
         <h2>Name: Edrei Chua</h2>
-        <ChangePhotoDialog
-          changingPhoto={this.state.changingPhoto}
-          closeChangePhotoDialog={this.closeChangePhotoDialog}
+        <UploadPhotoDialog
+          uploadingPhoto={this.state.uploadingPhoto}
+          closeUploadPhotoDialog={this.closeUploadPhotoDialog}
         />
       </div>
     );
