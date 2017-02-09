@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 
 // import the API functions
-import { postNewEvent, getAllEvents, getAllCategories, getAllUsers } from '../helpers/dartmap-api';
+import { postNewEvent, getAllCategories, getAllUsers } from '../helpers/dartmap-api';
 import createDateData from '../helpers/date-data-helper';
 import { filterDates, filterTimes, sortDateTime } from '../helpers/date-time-filters-helper';
 import { filterCategories } from '../helpers/category-filters-helper';
