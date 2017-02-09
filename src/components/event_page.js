@@ -100,11 +100,7 @@ class EventPage extends Component {
             </div>
           </div>
         </div>
-        <div className="fb-comments"
-          data-href={this.url}
-          data-numposts="10"
-          data-width="700"
-        />
+        <CommentBox url="/api/comments" pollInterval={2000} />
       </div>
     );
   }

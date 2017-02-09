@@ -27,9 +27,10 @@ class CommentBox extends React.Component {
       type: 'POST',
       data: comment,
       success: (data) => {
-        this.setState({ data: data });
+        this.setState({ data });
       },
       error: (xhr, status, err) => {
+        this.setState({ data: comments });
         console.error(this.props.url, status, err.toString());
       },
     });
@@ -39,8 +40,9 @@ class CommentBox extends React.Component {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
+      type: 'GET',
       success: (data) => {
-        this.setState({ data: data });
+        this.setState({ data });
       },
       error: (xhr, status, err) => {
         console.error(this.props.url, status, err.toString());
@@ -51,7 +53,7 @@ class CommentBox extends React.Component {
   render() {
     return (
       <div className="commentBox">
-        <h1>Comments </h1>
+        <h1>Comments</h1>
         <CommentList data={this.state.data} />
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>

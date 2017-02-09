@@ -3,7 +3,6 @@
 // import React onto the page
 import React, { Component } from 'react';
 
-
 // import the API functions
 import { postNewEvent, getAllEvents, getAllCategories, getAllUsers } from '../helpers/dartmap-api';
 import createDateData from '../helpers/date-data-helper';
@@ -204,8 +203,6 @@ class Home extends Component {
       }
     }
 
-    // console.log(this.state.eventList);
-
     // filter by date, then filter THAT by time
     // TODO: I think we could make this just 3 if statements
     if (filters != null) {
@@ -293,7 +290,6 @@ class Home extends Component {
           showModal={this.state.showModal}
           submitModalData={this.submitModalData}
         />
-        <div id="fb-root" />
       </div>
     );
   }
