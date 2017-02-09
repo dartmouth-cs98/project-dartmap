@@ -17,6 +17,7 @@ class AddEventSubmitPage extends Component {
       { text: 'End Time', id: 'end_time', value: endTimeString, required: true, errorMsg: hiddenErrorMessage },
       { text: 'Location', id: 'location_string', value: this.props.data.location_string, required: true, errorMsg: hiddenErrorMessage },
       { text: 'Icon URL', id: 'icon_url', value: this.props.data.icon.url, required: true, errorMsg: hiddenErrorMessage },
+      { text: 'Image URL', id: 'image_url', value: this.props.data.image_url, required: true, errorMsg: hiddenErrorMessage },
       { text: 'Categories', id: 'categories', value: this.props.data.categories.map(category => category.label).toString(), required: true, errorMsg: hiddenErrorMessage },
     ];
     for (let i = 0; i < this.allFields.length; i += 1) {

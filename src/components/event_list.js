@@ -7,8 +7,8 @@ class EventList extends Component {
     super(props);
     this.isSameDay = false;
     this.prevDate = null;
+    this.state = { searchString: '' };
   }
-  state = { searchString: '' };
   handleChange = (e) => {
     this.setState({ searchString: e.target.value });
   };

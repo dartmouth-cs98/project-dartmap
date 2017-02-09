@@ -1,5 +1,4 @@
 // add_event_dialog.js
-// TODO: add validations to the slider so that you cannot go forward
 
 import React, { Component } from 'react';
 
@@ -27,6 +26,7 @@ class AddEventDialog extends Component {
       categories: null,
       icon: null,
       currentPage: 0,
+      image_url: 'https://s27.postimg.org/o2c50l3fn/default.png',
     };
     this.handlePageData = this.handlePageData.bind(this);
     this.submitEventData = this.submitEventData.bind(this);
@@ -46,6 +46,7 @@ class AddEventDialog extends Component {
       categories: [],
       icon: null,
       currentPage: 0,
+      image_url: 'https://s27.postimg.org/o2c50l3fn/default.png',
     });
   }
   handlePageData(data) {
@@ -63,6 +64,7 @@ class AddEventDialog extends Component {
       location_string: this.state.location_string,
       icon_url: this.state.icon.url,
       categories: this.state.categories,
+      image_url: this.state.image_url,
     };
     this.resetState();
     this.props.handleAddEventData(data);
@@ -76,7 +78,7 @@ class AddEventDialog extends Component {
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
     const page3Data = { location: this.state.location, userLocation: this.props.userLocation };
     const page4Data = { categories: this.state.categories };
-    const page5Data = { icon: this.state.icon };
+    const page5Data = { icon: this.state.icon, image_url: this.state.image_url };
     this.pageCode = [
       <AddEventPage1 currentPage={this.state.currentPage} data={page1Data} handleData={this.handlePageData} />,
       <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,

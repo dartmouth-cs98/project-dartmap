@@ -4,10 +4,12 @@
 @import "./segmented-controls.css";
 @import "./add_event.scss";
 @import "./variables.scss";
+@import "./user-profile.scss";
+@import "./upload_image.scss";
+@import "./event-page.scss";
 
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -18,9 +20,14 @@ hr {
     padding: 0;
 }
 
+
 #main, .app-container {
   height: inherit;
   min-width: 768px;
+}
+
+.app-container {
+  background-color: $light-grey;
 }
 
 // Top Navigation Bar
@@ -28,12 +35,15 @@ hr {
   background-color: white;
   color: $green;
   font-size: 30pt;
-  height: $nav-bar-height;
+  height: 60px;
   line-height: $nav-bar-height;
   padding-left: 12px;
   padding-top: 10px;
   padding-right: 16px;
   position: relative;
+  box-shadow: 0px 5px 10px -5px black;
+  -webkit-box-shadow: 0px 5px 10px -5px black;
+  -moz-box-shadow: 0px 5px 10px -5px black;
 
   @include flex-space-between;
   @include flex-box;
@@ -45,17 +55,68 @@ hr {
     left: 8px;
   }
 
+  // This is (currently) the user's name from facebook in the nav bar
+  h2 {
+    display: inline-block;
+    position: relative;
+    right: 8px;
+    color: #B3B3B3;
+  }
+
+  // This is (currently) the add event button
+  #add-event-button {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 20px;
+    float: right;
+    font-size: 20pt;
+    height: 100%;
+    line-height: 100%;
+
+    &:hover {
+      background-color: $light-grey;
+      cursor: pointer;
+    }
+  }
+
   #logo {
     height: $nav-bar-height;
     width: $nav-bar-height;
+  }
+
+  #fb-pic {
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px #000000;
+  }
+
+  .fb-user {
+    background-color: #3b5998;
+    border: 0px;
+    color: white;
+    font-family: 'Lucida Grande';
+    font-size: 12px;
+    float: right;
+    height: 32px;
+    line-height: 16px;
+    margin-left: 8px;
+    padding: 5px;
+    &:hover {
+      cursor: pointer;
+      opacity: .8;
+    }
   }
 }
 
 .nav-btn {
   color: black;
   text-decoration: none;
+  cursor: pointer;
 
-  &:hover {
+  &:hover, &:focus {
     color: black;
   }
 }
@@ -70,6 +131,7 @@ hr {
   font-size: 20pt;
   height: 100%;
   line-height: 100%;
+  margin-bottom: 10px;
 
   &:hover {
     background-color: $light-grey;
@@ -86,16 +148,19 @@ hr {
 // This is the div that encompasses everything that is not in the navigation bar
 .home-container {
   height: 90%;
+  background-color: white;
 }
 
 // Map Components
 #map {
   float: left;
-  padding: 16px;
+  padding: 5px;
+  margin: 16px 16px 16px 16px;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
 }
 
 .event {
-  border: 0px solid $red;
+  border: 0px;
   background-color: $green;
   @include event-style;
 
@@ -105,13 +170,25 @@ hr {
 }
 
 .event-hover {
-  border: 0px solid $blue;
+  border: 0px;
   background-color: $light-grey;
   @include event-style;
 
   &:focus {
     outline: none;
   }
+}
+
+.map-event-img {
+  height: 20px;
+  width: 20px;
+  position: relative;
+}
+
+.popup-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 5px;
 }
 
 #event-menu {
@@ -177,8 +254,18 @@ hr {
 }
 
 .popup {
-  background-color: $light-grey;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-size: 1rem;
+  background-color: white;
+  border: 1px solid;
+  border-color: $green;
+  box-shadow: 0 0 8px 2px #888;
+  color: black;
   padding: 5px;
+  width: 250px;
+  z-index: 15;
+  @include flex-box;
+  @include flex-column;
 }
 
 .description {
@@ -196,7 +283,7 @@ hr {
 // Filter Container
 #filter-container {
   height: 20%;
-  width: 80%;
+  width: 75%;
   float: left;
   display: block;
   padding: 0 25px;
@@ -231,6 +318,7 @@ hr {
   background-color: white;
   padding: 30px;
   border-radius: 50px;
+  box-shadow: 0px 0px 20px black;
 }
 
 // Add Event Dialog
@@ -244,6 +332,7 @@ hr {
   background-color: white;
   padding: 30px;
   border-radius: 50px;
+  box-shadow: 0px 0px 20px black;
 }
 
 #close-button {
@@ -353,20 +442,10 @@ hr {
   border-color: red;
 }
 
-.popup {
-  background-color: white;
-  border: 1px solid;
-  border-color: $green;
-  box-shadow: 0 0 8px 2px #888;
-  color: black;
-  padding: 5px;
-  width: 20%;
-}
-
 .close-button {
-  position: absolute;
-  right: 10px;
-  top: 5px;
+  align-self: flex-end;
+  align-self: -webkit-flex-end;
+  align-self: -moz-flex-end;
   &:hover {
     color: #DC143C;
     cursor: pointer;

@@ -21,11 +21,6 @@ const EventListItem = (props) => {
             {props.event.start_time.format('h:mm A')} ~ {props.event.end_time.format('h:mm A')}<br />
             {props.event.location_name}
           </text>
-          <div id="fb-root" />
-          <div className="fb-comments"
-            data-href="http://localhost:8080/"
-            data-numposts="10"
-          />
         </div>
       </div>
     );
