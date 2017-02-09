@@ -16,7 +16,7 @@ const USERS_URL = 'users/';
  * @param {Object} the event object returned by the API
  * @return {Object} the flattened event object
  */
-function formatAPIEventData(event) {
+export function formatAPIEventData(event) {
   const newEvent = {};
   // event data
   newEvent.name = event.name;
@@ -245,4 +245,30 @@ export function postToS3(s3URL, postData) {
     },
   });
   return response;
+}
+
+export function getAllEventsRedux(dispatch, successAction, errorAction, latitude, longitude, radius) {
+  const fullUrl = API_URL.concat(EVENT_URL);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    data: {
+      location_latitude: latitude,
+      location_longitude: longitude,
+      location_radius: radius,
+    },
+    dataType: 'json',
+    success: (data) => {
+      const eventList = data.events.map((event) => {
+        return formatAPIEventData(event);
+      });
+      console.log(data);
+      dispatch({ type: successAction, payload: { events: eventList } });
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events GET was not successful.');
+      console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { stuff: '' } });
+    },
+  });
 }

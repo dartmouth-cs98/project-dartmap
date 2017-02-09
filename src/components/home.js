@@ -2,6 +2,7 @@
 
 // import React onto the page
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 
 // import the API functions
@@ -9,6 +10,9 @@ import { postNewEvent, getAllEvents, getAllCategories, getAllUsers } from '../he
 import createDateData from '../helpers/date-data-helper';
 import { filterDates, filterTimes, sortDateTime } from '../helpers/date-time-filters-helper';
 import { filterCategories } from '../helpers/category-filters-helper';
+
+// import the redux actions
+import { fetchEvents } from '../actions';
 
 // import the react Components
 import EventList from './event_list';
@@ -66,6 +70,7 @@ class Home extends Component {
     this.removePopUps = this.removePopUps.bind(this);
     this.getEvents = this.getEvents.bind(this);
     this.onCenterChange = this.onCenterChange.bind(this);
+    this.props.fetchEvents();
   }
 
   componentDidMount() {
@@ -76,11 +81,6 @@ class Home extends Component {
     }, true);
 
     getAllCategories(categoriesList => this.setState({ categoriesList }));
-
-  //   getAllEvents((eventList) => {
-  //     this.setState({ eventList });
-  //     this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-  //   });
   }
 
   // Things to do when the event list is clicked:
@@ -109,10 +109,11 @@ class Home extends Component {
   }
 
   getEvents() {
-    getAllEvents((eventList) => {
-      this.setState({ eventList });
-      this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    }, this.state.latitude, this.state.longitude, RADIUS);
+    this.props.fetchEvents(this.state.latitude, this.state.longitude, RADIUS);
+    // getAllEvents((eventList) => {
+    //   this.setState({ eventList });
+    //   this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
+    // }, this.state.latitude, this.state.longitude, RADIUS);
   }
 
   submitModalData(data) {
@@ -284,4 +285,10 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStateToProps = state => (
+  {
+    events: state.events.all,
+  }
+);
+
+export default connect(mapStateToProps, { fetchEvents })(Home);
