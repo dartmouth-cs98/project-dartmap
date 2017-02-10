@@ -2,12 +2,14 @@
 import React, { PropTypes, Component } from 'react';
 import GoogleMap from 'google-map-react';
 import controllable from 'react-controllables';
+import { connect } from 'react-redux';
+
 import EventsWithControllableHover from './map_helpers/map_events';
 
 const K_SIZE = 40;
 
 @controllable(['center', 'zoom', 'hoverKey', 'clickKey'])
-export default class MapContainer extends Component {
+class MapContainer extends Component {
   static propTypes = {
     center: PropTypes.objectOf(PropTypes.number), // @controllable
     zoom: PropTypes.number, // @controllable
@@ -140,3 +142,11 @@ export default class MapContainer extends Component {
     );
   }
 }
+
+const mapStateToProps = state => (
+  {
+    events: state.events.filteredEventList,
+  }
+);
+
+export default connect(mapStateToProps, null)(MapContainer);

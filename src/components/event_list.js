@@ -1,5 +1,7 @@
 // event_list.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import EventListItem from './event_list_item';
 
 class EventList extends Component {
@@ -16,7 +18,7 @@ class EventList extends Component {
   render() {
     this.eventItems = [];
 
-    if (this.props.events.length > 0) {
+    if (this.props.events && this.props.events.length > 0) {
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
         const eListItem = [<EventListItem
@@ -67,12 +69,26 @@ class EventList extends Component {
     return (
       <div id="event-none">
         <div className="add-event-btn-container">
-          <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
+          <button
+            className="add-event-plus"
+            type="button"
+            onClick={this.props.toggleAddEvent}
+          >
             Add Event
-            <img id="plus" src="./../../icon_set_1/plus.png" role="presentation" />
+            <img
+              id="plus"
+              src="./../../icon_set_1/plus.png"
+              role="presentation"
+            />
           </button>
         </div>
-        <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
+        <input
+          id="search-bar"
+          type="text"
+          value={this.state.searchString}
+          onChange={this.handleChange}
+          placeholder="Type here..."
+        />
         <text className="warning-msg">
           No Matching Events. <br />
           Please Try Again.
@@ -82,4 +98,10 @@ class EventList extends Component {
   }
 }
 
-export default EventList;
+const mapStateToProps = state => (
+  {
+    events: state.events.filteredEventList,
+  }
+);
+
+export default connect(mapStateToProps, null)(EventList);

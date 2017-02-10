@@ -67,7 +67,7 @@ function formatEventDataforAPI(event) {
   return eventData;
 }
 
-export function postNewEvent(event) {
+export function postNewEvent(dispatch, successAction, errorAction, event) {
   const eventData = formatEventDataforAPI(event);
   const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
@@ -76,16 +76,17 @@ export function postNewEvent(event) {
     type: 'POST',
     data: eventData,
     success: (data) => {
-      return data;
+      dispatch({ type: successAction, payload: { data } });
     },
     error: (xhr, status, err) => {
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
   return response;
 }
 
-export function getEvent(saveEvent, eventId) {
+export function getEvent(dispatch, successAction, errorAction, eventId) {
   const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
   $.ajax({
     url: fullUrl,
@@ -94,16 +95,18 @@ export function getEvent(saveEvent, eventId) {
     success: (data) => {
       const event = formatAPIEventData(data.events[0]);
       console.log('SUCCESS! GET /events/'.concat(eventId));
-      return saveEvent(event);
+      dispatch({ type: successAction, payload: { event } });
     },
     error: (xhr, status, err) => {
       console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
 }
 
-export function getAllEvents(saveEventList, latitude, longitude, radius) {
+export function getAllEvents(dispatch, successAction, errorAction,
+  latitude, longitude, radius) {
   const fullUrl = API_URL.concat(EVENT_URL);
   $.ajax({
     url: fullUrl,
@@ -119,11 +122,12 @@ export function getAllEvents(saveEventList, latitude, longitude, radius) {
         return formatAPIEventData(event);
       });
       console.log(data);
-      return saveEventList(eventList);
+      dispatch({ type: successAction, payload: { events: eventList } });
     },
     error: (xhr, status, err) => {
       console.log(' /events GET was not successful.');
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { stuff: '' } });
     },
   });
 }
@@ -245,30 +249,4 @@ export function postToS3(s3URL, postData) {
     },
   });
   return response;
-}
-
-export function getAllEventsRedux(dispatch, successAction, errorAction, latitude, longitude, radius) {
-  const fullUrl = API_URL.concat(EVENT_URL);
-  $.ajax({
-    url: fullUrl,
-    type: 'GET',
-    data: {
-      location_latitude: latitude,
-      location_longitude: longitude,
-      location_radius: radius,
-    },
-    dataType: 'json',
-    success: (data) => {
-      const eventList = data.events.map((event) => {
-        return formatAPIEventData(event);
-      });
-      console.log(data);
-      dispatch({ type: successAction, payload: { events: eventList } });
-    },
-    error: (xhr, status, err) => {
-      console.log(' /events GET was not successful.');
-      console.error(fullUrl, status, err);
-      dispatch({ type: errorAction, payload: { stuff: '' } });
-    },
-  });
 }

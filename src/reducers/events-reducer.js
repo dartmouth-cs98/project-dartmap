@@ -3,12 +3,21 @@
 
 import { ActionTypes } from '../actions';
 
+import filterEvents from '../helpers/filter-helper';
+
 const EventsReducer = (state = {}, action) => {
   let newState;
   switch (action.type) {
     case ActionTypes.FETCH_EVENTS:
-      console.log(action);
-      newState = Object.assign({}, state, { events: { all: action.payload.events } });
+      newState = Object.assign({}, state, { all: action.payload.events });
+      return newState;
+    case ActionTypes.FILTER_EVENTS:
+      if (!state.all) {
+        return state;
+      }
+      newState = filterEvents(action.payload.filters, state.all,
+        action.payload.categoriesList, action.payload.dateBarData);
+      newState = Object.assign({}, state, newState);
       return newState;
     default:
       return state;
