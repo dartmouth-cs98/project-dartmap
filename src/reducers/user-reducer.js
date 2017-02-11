@@ -3,12 +3,27 @@
 
 import { ActionTypes } from '../actions';
 
-const UserReducer = (state = null, action) => {
+const UserReducer = (state = {}, action) => {
+  let newState;
   switch (action.type) {
-    case ActionTypes.LOGIN:
-      return { name: 'test', id: 1 };
-    case ActionTypes.LOGOUT:
-      return null;
+    case ActionTypes.GET_LOCATION:
+      newState = Object.assign({}, state, {
+        latitude: action.payload.latitude,
+        longitude: action.payload.longitude,
+      });
+      return newState;
+    case ActionTypes.LOCATION_FAIL:
+      newState = Object.assign({}, state, {
+        latitude: null,
+        longitude: null,
+      });
+      return newState;
+    case ActionTypes.RETRY_LOCATION:
+      newState = Object.assign({}, state, {
+        latitude: 'retry',
+        longitude: 'retry',
+      });
+      return newState;
     default:
       return state;
   }

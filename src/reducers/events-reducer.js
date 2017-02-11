@@ -9,7 +9,11 @@ const EventsReducer = (state = {}, action) => {
   let newState;
   switch (action.type) {
     case ActionTypes.FETCH_EVENTS:
-      newState = Object.assign({}, state, { all: action.payload.events });
+      newState = Object.assign({}, state);
+      newState.all = action.payload.events;
+      return newState;
+    case ActionTypes.RETRY_EVENT:
+      newState = Object.assign({}, state, { all: ['retry'] });
       return newState;
     case ActionTypes.FILTER_EVENTS:
       if (!state.all) {

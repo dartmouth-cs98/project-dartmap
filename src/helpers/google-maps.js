@@ -33,5 +33,24 @@ const createSearchBox = (map, searchHTML) => {
   return textBox;
 };
 
+const getLocationFromZipcode = (zipcode, dispatch, success, error) => {
+  gMaps = gMaps || (window.google && window.google.maps);
+  const geocoder = new gMaps.Geocoder();
+  geocoder.geocode({ address: zipcode }, (results, status) => {
+    if (status === gMaps.GeocoderStatus.OK) {
+      dispatch({
+        type: success,
+        payload: {
+          latitude: results[0].geometry.location.lat(),
+          longitude: results[0].geometry.location.lng(),
+        },
+      });
+    } else {
+      dispatch({ type: error, payload: { status } });
+    }
+  });
+};
+
 export default createMap;
 export { createMap, createMarker, createInfoWindow, createSearchBox };
+export { getLocationFromZipcode };

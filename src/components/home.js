@@ -13,11 +13,10 @@ import EventList from './event_list';
 import MapContainer from './map_container';
 import AddEventDialog from './add_event_dialog';
 import FilterContainer from './filter_container';
-import Geolocation from './geolocation';
-import LocationModal from './location_modal';
+import LocationDialog from './location_dialog';
 
 // import the redux actions
-import { fetchEvents } from '../actions';
+import { fetchEvents, getLocation } from '../actions';
 
 const MAP_HEIGHT_MULTIPLIER = 0.65;
 const MAP_WIDTH_MULTIPLIER = 0.75;
@@ -38,8 +37,6 @@ class Home extends Component {
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
       center: null,
-      latitude: null,
-      longitude: null,
     };
     this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
@@ -47,15 +44,19 @@ class Home extends Component {
     this.showStickyBalloon = this.showStickyBalloon.bind(this);
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
-    this.getLocation = this.getLocation.bind(this);
-    this.submitModalData = this.submitModalData.bind(this);
-    this.handleOpenLocationDialog = this.handleOpenLocationDialog.bind(this);
     this.removePopUps = this.removePopUps.bind(this);
     this.getEvents = this.getEvents.bind(this);
     this.onCenterChange = this.onCenterChange.bind(this);
   }
 
+  componentWillMount() {
+    if (this.props.latitude === 'retry' && this.props.longitude === 'retry') {
+      this.props.getLocation();
+    }
+  }
+
   componentDidMount() {
+    this.getEvents();
     // Listener that resizes the map, if the user changes the window dimensions.
     window.addEventListener('resize', () => {
       this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
@@ -65,10 +66,18 @@ class Home extends Component {
     getAllCategories(categoriesList => this.setState({ categoriesList }));
   }
 
+  componentWillUpdate() {
+    if ((!this.props.events) || (this.props.events[0] === 'retry')) {
+      if (this.props.latitude && this.props.longitude) {
+        this.getEvents();
+      }
+    }
+  }
+
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
   onEventListItemClick(eventId, newCenter) {
-    if (!this.state.addEvent && (this.state.showStickyBalloonEventId !== eventId)) {
+    if (!this.state.addEvent && this.state.showStickyBalloonEventId !== eventId) {
       this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
 
       // // Reset the state so that the popup is a onetime popup.
@@ -79,35 +88,11 @@ class Home extends Component {
   }
 
   onCenterChange(center) {
-    console.log(center);
     this.setState({ center });
   }
 
-  getLocation(latitude, longitude) {
-    this.setState({
-      latitude,
-      longitude,
-    }, this.getEvents);
-  }
-
   getEvents() {
-    this.props.fetchEvents(this.state.latitude, this.state.longitude, RADIUS);
-    // getAllEvents((eventList) => {
-    //   this.setState({ eventList });
-    //   this.setState({ filteredEventList: this.filterEvents(this.state.filters) });
-    // }, this.state.latitude, this.state.longitude, RADIUS);
-  }
-
-  submitModalData(data) {
-    this.setState({
-      latitude: data.latitude,
-      longitude: data.longitude,
-    }, this.getEvents);
-  }
-
-  handleOpenLocationDialog(error) {
-    console.log('error code', error.code);
-    this.setState({ showModal: true });
+    this.props.fetchEvents(this.props.latitude, this.props.longitude, RADIUS);
   }
 
   closeAddEventDialog() {
@@ -148,6 +133,10 @@ class Home extends Component {
   }
 
   render() {
+    let showModal = false;
+    if (this.props.latitude === null && this.props.longitude === null) {
+      showModal = true;
+    }
     return (
       <div className="home-container">
         <MapContainer
@@ -159,10 +148,6 @@ class Home extends Component {
           showStickyBalloon={this.showStickyBalloon}
           showBalloon={this.showBalloon}
           removePopUps={this.removePopUps}
-          userLocation={{
-            lng: this.state.longitude,
-            lat: this.state.latitude,
-          }}
           onCenterChange={this.onCenterChange}
         />
         <EventList
@@ -172,27 +157,16 @@ class Home extends Component {
           onEventListItemClick={this.onEventListItemClick}
         />
         <FilterContainer
-          filterEvents={this.filterEvents}
-          onApplyFilter={filters => this.filterEvents(filters)}
           categoriesList={this.state.categoriesList}
         />
         <AddEventDialog
           addEvent={this.state.addEvent}
           catList={this.state.categoriesList}
-          userLocation={{
-            lng: this.state.longitude,
-            lat: this.state.latitude,
-          }}
           handleAddEventData={this.handleAddEventData}
           closeAddEventDialog={this.closeAddEventDialog}
         />
-        <Geolocation
-          getLocation={this.getLocation}
-          handleOpenLocationDialog={this.handleOpenLocationDialog}
-        />
-        <LocationModal
-          showModal={this.state.showModal}
-          submitModalData={this.submitModalData}
+        <LocationDialog
+          showModal={showModal}
         />
       </div>
     );
@@ -202,7 +176,9 @@ class Home extends Component {
 const mapStateToProps = state => (
   {
     events: state.events.all,
+    latitude: state.user.latitude,
+    longitude: state.user.longitude,
   }
 );
 
-export default connect(mapStateToProps, { fetchEvents })(Home);
+export default connect(mapStateToProps, { fetchEvents, getLocation })(Home);

@@ -146,6 +146,10 @@ class MapContainer extends Component {
 const mapStateToProps = state => (
   {
     events: state.events.filteredEventList,
+    userLocation: {
+      lat: state.user.latitude,
+      lng: state.user.longitude,
+    },
   }
 );
 

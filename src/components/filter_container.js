@@ -25,31 +25,40 @@ class FilterContainer extends Component {
     this.onCategoryChange = this.onCategoryChange.bind(this);
     this.shouldApplyFiltersInitial = true;
   }
+  componentWillUpdate() {
+    // ensures that the filters are applied when the page first loads
+    if (this.shouldApplyFiltersInitial && this.props.lat && this.props.lng) {
+      if (this.props.events && this.props.events[0] !== 'retry') {
+        this.applyFilters(this.state);
+        this.shouldApplyFiltersInitial = false;
+      }
+    }
+  }
+
   onDateChange(selectedDate) {
     this.setState({ selectedDate });
     const filters = Object.assign({}, this.state, { selectedDate });
     this.applyFilters(filters);
   }
+
   onTimeChange(selectedTime) {
     this.setState({ selectedTime });
     const filters = Object.assign({}, this.state, { selectedTime });
     this.applyFilters(filters);
   }
+
   onCategoryChange(selectedCategories) {
     this.setState({ selectedCategories });
     const filters = Object.assign({}, this.state, { selectedCategories });
     this.applyFilters(filters);
   }
+
   applyFilters(filters) {
     this.props.filterEvents(filters,
       this.props.categoriesList, this.dateBarData);
   }
+
   render() {
-    // ensures that the filters are applied when the page first loads
-    if (this.props.events && this.shouldApplyFiltersInitial) {
-      this.applyFilters(this.state);
-      this.shouldApplyFiltersInitial = false;
-    }
     return (
       <div id="filter-container">
         <DateFilter onDateChange={this.onDateChange} dateBarData={this.dateBarData} />
@@ -66,6 +75,8 @@ class FilterContainer extends Component {
 const mapStateToProps = state => (
   {
     events: state.events.all,
+    lat: state.user.latitude,
+    lng: state.user.longitude,
   }
 );
 

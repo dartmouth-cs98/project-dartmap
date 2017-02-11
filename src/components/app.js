@@ -9,7 +9,7 @@ import NavBar from './nav_bar';
 import { postFbToken, getUserByPassword, getAllUsers } from '../helpers/dartmap-api';
 
 // import the redux actions
-import { fetchEvents } from '../actions';
+import { getLocation } from '../actions';
 
 /* global FB:true */
 
@@ -26,7 +26,9 @@ class App extends Component {
     this.handleImageResponse = this.handleImageResponse.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
-    this.props.fetchEvents();
+  }
+  componentWillMount() {
+    this.props.getLocation();
   }
 
   componentDidMount() {
@@ -126,4 +128,4 @@ class App extends Component {
   }
 }
 
-export default connect(null, { fetchEvents })(App);
+export default connect(null, { getLocation })(App);

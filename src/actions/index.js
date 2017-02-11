@@ -2,7 +2,7 @@
 // This file initializes all the possible actions
 
 import { postNewEvent, getAllEvents, getEvent } from '../helpers/dartmap-api';
-import { filterEventList } from '../helpers/filter-helper';
+import { getLocationFromZipcode } from '../helpers/google-maps';
 
 // keys for ActionTypes
 export const ActionTypes = {
@@ -15,6 +15,10 @@ export const ActionTypes = {
   UPDATE_EVENT: 'UPDATE_EVENT',
   DELETE_EVENT: 'DELETE_EVENT',
   FILTER_EVENTS: 'FILTER_EVENTS',
+  RETRY_EVENT: 'RETRY_EVENT',
+  GET_LOCATION: 'GET_LOCATION',
+  RETRY_LOCATION: 'RETRY_LOCATION',
+  LOCATION_FAIL: 'LOCATION_FAIL',
 };
 
 // export function login() {
@@ -33,8 +37,12 @@ export const ActionTypes = {
 
 export function fetchEvents(latitude, longitude, radius) {
   return (dispatch) => {
-    getAllEvents(dispatch, ActionTypes.FETCH_EVENTS,
-      ActionTypes.EVENT_FAIL, latitude, longitude, radius);
+    if (!latitude || !longitude) {
+      dispatch({ type: ActionTypes.RETRY_EVENT, payload: null });
+    } else {
+      getAllEvents(dispatch, ActionTypes.FETCH_EVENTS,
+        ActionTypes.EVENT_FAIL, latitude, longitude, radius);
+    }
   };
 }
 
@@ -56,5 +64,35 @@ export function filterEvents(filters, categoriesList, dateBarData) {
   return {
     type: ActionTypes.FILTER_EVENTS,
     payload: { filters, categoriesList, dateBarData },
+  };
+}
+
+export function getLocation() {
+  return (dispatch) => {
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        dispatch({
+          type: ActionTypes.GET_LOCATION,
+          payload: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          },
+        });
+      }, (error) => {
+        dispatch({
+          type: ActionTypes.LOCATION_FAIL,
+          payload: { error },
+        });
+      });
+    } else {
+      dispatch({ type: ActionTypes.RETRY_LOCATION, payload: null });
+    }
+  };
+}
+
+export function getZipcodeLocation(zipcode) {
+  return (dispatch) => {
+    getLocationFromZipcode(zipcode, dispatch, ActionTypes.GET_LOCATION,
+      ActionTypes.LOCATION_FAIL);
   };
 }
