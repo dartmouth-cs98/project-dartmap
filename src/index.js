@@ -63,12 +63,13 @@ class App extends Component {
 
     // Load the SDK asynchronously
     (function (d, s, id) {
-      const fjs = d.getElementsByTagName(s)[0];
+      // const fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) return;
       const js = d.createElement(s);
       js.id = id;
       js.src = '//connect.facebook.net/en_US/sdk.js';
-      fjs.parentNode.insertBefore(js, fjs);
+      document.head.appendChild(js);
+      // fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
   }
 

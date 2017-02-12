@@ -403,12 +403,8 @@ hr {
 
 .icon-select {
   height: 30px;
+  margin-bottom: 30px;
   @include flex-box;
-}
-
-.selected-icon {
-  height: initial;
-  width: initial;
 }
 
 // Generic Classes
