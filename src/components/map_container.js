@@ -42,12 +42,6 @@ export default class MapContainer extends Component {
   _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
     this.props.onCenterChange(center);
     this.props.onZoomChange(zoom);
-    this.props.removePopUps();
-    // const parent = document.getElementsByTagName('body')[0];
-    // const popups = document.getElementsByClassName('popup');
-    // while (popups.length > 0) {
-    //   parent.removeChild(popups[popups.length - 1]);
-    // }
   }
 
   _onChildClick = (key, childProps) => {

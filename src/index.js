@@ -18,7 +18,7 @@ import UserPage from './components/user_page';
 import EventPage from './components/event_page';
 
 // Helper function imports
-import { postFbToken, getUserByPassword, getAllUsers } from './helpers/dartmap-api';
+import { postFbToken, getUserByPassword } from './helpers/dartmap-api';
 
 /* global FB:true */
 

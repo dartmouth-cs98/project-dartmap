@@ -13,7 +13,7 @@ const EventsWithControllableHover = (props) => {
   return (
     <div>
       <button type="button" onClick={() => props.showStickyBalloon(props.id)} id={props.id} className={currentClass}>
-        <img className="map-event-img"src={imageSrc} alt="icon" />
+        <img className="map-event-img" src={imageSrc} alt="icon" />
         <div>{props.text}</div>
       </button>
       <MapBalloon

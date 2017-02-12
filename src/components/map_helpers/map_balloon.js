@@ -14,7 +14,9 @@ class MapBalloon extends Component {
     this.popUp = [];
     for (let i = 0; i < this.events.length; i += 1) {
       const event = this.events[i];
-      if (i > 0) {
+      if (i === 0) {
+        this.popUp.push(<div key="location">Location: {event.location_name}</div>);
+      } else {
         const key = 'hbar'.concat(event.id);
         this.popUp.push(<div key={key} className="hbar"><hr /></div>);
       }
