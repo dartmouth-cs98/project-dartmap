@@ -10,11 +10,11 @@ class EventPage extends Component {
     super(props);
     this.state = {
       event: null,
+      event_id: this.props.params.id,
     };
     this.map = null;
     this.marker = null;
     this.infoWindow = null;
-    this.url = 'http://localhost:8080/events/'.concat(this.props.params.id);
   }
 
   componentWillMount() {
@@ -100,7 +100,7 @@ class EventPage extends Component {
             </div>
           </div>
         </div>
-        <CommentBox url="/api/comments" pollInterval={2000} />
+        <CommentBox url="https://dartmapapi.herokuapp.com/api/comments" pollInterval={2000} event_id={this.state.event_id} />
       </div>
     );
   }

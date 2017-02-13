@@ -1,16 +1,18 @@
 import React from 'react';
+import Showdown from 'showdown';
+
+const converter = new Showdown.converter();
 
 class Comment extends React.Component {
   constructor() {
     super();
     this.state = { data: [] };
 
-    this.markUp = this.markUp.bind(this);
+    this.rawMarkup = this.rawMarkup.bind(this);
   }
 
-  markUp() {
-    const md = new Remarkable();
-    const rawMarkup = md.render(this.props.children.toString());
+  rawMarkup() {
+    const rawMarkup = converter.makeHtml(this.props.children.toString());
     return { __html: rawMarkup };
   }
 
@@ -25,7 +27,7 @@ class Comment extends React.Component {
             <h4 className="user">{this.props.author}</h4>
             <h5 className="time">5 minutes ago</h5>
           </div>
-          <span inner={this.rawMarkup()} />
+          <span dangerouslySetInnerHTML={this.rawMarkup()} />
         </div>
       </div>
     );

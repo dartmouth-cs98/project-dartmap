@@ -37,35 +37,28 @@ class CommentBox extends React.Component {
     });
   }
 
-  // loadCommentsFromServer() {
-  //   $.ajax({
-  //     url: this.props.url,
-  //     dataType: 'json',
-  //     type: 'GET',
-  //     success: (data) => {
-  //       this.setState({ data });
-  //     },
-  //     error: (xhr, status, err) => {
-  //       console.error(this.props.url, status, err.toString());
-  //     },
-  //   });
-  // }
+  loadCommentsFromServer() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'GET',
+      success: (data) => {
+        this.setState({ data });
+      },
+      error: (xhr, status, err) => {
+        console.error(this.props.url, status, err.toString());
+      },
+    });
+  }
 
   render() {
     return (
       <div>
         <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
         <div className="container">
-          <div className="col-md-8 panel panel-white post panel-shadow">
+          <div className="col-md-12 panel panel-white post panel-shadow">
             <h1> Live Feed </h1>
-            <div className="post-footer">
-              <div className="input-group">
-                <input className="form-control" placeholder="Add a comment" type="text" />
-                <span className="input-group-addon">
-                  <a href="#"><i className="fa fa-edit"></i></a>
-                </span>
-              </div>
-            </div>
+            <CommentForm onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
             <div className="post-footer">
               <CommentList data={this.state.data} />
             </div>

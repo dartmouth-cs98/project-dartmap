@@ -4,7 +4,6 @@ class CommentForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      author: '',
       text: '',
     };
 
@@ -20,31 +19,32 @@ class CommentForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const author = this.state.author.trim();
     const text = this.state.text.trim();
-    if (!text || !author) {
+    if (!text) {
       return;
     }
-    this.props.onCommentSubmit({ author, text });
+    const toSend = {
+      user_id: 1,
+      event_id: this.props.event_id,
+      content: text,
+    };
+    this.props.onCommentSubmit(toSend);
     this.setState({
-      author: '',
       text: '',
     });
   }
 
   render() {
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <div className="left">
-          <img
-            src="../../images/edrei.jpg"
-            alt="You"
-          />
-          <p className="username">Edrei</p>
-        </div>
-        <div className="right">
-          <textArea className="tb6" placeholder="Add a comment" value={this.state.text} onChange={this.handleTextChange} />
-          <input type="submit" value="Post" />
+      <form className="post-heading row" onSubmit={this.handleSubmit}>
+        <a className="col-md-1" href="#">
+          <img className="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar" />
+        </a>
+        <div className="col-md-11 input-group">
+          <input className="form-control" placeholder="Add a comment" type="text" value={this.state.text} onChange={this.handleTextChange} />
+          <span className="input-group-addon">
+            <a href="#"><i className="fa fa-edit"></i></a>
+          </span>
         </div>
       </form>
     );
