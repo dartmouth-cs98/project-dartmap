@@ -36,12 +36,11 @@ class AddEventSubmitPage extends Component {
     // {JSON.stringify(this.props.data)}
     return (
       <div>
-        <h1>Submit event</h1>
+        <h2>Submit event</h2>
         {this.allFields.map((data) => {
           return (
             <div className={data.id.concat(' submit-event-category')} key={data.id}>
-              <div className="submit-cat-title">{data.text}</div>
-              <div className="submit-cat-data">{data.value}</div>
+              <div className="submit-cat-title"><b>{data.text}</b>: {data.value}</div>
               {data.errorMsg}
             </div>
           );
