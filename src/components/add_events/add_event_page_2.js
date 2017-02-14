@@ -58,7 +58,7 @@ class AddEventPage2 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <h2>Date:* </h2>
+          <h2>Date: * </h2>
           <DateTime
             timeFormat={false}
             value={this.state.date}
@@ -72,7 +72,7 @@ class AddEventPage2 extends Component {
             className={(this.state.date !== '') ? 'add-event-date' : 'add-event-date error-box'}
           />
           {dateErrorMessage}
-          <h2>Start Time:* </h2>
+          <h2>Start Time: * </h2>
           <DateTime
             dateFormat={false}
             value={this.state.start_time}
@@ -80,7 +80,7 @@ class AddEventPage2 extends Component {
             className={((this.state.start_time !== '') && this.isValidTime()) ? 'add-event-time' : 'add-event-time error-box'}
           />
           {startErrorMessage}
-          <h2>End Time:*</h2>
+          <h2>End Time: *</h2>
           <DateTime
             dateFormat={false}
             value={this.state.end_time}
