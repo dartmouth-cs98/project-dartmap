@@ -100,7 +100,7 @@ class EventPage extends Component {
             </div>
           </div>
         </div>
-        <CommentBox url="https://dartmapapi.herokuapp.com/api/comments" pollInterval={2000} event_id={this.state.event_id} />
+        <CommentBox pollInterval={2000} event_id={this.state.event_id} />
       </div>
     );
   }

@@ -246,3 +246,52 @@ export function postToS3(s3URL, postData) {
   });
   return response;
 }
+
+export function getComments(commentURL) {
+  const response = $.ajax({
+    url: commentURL,
+    jsonp: false,
+    type: 'GET',
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}
+
+export function updateComment(commentURL, putData) {
+  const response = $.ajax({
+    url: commentURL,
+    jsonp: false,
+    type: 'PUT',
+    data: putData,
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}
+
+export function deleteComment(commentURL) {
+  const response = $.ajax({
+    url: commentURL,
+    jsonp: false,
+    type: 'DELETE',
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}

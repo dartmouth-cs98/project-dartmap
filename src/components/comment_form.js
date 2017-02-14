@@ -1,4 +1,5 @@
 import React from 'react';
+import './comment.scss';
 
 class CommentForm extends React.Component {
   constructor() {
@@ -23,11 +24,11 @@ class CommentForm extends React.Component {
     if (!text) {
       return;
     }
-    const toSend = {
-      user_id: 1,
-      event_id: this.props.event_id,
-      content: text,
-    };
+    const toSend = {};
+    toSend.user_id = '1';
+    toSend.event_id = this.props.event_id;
+    toSend.content = text;
+
     this.props.onCommentSubmit(toSend);
     this.setState({
       text: '',
@@ -37,14 +38,14 @@ class CommentForm extends React.Component {
   render() {
     return (
       <form className="post-heading row" onSubmit={this.handleSubmit}>
-        <a className="col-md-1" href="#">
+        <div className="col-md-1">
           <img className="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar" />
-        </a>
+        </div>
         <div className="col-md-11 input-group">
           <input className="form-control" placeholder="Add a comment" type="text" value={this.state.text} onChange={this.handleTextChange} />
-          <span className="input-group-addon">
-            <a href="#"><i className="fa fa-edit"></i></a>
-          </span>
+          <button className="input-group-addon" onClick={this.handleSubmit}>
+            <i className="fa fa-edit"></i>
+          </button>
         </div>
       </form>
     );
