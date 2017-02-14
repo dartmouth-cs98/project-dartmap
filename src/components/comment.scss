@@ -180,16 +180,17 @@
 }
 
 .comment-avatar {
-  width: 65px;
-  height: 65px;
+  width: 50px;
+  height: 50;
   position: relative;
   float: left;
   border: 1px solid #FFF;
-  border-color: green;
+  border-color: white;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
   overflow: hidden;
+  padding: 10px 10px;
 }
 
 .comment-avatar img {
