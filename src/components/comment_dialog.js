@@ -1,9 +1,8 @@
 import React from 'react';
-import $ from 'jquery';
 import CommentList from './comment_list';
 import CommentForm from './comment_form';
 import './comment.scss';
-import { getComments, updateComment, deleteComment } from '../helpers/dartmap-api';
+import { postComment, getComments, updateComment, deleteComment } from '../helpers/dartmap-api';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const COMMENT_URL = 'comments/';
@@ -27,18 +26,8 @@ class CommentBox extends React.Component {
   handleCommentSubmit(comment) {
     const comments = this.state.data;
     const newComments = comments.concat([comment]);
-    this.setState({ data: newComments });
-    $.ajax({
-      url: this.url,
-      type: 'POST',
-      data: comment,
-      success: (data) => {
-        console.log(data);
-      },
-      error: (xhr, status, err) => {
-        this.setState({ data: comments });
-        console.error(this.url, status, err.toString());
-      },
+    postComment(this.url, comment).then((response) => {
+      this.setState({ data: newComments });
     });
   }
 

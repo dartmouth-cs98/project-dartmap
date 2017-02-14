@@ -247,6 +247,23 @@ export function postToS3(s3URL, postData) {
   return response;
 }
 
+export function postComment(commentURL, postData) {
+  const response = $.ajax({
+    url: commentURL,
+    jsonp: false,
+    type: 'POST',
+    data: postData,
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}
+
 export function getComments(commentURL) {
   const response = $.ajax({
     url: commentURL,
