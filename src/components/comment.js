@@ -37,11 +37,11 @@ class Comment extends React.Component {
     return (
       <div className="row">
         <div className="col-md-1 comment-avatar rounded">
-          <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="" />
+          <img src="https://s28.postimg.org/cdfv0i8ot/party.png" alt="" />
         </div>
         <div className="col-md-11 comment-box rounded">
           <div className="comment-head">
-            <h6 className="comment-name by-author"><a href="http://creaticode.com/blog">{this.props.author}</a></h6>
+            <h6 className="comment-name by-author"><a href="#">{this.props.author}</a></h6>
             <span>posted 1 min ago</span>
             <i className="fa fa-heart" />
             <div className="commentActions">
