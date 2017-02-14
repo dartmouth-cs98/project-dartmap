@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 
 // import the API functions
-import { getAllCategories, getAllUsers } from '../helpers/dartmap-api';
+import { getAllCategories } from '../helpers/dartmap-api';
 
 // import the react Components
 import EventList from './event_list';
@@ -79,11 +79,6 @@ class Home extends Component {
   onEventListItemClick(eventId, newCenter) {
     if (!this.state.addEvent && this.state.showStickyBalloonEventId !== eventId) {
       this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
-
-      // // Reset the state so that the popup is a onetime popup.
-      // setTimeout(() => {
-      //   this.setState({ showStickyBalloonEventId: null });
-      // }, 1000);
     }
   }
 
@@ -117,11 +112,6 @@ class Home extends Component {
   showStickyBalloon(eventId) {
     if (this.state.showStickyBalloonEventId !== eventId) {
       this.setState({ showStickyBalloonEventId: eventId });
-
-      // // Reset the state so that the popup is a onetime popup.
-      // setTimeout(() => {
-      //   this.setState({ showStickyBalloonEventId: null });
-      // }, 1000);
     }
   }
 
@@ -130,6 +120,13 @@ class Home extends Component {
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
     });
+
+    // // Remove sticky popups.
+    // const parent = document.getElementsByTagName('body')[0];
+    // const popupsToRemove = document.getElementsByClassName('popup');
+    // while (popupsToRemove.length > 0) {
+    //   parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
+    // }
   }
 
   render() {

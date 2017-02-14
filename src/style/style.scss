@@ -89,7 +89,6 @@ hr {
     height: 35px;
     width: 35px;
     border: 1px solid #ddd;
-    border-radius: 50%;
     box-shadow: 0px 0px 5px #000000;
   }
 
@@ -172,6 +171,7 @@ hr {
 .event-hover {
   border: 0px;
   background-color: $light-grey;
+  z-index: 14;
   @include event-style;
 
   &:focus {
@@ -183,6 +183,7 @@ hr {
   height: 20px;
   width: 20px;
   position: relative;
+  z-index: 13;
 }
 
 .popup-icon {
@@ -241,7 +242,7 @@ hr {
 .event-item {
   background-color: white;
   border-bottom: thin solid black;
-  height: 80px;
+  height: 100%;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;
@@ -262,7 +263,8 @@ hr {
   box-shadow: 0 0 8px 2px #888;
   color: black;
   padding: 5px;
-  width: 250px;
+  position: relative;
+  width: 350px;
   z-index: 15;
   @include flex-box;
   @include flex-column;
@@ -405,8 +407,8 @@ hr {
 }
 
 .selected-icon {
-  height: 30px;
-  width: 30px;
+  height: initial;
+  width: initial;
 }
 
 // Generic Classes
@@ -463,4 +465,9 @@ hr {
   background-color: white;
   padding: 30px;
   border-radius: 50px;
+  min-width: 200px;
+
+  input {
+    max-width: 100%;
+  }
 }
