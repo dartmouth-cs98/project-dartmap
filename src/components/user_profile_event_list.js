@@ -1,8 +1,8 @@
 // event_list.js
 import React, { Component } from 'react';
-import EventListItem from './event_list_item';
+import UserEventListItem from './user_profile_event_list_item';
 
-class EventList extends Component {
+class UserEventList extends Component {
   constructor(props) {
     super(props);
     this.isSameDay = false;
@@ -17,15 +17,14 @@ class EventList extends Component {
     this.eventItems = [];
 
     if (this.props.events.length > 0) {
-
       // FOR EACH EVENT
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
-        const eListItem = [<EventListItem
+        const eListItem = [<UserEventListItem
           event={event}
-          selectedLocation={this.props.selectedLocation}
+          // selectedLocation={this.props.selectedLocation}
           key={event.id}
-          showBalloon={this.props.showBalloon}
+          // showBalloon={this.props.showBalloon}
           onEventListItemClick={this.props.onEventListItemClick}
         />];
         if (i >= 1) {
@@ -33,7 +32,7 @@ class EventList extends Component {
         }
         if (i === 0 || (i >= 1 && !this.isSameDay)) {
           this.eventItems.push(
-            <div className="date-display" key={'date'.concat(i)}>
+            <div className="user-date-display" key={'date'.concat(i)}>
               {event.date.format('ddd MM/DD/YYYY')}
             </div>
           );
@@ -53,14 +52,8 @@ class EventList extends Component {
       // Case of matching events (i.e. if there are events to be displayed)
       if (this.eventItems.length > 0) {
         return (
-          <div id="event-menu">
-            <div className="add-event-btn-container">
-              <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
-                Add Event
-                <img id="plus" src="./../../icon_set_1/plus.png" role="presentation" />
-              </button>
-            </div>
-            <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
+          <div id="user-event-menu">
+            <input id="user-search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
             {this.eventItems}
           </div>
         );
@@ -69,12 +62,6 @@ class EventList extends Component {
     // Case of no matching events (i.e. if there are no events to be displayed)
     return (
       <div id="event-none">
-        <div className="add-event-btn-container">
-          <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
-            Add Event
-            <img id="plus" src="./../../icon_set_1/plus.png" role="presentation" />
-          </button>
-        </div>
         <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
         <text className="warning-msg">
           No Matching Events. <br />
@@ -85,4 +72,4 @@ class EventList extends Component {
   }
 }
 
-export default EventList;
+export default UserEventList;

@@ -138,6 +138,24 @@ hr {
   }
 }
 
+// Button for a user to delete an event
+.user-delete-event {
+  background-color: #BD1919;
+  border: 1px solid;
+  /*border-radius: 20px;*/
+  /*float: right;*/
+  text-align: center;
+  font-size: 18pt;
+  height: 100%;
+  line-height: 100%;
+  /*margin-bottom: 10px;*/
+
+  &:hover {
+    background-color: #FF0000;
+    cursor: pointer;
+  }
+}
+
 #plus {
   height: 30px;
   width: 30px;
@@ -206,12 +224,31 @@ hr {
   }
 }
 
+#user-event-menu {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  float: center;
+  width: 80%;
+  height: 100%;
+  overflow: scroll;
+  padding-left: 10%;
+  padding-top: 16px;
+
+  .location-not-selected {
+    display: none;
+  }
+}
+
 .warning-msg {
   background-color: white;
 }
 
 #search-bar {
   width: 100%;
+  background-color: white;
+}
+
+#user-search-bar {
+  width: 30%;
   background-color: white;
 }
 
@@ -352,6 +389,13 @@ hr {
 
 .date-display {
   background-color: $green;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
+.user-date-display {
+  background-color: #878787;
   color: white;
   position: relative;
   text-align: center;
