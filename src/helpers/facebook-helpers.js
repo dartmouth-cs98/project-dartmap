@@ -1,12 +1,12 @@
+// facebook-helpers.js
+// This file holds all of the functions that interact with the facebook api
+
 import { postFbToken, getUserByPassword } from './dartmap-api';
 
-var fbProfileImageUrl = null;
-var fbLoginStatus = null;
-var userInfo = null;
-
 export function fbAsyncInit() {
-  window.fbAsyncInit = function () {
-    FB.init({
+  // Initialize the facebook SDK
+  window.fbAsyncInit = () => {
+    window.FB.init({
       appId: '240355553073589',
       cookie: true,   // enable cookies to allow the server to access
                       // the session
@@ -16,7 +16,7 @@ export function fbAsyncInit() {
   };
 
   // Load the SDK asynchronously
-  (function (d, s, id) {
+  (function loadFbSdk(d, s, id) {
     // const fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     const js = d.createElement(s);
@@ -27,64 +27,64 @@ export function fbAsyncInit() {
   }(document, 'script', 'facebook-jssdk'));
 }
 
-export function processLoggedInUser(fbLoginStatus) {
-  // if (window.location.href.indexOf('jwt') < 0) {
-  //   const jwtResponse = postFbToken(fbLoginStatus.authResponse);
-  //   setTimeout(() => {
-  //     if (jwtResponse.responseText) {
-  //       window.location.replace("http://localhost:8080/?jwt=" + jwtResponse.responseText);
-  //     }
-  //   }, 1000);
-  // } else if (fbLoginStatus.authResponse.userID) {
-  if (fbLoginStatus.authResponse.userID) {
-    if (fbLoginStatus.authResponse.userID) {
-      getUserByPassword(user => setUser(user), fbLoginStatus.authResponse.userID);
+function handleFbResponse(fbResponse, dispatch, successAction) {
+  const FB = window.FB;
+  if (fbResponse.status === 'connected') {
+    console.log('logged into facebook, response:', fbResponse);
+    if (fbResponse.authResponse.userID) {
+      getUserByPassword((userInfo) => {
+        const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
+        FB.api(fbUserImageUrl, (graphResponse) => {
+          let fbProfPicUrl = null;
+          if (graphResponse && !graphResponse.error) {
+            fbProfPicUrl = graphResponse.data.url;
+          }
+          dispatch({
+            type: successAction,
+            payload: {
+              userInfo,
+              fbResponse,
+              fbProfPicUrl,
+            },
+          });
+        });
+      }, fbResponse.authResponse.userID);
     }
-    const fbUserUrl = `/${fbLoginStatus.authResponse.userID}/picture`;
-    FB.api(
-      fbUserUrl,
-      handleImageResponse
-    );
+  } else {
+    dispatch({ type: successAction, payload: { fbResponse } });
   }
 }
 
-export function setFbLoginStatus() {
+export function getFbLoginStatus(dispatch, successAction) {
+  const FB = window.FB;
   FB.getLoginStatus((response) => {
-    fbLoginStatus = response;
+    handleFbResponse(response, dispatch, successAction);
   });
 }
 
-export function getFbLoginStatus() {
-  return fbLoginStatus;
-}
-
-export function handleFbLoginClick() {
-  FB.getLoginStatus((response) => {
-    console.log()
-    if (!(response.status === 'connected')) {
-      FB.login();
+export function fbLogin(dispatch, successAction) {
+  const FB = window.FB;
+  FB.getLoginStatus((r) => {
+    if (r.status === 'connected') {
+      handleFbResponse(r, dispatch, successAction);
+    } else {
+      FB.login((response) => {
+        if (response.status === 'connected') {
+          handleFbResponse(response, dispatch, successAction);
+          console.log('user logged into facebook & our app');
+        } else if (response.status === 'not_authorized') {
+          console.log('user is logged into facebook, but not our app');
+        } else {
+          console.log('user is not logged into facebook');
+        }
+      });
     }
   });
 }
 
-export function getFbProfileImageUrl() {
-  return fbProfileImageUrl;
-}
-
-export function getFbUserInfo() {
-  return userInfo;
-}
-
-export function fbLogout() {
-  FB.logout();
-}
-
-function handleImageResponse(resp) {
-  if (resp && !resp.error) {
-    fbProfileImageUrl = resp.data.url;
-  }
-}
-
-function setUser(user) {
-  userInfo = user;
+export function fbLogout(dispatch, successAction) {
+  const FB = window.FB;
+  FB.logout((response) => {
+    dispatch({ type: successAction, payload: null });
+  });
 }

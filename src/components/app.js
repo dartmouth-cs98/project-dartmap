@@ -9,70 +9,40 @@ import NavBar from './nav_bar';
 // import { postFbToken, getUserByPassword, getAllUsers } from '../helpers/dartmap-api';
 
 // import the redux actions
-import { getLocation, fetchCategories, setDateBarData } from '../actions';
+import { getLocation, fetchCategories, setDateBarData, getLoginStatusFromFb, login } from '../actions';
 
-// Helper function imports
-import { fbAsyncInit, getFbLoginStatus, setFbLoginStatus, processLoggedInUser, handleFbLoginClick, getFbProfileImageUrl, getFbUserInfo } from '../helpers/facebook-helpers';
-
-/* global FB:true */
+import { fbAsyncInit } from '../helpers/facebook-helpers';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      logged_in: false,
-      fb_profile_image_url: null,
-      fb_user_id: null,
-      userInfo: null,
-    };
-    this.handleLoginClick = this.handleLoginClick.bind(this);
-    this.checkFbLoginStatus = this.checkFbLoginStatus.bind(this);
     this.props.setDateBarData();
     this.props.getLocation();
     this.props.fetchCategories();
+    this.initialFbLoad = false;
   }
 
-  componentDidMount() {
+  componentWillMount() {
     fbAsyncInit();
-    setTimeout(() => {
-      this.checkFbLoginStatus();
-    }, 1000);
   }
 
-  checkFbLoginStatus() {
-    const fbLoginStatus = setFbLoginStatus();
-    setTimeout(() => {
-      const fbLoginStatus = getFbLoginStatus();
-      if (fbLoginStatus.status === 'connected') {
-        this.setState({ logged_in: true });
-        processLoggedInUser(fbLoginStatus);
-        setTimeout(() => {
-          const fb_profile_image_url = getFbProfileImageUrl();
-          this.setState({ fb_profile_image_url });
-          const userInfo = getFbUserInfo();
-          this.setState({ userInfo });
-        }, 2000);
-      } else {
-        this.setState({ logged_in: false });
-      }
-    }, 2000);
-  }
-
-  handleLoginClick() {
-    handleFbLoginClick();
-    setTimeout(() => {
-      this.checkFbLoginStatus();
-    }, 8000);
+  componentWillUpdate() {
+    if (!this.initialFbLoad && window.FB) {
+      this.props.getLoginStatusFromFb();
+      this.initialFbLoad = true;
+    }
   }
 
   render() {
+    const user = this.props.user;
     // if we have the user information, send it to the NavBar, otherwise, do not
+    const userInfo = (user && user.userInfo && user.userInfo[0]);
     return (
       <div className="app-container">
-        <NavBar logged_in={this.state.logged_in}
-          fb_profile_image_url={this.state.fb_profile_image_url}
-          handleLoginClick={this.handleLoginClick}
-          userInfo={(this.state.userInfo != null) ? this.state.userInfo[0] : null}
+        <NavBar logged_in={this.props.user.loggedIn}
+          fb_profile_image_url={this.props.user.fbProfPicUrl}
+          handleLoginClick={this.props.login}
+          userInfo={userInfo}
         />
         {this.props.children}
       </div>
@@ -80,4 +50,10 @@ class App extends Component {
   }
 }
 
-export default connect(null, { getLocation, fetchCategories, setDateBarData })(App);
+const mapStateToProps = state => (
+  {
+    user: state.user,
+  }
+);
+
+export default connect(mapStateToProps, { getLocation, fetchCategories, setDateBarData, getLoginStatusFromFb, login })(App);

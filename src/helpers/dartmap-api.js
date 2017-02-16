@@ -169,7 +169,7 @@ export function getAllUsers() {
   });
 }
 
-export function getUserByPassword(saveUserList, userPassword) {
+export function getUserByPassword(callback, userPassword) {
   const fullUrl = API_URL.concat(USERS_URL).concat(userPassword);
   $.ajax({
     url: fullUrl,
@@ -177,10 +177,7 @@ export function getUserByPassword(saveUserList, userPassword) {
     dataType: 'json',
     success: (data) => {
       const userList = data.users;
-      return saveUserList(userList);
-      // console.log('data');
-      // console.log(data);
-      // return data;
+      return callback(userList);
     },
     error: (xhr, status, err) => {
       console.log(' /user GET was not successful.');
@@ -210,7 +207,7 @@ export function getSignedImageURL(file) {
   return response;
 }
 
-export function postFbToken(token) {
+export function postFbToken(callback, token) {
   const tokenData = {};
   tokenData.access_token = token.accessToken;
   const fullUrl = API_URL.concat(AUTH_URL);

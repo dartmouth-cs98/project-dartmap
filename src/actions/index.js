@@ -3,6 +3,7 @@
 
 import * as dartmapApi from '../helpers/dartmap-api';
 import { getLocationFromZipcode } from '../helpers/google-maps';
+import * as fbApi from '../helpers/facebook-helpers';
 
 const RADIUS = 10000;
 
@@ -24,21 +25,26 @@ export const ActionTypes = {
   FETCH_CATEGORIES: 'FETCH_CATEGORIES',
   CATEGORY_FAIL: 'CATEGORY_FAIL',
   SET_DATE_DATA: 'SET_DATE_DATA',
+  GET_FB_LOGIN_STATUS: 'GET_FB_LOGIN_STATUS',
 };
 
-// export function login() {
-//   return {
-//     type: ActionTypes.LOGIN,
-//     payload: null,
-//   };
-// }
-//
-// export function logout() {
-//   return {
-//     type: ActionTypes.LOGOUT,
-//     payload: null,
-//   };
-// }
+export function getLoginStatusFromFb() {
+  return (dispatch) => {
+    fbApi.getFbLoginStatus(dispatch, ActionTypes.GET_FB_LOGIN_STATUS);
+  };
+}
+
+export function login() {
+  return (dispatch) => {
+    fbApi.fbLogin(dispatch, ActionTypes.LOGIN);
+  };
+}
+
+export function logout() {
+  return (dispatch) => {
+    fbApi.fbLogout(dispatch, ActionTypes.LOGOUT);
+  };
+}
 
 export function fetchEvents(latitude, longitude) {
   return (dispatch) => {
