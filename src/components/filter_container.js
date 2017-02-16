@@ -48,8 +48,8 @@ class FilterContainer extends Component {
   render() {
     return (
       <div id="filter-container">
-        <DateFilter onDateChange={this.onDateChange} dateBarData={this.props.dateBarData} />
-        <CategoryFilter onCategoryChange={this.onCategoryChange} categoriesList={this.props.catList} />
+        <DateFilter onDateChange={this.onDateChange} />
+        <CategoryFilter onCategoryChange={this.onCategoryChange} />
         <TimeFilter onTimeChange={this.onTimeChange} />
       </div>
     );
@@ -61,8 +61,6 @@ const mapStateToProps = state => (
     events: state.events.all,
     lat: state.user.latitude,
     lng: state.user.longitude,
-    dateBarData: state.events.dateBarData,
-    catList: state.events.catList,
   }
 );
 

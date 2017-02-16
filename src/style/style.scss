@@ -1,12 +1,12 @@
 //style.scss
 
 //Imports
-@import "./segmented-controls.css";
 @import "./add_event.scss";
 @import "./variables.scss";
 @import "./user-profile.scss";
 @import "./upload_image.scss";
 @import "./event-page.scss";
+@import "./filter-container.scss";
 
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
@@ -280,38 +280,6 @@ hr {
 #test-button {
   position: absolute;
   top: 10px;
-}
-
-// Filter Container
-#filter-container {
-  height: 20%;
-  width: 75%;
-  float: left;
-  display: block;
-  padding: 0 25px;
-
-  #filter-btn {
-    display: inline-block;
-    background-color: orange;
-    float: right;
-  }
-}
-.date-filter, .time-filter, .category-filter {
-  margin-bottom: 30px;
-  @include flex-space-around;
-  @include flex-box;
-}
-
-.segmented-control {
-  &:hover {
-    background-color: #ccffcc;
-    opacity: .5;
-  }
-}
-
-//over-writing an issue with the rc-slider stylesheet
-.rc-slider-step {
-  margin: 0;
 }
 
 // Location Dialog

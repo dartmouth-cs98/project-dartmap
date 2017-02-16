@@ -60,13 +60,13 @@ class Home extends Component {
     }, true);
   }
 
-  // componentWillUpdate() {
-  //   if ((!this.props.events) || (this.props.events[0] === 'retry')) {
-  //     if (this.props.latitude && this.props.longitude) {
-  //       this.getEvents();
-  //     }
-  //   }
-  // }
+  componentWillUpdate() {
+    if ((!this.props.events) || (this.props.events[0] === 'retry')) {
+      if (this.props.latitude && this.props.longitude) {
+        this.getEvents();
+      }
+    }
+  }
 
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.

@@ -12,7 +12,7 @@ import NavBar from './nav_bar';
 import { getLocation, fetchCategories, setDateBarData } from '../actions';
 
 // Helper function imports
-import { fbAsyncInit, getFbLoginStatus, setFbLoginStatus, processLoggedInUser, handleFbLoginClick, getFbProfileImageUrl, getFbUserInfo } from './helpers/facebook-helpers';
+import { fbAsyncInit, getFbLoginStatus, setFbLoginStatus, processLoggedInUser, handleFbLoginClick, getFbProfileImageUrl, getFbUserInfo } from '../helpers/facebook-helpers';
 
 /* global FB:true */
 
@@ -27,6 +27,9 @@ class App extends Component {
     };
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.checkFbLoginStatus = this.checkFbLoginStatus.bind(this);
+    this.props.setDateBarData();
+    this.props.getLocation();
+    this.props.fetchCategories();
   }
 
   componentDidMount() {
