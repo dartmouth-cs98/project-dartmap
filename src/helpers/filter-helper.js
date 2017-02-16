@@ -9,13 +9,16 @@ const DEFAULT_TIME_FILTER = [0, 9];
 
 export default function filterEventList(theFilters, eventList, categoriesList, dateBarData) {
   let filteredEvents = [];
-  const filters = theFilters;
+  const filters = theFilters || {};
 
   if (filters.selectedDate == null) {
     filters.selectedDate = DEFAULT_DATE_FILTER;
   }
   if (filters.selectedTime == null) {
     filters.selectedTime = DEFAULT_TIME_FILTER;
+  }
+  if (!filters.selectedCategories) {
+    filters.selectedCategories = [];
   }
   if (filters.selectedCategories.length <= 0) {
     // fill with all the categories that exist, so the default is for all categories to be selected

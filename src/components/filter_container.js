@@ -23,16 +23,6 @@ class FilterContainer extends Component {
     this.onTimeChange = this.onTimeChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onCategoryChange = this.onCategoryChange.bind(this);
-    this.shouldApplyFiltersInitial = true;
-  }
-  componentWillUpdate() {
-    // ensures that the filters are applied when the page first loads
-    if (this.shouldApplyFiltersInitial && this.props.lat && this.props.lng) {
-      if (this.props.events && this.props.events[0] !== 'retry') {
-        this.applyFilters(this.state);
-        this.shouldApplyFiltersInitial = false;
-      }
-    }
   }
 
   onDateChange(selectedDate) {
@@ -54,8 +44,7 @@ class FilterContainer extends Component {
   }
 
   applyFilters(filters) {
-    this.props.filterEvents(filters,
-      this.props.categoriesList, this.dateBarData);
+    this.props.filterEvents(filters);
   }
 
   render() {
@@ -66,7 +55,7 @@ class FilterContainer extends Component {
         <br />
         <TimeFilter onTimeChange={this.onTimeChange} />
         <br />
-        <CategoryFilter onCategoryChange={this.onCategoryChange} categoriesList={this.props.categoriesList} />
+        <CategoryFilter onCategoryChange={this.onCategoryChange} />
       </div>
     );
   }

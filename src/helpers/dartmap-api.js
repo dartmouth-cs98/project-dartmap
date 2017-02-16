@@ -127,12 +127,12 @@ export function getAllEvents(dispatch, successAction, errorAction,
     error: (xhr, status, err) => {
       console.log(' /events GET was not successful.');
       console.error(fullUrl, status, err);
-      dispatch({ type: errorAction, payload: { stuff: '' } });
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
 }
 
-export function getAllCategories(saveCatList) {
+export function getAllCategories(dispatch, successAction, errorAction) {
   const fullUrl = API_URL.concat(CATEGORY_URL);
   $.ajax({
     url: fullUrl,
@@ -140,11 +140,12 @@ export function getAllCategories(saveCatList) {
     dataType: 'json',
     success: (data) => {
       const catList = data.categories;
-      return saveCatList(catList);
+      dispatch({ type: successAction, payload: { catList } });
     },
     error: (xhr, status, err) => {
       console.log(' /categories GET was not successful.');
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
 }
@@ -250,3 +251,5 @@ export function postToS3(s3URL, postData) {
   });
   return response;
 }
+
+export default { getAllEvents, getAllCategories, getEvent, postNewEvent };

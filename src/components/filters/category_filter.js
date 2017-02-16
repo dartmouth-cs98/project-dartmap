@@ -1,9 +1,10 @@
+// category_filter.js
 /*
   Filters by category
 */
 
-// category_filter.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // categories that are checked by default
 // TODO: this should eventually be made more elegant than just having 100 default category boxes
@@ -27,15 +28,19 @@ class CategoryFilter extends Component {
     this.state = { checked: defaultCategories };
     this.handleChange = this.handleChange.bind(this);
     this.onCategoryChange = props.onCategoryChange;
+    this.initialSetDefault = true;
   }
-  componentWillMount() {
-    // set the default "checked" to be true for every category
-    const checked = [];
-    let i;
-    for (i = 0; i <= this.props.categoriesList.length; i += 1) {
-      checked.push(i.toString());
+  componentWillUpdate() {
+    if (this.props.catList && this.initialSetDefault) {
+      // set the default "checked" to be true for every category
+      const checked = [];
+      let i;
+      for (i = 0; i <= this.props.catList.length; i += 1) {
+        checked.push(i.toString());
+      }
+      this.setState({ checked });
+      this.initialSetDefault = false;
     }
-    this.setState({ checked });
   }
 
   handleChange(event) {
@@ -58,7 +63,7 @@ class CategoryFilter extends Component {
       if (val === '0') {
         checked = ['0'];
         // check every box
-        this.props.categoriesList.map((cat) => {
+        this.props.catList.map((cat) => {
           const cID = `c${cat.id}`; // c1, c2, etc...
           checked.push((cat.id).toString());
           document.getElementById(cID).checked = true;
@@ -75,7 +80,7 @@ class CategoryFilter extends Component {
       if (checked[c]) {
         n = parseInt(checked[c], 10);
         if (n > 0) {
-          categoryArray.push(this.props.categoriesList[n - 1]);
+          categoryArray.push(this.props.catList[n - 1]);
         }
       }
     }
@@ -87,10 +92,10 @@ class CategoryFilter extends Component {
 
   render() {
     let boxes;
-    if (this.props.categoriesList.length === 0) {
+    if (!this.props.catList || this.props.catList.length === 0) {
       return <div className="hidden" />;
     } else {
-      boxes = this.props.categoriesList.map((cat) => {
+      boxes = this.props.catList.map((cat) => {
         const cID = `c${cat.id}`; // c1, c2, etc...
         return (
           <div key={cID} className="segmented-control">
@@ -114,4 +119,10 @@ class CategoryFilter extends Component {
   }
 }
 
-export default CategoryFilter;
+const mapStateToProps = state => (
+  {
+    catList: state.events.catList,
+  }
+);
+
+export default connect(mapStateToProps, null)(CategoryFilter);

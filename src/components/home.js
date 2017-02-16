@@ -4,10 +4,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-
-// import the API functions
-import { getAllCategories } from '../helpers/dartmap-api';
-
 // import the react Components
 import EventList from './event_list';
 import MapContainer from './map_container';
@@ -62,17 +58,15 @@ class Home extends Component {
       this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
       this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
     }, true);
-
-    getAllCategories(categoriesList => this.setState({ categoriesList }));
   }
 
-  componentWillUpdate() {
-    if ((!this.props.events) || (this.props.events[0] === 'retry')) {
-      if (this.props.latitude && this.props.longitude) {
-        this.getEvents();
-      }
-    }
-  }
+  // componentWillUpdate() {
+  //   if ((!this.props.events) || (this.props.events[0] === 'retry')) {
+  //     if (this.props.latitude && this.props.longitude) {
+  //       this.getEvents();
+  //     }
+  //   }
+  // }
 
   // Things to do when the event list is clicked:
   // 1. Show the sticky baloon if an event list item is clicked.
