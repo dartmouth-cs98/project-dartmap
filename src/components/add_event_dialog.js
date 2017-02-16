@@ -30,7 +30,7 @@ class AddEventDialog extends Component {
       categories: null,
       icon: null,
       currentPage: 0,
-      image_url: 'https://s27.postimg.org/o2c50l3fn/default.png',
+      image_url: ['https://s27.postimg.org/o2c50l3fn/default.png'],
     };
     this.handlePageData = this.handlePageData.bind(this);
     this.submitEventData = this.submitEventData.bind(this);
@@ -50,7 +50,7 @@ class AddEventDialog extends Component {
       categories: [],
       icon: null,
       currentPage: 0,
-      image_url: 'https://s27.postimg.org/o2c50l3fn/default.png',
+      image_url: ['https://s27.postimg.org/o2c50l3fn/default.png'],
     });
   }
   handlePageData(data) {

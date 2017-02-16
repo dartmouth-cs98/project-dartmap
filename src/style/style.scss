@@ -91,22 +91,22 @@ hr {
     border: 1px solid #ddd;
     box-shadow: 0px 0px 5px #000000;
   }
+}
 
-  .fb-user {
-    background-color: #3b5998;
-    border: 0px;
-    color: white;
-    font-family: 'Lucida Grande';
-    font-size: 12px;
-    float: right;
-    height: 32px;
-    line-height: 16px;
-    margin-left: 8px;
-    padding: 5px;
-    &:hover {
-      cursor: pointer;
-      opacity: .8;
-    }
+.fb-user {
+  background-color: #3b5998;
+  border: 0px;
+  color: white;
+  font-family: 'Lucida Grande';
+  font-size: 12px;
+  float: right;
+  height: 32px;
+  line-height: 16px;
+  margin-left: 8px;
+  padding: 5px;
+  &:hover {
+    cursor: pointer;
+    opacity: .8;
   }
 }
 
@@ -297,6 +297,7 @@ hr {
   }
 }
 .date-filter, .time-filter, .category-filter {
+  margin-bottom: 30px;
   @include flex-space-around;
   @include flex-box;
 }
@@ -323,20 +324,6 @@ hr {
   box-shadow: 0px 0px 20px black;
 }
 
-// Add Event Dialog
-#add-event {
-  border: 5px solid black;
-  height: 80%;
-  width: 80%;
-  position: absolute;
-  top: 10%;
-  left: 10%;
-  background-color: white;
-  padding: 30px;
-  border-radius: 50px;
-  box-shadow: 0px 0px 20px black;
-}
-
 #close-button {
   position: absolute;
   right: 20px;
@@ -346,55 +333,6 @@ hr {
     cursor: pointer;
   }
 }
-.add-event-top {
-  height: 20%;
-}
-
-.add-event-form {
-  height: 80%;
-  @include flex-box;
-  @include flex-column;
-  @include flex-space-between;
-}
-
-.add-event-text {
-  width: 50%;
-  vertical-align: middle;
-  height: 30px;
-}
-
-.add-event-loc-string {
-  width: 150px;
-}
-
-.add-event-error-message {
-  display: inline-block;
-  width: 50%;
-  vertical-align: middle;
-  height: 30px;
-}
-.add-event-btns {
-  display: inline-block;
-  width: 100%;
-  // align-self: flex-end;
-  // -webkit-align-self: flex-end;
-  // -moz-align-self: flex-end;
-}
-.add-event-btn {
-  background-color: $green;
-}
-
-.back-btn {
-  float: left;
-}
-
-.nxt-btn {
-  float: right;
-}
-
-.invalid-nxt-btn {
-  background-color: $light-grey;
-}
 
 .page-slider {
   @include flex-space-around;
@@ -403,12 +341,8 @@ hr {
 
 .icon-select {
   height: 30px;
+  margin-bottom: 30px;
   @include flex-box;
-}
-
-.selected-icon {
-  height: initial;
-  width: initial;
 }
 
 // Generic Classes

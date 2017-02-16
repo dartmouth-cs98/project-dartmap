@@ -12,6 +12,7 @@ import thunk from 'redux-thunk';
 import 'react-datetime/css/react-datetime.css';
 import 'rc-slider/assets/index.css';
 import 'react-select/dist/react-select.css';
+import 'react-image-gallery/styles/css/image-gallery.css';
 import './style/style.scss';
 
 // Helper function imports

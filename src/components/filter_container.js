@@ -8,7 +8,6 @@ import CategoryFilter from './filters/category_filter';
 // import ApplyFilterButton from './apply_filter_button';
 
 import { filterEvents } from '../actions';
-import createDateData from '../helpers/date-data-helper';
 
 class FilterContainer extends Component {
   constructor(props) {
@@ -18,7 +17,6 @@ class FilterContainer extends Component {
       selectedTime: null,
       selectedCategories: [],
     };
-    this.dateBarData = createDateData();
     this.applyFilters = this.applyFilters.bind(this);
     this.onTimeChange = this.onTimeChange.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
@@ -50,12 +48,9 @@ class FilterContainer extends Component {
   render() {
     return (
       <div id="filter-container">
-        <DateFilter onDateChange={this.onDateChange} dateBarData={this.dateBarData} />
-        <br />
-        <br />
+        <DateFilter onDateChange={this.onDateChange} dateBarData={this.props.dateBarData} />
+        <CategoryFilter onCategoryChange={this.onCategoryChange} categoriesList={this.props.catList} />
         <TimeFilter onTimeChange={this.onTimeChange} />
-        <br />
-        <CategoryFilter onCategoryChange={this.onCategoryChange} />
       </div>
     );
   }
@@ -66,6 +61,8 @@ const mapStateToProps = state => (
     events: state.events.all,
     lat: state.user.latitude,
     lng: state.user.longitude,
+    dateBarData: state.events.dateBarData,
+    catList: state.events.catList,
   }
 );
 

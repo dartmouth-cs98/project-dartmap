@@ -49,3 +49,21 @@
 .evpg-text div {
   padding: 5px 0;
 }
+
+.image-gallery {
+  background-color: $light-grey;
+}
+
+.image-gallery-slide {
+  height: 500px;
+  @include flex-box;
+  @include flex-justify-center;
+  @include flex-align-center;
+}
+
+.image-gallery-image img {
+  max-width: 500px;
+  max-height: 500px;
+  height: auto;
+  width: auto
+}

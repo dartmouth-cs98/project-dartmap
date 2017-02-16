@@ -47,6 +47,7 @@
     "react-datetime": "^2.6.0",
     "react-dom": "^15.3.2",
     "react-dropzone": "^3.9.2",
+    "react-image-gallery": "^0.7.12",
     "react-modal": "^1.6.5",
     "react-redux": "^5.0.2",
     "react-router": "^2.8.1",
