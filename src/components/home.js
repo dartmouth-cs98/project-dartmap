@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 
 // import the API functions
-import { postNewEvent, getAllEvents, getAllCategories, getAllUsers } from '../helpers/dartmap-api';
+import { postNewEvent, getAllEvents, getAllCategories } from '../helpers/dartmap-api';
 import createDateData from '../helpers/date-data-helper';
 import { filterDates, filterTimes, sortDateTime } from '../helpers/date-time-filters-helper';
 import { filterCategories } from '../helpers/category-filters-helper';
@@ -101,16 +101,10 @@ class Home extends Component {
   onEventListItemClick(eventId, newCenter) {
     if (!this.state.addEvent && (this.state.showStickyBalloonEventId !== eventId)) {
       this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
-
-      // // Reset the state so that the popup is a onetime popup.
-      // setTimeout(() => {
-      //   this.setState({ showStickyBalloonEventId: null });
-      // }, 1000);
     }
   }
 
   onCenterChange(center) {
-    console.log(center);
     this.setState({ center });
   }
 
@@ -152,13 +146,6 @@ class Home extends Component {
   toggleAddEvent() {
     this.removePopUps();
     this.setState({ addEvent: true });
-
-    // // Remove sticky popups.
-    // const parent = document.getElementsByTagName('body')[0];
-    // const popupsToRemove = document.getElementsByClassName('popup');
-    // while (popupsToRemove.length > 0) {
-    //   parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
-    // }
   }
 
   // Show balloons with event info on the map.
@@ -170,11 +157,6 @@ class Home extends Component {
   showStickyBalloon(eventId) {
     if (this.state.showStickyBalloonEventId !== eventId) {
       this.setState({ showStickyBalloonEventId: eventId });
-
-      // // Reset the state so that the popup is a onetime popup.
-      // setTimeout(() => {
-      //   this.setState({ showStickyBalloonEventId: null });
-      // }, 1000);
     }
   }
 
@@ -183,6 +165,13 @@ class Home extends Component {
       showBalloonEventId: null,
       showStickyBalloonEventId: null,
     });
+
+    // // Remove sticky popups.
+    // const parent = document.getElementsByTagName('body')[0];
+    // const popupsToRemove = document.getElementsByClassName('popup');
+    // while (popupsToRemove.length > 0) {
+    //   parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
+    // }
   }
 
   filterEvents(theFilters) {

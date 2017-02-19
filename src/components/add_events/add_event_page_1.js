@@ -37,36 +37,35 @@ class AddEventPage1 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <h2>Name of Event:* </h2>
           <input
             type="text"
-            placeholder="e.g. Homecoming Bonfire"
+            placeholder="*  Event name"
             value={this.state.name || ''}
             onChange={event => this.setState({ name: event.target.value })}
             className={(this.state.name !== '') ? 'add-event-text' : 'add-event-text error-box'}
           />
           {nameErrorMessage}
-          <h2>Event Organizer:*</h2>
+          <br />
           <input
             type="text"
-            placeholder="e.g. Collis Governing Board"
+            placeholder="*  Event organizer"
             value={this.state.organizer || ''}
             onChange={event => this.setState({ organizer: event.target.value })}
             className={(this.state.organizer !== '') ? 'add-event-text' : 'add-event-text error-box'}
           />
           {organizerErrorMessage}
-          <h2>Room Name/Number to Display:*</h2>
+          <br />
           <input
             type="text"
-            placeholder="e.g. Collis 112"
+            placeholder="*  Room name or number"
             value={this.state.location_string || ''}
             onChange={event => this.setState({ location_string: event.target.value })}
             className={(this.state.location_string !== '') ? 'add-event-text add-event-loc-string' : 'add-event-text add-event-loc-string error-box'}
           />
           {roomErrorMessage}
-          <h2>Description:*</h2>
+          <br />
           <textarea
-            placeholder="e.g. See freshmen running in circles"
+            placeholder="*  Event description"
             value={this.state.description || ''}
             onChange={event => this.setState({ description: event.target.value })}
             className={(this.state.description === '') ? 'add-event-text error-box' : 'add-event-text'}

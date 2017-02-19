@@ -1,6 +1,6 @@
 // event_page.js
 import React, { Component } from 'react';
-
+import ImageGallery from 'react-image-gallery';
 import { getEvent } from '../helpers/dartmap-api';
 import { createMap, createMarker, createInfoWindow } from '../helpers/google-maps';
 import CommentBox from './comment_dialog';
@@ -21,6 +21,16 @@ class EventPage extends Component {
     getEvent((event) => {
       this.setState({ event });
     }, this.props.params.id);
+
+    // Load google map onto the page asynchronously
+    (function (d, s, id) {
+      const scriptTag = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      const js = d.createElement(s);
+      js.id = id;
+      js.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI&libraries=places';
+      scriptTag.parentNode.insertBefore(js, scriptTag);
+    }(document, 'script', 'google-maps'));
   }
 
   componentDidUpdate() {
@@ -57,11 +67,20 @@ class EventPage extends Component {
   }
 
   render() {
+    const images = [];
+    let i;
     if (!this.state.event) {
       return (
         <div>Loading. Please wait.</div>
       );
     }
+    for (i = 0; i < this.state.event.image_url.length; i += 1) {
+      images.push({ original: this.state.event.image_url[i],
+        thumbnail: this.state.event.image_url[i],
+        originalClass: 'gallery-image',
+      });
+    }
+    console.log(images);
     const dateString = this.state.event.date.format('dddd MMMM Do YYYY');
     const startString = this.state.event.start_time.format('h:mma');
     const endString = this.state.event.end_time.format('h:mma');
@@ -80,8 +99,12 @@ class EventPage extends Component {
         <div className="evpg-subtitle evpg-time">
           {startString} - {endString}
         </div>
-        <div className="col-md-12 evpg-image">
-          <img src={this.state.event.image_url} alt="event-img" />
+        <div className="evpg-image">
+          <ImageGallery
+            items={images}
+            autoPlay="autoPlay"
+            slideInterval={2000}
+          />
         </div>
         <div className="col-md-12 evpg-secondary">
           <div id="evpg-map" />
