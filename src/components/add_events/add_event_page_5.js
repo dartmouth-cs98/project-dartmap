@@ -1,7 +1,7 @@
 // add_event_page_5.js
 import React, { Component } from 'react';
 import AddEventIconBtn from './add_event_icon_btn';
-import UploadPhotoDialog from '../upload_photo_dialog';
+import UploadMultiImages from '../upload_multi_images';
 
 class AddEventPage5 extends Component {
   constructor(props) {
@@ -126,7 +126,7 @@ class AddEventPage5 extends Component {
         </div>
         <div className="add-event-fields">
           <h2>Select event image:</h2>
-          <UploadPhotoDialog updateImageURL={this.updateImageURL} />
+          <UploadMultiImages updateImageURL={this.updateImageURL} />
         </div>
         <div className="add-event-btns">
           <input
