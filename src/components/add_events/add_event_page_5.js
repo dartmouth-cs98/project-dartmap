@@ -1,7 +1,7 @@
 // add_event_page_5.js
 import React, { Component } from 'react';
 import AddEventIconBtn from './add_event_icon_btn';
-import ImageUpload from '../upload_images';
+import UploadPhotoDialog from '../upload_photo_dialog';
 
 class AddEventPage5 extends Component {
   constructor(props) {
@@ -97,8 +97,16 @@ class AddEventPage5 extends Component {
   }
 
   updateImageURL(url) {
+    let updatedurl = null;
+    const defaulturl = 'https://s27.postimg.org/o2c50l3fn/default.png';
+    const imageurl = this.state.image_url.toString();
+    if (imageurl.localeCompare(defaulturl) === 0) {
+      updatedurl = url;
+    } else {
+      updatedurl = `${this.state.image_url}, ${url}`;
+    }
     this.setState({
-      image_url: url,
+      image_url: updatedurl,
     });
   }
 
@@ -118,7 +126,7 @@ class AddEventPage5 extends Component {
         </div>
         <div className="add-event-fields">
           <h2>Select event image:</h2>
-          <ImageUpload updateImageURL={this.updateImageURL} />
+          <UploadPhotoDialog updateImageURL={this.updateImageURL} />
         </div>
         <div className="add-event-btns">
           <input
