@@ -70,7 +70,7 @@ class ImageUpload extends Component {
     return (
       <div className="image-select">
         <input type="file" id="file-input" onChange={this.initUpload} />
-        <img className="selected-image" role="presentation" id="preview" src="../../images/default.png" />
+        <img className="selected-image" role="presentation" id="preview" src="https://s27.postimg.org/o2c50l3fn/default.png" />
       </div>
     );
   }
