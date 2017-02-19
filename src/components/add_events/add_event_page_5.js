@@ -1,8 +1,7 @@
 // add_event_page_5.js
 import React, { Component } from 'react';
 import AddEventIconBtn from './add_event_icon_btn';
-import ImageUpload from '../upload_images';
-import UploadPhotoDialog from '../upload_photo_dialog'
+import UploadPhotoDialog from '../upload_photo_dialog';
 
 class AddEventPage5 extends Component {
   constructor(props) {
@@ -98,16 +97,16 @@ class AddEventPage5 extends Component {
   }
 
   updateImageURL(url) {
-    let updated_url = null;
-    let defaulturl = "https://s27.postimg.org/o2c50l3fn/default.png";
-    let imageurl = this.state.image_url.toString();
-    if(imageurl.localeCompare(defaulturl) == 0){
-      updated_url = url;
-    }else{
-      updated_url = this.state.image_url + ", " + url;
+    let updatedurl = null;
+    const defaulturl = 'https://s27.postimg.org/o2c50l3fn/default.png';
+    const imageurl = this.state.image_url.toString();
+    if (imageurl.localeCompare(defaulturl) === 0) {
+      updatedurl = url;
+    } else {
+      updatedurl = `${this.state.image_url}, ${url}`;
     }
     this.setState({
-      image_url: updated_url,
+      image_url: updatedurl,
     });
   }
 

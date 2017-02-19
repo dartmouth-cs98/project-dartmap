@@ -1,9 +1,9 @@
 // add_event_dialog.js
 // TODO: add validations to the slider so that you cannot go forward
 
+import Dropzone from 'react-dropzone';
 import React, { Component } from 'react';
 import { getSignedImageURL } from '../helpers/dartmap-api';
-import Dropzone from 'react-dropzone';
 
 class UploadPhotoDialog extends Component {
   constructor(props) {
@@ -20,31 +20,29 @@ class UploadPhotoDialog extends Component {
     this.onDrop = this.onDrop.bind(this);
   }
 
-  getSignedRequest(files) {
-    for(let i = 0; i < files.length; i += 1){
-      getSignedImageURL(files[i]).then((response) => {
-      const resp = JSON.parse(response);
-      console.log(resp);
-      this.uploadFile(files[i], resp.data, resp.url);
-    });
-    }
-  }
-
   onDrop(file) {
     let updatedfiles = this.state.files;
-    let files = [];
-    if(!updatedfiles){
-      files = file;
-    }else{
-      for(let i = 0; i < file.length; i += 1){
+    if (!updatedfiles) {
+      updatedfiles = file;
+    } else {
+      for (let i = 0; i < file.length; i += 1) {
         updatedfiles.push(file[i]);
       }
-      files = updatedfiles;
     }
     this.setState({
-      files: files,
+      files: updatedfiles,
     });
     this.initUpload(file);
+  }
+
+  getSignedRequest(files) {
+    for (let i = 0; i < files.length; i += 1) {
+      getSignedImageURL(files[i]).then((response) => {
+        const resp = JSON.parse(response);
+        console.log(resp);
+        this.uploadFile(files[i], resp.data, resp.url);
+      });
+    }
   }
 
   handleClose() {
@@ -71,8 +69,6 @@ class UploadPhotoDialog extends Component {
       if (xhr.readyState === 4) {
         if (xhr.status === 200 || xhr.status === 204) {
           this.props.updateImageURL(url);
-        } else {
-          alert('Could not upload file.');
         }
       }
     };
@@ -80,10 +76,6 @@ class UploadPhotoDialog extends Component {
   }
 
   initUpload(files) {
-    const file = files[0];
-    if (!file) {
-      alert('No file selected.');
-    }
     console.log(files);
     this.getSignedRequest(files);
   }
@@ -100,7 +92,7 @@ class UploadPhotoDialog extends Component {
         return (
           <ul key={idx}>
             <li key={idx}>
-              <img className="selected-image" src={file.preview}/>
+              <img className="selected-image" role="presentation" src={file.preview} />
             </li>
           </ul>
         );
@@ -114,7 +106,8 @@ class UploadPhotoDialog extends Component {
         <Dropzone
           className="image-select"
           onDrop={this.onDrop}
-          multiple={true}>
+          multiple="multiple"
+        >
           <div>Drop an image here, or click to select files.</div>
         </Dropzone>
         {this.showFiles()}

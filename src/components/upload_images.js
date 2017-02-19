@@ -45,8 +45,6 @@ class ImageUpload extends Component {
         if (xhr.status === 200 || xhr.status === 204) {
           document.getElementById('preview').src = url;
           this.props.updateImageURL(url);
-        } else {
-          alert('Could not upload file.');
         }
       }
     };
@@ -56,9 +54,6 @@ class ImageUpload extends Component {
   initUpload() {
     const files = document.getElementById('file-input').files;
     const file = files[0];
-    if (!file) {
-      alert('No file selected.');
-    }
     console.log(file);
     this.getSignedRequest(file);
   }
