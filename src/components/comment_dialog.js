@@ -10,8 +10,12 @@ const COMMENT_URL = 'comments/';
 class CommentBox extends React.Component {
   constructor() {
     super();
-    this.state = { data: [] };
+    this.state = {
+      data: [],
+    };
     this.url = API_URL.concat(COMMENT_URL);
+    this.key = 0;
+    this.updateKey = this.updateKey.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.loadCommentsFromServer = this.loadCommentsFromServer.bind(this);
     this.handleCommentEdit = this.handleCommentEdit.bind(this);
@@ -21,6 +25,10 @@ class CommentBox extends React.Component {
   componentDidMount() {
     this.loadCommentsFromServer();
     setInterval(this.loadCommentsFromServer.bind(this), this.props.pollInterval);
+  }
+
+  updateKey() {
+    this.key = this.key + 1;
   }
 
   handleCommentSubmit(comment) {
@@ -49,7 +57,6 @@ class CommentBox extends React.Component {
 
   loadCommentsFromServer() {
     getComments(this.url).then((response) => {
-      console.log(response.comments[0].id);
       this.setState({ data: response.comments });
     });
   }
@@ -63,7 +70,7 @@ class CommentBox extends React.Component {
             <h1> Live Feed </h1>
             <CommentForm onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
             <div className="post-footer">
-              <CommentList data={this.state.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
+              <CommentList data={this.state.data} key={this.updateKey} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
             </div>
           </div>
         </div>

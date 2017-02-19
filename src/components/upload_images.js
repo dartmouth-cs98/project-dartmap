@@ -28,7 +28,7 @@ class ImageUpload extends Component {
   uploadFile(file, s3Data, url) {
     console.log(s3Data.url);
     const xhr = new XMLHttpRequest();
-    xhr.open('PUT', s3Data.url);
+    xhr.open('POST', s3Data.url);
     xhr.setRequestHeader('x-amz-acl', 'public-read');
 
     const postData = new FormData();

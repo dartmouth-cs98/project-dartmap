@@ -270,7 +270,6 @@ export function getComments(commentURL) {
     jsonp: false,
     type: 'GET',
     success: (data) => {
-      console.log(data);
       return data;
     },
     error: (xhr, status, err) => {
@@ -285,8 +284,11 @@ export function updateComment(commentURL, putData) {
     url: commentURL,
     type: 'PUT',
     data: putData,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type, Accept, X-Requested-With, Session',
+    },
     success: (data) => {
-      console.log(data);
       return data;
     },
     error: (xhr, status, err) => {
@@ -301,7 +303,6 @@ export function deleteComment(commentURL) {
     url: commentURL,
     type: 'DELETE',
     success: (data) => {
-      console.log(data);
       return data;
     },
     error: (xhr, status, err) => {

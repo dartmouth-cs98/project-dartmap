@@ -43,9 +43,7 @@ class CommentForm extends React.Component {
         </div>
         <div className="col-md-11 input-group">
           <input className="form-control" placeholder="Add a comment" type="text" value={this.state.text} onChange={this.handleTextChange} />
-          <button className="input-group-addon" onClick={this.handleSubmit}>
-            <i className="fa fa-edit"></i>
-          </button>
+          <input className="input-group-addon" type="submit" value="Submit" onClick={this.handleSubmit} />
         </div>
       </form>
     );
