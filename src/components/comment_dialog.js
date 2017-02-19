@@ -49,7 +49,7 @@ class CommentBox extends React.Component {
 
   loadCommentsFromServer() {
     getComments(this.url).then((response) => {
-      console.log(response);
+      console.log(response.comments[0].id);
       this.setState({ data: response.comments });
     });
   }

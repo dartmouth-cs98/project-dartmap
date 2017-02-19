@@ -80,10 +80,10 @@ class EventPage extends Component {
         <div className="evpg-subtitle evpg-time">
           {startString} - {endString}
         </div>
-        <div className="evpg-image">
+        <div className="col-md-12 evpg-image">
           <img src={this.state.event.image_url} alt="event-img" />
         </div>
-        <div className="evpg-secondary">
+        <div className="col-md-12 evpg-secondary">
           <div id="evpg-map" />
           <div className="evpg-text">
             <div className="evpg-description">

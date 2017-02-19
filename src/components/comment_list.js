@@ -22,7 +22,7 @@ class CommentList extends React.Component {
     const commentNodes = this.props.data.map((comment) => {
       return (
         <ul className="list-group">
-          <Comment author={comment.author} text={comment.content} key={comment.id} onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete} />
+          <Comment author={comment.author} text={comment.content} key={comment.id} id={comment.id} time={comment.timestamp} onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete} />
         </ul>
       );
     });

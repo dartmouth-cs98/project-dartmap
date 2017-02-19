@@ -283,7 +283,6 @@ export function getComments(commentURL) {
 export function updateComment(commentURL, putData) {
   const response = $.ajax({
     url: commentURL,
-    jsonp: false,
     type: 'PUT',
     data: putData,
     success: (data) => {
@@ -300,7 +299,6 @@ export function updateComment(commentURL, putData) {
 export function deleteComment(commentURL) {
   const response = $.ajax({
     url: commentURL,
-    jsonp: false,
     type: 'DELETE',
     success: (data) => {
       console.log(data);

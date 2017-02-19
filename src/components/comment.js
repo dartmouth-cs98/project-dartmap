@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import './comment.scss';
 
 class Comment extends React.Component {
@@ -8,24 +9,37 @@ class Comment extends React.Component {
       text: '',
       isEditing: false,
     };
+    this.trackEdit = this.trackEdit.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
+    this.getTime = this.getTime.bind(this);
+  }
+
+  getTime() {
+    let time;
+    time = moment.utc(this.props.time).toDate();
+    time = moment(time).format('YYYY-MM-DD h:mm A');
+    return time;
+  }
+
+  trackEdit(e) {
+    this.setState({
+      text: e.target.value,
+    });
   }
 
   handleEdit(e) {
     e.preventDefault();
-    this.setState({
-      text: e.target.value,
-    }, function () {
-      this.props.onCommentEdit(this.props.key, this.state.text);
-      this.setState({ isEditing: !this.state.isEditing });
-    });
+    const data = {};
+    data.content = this.state.text;
+    this.props.onCommentEdit(this.props.id, data);
+    this.setState({ isEditing: !this.state.isEditing });
   }
 
   handleDelete(e) {
     e.preventDefault();
-    this.props.onCommentDelete(this.props.key);
+    this.props.onCommentDelete(this.props.id);
   }
 
   toggleEditing(e) {
@@ -41,8 +55,8 @@ class Comment extends React.Component {
         </div>
         <div className="col-md-11 comment-box rounded">
           <div className="comment-head">
-            <h6 className="comment-name by-author"><a href="#">{this.props.author}</a></h6>
-            <span>posted 1 min ago</span>
+            <h6 className="comment-name by-author">{this.props.author}</h6>
+            <span>posted {this.getTime()}</span>
             <i className="fa fa-heart" />
             <div className="commentActions">
               <div className={this.state.isEditing ? 'hidden' : ''}>
@@ -58,7 +72,7 @@ class Comment extends React.Component {
           <div className="comment-content">
             <div className={this.state.isEditing ? '' : 'hidden'}>
               <form className="" onSubmit={this.handleEdit}>
-                <input type="text" defaultValue={this.props.text} />
+                <input type="text" defaultValue={this.props.text} onChange={this.trackEdit}/>
                 <input type="submit" value="Confirm changes" />
               </form>
             </div>
