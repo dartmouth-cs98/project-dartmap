@@ -4,6 +4,7 @@
 import Dropzone from 'react-dropzone';
 import React, { Component } from 'react';
 import { getSignedImageURL } from '../helpers/dartmap-api';
+// import { Line } from 'rc-progress';
 
 class UploadPhotoDialog extends Component {
   constructor(props) {
@@ -106,7 +107,6 @@ class UploadPhotoDialog extends Component {
         <Dropzone
           className="image-select"
           onDrop={this.onDrop}
-          multiple="multiple"
         >
           <div>Drop an image here, or click to select files.</div>
         </Dropzone>
