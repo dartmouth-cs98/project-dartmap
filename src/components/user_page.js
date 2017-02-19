@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { getAllEvents } from '../helpers/dartmap-api';
 
 import UploadPhotoDialog from './upload_photo_dialog';
+import { fbLogout } from '../helpers/facebook-helpers';
 
 import UserEventList from './user_profile_event_list';
 
@@ -40,6 +41,10 @@ class UserPage extends Component {
     this.setState({ uploadingPhoto: false });
   }
 
+  facebookLogout() {
+    fbLogout();
+  }
+
   // TODO: fix profile picture source, as well as user name, etc
   render() {
     console.log(this.state.eventList);
@@ -69,6 +74,7 @@ class UserPage extends Component {
             </button>
           </div>
         </div>
+        <button className="fb-user" onClick={this.facebookLogout}>Facebook Log Out</button>
         <h1>Hi!</h1>
         <br />
         <h1>Your submitted events:</h1>
