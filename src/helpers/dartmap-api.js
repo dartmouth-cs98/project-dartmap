@@ -9,6 +9,7 @@ const CATEGORY_URL = 'categories/';
 const IMAGE_URL = 'sign_s3/';
 const EVENT_URL = 'events/';
 const USERS_URL = 'users/';
+const RSVP_URL = 'rsvp/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -285,8 +286,7 @@ export function updateComment(commentURL, putData) {
     type: 'PUT',
     data: putData,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type, Accept, X-Requested-With, Session',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
     success: (data) => {
       return data;
@@ -307,6 +307,24 @@ export function deleteComment(commentURL) {
     },
     error: (xhr, status, err) => {
       console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}
+
+export function postRSVP(postData) {
+  const fullUrl = API_URL.concat(RSVP_URL);
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'POST',
+    data: postData,
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
     },
   });
   return response;

@@ -1,9 +1,10 @@
 // event_page.js
 import React, { Component } from 'react';
 import ImageGallery from 'react-image-gallery';
-import { getEvent } from '../helpers/dartmap-api';
+import { getEvent, postRSVP } from '../helpers/dartmap-api';
 import { createMap, createMarker, createInfoWindow } from '../helpers/google-maps';
 import CommentBox from './comment_dialog';
+import './comment.scss';
 
 class EventPage extends Component {
   constructor(props) {
@@ -11,10 +12,13 @@ class EventPage extends Component {
     this.state = {
       event: null,
       event_id: this.props.params.id,
+      isRSVPed: false,
     };
     this.map = null;
     this.marker = null;
     this.infoWindow = null;
+
+    this.handleRSVP = this.handleRSVP.bind(this);
   }
 
   componentWillMount() {
@@ -66,6 +70,16 @@ class EventPage extends Component {
     }
   }
 
+  handleRSVP() {
+    const data = {};
+    data.user_id = 1;
+    data.event_id = parseInt(this.state.event_id);
+
+    postRSVP(data).then((response) => {
+      this.setState({ isRSVPed: true });
+    });
+  }
+
   render() {
     const images = [];
     let i;
@@ -90,14 +104,21 @@ class EventPage extends Component {
     return (
       <div className="evpg-container">
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI&libraries=places" />
-        <div className="evpg-date">
-          {dateString}
-        </div>
-        <div className="evpg-title">
-          {this.state.event.name} @ {this.state.event.location_string}
-        </div>
-        <div className="evpg-subtitle evpg-time">
-          {startString} - {endString}
+        <div className="row">
+          <div className="col-md-5 center">
+            <div className="evpg-date">
+              {dateString}
+            </div>
+            <div className="evpg-title">
+              {this.state.event.name} @ {this.state.event.location_string}
+            </div>
+            <div className="evpg-subtitle evpg-time">
+              {startString} - {endString}
+            </div>
+          </div>
+          <div className="col-md-3 pull-right">
+            <button type="button" onClick={this.handleRSVP}>RSVP</button>
+          </div>
         </div>
         <div className="evpg-image">
           <ImageGallery
@@ -106,7 +127,7 @@ class EventPage extends Component {
             slideInterval={2000}
           />
         </div>
-        <div className="col-md-12 evpg-secondary">
+        <div className="evpg-secondary">
           <div id="evpg-map" />
           <div className="evpg-text">
             <div className="evpg-description">

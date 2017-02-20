@@ -16,6 +16,13 @@ class Comment extends React.Component {
     this.getTime = this.getTime.bind(this);
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.isEditing !== nextProps.isEditing) {
+      return false;
+    }
+    return true;
+  }
+
   getTime() {
     let time;
     time = moment.utc(this.props.time).toDate();
@@ -72,7 +79,7 @@ class Comment extends React.Component {
           <div className="comment-content">
             <div className={this.state.isEditing ? '' : 'hidden'}>
               <form className="" onSubmit={this.handleEdit}>
-                <input type="text" defaultValue={this.props.text} onChange={this.trackEdit}/>
+                <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
                 <input type="submit" value="Confirm changes" />
               </form>
             </div>

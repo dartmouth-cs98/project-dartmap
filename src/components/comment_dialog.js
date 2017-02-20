@@ -24,11 +24,12 @@ class CommentBox extends React.Component {
 
   componentDidMount() {
     this.loadCommentsFromServer();
-    setInterval(this.loadCommentsFromServer.bind(this), this.props.pollInterval);
+    // setInterval(this.loadCommentsFromServer.bind(this), this.props.pollInterval);
   }
 
   updateKey() {
     this.key = this.key + 1;
+    return this.key;
   }
 
   handleCommentSubmit(comment) {
@@ -70,7 +71,7 @@ class CommentBox extends React.Component {
             <h1> Live Feed </h1>
             <CommentForm onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
             <div className="post-footer">
-              <CommentList data={this.state.data} key={this.updateKey} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
+              <CommentList data={this.state.data} key={this.updateKey()} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
             </div>
           </div>
         </div>
