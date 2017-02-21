@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import CommentList from './comment_list';
 import CommentForm from './comment_form';
 import './comment.scss';
@@ -12,6 +13,7 @@ class CommentBox extends React.Component {
     super();
     this.state = {
       data: [],
+      isEditing: {},
     };
     this.url = API_URL.concat(COMMENT_URL);
     this.key = 0;
@@ -20,13 +22,25 @@ class CommentBox extends React.Component {
     this.loadCommentsFromServer = this.loadCommentsFromServer.bind(this);
     this.handleCommentEdit = this.handleCommentEdit.bind(this);
     this.handleCommentDelete = this.handleCommentDelete.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
+    this.initializeEditState = this.initializeEditState.bind(this);
   }
 
   componentDidMount() {
-    this.loadCommentsFromServer();
-    // setInterval(this.loadCommentsFromServer.bind(this), this.props.pollInterval);
+    $.ajax(this.loadCommentsFromServer()).then(this.initializeEditState());
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   }
 
+  initializeEditState() {
+    const clone = {};
+    let i;
+    for (i = 0; i < this.state.data.length; i += 1) {
+      clone[this.state.data[i].id] = false;
+    }
+    this.setState({
+      isEditing: clone,
+    });
+  }
   updateKey() {
     this.key = this.key + 1;
     return this.key;
@@ -40,11 +54,18 @@ class CommentBox extends React.Component {
     });
   }
 
+  toggleEdit(id, editState) {
+    const clone = $.extend({}, this.state.isEditing);
+    clone[id] = editState;
+    this.setState({
+      isEditing: clone,
+    });
+  }
+
   handleCommentEdit(id, comment) {
     const updateURL = this.url.concat(id);
     updateComment(updateURL, comment).then((response) => {
       console.log(response);
-      // this.setState({ data: response.comments });
     });
   }
 
@@ -52,12 +73,11 @@ class CommentBox extends React.Component {
     const deleteURL = this.url.concat(id);
     deleteComment(deleteURL).then((response) => {
       console.log(response);
-      // this.setState({ data: response.comments });
     });
   }
 
   loadCommentsFromServer() {
-    getComments(this.url).then((response) => {
+    const resp = $.Callbacks()getComments(this.url).then((response) => {
       this.setState({ data: response.comments });
     });
   }
@@ -71,7 +91,7 @@ class CommentBox extends React.Component {
             <h1> Live Feed </h1>
             <CommentForm onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
             <div className="post-footer">
-              <CommentList data={this.state.data} key={this.updateKey()} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
+              <CommentList data={this.state.data} isEditing={this.state.isEditing} key={this.updateKey()} toggleEdit={this.toggleEdit} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
             </div>
           </div>
         </div>

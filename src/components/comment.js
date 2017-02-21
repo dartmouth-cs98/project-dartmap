@@ -7,7 +7,7 @@ class Comment extends React.Component {
     super();
     this.state = {
       text: '',
-      isEditing: false,
+      isEditing: this.props.isEditing,
     };
     this.trackEdit = this.trackEdit.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
@@ -51,6 +51,7 @@ class Comment extends React.Component {
 
   toggleEditing(e) {
     e.preventDefault();
+    this.props.toggleEdit(this.props.id, !this.state.isEditing);
     this.setState({ isEditing: !this.state.isEditing });
   }
 
@@ -64,7 +65,6 @@ class Comment extends React.Component {
           <div className="comment-head">
             <h6 className="comment-name by-author">{this.props.author}</h6>
             <span>posted {this.getTime()}</span>
-            <i className="fa fa-heart" />
             <div className="commentActions">
               <div className={this.state.isEditing ? 'hidden' : ''}>
                 <a href="#" className="pull-right" onClick={this.handleDelete} >Delete</a>
@@ -72,7 +72,7 @@ class Comment extends React.Component {
                 <a href="#" className="pull-right" onClick={this.toggleEditing}>Edit</a>
               </div>
               <div className={this.state.isEditing ? '' : 'hidden'}>
-                <a href="#" onClick={this.toggleEditing}>Done editing </a>
+                <a href="#" onClick={this.toggleEditing}>Done editing</a>
               </div>
             </div>
           </div>
@@ -80,7 +80,7 @@ class Comment extends React.Component {
             <div className={this.state.isEditing ? '' : 'hidden'}>
               <form className="" onSubmit={this.handleEdit}>
                 <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
-                <input type="submit" value="Confirm changes" />
+                <input type="submit" value="Confirm Changes" />
               </form>
             </div>
             <div className={this.state.isEditing ? 'hidden' : ''}>
