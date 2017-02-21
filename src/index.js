@@ -20,7 +20,7 @@ import UserPage from './components/user_page';
 import EventPage from './components/event_page';
 
 // Helper function imports
-import { fbAsyncInit, getFbLoginStatus, setFbLoginStatus, processLoggedInUser, handleFbLoginClick, getFbProfileImageUrl, getFbUserInfo } from './helpers/facebook-helpers';
+import { fbAsyncInit, getFbLoginStatus, setFbLoginStatus, processLoggedInUser, handleFbLoginClick, getFbProfileImageUrl, getFbUserInfo, fbLogout } from './helpers/facebook-helpers';
 
 /* global FB:true */
 
@@ -35,10 +35,13 @@ class App extends Component {
     };
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.checkFbLoginStatus = this.checkFbLoginStatus.bind(this);
+    this.facebookLogout = this.facebookLogout.bind(this);
   }
 
   componentDidMount() {
     fbAsyncInit();
+
+    // Comment out while FB logout isn't working
     setTimeout(() => {
       this.checkFbLoginStatus();
     }, 1000);
@@ -48,7 +51,7 @@ class App extends Component {
     const fbLoginStatus = setFbLoginStatus();
     setTimeout(() => {
       const fbLoginStatus = getFbLoginStatus();
-      if (fbLoginStatus.status === 'connected') {
+      if (fbLoginStatus && fbLoginStatus.status === 'connected') {
         this.setState({ logged_in: true });
         processLoggedInUser(fbLoginStatus);
         setTimeout(() => {
@@ -70,6 +73,11 @@ class App extends Component {
     }, 8000);
   }
 
+  facebookLogout() {
+    fbLogout();
+    this.setState({ logged_in: false });
+  }
+
   render() {
     // if we have the user information, send it to the NavBar, otherwise, do not
     return (
@@ -77,6 +85,7 @@ class App extends Component {
         <NavBar logged_in={this.state.logged_in}
           fb_profile_image_url={this.state.fb_profile_image_url}
           handleLoginClick={this.handleLoginClick}
+          facebookLogout={this.facebookLogout}
           userInfo={(this.state.userInfo != null) ? this.state.userInfo[0] : null}
         />
         {this.props.children}
