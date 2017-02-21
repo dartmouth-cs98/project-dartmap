@@ -1,45 +1,67 @@
 // nav_bar.js
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
-export default class NavBar extends Component {
-  componentWillReceiveProps(newProps) {
-    if (newProps.fb_profile_image_url) {
-      const userLink = document.getElementById('user-link');
-      userLink.innerHTML = '';
-      const img = new Image(); // width, height values are optional params
-      img.src = newProps.fb_profile_image_url;
-      img.id = 'fb-pic';
-      userLink.appendChild(img);
-    }
+// import the redux actions
+import { login } from '../actions';
+
+
+class NavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.notLoggedInGreeting = (
+      <h2 className="navbar-greeting">Welcome! Please log in...</h2>
+    );
+    this.fbLoginButton = (
+      <button className="fb-user" onClick={this.props.login}>
+        Facebook Log In
+      </button>
+    );
+    this.userButton = this.fbLoginButton;
+    this.greeting = this.notLoggedInGreeting;
   }
 
   render() {
-    let greeting = <h2 className="navbar-greeting">Welcome! Please log in...</h2>;
-    if (this.props.userInfo != null) {
-      greeting = <h2 className="navbar-greeting">Hi, {this.props.userInfo.name}!</h2>;
-    }
-    if (this.props.logged_in) {
-      return (
-        <div id="nav-bar">
-          <Link to="/" className="logo-link nav-btn">
-            <img id="logo" src="./../../images/dartmap.png" role="presentation" />
-            <h1 className="app-name">mappit</h1>
-          </Link>
-          {greeting}
-          <Link to="/user" id="user-link" className="nav-btn">Profile</Link>
-        </div>
+    if (this.props.loggedIn) {
+      this.greeting = (
+        <h2 className="navbar-greeting">
+          Hi, {this.props.userInfo.name}!
+        </h2>
+      );
+      this.userButton = (
+        <Link to="/user" id="user-link" className="nav-btn">
+          Profile
+          <img
+            id="fb-pic"
+            src={this.props.fbProfPicUrl}
+            alt="fb profile pic"
+          />
+        </Link>
       );
     } else {
-      return (
-        <div id="nav-bar">
-          <Link to="/" className="logo-link nav-btn">
-            <img id="logo" src="./../../images/dartmap.png" role="presentation" />
-            <h1 className="app-name">mappit</h1>
-          </Link>
-          <button className="fb-user" onClick={this.props.handleLoginClick}>Facebook Log In</button>
-        </div>
-      );
+      this.greeting = this.notLoggedInGreeting;
+      this.userButton = this.fbLoginButton;
     }
+    return (
+      <div id="nav-bar">
+        <Link to="/" className="logo-link nav-btn">
+          <img id="logo" src="/images/dartmap.png" role="presentation" />
+          <h1 className="app-name">mappit</h1>
+        </Link>
+        {this.greeting}
+        {this.userButton}
+      </div>
+    );
   }
 }
+
+const mapStateToProps = state => (
+  {
+    loggedIn: state.user.loggedIn,
+    fbProfPicUrl: state.user.fbProfPicUrl,
+    userInfo: state.user.userInfo && state.user.userInfo[0],
+  }
+);
+
+export default connect(mapStateToProps, { login })(NavBar);

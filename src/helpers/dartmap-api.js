@@ -217,6 +217,7 @@ export function postFbToken(callback, token) {
     type: 'POST',
     data: tokenData,
     success: (data) => {
+      callback(data);
       return data;
     },
     error: (xhr, status, err) => {

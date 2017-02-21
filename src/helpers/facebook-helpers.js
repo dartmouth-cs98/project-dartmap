@@ -27,38 +27,45 @@ export function fbAsyncInit() {
   }(document, 'script', 'facebook-jssdk'));
 }
 
-function handleFbResponse(fbResponse, dispatch, successAction) {
+function handleFbResponse(fbResponse, callbackFunc, login) {
   const FB = window.FB;
   if (fbResponse.status === 'connected') {
-    console.log('logged into facebook, response:', fbResponse);
     if (fbResponse.authResponse.userID) {
-      getUserByPassword((userInfo) => {
-        const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
-        FB.api(fbUserImageUrl, (graphResponse) => {
-          let fbProfPicUrl = null;
-          if (graphResponse && !graphResponse.error) {
-            fbProfPicUrl = graphResponse.data.url;
-          }
-          dispatch({
-            type: successAction,
-            payload: {
-              userInfo,
-              fbResponse,
-              fbProfPicUrl,
-            },
+      if (!login) {
+        getUserByPassword((userInfo) => {
+          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
+          FB.api(fbUserImageUrl, (graphResponse) => {
+            let fbProfPicUrl = null;
+            if (graphResponse && !graphResponse.error) {
+              fbProfPicUrl = graphResponse.data.url;
+            }
+            callbackFunc({ userInfo, fbResponse, fbProfPicUrl });
           });
-        });
-      }, fbResponse.authResponse.userID);
+        }, fbResponse.authResponse.userID);
+      } else {
+        postFbToken((userInfo) => {
+          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
+          FB.api(fbUserImageUrl, (graphResponse) => {
+            let fbProfPicUrl = null;
+            if (graphResponse && !graphResponse.error) {
+              fbProfPicUrl = graphResponse.data.url;
+            }
+            callbackFunc({ userInfo, fbResponse, fbProfPicUrl });
+          });
+        }, fbResponse.authResponse);
+      }
     }
   } else {
-    dispatch({ type: successAction, payload: { fbResponse } });
+    callbackFunc({ fbResponse });
   }
 }
 
 export function getFbLoginStatus(dispatch, successAction) {
   const FB = window.FB;
   FB.getLoginStatus((response) => {
-    handleFbResponse(response, dispatch, successAction);
+    handleFbResponse(response, (payload) => {
+      dispatch({ type: successAction, payload });
+    }, false);
   });
 }
 
@@ -66,14 +73,17 @@ export function fbLogin(dispatch, successAction) {
   const FB = window.FB;
   FB.getLoginStatus((r) => {
     if (r.status === 'connected') {
-      handleFbResponse(r, dispatch, successAction);
+      handleFbResponse(r, (payload) => {
+        dispatch({ type: successAction, payload });
+      }, true);
     } else {
       FB.login((response) => {
         if (response.status === 'connected') {
-          handleFbResponse(response, dispatch, successAction);
-          console.log('user logged into facebook & our app');
+          handleFbResponse(response, (payload) => {
+            dispatch({ type: successAction, payload }, true);
+          });
         } else if (response.status === 'not_authorized') {
-          console.log('user is logged into facebook, but not our app');
+          console.log('user is logged in, but has not authorized our app');
         } else {
           console.log('user is not logged into facebook');
         }

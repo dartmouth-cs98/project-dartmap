@@ -9,7 +9,9 @@ import NavBar from './nav_bar';
 // import { postFbToken, getUserByPassword, getAllUsers } from '../helpers/dartmap-api';
 
 // import the redux actions
-import { getLocation, fetchCategories, setDateBarData, getLoginStatusFromFb, login } from '../actions';
+import {
+  getLocation, fetchCategories, setDateBarData, getLoginStatusFromFb,
+} from '../actions';
 
 import { fbAsyncInit } from '../helpers/facebook-helpers';
 
@@ -34,26 +36,20 @@ class App extends Component {
   }
 
   render() {
-    const user = this.props.user;
-    // if we have the user information, send it to the NavBar, otherwise, do not
-    const userInfo = (user && user.userInfo && user.userInfo[0]);
     return (
       <div className="app-container">
-        <NavBar logged_in={this.props.user.loggedIn}
-          fb_profile_image_url={this.props.user.fbProfPicUrl}
-          handleLoginClick={this.props.login}
-          userInfo={userInfo}
-        />
+        <NavBar />
         {this.props.children}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => (
-  {
-    user: state.user,
-  }
-);
+const mapDispatchToProps = {
+  getLocation,
+  fetchCategories,
+  setDateBarData,
+  getLoginStatusFromFb,
+};
 
-export default connect(mapStateToProps, { getLocation, fetchCategories, setDateBarData, getLoginStatusFromFb, login })(App);
+export default connect(null, mapDispatchToProps)(App);
