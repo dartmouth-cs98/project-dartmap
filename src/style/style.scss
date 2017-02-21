@@ -85,11 +85,13 @@ hr {
   }
 
   #fb-pic {
-    border-radius: 50%;
-    height: 35px;
-    width: 35px;
     border: 1px solid #ddd;
+    border-radius: 50%;
     box-shadow: 0px 0px 5px #000000;
+    float: right;
+    height: 36px;
+    margin-right: 0px;
+    width: 36px;
   }
 }
 
@@ -100,9 +102,10 @@ hr {
   font-family: 'Lucida Grande';
   font-size: 12px;
   float: right;
-  height: 32px;
+  height: 30px;
   line-height: 16px;
   margin-left: 8px;
+  margin-top: 5px;
   padding: 5px;
   &:hover {
     cursor: pointer;
@@ -120,6 +123,41 @@ hr {
   }
 }
 
+.user-menu {
+  position: relative;
+  left: 122px;
+  top: 10px;
+  background-color: white;
+  box-shadow: 0px 0px 5px #000000;
+  color: black;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-size: 10pt;
+  width: 140px;
+  z-index: 20;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.user-menu-item-container {
+  width: 100%;
+  &:hover {
+    background-color: $light-grey;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
+
+.user-menu-item-text {
+  padding-left: 8px;
+}
+
+#user-link {
+  display: inline-block;
+  font-size: 10pt;
+  margin-top: 4px;
+  position: relative;
+}
 
 // This is (currently) the add event button
 .add-event-plus {
