@@ -82,6 +82,20 @@ function sortDateTime(a, b) {
   return parseFloat(aTime) - parseFloat(bTime);
 }
 
+// given two events, sort them based on day and then time
+function sortDateTimeReverse(b, a) {
+  // first check the date
+  if (moment(a.date).isBefore(b.date)) {
+    return -1;
+  } else if (moment(a.date).isAfter(b.date)) {
+    return 1;
+  }
+  // otherwise, the dates are the same, so check the time
+  const aTime = moment(a.start_time).hour() + ((moment(a.start_time).minute()) / 100);
+  const bTime = moment(b.start_time).hour() + ((moment(b.start_time).minute()) / 100);
+  return parseFloat(aTime) - parseFloat(bTime);
+}
+
 // function arePointsNear(point1, point2) {
 //   const sw = new google.maps.LatLng(point2.lat() - 0.005, point2.lng() - 0.005);
 //   const ne = new google.maps.LatLng(point2.lat() + 0.005, point2.lng() + 0.005);
@@ -106,4 +120,4 @@ function sortDateTime(a, b) {
 // }
 
 export default filterDates;
-export { filterDates, filterTimes, sortDateTime };
+export { filterDates, filterTimes, sortDateTime, sortDateTimeReverse };

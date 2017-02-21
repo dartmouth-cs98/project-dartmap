@@ -8,6 +8,8 @@ import { fbLogout } from '../helpers/facebook-helpers';
 
 import UserEventList from './user_profile_event_list';
 
+import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
+
 class UserPage extends Component {
 
   constructor(props) {
@@ -19,6 +21,7 @@ class UserPage extends Component {
     this.openUploadPhotoDialog = this.openUploadPhotoDialog.bind(this);
     this.closeUploadPhotoDialog = this.closeUploadPhotoDialog.bind(this);
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
+    this.sortEventList = this.sortEventList.bind(this);
   }
 
   // getEvents() {
@@ -45,17 +48,19 @@ class UserPage extends Component {
     fbLogout();
   }
 
+  sortEventList(eventList) {
+    return eventList.sort(sortDateTimeReverse);
+  }
+
   // TODO: fix profile picture source, as well as user name, etc
   render() {
-    console.log(this.state.eventList);
     if (this.state.eventList == null) {
-      getAllEvents((eventList) => {
+      getAllEvents((unsortedEventList) => {
+        const eventList = this.sortEventList(unsortedEventList);
         this.setState({ eventList });
       });
-      console.log('eventList is null');
       return null;
     }
-    console.log('eventList is not null');
     return (
       <div className="profile">
         <div className="photo-container">

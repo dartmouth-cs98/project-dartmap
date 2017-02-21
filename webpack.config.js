@@ -10,7 +10,9 @@ module.exports = {
     './src', //this is where our app lives
   ],
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: 'index.html',
+    },
   },
   output: {
     path: 'build',

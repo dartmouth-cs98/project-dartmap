@@ -156,6 +156,24 @@ hr {
   }
 }
 
+// Button for a user to edit an event
+.user-edit-event {
+  background-color: #00B800;
+  border: 1px solid;
+  /*border-radius: 20px;*/
+  /*float: right;*/
+  text-align: center;
+  font-size: 18pt;
+  height: 100%;
+  line-height: 100%;
+  /*margin-bottom: 10px;*/
+
+  &:hover {
+    background-color: #00FF00;
+    cursor: pointer;
+  }
+}
+
 #plus {
   height: 30px;
   width: 30px;

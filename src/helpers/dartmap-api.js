@@ -103,6 +103,52 @@ export function getEvent(saveEvent, eventId) {
   });
 }
 
+export function deleteEvent(eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'DELETE',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+      // 'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Access-Control-Allow-Methods, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
+      // 'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      // 'Access-Control-Allow-Origin': '*',
+      // 'Access-Control-Allow-Credentials': 'true',
+
+// export function deleteEvent(eventId) {
+//   const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+//   $.ajax({
+//     url: fullUrl,
+//     type: 'DELETE',
+//     dataType: 'json',
+//     headers: {
+//       'Access-Control-Allow-Headers': 'X-Custom-Header',
+//       'Access-Control-Allow-Methods': 'DELETE',
+//       'Access-Control-Allow-Origin': '*',
+//     },
+//     success: (data) => {
+//       console.log('SUCCESS! DELETE /events/'.concat(eventId));
+//       return 1;
+//     },
+//     error: (xhr, status, err) => {
+//       console.log(' /events/'.concat(eventId).concat(' DELETE was not successful.'));
+//       console.error(fullUrl, status, err);
+//     },
+//   });
+// }
+
 export function getAllEvents(saveEventList, latitude, longitude, radius) {
   const fullUrl = API_URL.concat(EVENT_URL);
   $.ajax({
