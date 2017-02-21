@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 
 import UploadPhotoDialog from './upload_photo_dialog';
-import { fbLogout } from '../helpers/facebook-helpers';
 
 class UserPage extends Component {
 
@@ -22,10 +21,6 @@ class UserPage extends Component {
 
   closeUploadPhotoDialog() {
     this.setState({ uploadingPhoto: false });
-  }
-
-  facebookLogout() {
-    fbLogout();
   }
 
   // TODO: fix profile picture source, as well as user name, etc
@@ -48,7 +43,6 @@ class UserPage extends Component {
             </button>
           </div>
         </div>
-        <button className="fb-user" onClick={this.facebookLogout}>Facebook Log Out</button>
         <h1>Hi!</h1>
         <br />
         <UploadPhotoDialog

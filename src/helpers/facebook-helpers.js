@@ -60,9 +60,10 @@ export function getFbLoginStatus() {
 
 export function handleFbLoginClick() {
   FB.getLoginStatus((response) => {
-    console.log()
     if (!(response.status === 'connected')) {
       FB.login();
+    } else {
+      fbLoginStatus = response;
     }
   });
 }
