@@ -145,14 +145,35 @@
 }
 
 .image-select {
-  height: 50%;
-  width: 50%;
+  height: 100px;
+  width: 100px;
+  border-width: 2px;
+  border-color: rgb(102, 102, 102);
+  border-style: dashed;
+  border-radius: 5px;
 }
 
 .selected-image {
   float: right;
+  font-size: 10pt;
   max-height: 100px;
-  max-width: 200px;
+  max-width: 100px;
+}
+
+.image-list {
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    float: left;
+    margin: 0;
+    padding: 10px;
+  }
+  @include flex-box;
+  @include flex-wrapping;
 }
 
 .page-slider {
