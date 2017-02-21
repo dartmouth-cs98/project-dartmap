@@ -286,7 +286,8 @@ export function updateComment(commentURL, putData) {
     type: 'PUT',
     data: putData,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'PUT',
     },
     success: (data) => {
       return data;
@@ -302,6 +303,10 @@ export function deleteComment(commentURL) {
   const response = $.ajax({
     url: commentURL,
     type: 'DELETE',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
     success: (data) => {
       return data;
     },

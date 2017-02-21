@@ -73,7 +73,7 @@ class EventPage extends Component {
   handleRSVP() {
     const data = {};
     data.user_id = 1;
-    data.event_id = parseInt(this.state.event_id);
+    data.event_id = parseInt(this.state.event_id, 10);
 
     postRSVP(data).then((response) => {
       this.setState({ isRSVPed: true });
@@ -117,7 +117,7 @@ class EventPage extends Component {
             </div>
           </div>
           <div className="col-md-3 pull-right">
-            <button type="button" onClick={this.handleRSVP}>RSVP</button>
+            <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'RSVPed' : 'RSVP'}</button>
           </div>
         </div>
         <div className="evpg-image">

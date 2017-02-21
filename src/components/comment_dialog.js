@@ -44,7 +44,7 @@ class CommentBox extends React.Component {
     const updateURL = this.url.concat(id);
     updateComment(updateURL, comment).then((response) => {
       console.log(response);
-      this.setState({ data: response.comments });
+      // this.setState({ data: response.comments });
     });
   }
 
@@ -52,7 +52,7 @@ class CommentBox extends React.Component {
     const deleteURL = this.url.concat(id);
     deleteComment(deleteURL).then((response) => {
       console.log(response);
-      this.setState({ data: response.comments });
+      // this.setState({ data: response.comments });
     });
   }
 
