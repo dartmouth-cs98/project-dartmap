@@ -56,7 +56,7 @@ class EventList extends Component {
             <div className="add-event-btn-container">
               <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
                 Add Event
-                <img id="plus" src="./../../icon_set_1/plus.png" role="presentation" />
+                <img id="plus" src="/icon_set_1/plus.png" role="presentation" />
               </button>
             </div>
             <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
@@ -75,11 +75,7 @@ class EventList extends Component {
             onClick={this.props.toggleAddEvent}
           >
             Add Event
-            <img
-              id="plus"
-              src="./../../icon_set_1/plus.png"
-              role="presentation"
-            />
+            <img id="plus" src="/icon_set_1/plus.png" role="presentation" />
           </button>
         </div>
         <input

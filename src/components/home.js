@@ -12,7 +12,7 @@ import FilterContainer from './filter_container';
 import LocationDialog from './location_dialog';
 
 // import the redux actions
-import { fetchEvents, getLocation } from '../actions';
+import { fetchEvents, getLocation, clearBalloons } from '../actions';
 
 const MAP_HEIGHT_MULTIPLIER = 0.65;
 const MAP_WIDTH_MULTIPLIER = 0.75;
@@ -24,24 +24,15 @@ class Home extends Component {
     this.state = {
       addEvent: false,
       showModal: false,
-
       // State variables used for the map.
       selectedLocation: null,
-      showBalloonEventId: null,
-      showStickyBalloonEventId: null,
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
-      center: null,
     };
     this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
     this.handleAddEventData = this.handleAddEventData.bind(this);
-    this.showBalloon = this.showBalloon.bind(this);
-    this.showStickyBalloon = this.showStickyBalloon.bind(this);
-    this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
-    this.removePopUps = this.removePopUps.bind(this);
     this.getEvents = this.getEvents.bind(this);
-    this.onCenterChange = this.onCenterChange.bind(this);
   }
 
   componentWillMount() {
@@ -67,18 +58,6 @@ class Home extends Component {
     }
   }
 
-  // Things to do when the event list is clicked:
-  // 1. Show the sticky baloon if an event list item is clicked.
-  onEventListItemClick(eventId, newCenter) {
-    if (!this.state.addEvent && this.state.showStickyBalloonEventId !== eventId) {
-      this.setState({ showStickyBalloonEventId: eventId, center: newCenter });
-    }
-  }
-
-  onCenterChange(center) {
-    this.setState({ center });
-  }
-
   getEvents() {
     this.props.fetchEvents(this.props.latitude, this.props.longitude, RADIUS);
   }
@@ -92,34 +71,8 @@ class Home extends Component {
   }
 
   toggleAddEvent() {
-    this.removePopUps();
+    this.props.clearBalloons();
     this.setState({ addEvent: true });
-  }
-
-  // Show balloons with event info on the map.
-  // The state is sent to the MapContainer.
-  showBalloon(eventId) {
-    this.setState({ showBalloonEventId: eventId });
-  }
-
-  showStickyBalloon(eventId) {
-    if (this.state.showStickyBalloonEventId !== eventId) {
-      this.setState({ showStickyBalloonEventId: eventId });
-    }
-  }
-
-  removePopUps() {
-    this.setState({
-      showBalloonEventId: null,
-      showStickyBalloonEventId: null,
-    });
-
-    // // Remove sticky popups.
-    // const parent = document.getElementsByTagName('body')[0];
-    // const popupsToRemove = document.getElementsByClassName('popup');
-    // while (popupsToRemove.length > 0) {
-    //   parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
-    // }
   }
 
   render() {
@@ -130,21 +83,12 @@ class Home extends Component {
     return (
       <div className="home-container">
         <MapContainer
-          showBalloonEventId={this.state.showBalloonEventId}
-          showStickyBalloonEventId={this.state.showStickyBalloonEventId}
           height={this.state.mapHeight}
           width={this.state.mapWidth}
-          center={this.state.center}
-          showStickyBalloon={this.showStickyBalloon}
-          showBalloon={this.showBalloon}
-          removePopUps={this.removePopUps}
-          onCenterChange={this.onCenterChange}
         />
         <EventList
           toggleAddEvent={this.toggleAddEvent}
           selectedLocation={this.state.selectedLocation}
-          showBalloon={this.showBalloon}
-          onEventListItemClick={this.onEventListItemClick}
         />
         <FilterContainer />
         <AddEventDialog
@@ -163,7 +107,10 @@ const mapStateToProps = state => (
     events: state.events.all,
     latitude: state.user.latitude,
     longitude: state.user.longitude,
+    user: state.user,
   }
 );
 
-export default connect(mapStateToProps, { fetchEvents, getLocation })(Home);
+const mapDispatchToProps = { fetchEvents, getLocation, clearBalloons };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

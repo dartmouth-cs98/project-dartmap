@@ -26,6 +26,10 @@ export const ActionTypes = {
   CATEGORY_FAIL: 'CATEGORY_FAIL',
   SET_DATE_DATA: 'SET_DATE_DATA',
   GET_FB_LOGIN_STATUS: 'GET_FB_LOGIN_STATUS',
+  SET_STICKY_BALLOON_ID: 'SET_STICKY_BALLOON_ID',
+  SET_BALLOON_ID: 'SET_BALLOON_ID',
+  CLEAR_BALLOONS: 'CLEAR_BALLOONS',
+  SET_MAP_CENTER: 'SET_MAP_CENTER',
 };
 
 export function getLoginStatusFromFb() {
@@ -119,5 +123,33 @@ export function fetchCategories() {
   return (dispatch) => {
     dartmapApi.getAllCategories(dispatch, ActionTypes.FETCH_CATEGORIES,
       ActionTypes.CATEGORY_FAIL);
+  };
+}
+
+export function setStickyBalloonId(eventId) {
+  return {
+    type: ActionTypes.SET_STICKY_BALLOON_ID,
+    payload: { eventId },
+  };
+}
+
+export function setBalloonId(eventId) {
+  return {
+    type: ActionTypes.SET_BALLOON_ID,
+    payload: { eventId },
+  };
+}
+
+export function clearBalloons() {
+  return {
+    type: ActionTypes.CLEAR_BALLOONS,
+    payload: null,
+  };
+}
+
+export function setMapCenter(center) {
+  return {
+    type: ActionTypes.SET_MAP_CENTER,
+    payload: { center },
   };
 }
