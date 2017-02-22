@@ -1,7 +1,7 @@
 // add_event_page_5.js
 import React, { Component } from 'react';
 import AddEventIconBtn from './add_event_icon_btn';
-import ImageUpload from '../upload_images';
+import UploadMultiImages from '../upload_multi_images';
 
 class AddEventPage5 extends Component {
   constructor(props) {
@@ -97,8 +97,16 @@ class AddEventPage5 extends Component {
   }
 
   updateImageURL(url) {
+    let updatedurl = null;
+    const defaulturl = 'https://s27.postimg.org/o2c50l3fn/default.png';
+    const imageurl = this.state.image_url.toString();
+    if (imageurl.localeCompare(defaulturl) === 0) {
+      updatedurl = url;
+    } else {
+      updatedurl = `${this.state.image_url}, ${url}`;
+    }
     this.setState({
-      image_url: url,
+      image_url: updatedurl,
     });
   }
 
@@ -109,16 +117,16 @@ class AddEventPage5 extends Component {
       );
     });
     return (
-      <form className="add-event-form" onSubmit={this.handleSubmit}>
+      <form className="add-event-form" onSubmit={this.props.submitEventData}>
         <div className="add-event-fields">
-          <h2>Select event map icon:*</h2>
+          <h2>Select event map icon</h2>
           <div className="icon-select">
             {iconBtns}
           </div>
         </div>
         <div className="add-event-fields">
-          <h2>Select event image:</h2>
-          <ImageUpload updateImageURL={this.updateImageURL} />
+          <h2>Select event image</h2>
+          <UploadMultiImages updateImageURL={this.updateImageURL} />
         </div>
         <div className="add-event-btns">
           <input
@@ -129,7 +137,7 @@ class AddEventPage5 extends Component {
           />
           <input
             type="submit"
-            value="Next"
+            value="Submit Event"
             className={(!this.state.icon) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
           />
         </div>

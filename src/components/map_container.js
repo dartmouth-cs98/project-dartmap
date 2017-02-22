@@ -2,17 +2,20 @@
 import React, { PropTypes, Component } from 'react';
 import GoogleMap from 'google-map-react';
 import controllable from 'react-controllables';
+import { connect } from 'react-redux';
+
 import EventsWithControllableHover from './map_helpers/map_events';
+
+import { setMapCenter, clearBalloons } from '../actions';
 
 const K_SIZE = 40;
 
 @controllable(['center', 'zoom', 'hoverKey', 'clickKey'])
-export default class MapContainer extends Component {
+class MapContainer extends Component {
   static propTypes = {
     center: PropTypes.objectOf(PropTypes.number), // @controllable
     zoom: PropTypes.number, // @controllable
     hoverKey: PropTypes.string, // @controllable
-    onCenterChange: PropTypes.func, // @controllable generated fn
     onZoomChange: PropTypes.func, // @controllable generated fn
     onHoverKeyChange: PropTypes.func, // @controllable generated fn
     // events: PropTypes.arrayOf(PropTypes.object),
@@ -40,7 +43,8 @@ export default class MapContainer extends Component {
   }
 
   _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
-    this.props.onCenterChange(center);
+    this.props.setMapCenter({ lat: center[0], lng: center[1] });
+    this.props.clearBalloons();
     this.props.onZoomChange(zoom);
   }
 
@@ -98,13 +102,8 @@ export default class MapContainer extends Component {
           id={id}
           // text={String(id)}
           // use your hover state (from store, react-controllables etc...)
-          showStickyBalloonId={this.props.showStickyBalloonEventId}
-          showBalloonId={this.props.showBalloonEventId === id
-              || parseInt(this.props.hoverKey, 10) === id}
+          hoverKey={parseInt(this.props.hoverKey, 10)}
           eventsForLocation={location}
-          showStickyBalloon={this.props.showStickyBalloon}
-          showBalloon={this.props.showBalloon}
-          removePopUps={this.props.removePopUps}
         />);
       });
     }
@@ -119,7 +118,7 @@ export default class MapContainer extends Component {
             key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
             libraries: 'places',
           }}
-          center={this.props.center || this.props.userLocation}
+          center={this.props.center}
           zoom={this.props.zoom}
           hoverDistance={K_SIZE / 2}
           onBoundsChange={this._onBoundsChange}
@@ -134,3 +133,18 @@ export default class MapContainer extends Component {
     );
   }
 }
+
+const mapStateToProps = state => (
+  {
+    events: state.events.filteredEventList,
+    userLocation: {
+      lat: state.user.latitude,
+      lng: state.user.longitude,
+    },
+    center: state.map.center,
+  }
+);
+
+const mapDispatchToProps = { setMapCenter, clearBalloons };
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);

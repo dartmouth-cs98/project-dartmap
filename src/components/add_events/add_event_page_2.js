@@ -58,35 +58,41 @@ class AddEventPage2 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <h2>Date:* </h2>
-          <DateTime
-            timeFormat={false}
-            value={this.state.date}
-            onChange={(moment) => { this.setState({ date: moment }); }}
-            closeOnSelect
-            isValidDate={(current) => {
-              // this function ensures that events cannot be created for dates before today
-              const yesterday = DateTime.moment().subtract(1, 'day');
-              return current.isAfter(yesterday);
-            }}
-            className={(this.state.date !== '') ? 'add-event-date' : 'add-event-date error-box'}
-          />
+          <div className='add-event-field-container-2'>
+            <h2>Date</h2>
+            <DateTime
+              timeFormat={false}
+              value={this.state.date}
+              onChange={(moment) => { this.setState({ date: moment }); }}
+              closeOnSelect
+              isValidDate={(current) => {
+                // this function ensures that events cannot be created for dates before today
+                const yesterday = DateTime.moment().subtract(1, 'day');
+                return current.isAfter(yesterday);
+              }}
+              className={(this.state.date !== '') ? 'add-event-field add-event-date' : 'add-event-field add-event-date error-box'}
+            />
+          </div>
           {dateErrorMessage}
-          <h2>Start Time:* </h2>
-          <DateTime
-            dateFormat={false}
-            value={this.state.start_time}
-            onChange={(moment) => { this.setState({ start_time: moment }); }}
-            className={((this.state.start_time !== '') && this.isValidTime()) ? 'add-event-time' : 'add-event-time error-box'}
-          />
+          <div className='add-event-field-container-2'>
+            <h2>Start Time</h2>
+            <DateTime
+              dateFormat={false}
+              value={this.state.start_time}
+              onChange={(moment) => { this.setState({ start_time: moment }); }}
+              className={((this.state.start_time !== '') && this.isValidTime()) ? 'add-event-field add-event-time' : 'add-event-field add-event-time error-box'}
+            />
+          </div>
           {startErrorMessage}
-          <h2>End Time:*</h2>
-          <DateTime
-            dateFormat={false}
-            value={this.state.end_time}
-            onChange={(moment) => { this.setState({ end_time: moment }); }}
-            className={((this.state.end_time !== '') && this.isValidTime()) ? 'add-event-time' : 'add-event-time error-box'}
-          />
+          <div className='add-event-field-container-2'>
+            <h2>End Time</h2>
+            <DateTime
+              dateFormat={false}
+              value={this.state.end_time}
+              onChange={(moment) => { this.setState({ end_time: moment }); }}
+              className={((this.state.end_time !== '') && this.isValidTime()) ? 'add-event-field add-event-time' : 'add-event-field add-event-time error-box'}
+            />
+          </div>
           {endErrorMessage}
           {timeErrorMessage}
         </div>

@@ -10,7 +10,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(209, 209, 224, .5);
+  background-color: rgba(209, 209, 224, .6);
 }
 
 .add-event-cover > * {
@@ -18,7 +18,7 @@
 }
 
 #add-event {
-  border: 5px solid black;
+  border: 2px solid black;
   height: 80%;
   width: 80%;
   position: absolute;
@@ -26,7 +26,7 @@
   left: 10%;
   background-color: white;
   padding: 30px;
-  border-radius: 50px;
+  border-radius: 10px;
   box-shadow: 0px 0px 20px black;
 }
 
@@ -42,6 +42,24 @@
 }
 .add-event-top {
   height: 20%;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+}
+
+.add-event-fields h2 {
+  display: inline-block;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-size: 14pt;
+  margin-bottom: 0;
+  margin-top: 10px;
+  vertical-align: bottom;
+}
+
+.add-event-field-container-1 h2 {
+  width: 155px;
+}
+
+.add-event-field-container-2 h2 {
+  width: 100px;
 }
 
 .add-event-form {
@@ -52,13 +70,36 @@
 }
 
 .add-event-text {
-  width: 50%;
+  border: 0;
+  border-bottom: 1px solid $light-grey;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-size: 12pt;
+  height: 40px;
+  line-height: 40px;
+  margin-bottom: 0;
+  outline: 0;
+  padding-left: 10px;
   vertical-align: middle;
-  height: 30px;
+  width: 70%;
 }
 
-.add-event-loc-string {
-  width: 150px;
+.add-event-field-container-1 {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.add-event-field-container-2 {
+  margin-bottom: 40px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.add-event-field {
+  display: inline-block;
+  margin-right: 10px;
+  position: absolute;
+  bottom: 0;
+  width: 80%;
 }
 
 .add-event-error-message {
@@ -78,11 +119,19 @@
 }
 
 .back-btn {
+  border: 1px solid $green;
   float: left;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .nxt-btn {
+  border: 1px solid $green;
   float: right;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .invalid-nxt-btn {
@@ -92,7 +141,8 @@
 // Location Selection Page
 #add-event-map {
   width: 100%;
-  height: 300px;
+  height: 290px;
+  margin-bottom: 10px;
 }
 
 #map-search-box {
@@ -126,17 +176,39 @@
 }
 
 .selected-icon {
-  border-color: $green;
+  border: 2px solid $green;
 }
 
 .image-select {
-  height: 50%;
-  width: 50%;
+  height: 100px;
+  width: 100px;
+  border-width: 2px;
+  border-color: rgb(102, 102, 102);
+  border-style: dashed;
+  border-radius: 5px;
 }
 
 .selected-image {
   float: right;
-  width: 200px;
+  font-size: 10pt;
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.image-list {
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    float: left;
+    margin: 0;
+    padding: 10px;
+  }
+  @include flex-box;
+  @include flex-wrapping;
 }
 
 .page-slider {

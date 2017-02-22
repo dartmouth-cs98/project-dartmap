@@ -1,8 +1,15 @@
 // event_page.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import ImageGallery from 'react-image-gallery';
 
-import { getEvent } from '../helpers/dartmap-api';
-import { createMap, createMarker, createInfoWindow } from '../helpers/google-maps';
+// import redux actions
+import { fetchEvent } from '../actions';
+
+// import helper functions
+import {
+  createMap, createMarker, createInfoWindow, loadGoogleApi,
+} from '../helpers/google-maps';
 
 class EventPage extends Component {
   constructor(props) {
@@ -13,16 +20,52 @@ class EventPage extends Component {
     this.map = null;
     this.marker = null;
     this.infoWindow = null;
+    if (!window.google) { // Load google maps api onto the page
+      loadGoogleApi();
+    }
+    this.loadMap = this.loadMap.bind(this);
   }
 
   componentWillMount() {
-    getEvent((event) => {
-      this.setState({ event });
-    }, this.props.params.id);
+    const id = parseInt(this.props.params.id, 10);
+    if (this.props.events && this.props.events.length > 0) {
+      for (let i = 0; i < this.props.events.length; i += 1) {
+        const event = this.props.events[i];
+        if (event.id === id) {
+          this.setState({ event });
+          break;
+        }
+      }
+      if (this.props.currentEvent && this.props.currentEvent.id === id) {
+        this.setState({ event: this.props.currentEvent });
+      }
+    } else {
+      this.props.fetchEvent(this.props.params.id);
+    }
+  }
+
+  componentDidMount() {
+    if (window.google && this.state.event && !this.map) {
+      this.loadMap();
+    }
+  }
+
+  componentWillUpdate() {
+    const id = parseInt(this.props.params.id, 10);
+    if ((!this.state.event) || (this.state.event.id !== id)) {
+      if (this.props.currentEvent && this.props.currentEvent.id === id) {
+        this.setState({ event: this.props.currentEvent });
+      }
+    }
   }
 
   componentDidUpdate() {
-    console.log(this.state.event);
+    if (window.google && this.state.event && !this.map) {
+      this.loadMap();
+    }
+  }
+
+  loadMap() {
     if (this.state.event && !this.map) {
       const mapHTML = document.getElementById('evpg-map');
       const location = {
@@ -55,11 +98,20 @@ class EventPage extends Component {
   }
 
   render() {
+    const images = [];
+    let i;
     if (!this.state.event) {
       return (
         <div>Loading. Please wait.</div>
       );
     }
+    for (i = 0; i < this.state.event.image_url.length; i += 1) {
+      images.push({ original: this.state.event.image_url[i],
+        thumbnail: this.state.event.image_url[i],
+        originalClass: 'gallery-image',
+      });
+    }
+    console.log(images);
     const dateString = this.state.event.date.format('dddd MMMM Do YYYY');
     const startString = this.state.event.start_time.format('h:mma');
     const endString = this.state.event.end_time.format('h:mma');
@@ -68,7 +120,6 @@ class EventPage extends Component {
     }).join(', ');
     return (
       <div className="evpg-container">
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI&libraries=places" />
         <div className="evpg-date">
           {dateString}
         </div>
@@ -79,7 +130,11 @@ class EventPage extends Component {
           {startString} - {endString}
         </div>
         <div className="evpg-image">
-          <img src={this.state.event.image_url} alt="event-img" />
+          <ImageGallery
+            items={images}
+            autoPlay
+            slideInterval={2000}
+          />
         </div>
         <div className="evpg-secondary">
           <div id="evpg-map" />
@@ -103,4 +158,15 @@ class EventPage extends Component {
   }
 }
 
-export default EventPage;
+const mapStateToProps = state => (
+  {
+    events: state.events.all,
+    userLocation: {
+      lat: state.user.latitude,
+      lng: state.user.longitude,
+    },
+    currentEvent: state.events.currentEvent,
+  }
+);
+
+export default connect(mapStateToProps, { fetchEvent })(EventPage);

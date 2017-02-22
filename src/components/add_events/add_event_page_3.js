@@ -1,5 +1,6 @@
 // add_event_page_3.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class AddEventPage3 extends Component {
   // static nullFunction() {}
@@ -37,7 +38,7 @@ class AddEventPage3 extends Component {
     const mapHTML = document.getElementById('add-event-map');
     const searchHTML = document.getElementById('map-search-box');
     this.map = new this.gMaps.Map(mapHTML, {
-      center: this.props.data.userLocation,
+      center: this.props.userLocation,
       zoom: 15,
       streetViewControl: false,
       fullscreenControl: false,
@@ -195,4 +196,13 @@ class AddEventPage3 extends Component {
   }
 }
 
-export default AddEventPage3;
+const mapStateToProps = state => (
+  {
+    userLocation: {
+      lat: state.user.latitude,
+      lng: state.user.longitude,
+    },
+  }
+);
+
+export default connect(mapStateToProps, null)(AddEventPage3);
