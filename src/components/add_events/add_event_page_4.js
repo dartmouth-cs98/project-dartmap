@@ -42,7 +42,8 @@ class AddEventPage4 extends Component {
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
           {categoryErrorMessage}
-          <h2>Select event category:*</h2>
+          <h2>Select event categories</h2>
+          <br />
           <Select multi joinValues
             options={dropdownValues}
             value={this.state.categories}
