@@ -9,9 +9,7 @@ import NavBar from './nav_bar';
 // import { postFbToken, getUserByPassword, getAllUsers } from '../helpers/dartmap-api';
 
 // import the redux actions
-import {
-  getLocation, fetchCategories, setDateBarData, getLoginStatusFromFb,
-} from '../actions';
+import { getLocation, fetchCategories, setDateBarData } from '../actions';
 
 import { fbAsyncInit } from '../helpers/facebook-helpers';
 
@@ -21,18 +19,10 @@ class App extends Component {
     this.props.setDateBarData();
     this.props.getLocation();
     this.props.fetchCategories();
-    this.initialFbLoad = false;
   }
 
   componentWillMount() {
     fbAsyncInit();
-  }
-
-  componentWillUpdate() {
-    if (!this.initialFbLoad && window.FB) {
-      this.props.getLoginStatusFromFb();
-      this.initialFbLoad = true;
-    }
   }
 
   render() {
@@ -49,7 +39,6 @@ const mapDispatchToProps = {
   getLocation,
   fetchCategories,
   setDateBarData,
-  getLoginStatusFromFb,
 };
 
 export default connect(null, mapDispatchToProps)(App);

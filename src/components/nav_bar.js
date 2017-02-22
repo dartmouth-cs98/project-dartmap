@@ -4,8 +4,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 // import the redux actions
-import { login, logout } from '../actions';
-
+import { login, logout, getLoginStatusFromFb } from '../actions';
 
 class NavBar extends Component {
   constructor(props) {
@@ -24,6 +23,14 @@ class NavBar extends Component {
     this.facebookLogout = this.facebookLogout.bind(this);
     this.openMenu = this.openMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
+    this.initialFbLoad = false;
+  }
+
+  componentWillUpdate() {
+    if (!this.initialFbLoad && window.FB) {
+      this.props.getLoginStatusFromFb();
+      this.initialFbLoad = true;
+    }
   }
 
   facebookLogin() {
@@ -67,16 +74,14 @@ class NavBar extends Component {
         this.buttonContent = 'Profile';
       }
       this.userButton = (
-        <button type="button" id="user-link"
-          className="nav-btn" onClick={this.openMenu}
-        >
+        <button type="button" className="user-nav-btn nav-btn" onClick={this.openMenu}>
           {this.buttonContent}
         </button>
       );
     } else {
       this.greeting = this.notLoggedInGreeting;
       this.userButton = (
-        <button id="login-button" className="fb-user" onClick={this.facebookLogin}>
+        <button id="login-button" className="fb-user nav-btn" onClick={this.facebookLogin}>
           Facebook Log In
         </button>
       );
@@ -91,7 +96,7 @@ class NavBar extends Component {
           <h1 className="app-name">mappit</h1>
         </Link>
         {this.greeting}
-        <div className="user-nav-btn">
+        <div className="nav-menu-container">
           {this.userButton}
           <div className={menuClass}>
             <div className="user-menu-item-container" onClick={this.facebookLogout}>
@@ -115,4 +120,6 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps, { login, logout })(NavBar);
+const mapDispatchToProps = { login, logout, getLoginStatusFromFb };
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
