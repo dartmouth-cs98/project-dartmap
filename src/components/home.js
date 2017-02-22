@@ -24,7 +24,6 @@ class Home extends Component {
     this.state = {
       addEvent: false,
       showModal: false,
-      categoriesList: [],
 
       // State variables used for the map.
       selectedLocation: null,
@@ -147,18 +146,13 @@ class Home extends Component {
           showBalloon={this.showBalloon}
           onEventListItemClick={this.onEventListItemClick}
         />
-        <FilterContainer
-          categoriesList={this.state.categoriesList}
-        />
+        <FilterContainer />
         <AddEventDialog
           addEvent={this.state.addEvent}
-          catList={this.state.categoriesList}
           handleAddEventData={this.handleAddEventData}
           closeAddEventDialog={this.closeAddEventDialog}
         />
-        <LocationDialog
-          showModal={showModal}
-        />
+        <LocationDialog showModal={showModal} />
       </div>
     );
   }
