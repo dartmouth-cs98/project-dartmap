@@ -2,6 +2,17 @@
 
 let gMaps = (window.google && window.google.maps);
 
+const loadGoogleApi = () => {
+  if (!window.google) {
+    const scriptTag = document.getElementsByTagName('script')[0];
+    if (document.getElementById('google-maps')) return;
+    const js = document.createElement('script');
+    js.id = 'google-maps';
+    js.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI&libraries=places';
+    scriptTag.parentNode.insertBefore(js, scriptTag);
+  }
+};
+
 const createMap = (mapHTML, options) => {
   gMaps = gMaps || (window.google && window.google.maps);
   const map = new gMaps.Map(mapHTML, options);
@@ -54,3 +65,4 @@ const getLocationFromZipcode = (zipcode, dispatch, success, error) => {
 export default createMap;
 export { createMap, createMarker, createInfoWindow, createSearchBox };
 export { getLocationFromZipcode };
+export { loadGoogleApi };
