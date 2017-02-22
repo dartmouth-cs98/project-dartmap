@@ -24,11 +24,7 @@ class CommentForm extends React.Component {
     if (!text) {
       return;
     }
-    const toSend = {};
-    toSend.user_id = '1';
-    toSend.event_id = this.props.event_id;
-    toSend.content = text;
-
+    const toSend = this.props.constructComment(text);
     this.props.onCommentSubmit(toSend);
     this.setState({
       text: '',
@@ -39,7 +35,7 @@ class CommentForm extends React.Component {
     return (
       <form className="post-heading row" onSubmit={this.handleSubmit}>
         <div className="col-md-1">
-          <img className="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar" />
+          <img className="avatar" src="https://s3.amazonaws.com/dartmap/edrei.jpg" alt="avatar" />
         </div>
         <div className="col-md-11 input-group">
           <input className="form-control" placeholder="Add a comment" type="text" value={this.state.text} onChange={this.handleTextChange} />

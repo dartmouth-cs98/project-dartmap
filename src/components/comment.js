@@ -7,7 +7,7 @@ class Comment extends React.Component {
     super();
     this.state = {
       text: '',
-      isEditing: this.props.isEditing,
+      isEditing: false,
     };
     this.trackEdit = this.trackEdit.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
@@ -51,15 +51,14 @@ class Comment extends React.Component {
 
   toggleEditing(e) {
     e.preventDefault();
-    this.props.toggleEdit(this.props.id, !this.state.isEditing);
     this.setState({ isEditing: !this.state.isEditing });
   }
 
   render() {
     return (
-      <div className="row">
+      <div className="col-md-12 row">
         <div className="col-md-1 comment-avatar rounded">
-          <img src="https://s28.postimg.org/cdfv0i8ot/party.png" alt="" />
+          <img src="https://s3.amazonaws.com/dartmap/edrei.jpg" alt="" />
         </div>
         <div className="col-md-11 comment-box rounded">
           <div className="comment-head">
@@ -67,9 +66,8 @@ class Comment extends React.Component {
             <span>posted {this.getTime()}</span>
             <div className="commentActions">
               <div className={this.state.isEditing ? 'hidden' : ''}>
-                <a href="#" className="pull-right" onClick={this.handleDelete} >Delete</a>
-                <p className="pull-right">|</p>
-                <a href="#" className="pull-right" onClick={this.toggleEditing}>Edit</a>
+                <button className="pull-right" onClick={this.handleDelete}>Delete</button>
+                <button className="pull-right" onClick={this.toggleEditing}>Edit</button>
               </div>
               <div className={this.state.isEditing ? '' : 'hidden'}>
                 <a href="#" onClick={this.toggleEditing}>Done editing</a>

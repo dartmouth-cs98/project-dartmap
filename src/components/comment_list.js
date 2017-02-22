@@ -10,11 +10,6 @@ class CommentList extends React.Component {
     };
     this.handleEdit = this.handleEdit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.toggleEdit = this.toggleEdit.bind(this);
-  }
-
-  toggleEdit(id, editState) {
-    this.props.toggleEdit(id, editState);
   }
 
   handleEdit(id, data) {
@@ -28,18 +23,19 @@ class CommentList extends React.Component {
   render() {
     const commentNodes = this.props.data.map((comment) => {
       return (
-        <ul className="list-group">
+        <li className="row list-group-item" key={comment.id}>
           <Comment author={comment.author} text={comment.content}
-            key={comment.id} id={comment.id}
-            isEditing={this.props.isEditing[comment.id]} time={comment.timestamp}
+            id={comment.id} time={comment.timestamp}
             onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete}
           />
-        </ul>
+        </li>
       );
     });
     return (
-      <div className="commentList">
-        {commentNodes}
+      <div>
+        <ul className="list-group">
+          {commentNodes}
+        </ul>
       </div>
     );
   }
