@@ -12,18 +12,18 @@ class NavBar extends Component {
     this.state = {
       showMenu: false,
     };
-    this.notLoggedInGreeting = (
+    this.defaultGreeting = (
       <h2 className="navbar-greeting">Welcome! Please log in...</h2>
     );
     this.userButton = this.fbLoginButton;
-    this.greeting = this.notLoggedInGreeting;
-    this.fbPic = null;
+    this.greeting = this.defaultGreeting;
     this.buttonContent = null;
+    this.initialFbLoad = false;
+    // bind all of the functions
     this.facebookLogin = this.facebookLogin.bind(this);
     this.facebookLogout = this.facebookLogout.bind(this);
     this.openMenu = this.openMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
-    this.initialFbLoad = false;
   }
 
   componentWillUpdate() {
@@ -56,7 +56,6 @@ class NavBar extends Component {
 
   render() {
     if (this.props.user.loggedIn) {
-      console.log(this.props.userInfo);
       this.greeting = (
         <h2 className="navbar-greeting">
           Hi, {this.props.userInfo.name}!
@@ -79,7 +78,7 @@ class NavBar extends Component {
         </button>
       );
     } else {
-      this.greeting = this.notLoggedInGreeting;
+      this.greeting = this.defaultGreeting;
       this.userButton = (
         <button id="login-button" className="fb-user nav-btn" onClick={this.facebookLogin}>
           Facebook Log In
