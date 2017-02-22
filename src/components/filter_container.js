@@ -47,8 +47,8 @@ class FilterContainer extends Component {
     }
     return (
       <div id="filter-container">
-        <DateFilter onDateChange={this.onDateChange} dateBarData={this.props.dateBarData} />
         <CategoryFilter onCategoryChange={this.onCategoryChange} categoriesList={this.props.categoriesList} />
+        <DateFilter onDateChange={this.onDateChange} dateBarData={this.props.dateBarData} />
         <TimeFilter onTimeChange={this.onTimeChange} />
       </div>
     );
