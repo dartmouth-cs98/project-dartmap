@@ -1,6 +1,7 @@
 // add_event_dialog.js
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import AddEventPage1 from './add_events/add_event_page_1';
 import AddEventPage2 from './add_events/add_event_page_2';
@@ -10,6 +11,9 @@ import AddEventPage5 from './add_events/add_event_page_5';
 import AddEventSubmitPage from './add_events/add_event_submit_page';
 
 import PageSlider from './add_events/add_event_page_slider';
+
+// import the redux actions
+import { createEvent } from '../actions';
 
 class AddEventDialog extends Component {
   constructor(props) {
@@ -67,7 +71,8 @@ class AddEventDialog extends Component {
       image_url: this.state.image_url,
     };
     this.resetState();
-    this.props.handleAddEventData(data);
+    this.props.createEvent(data);
+    this.props.handleAddEventData();
   }
   handleClose() {
     this.resetState();
@@ -76,7 +81,7 @@ class AddEventDialog extends Component {
   render() {
     const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description, location_string: this.state.location_string };
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
-    const page3Data = { location: this.state.location, userLocation: this.props.userLocation };
+    const page3Data = { location: this.state.location };
     const page4Data = { categories: this.state.categories };
     const page5Data = { icon: this.state.icon, image_url: this.state.image_url };
     this.pageCode = [
@@ -110,4 +115,4 @@ class AddEventDialog extends Component {
   }
 }
 
-export default AddEventDialog;
+export default connect(null, { createEvent })(AddEventDialog);

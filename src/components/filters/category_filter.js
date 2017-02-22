@@ -1,41 +1,31 @@
+// category_filter.js
 /*
   Filters by category
 */
 
-// category_filter.js
 import React, { Component } from 'react';
-
-// categories that are checked by default
-// TODO: this should eventually be made more elegant than just having 100 default category boxes
-const DEFAULT_CATEGORIES = [];
-let j;
-for (j = 0; j < 100; j += 1) {
-  DEFAULT_CATEGORIES.push(true);
-}
+import { connect } from 'react-redux';
 
 class CategoryFilter extends Component {
 
   constructor(props) {
     super(props);
-
-    // set which categories (strings) should be checked by default
-    const defaultCategories = [];
-    for (let i = 0; i < DEFAULT_CATEGORIES.length; i += 1) {
-      if (DEFAULT_CATEGORIES[i]) defaultCategories.push(i.toString());
-    }
-
-    this.state = { checked: defaultCategories };
+    this.state = { checked: [] };
     this.handleChange = this.handleChange.bind(this);
     this.onCategoryChange = props.onCategoryChange;
+    this.initialSetDefault = true;
   }
-  componentWillMount() {
-    // set the default "checked" to be true for every category
-    const checked = [];
-    let i;
-    for (i = 0; i <= this.props.categoriesList.length; i += 1) {
-      checked.push(i.toString());
+  componentWillUpdate() {
+    if (this.props.catList && this.initialSetDefault) {
+      // set the default "checked" to be true for every category
+      const checked = [];
+      let i;
+      for (i = 0; i <= this.props.catList.length; i += 1) {
+        checked.push(i.toString());
+      }
+      this.setState({ checked });
+      this.initialSetDefault = false;
     }
-    this.setState({ checked });
   }
 
   handleChange(event) {
@@ -58,7 +48,7 @@ class CategoryFilter extends Component {
       if (val === '0') {
         checked = ['0'];
         // check every box
-        this.props.categoriesList.map((cat) => {
+        this.props.catList.map((cat) => {
           const cID = `c${cat.id}`; // c1, c2, etc...
           checked.push((cat.id).toString());
           document.getElementById(cID).checked = true;
@@ -75,7 +65,7 @@ class CategoryFilter extends Component {
       if (checked[c]) {
         n = parseInt(checked[c], 10);
         if (n > 0) {
-          categoryArray.push(this.props.categoriesList[n - 1]);
+          categoryArray.push(this.props.catList[n - 1]);
         }
       }
     }
@@ -86,26 +76,40 @@ class CategoryFilter extends Component {
 
 
   render() {
-    let boxes;
-    if (this.props.categoriesList.length === 0) {
+    if (!this.props.catList || this.props.catList.length === 0) {
       return <div className="hidden" />;
-    } else {
-      boxes = this.props.categoriesList.map((cat) => {
-        const cID = `c${cat.id}`; // c1, c2, etc...
-        return (
-          <div key={cID} className="segmented-control">
-            <input type="checkbox" id={cID} name={cID} value={(cat.id).toString()} onChange={this.handleChange} defaultChecked />
-            <label htmlFor={cID} data-value={cat.name}>{cat.name}</label>
-          </div>
-        );
-      });
     }
+    const boxes = this.props.catList.map((cat) => {
+      const cID = `c${cat.id}`; // c1, c2, etc...
+      return (
+        <div key={cID} className="segmented-control">
+          <input
+            type="checkbox"
+            id={cID}
+            name={cID}
+            value={(cat.id).toString()}
+            onChange={this.handleChange}
+            defaultChecked
+          />
+          <label htmlFor={cID} data-value={cat.name}>{cat.name}</label>
+        </div>
+      );
+    });
 
     return (
-      <div className="category-filter section-inner" style={{ color: '#008000', height: '30px' }}>
+      <div className="category-filter section-inner">
         <div className="segmented-control">
-          <input type="checkbox" id="c0" name="c0" value="0" onChange={this.handleChange} defaultChecked />
-          <label htmlFor="c0" data-value={'All categories'}>All categories</label>
+          <input
+            type="checkbox"
+            id="c0"
+            name="c0"
+            value="0"
+            onChange={this.handleChange}
+            defaultChecked
+          />
+          <label htmlFor="c0" data-value={'All categories'}>
+            All categories
+          </label>
         </div>
         {boxes}
         <br />
@@ -114,4 +118,10 @@ class CategoryFilter extends Component {
   }
 }
 
-export default CategoryFilter;
+const mapStateToProps = state => (
+  {
+    catList: state.events.catList,
+  }
+);
+
+export default connect(mapStateToProps, null)(CategoryFilter);

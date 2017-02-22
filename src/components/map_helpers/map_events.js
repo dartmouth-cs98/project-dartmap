@@ -1,8 +1,12 @@
 // map_events.js
 
 import React from 'react';
+import { connect } from 'react-redux';
 
 import MapBalloon from './map_balloon';
+
+// import redux actions
+import { setStickyBalloonId } from '../../actions';
 
 /**
  * This Class includes all the functions that draw the popup balloons in the window.
@@ -12,18 +16,24 @@ const EventsWithControllableHover = (props) => {
   const currentClass = props.showBalloonId ? 'event-hover' : 'event';
   return (
     <div>
-      <button type="button" onClick={() => props.showStickyBalloon(props.id)} id={props.id} className={currentClass}>
+      <button
+        type="button"
+        onClick={() => props.setStickyBalloonId(props.id)}
+        id={props.id}
+        className={currentClass}
+      >
         <img className="map-event-img" src={imageSrc} alt="icon" />
         <div>{props.text}</div>
       </button>
       <MapBalloon
-        showBalloon={(props.showStickyBalloonId === props.id) || (props.showBalloonId)}
+        hoverKey={props.hoverKey}
         id={props.id}
         eventsForLocation={props.eventsForLocation}
-        removePopUps={props.removePopUps}
       />
     </div>
   );
 };
 
-export default EventsWithControllableHover;
+const mapDToProps = { setStickyBalloonId };
+
+export default connect(null, mapDToProps)(EventsWithControllableHover);

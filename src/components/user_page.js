@@ -1,6 +1,7 @@
 // user_page.js
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import UploadPhotoDialog from './upload_photo_dialog';
 
@@ -30,7 +31,7 @@ class UserPage extends Component {
         <div className="photo-container">
           <img
             className="photo"
-            src={document.getElementById('fb-pic').src}
+            src={this.props.user.fbProfPicUrl}
             alt="You"
           />
           <div className="upload-photo">
@@ -54,4 +55,10 @@ class UserPage extends Component {
   }
 }
 
-export default UserPage;
+const mapStateToProps = state => (
+  {
+    user: state.user,
+  }
+);
+
+export default connect(mapStateToProps, null)(UserPage);
