@@ -19,11 +19,13 @@ class EventPage extends Component {
     this.infoWindow = null;
 
     this.handleRSVP = this.handleRSVP.bind(this);
+    this.toggleRSVP = this.toggleRSVP.bind(this);
   }
 
   componentWillMount() {
     getEvent((event) => {
       this.setState({ event });
+      this.toggleRSVP(event);
     }, this.props.params.id);
 
     // Load google map onto the page asynchronously
@@ -36,6 +38,10 @@ class EventPage extends Component {
       scriptTag.parentNode.insertBefore(js, scriptTag);
     }(document, 'script', 'google-maps'));
   }
+
+  // componentDidMount() {
+  //   this.toggleRSVP();
+  // }
 
   componentDidUpdate() {
     console.log(this.state.event);
@@ -67,6 +73,20 @@ class EventPage extends Component {
       this.map = createMap(mapHTML, mapOptions);
       this.marker = createMarker(this.map, location, icon);
       this.infoWindow = createInfoWindow(this.map, this.marker, locationName);
+    }
+  }
+
+  toggleRSVP(event) {
+    if (event !== null && event.attendees.length !== 0) {
+      let i;
+      for (i = 0; i < event.attendees.length; i += 1) {
+        if (event.attendees[i].id === 1) {
+          this.setState({
+            isRSVPed: true,
+          });
+          break;
+        }
+      }
     }
   }
 
@@ -105,7 +125,7 @@ class EventPage extends Component {
       <div className="evpg-container">
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI&libraries=places" />
         <div className="row">
-          <div className="col-md-5 center">
+          <div className="col-md-12">
             <div className="evpg-date">
               {dateString}
             </div>
@@ -117,7 +137,7 @@ class EventPage extends Component {
             </div>
           </div>
           <div className="col-md-3 pull-right">
-            <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'RSVPed' : 'RSVP'}</button>
+            <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</button>
           </div>
         </div>
         <div className="evpg-image">

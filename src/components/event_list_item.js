@@ -12,19 +12,17 @@ const EventListItem = (props) => {
         onClick={() => props.onEventListItemClick(props.event.id, { lat: props.event.lat, lng: props.event.lng })}
       >
         <div className="row">
-          <div className="col-md-2">
-            <h6 className="name">
-              {props.event.name}
-            </h6>
+          <div className="col-md-11">
+            <div className="row">
+              <h6 className="col-md-9 name">
+                {props.event.name}
+              </h6>
+              <button className="col-md-3 text-align:center">RSVP</button>
+            </div>
             <text className="attribute">
               {props.event.start_time.format('h:mm A')} ~ {props.event.end_time.format('h:mm A')}<br />
               {props.event.location_name}
             </text>
-          </div>
-          <div className="col-md-1">
-            <div className="col-md-3 pull-right">
-              <button type="button">RSVP</button>
-            </div>
           </div>
         </div>
       </div>

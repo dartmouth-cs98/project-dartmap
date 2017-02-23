@@ -39,7 +39,9 @@ function formatAPIEventData(event) {
   // categories data
   const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
   newEvent.categories = $.parseJSON(catString);
-
+  const attendeesString = event.attendees.replace(/'/g, '"').replace(/ u"/g, ' "');
+  newEvent.attendees = $.parseJSON(attendeesString);
+  newEvent.comments = event.comments;
   return newEvent;
 }
 
