@@ -1,9 +1,9 @@
 // user_page.js
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import UploadPhotoDialog from './upload_photo_dialog';
-import { fbLogout } from '../helpers/facebook-helpers';
 
 class UserPage extends Component {
 
@@ -24,10 +24,6 @@ class UserPage extends Component {
     this.setState({ uploadingPhoto: false });
   }
 
-  facebookLogout() {
-    fbLogout();
-  }
-
   // TODO: fix profile picture source, as well as user name, etc
   render() {
     return (
@@ -35,7 +31,7 @@ class UserPage extends Component {
         <div className="photo-container">
           <img
             className="photo"
-            src={document.getElementById('fb-pic').src}
+            src={this.props.user.fbProfPicUrl}
             alt="You"
           />
           <div className="upload-photo">
@@ -48,7 +44,6 @@ class UserPage extends Component {
             </button>
           </div>
         </div>
-        <button className="fb-user" onClick={this.facebookLogout}>Facebook Log Out</button>
         <h1>Hi!</h1>
         <br />
         <UploadPhotoDialog
@@ -60,4 +55,10 @@ class UserPage extends Component {
   }
 }
 
-export default UserPage;
+const mapStateToProps = state => (
+  {
+    user: state.user,
+  }
+);
+
+export default connect(mapStateToProps, null)(UserPage);
