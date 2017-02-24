@@ -1,7 +1,7 @@
 // event_page.js
 import React, { Component } from 'react';
 import ImageGallery from 'react-image-gallery';
-import { getEvent, postRSVP } from '../helpers/dartmap-api';
+import { getEvent, postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import { createMap, createMarker, createInfoWindow } from '../helpers/google-maps';
 import CommentBox from './comment_dialog';
 import './comment.scss';
@@ -17,7 +17,6 @@ class EventPage extends Component {
     this.map = null;
     this.marker = null;
     this.infoWindow = null;
-
     this.handleRSVP = this.handleRSVP.bind(this);
     this.toggleRSVP = this.toggleRSVP.bind(this);
   }
@@ -25,7 +24,6 @@ class EventPage extends Component {
   componentWillMount() {
     getEvent((event) => {
       this.setState({ event });
-      this.toggleRSVP(event);
     }, this.props.params.id);
 
     // Load google map onto the page asynchronously
@@ -39,12 +37,9 @@ class EventPage extends Component {
     }(document, 'script', 'google-maps'));
   }
 
-  // componentDidMount() {
-  //   this.toggleRSVP();
-  // }
-
   componentDidUpdate() {
     console.log(this.state.event);
+    this.toggleRSVP();
     if (this.state.event && !this.map) {
       const mapHTML = document.getElementById('evpg-map');
       const location = {
@@ -76,11 +71,11 @@ class EventPage extends Component {
     }
   }
 
-  toggleRSVP(event) {
-    if (event !== null && event.attendees.length !== 0) {
+  toggleRSVP() {
+    if (this.state.event !== undefined && this.state.event !== null && this.state.event.attendees.length !== 0 && this.state.isRSVPed === false) {
       let i;
-      for (i = 0; i < event.attendees.length; i += 1) {
-        if (event.attendees[i].id === 1) {
+      for (i = 0; i < this.state.event.attendees.length; i += 1) {
+        if (this.state.event.attendees[i].id === 1) {
           this.setState({
             isRSVPed: true,
           });
@@ -95,9 +90,15 @@ class EventPage extends Component {
     data.user_id = 1;
     data.event_id = parseInt(this.state.event_id, 10);
 
-    postRSVP(data).then((response) => {
-      this.setState({ isRSVPed: true });
-    });
+    if (this.state.isRSVPed === true) { // De-RSVP
+      deleteRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    } else { // RSVP
+      postRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    }
   }
 
   render() {
@@ -123,7 +124,6 @@ class EventPage extends Component {
     }).join(', ');
     return (
       <div className="evpg-container">
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI&libraries=places" />
         <div className="row">
           <div className="col-md-12">
             <div className="evpg-date">

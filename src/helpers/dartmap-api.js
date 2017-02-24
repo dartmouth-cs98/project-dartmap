@@ -39,8 +39,21 @@ function formatAPIEventData(event) {
   // categories data
   const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
   newEvent.categories = $.parseJSON(catString);
-  const attendeesString = event.attendees.replace(/'/g, '"').replace(/ u"/g, ' "');
-  newEvent.attendees = $.parseJSON(attendeesString);
+  // const attendeesString = event.attendees.replace(/'/g, '"').replace(/ u"/g, ' "');
+  // preserve newlines, etc - use valid JSON
+  let s;
+  s = event.attendees.replace(/\\n/g, "\\n").replace(/'/g, '"').replace(/ u"/g, ' "')
+               .replace(/\\'/g, "\\'")
+               .replace(/\\"/g, '\\"')
+               .replace(/\\&/g, "\\&")
+               .replace(/\\r/g, "\\r")
+               .replace(/\\t/g, "\\t")
+               .replace(/\\b/g, "\\b")
+               .replace(/\\f/g, "\\f")
+               .replace('None', null);
+  // remove non-printable and other non-valid JSON chars
+  s = s.replace(/[\u0000-\u0019]+/g,"");
+  newEvent.attendees = JSON.parse(s, ':quirks_mode => true');
   newEvent.comments = event.comments;
   return newEvent;
 }
@@ -326,6 +339,28 @@ export function postRSVP(postData) {
     jsonp: false,
     type: 'POST',
     data: postData,
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function deleteRSVP(deleteData) {
+  const fullUrl = API_URL.concat(RSVP_URL);
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'DELETE',
+    data: deleteData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
     success: (data) => {
       console.log(data);
       return data;
