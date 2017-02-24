@@ -17,7 +17,6 @@ const EventListItem = (props) => {
               <h6 className="col-md-9 name">
                 {props.event.name}
               </h6>
-              <button className="col-md-3 text-align:center">RSVP</button>
             </div>
             <text className="attribute">
               {props.event.start_time.format('h:mm A')} ~ {props.event.end_time.format('h:mm A')}<br />
