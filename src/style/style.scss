@@ -183,7 +183,7 @@ hr {
 }
 
 // Map Components
-#map {
+.map {
   float: left;
   padding: 5px;
   margin: 16px 16px 16px 16px;
@@ -209,8 +209,6 @@ hr {
 
 .floating-panel {
   position: absolute;
-  top: 10px;
-  left: 100px;
   z-index: 5;
   background-color: #fff;
   padding: 5px;
@@ -218,7 +216,6 @@ hr {
   text-align: center;
   font-family: 'Roboto','sans-serif';
   line-height: 30px;
-  padding-left: 10px;
 }
 
 .map-event-img {

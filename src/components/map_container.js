@@ -117,9 +117,36 @@ class MapContainer extends Component {
       height: this.props.height,
       width: this.props.width,
     };
+    const WIDTH = parseInt(this.props.width.replace('px', null), 10);
+    const HEIGHT = parseInt(this.props.height.replace('px', null), 10);
+    const LEFT = -1 * WIDTH / 2;
+    const TOP = -1 * HEIGHT / 2;
+
+    const geoCodeStyle = {
+      height: HEIGHT,
+      width: WIDTH,
+      left: LEFT,
+      top: TOP,
+    };
+
+    const ZipcodeBox = () => (
+      <div className="floating-panel">
+        <input id="address" type="textbox" placeholder="Enter zipcode" value={this.state.zipcode}
+          onChange={e => this.setState({ zipcode: e.target.value })}
+        />
+        <input id="submit" type="button" value="Go" onClick={this.submitModalData} />
+      </div>
+    );
+
     return (
       <div>
-        <div id="map" style={mapStyle}>
+        <div className="floating-panel">
+          <input id="address" type="textbox" placeholder="Enter zipcode" value={this.state.zipcode}
+            onChange={e => this.setState({ zipcode: e.target.value })}
+          />
+          <input id="submit" type="button" value="Go" onClick={this.submitModalData} />
+        </div>
+        <div className="map" style={mapStyle}>
           <GoogleMap
             bootstrapURLKeys={{
               key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
@@ -135,10 +162,6 @@ class MapContainer extends Component {
             onChildMouseLeave={this._onChildMouseLeave}
           >
             {mapEvents}
-            <input id="address" type="textbox" placeholder="Enter zipcode" value={this.state.zipcode}
-              onChange={e => this.setState({ zipcode: e.target.value })}
-            />
-            <input id="submit" type="button" value="Go" onClick={this.submitModalData} />
           </GoogleMap>
         </div>
       </div>
