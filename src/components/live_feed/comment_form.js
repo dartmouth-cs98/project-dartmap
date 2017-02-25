@@ -1,5 +1,4 @@
 import React from 'react';
-import './comment.scss';
 
 class CommentForm extends React.Component {
   constructor() {

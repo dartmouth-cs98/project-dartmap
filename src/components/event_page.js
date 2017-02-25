@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
 import { postRSVP } from '../helpers/dartmap-api';
-import CommentBox from './comment_dialog';
-import './comment.scss';
+import CommentBox from './live_feed/comment_dialog';
 
 // import redux actions
 import { fetchEvent } from '../actions';

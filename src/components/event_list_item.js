@@ -1,7 +1,6 @@
 // event_list_item.js
 import React from 'react';
 import { connect } from 'react-redux';
-import './comment.scss';
 
 // import redux actions
 import { setStickyBalloonId, setBalloonId, setMapCenter } from '../actions';

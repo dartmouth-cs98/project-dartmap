@@ -1,8 +1,7 @@
 import React from 'react';
 import CommentList from './comment_list';
 import CommentForm from './comment_form';
-import './comment.scss';
-import { postComment, getComments, updateComment, deleteComment } from '../helpers/dartmap-api';
+import { postComment, getComments, updateComment, deleteComment } from '../../helpers/dartmap-api';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const COMMENT_URL = 'comments/';
