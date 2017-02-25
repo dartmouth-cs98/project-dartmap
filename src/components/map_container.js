@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import EventsWithControllableHover from './map_helpers/map_events';
 
-import { setMapCenter, clearBalloons } from '../actions';
+import { setMapCenter, clearBalloons, getZipcodeLocation } from '../actions';
 
 const K_SIZE = 40;
 
@@ -28,9 +28,11 @@ class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.createLocationsFromEvents = this.createLocationsFromEvents.bind(this);
+    this.submitModalData = this.submitModalData.bind(this);
     // const locations = this.createLocationsFromEvents(props.events);
     this.state = {
       locations: [],
+      zipcode: '',
     };
   }
 
@@ -88,6 +90,10 @@ class MapContainer extends Component {
     this.props.onHoverKeyChange(null);
   }
 
+  submitModalData() {
+    this.props.getZipcodeLocation(this.state.zipcode);
+  }
+
   render() {
     const mapEvents = [];
     if (this.state.locations.size > 0) {
@@ -112,23 +118,29 @@ class MapContainer extends Component {
       width: this.props.width,
     };
     return (
-      <div id="map" style={mapStyle}>
-        <GoogleMap
-          bootstrapURLKeys={{
-            key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
-            libraries: 'places',
-          }}
-          center={this.props.center}
-          zoom={this.props.zoom}
-          hoverDistance={K_SIZE / 2}
-          onBoundsChange={this._onBoundsChange}
-          onClick={this.maybeSelectLocation}
-          onChildClick={this._onChildClick}
-          onChildMouseEnter={this._onChildMouseEnter}
-          onChildMouseLeave={this._onChildMouseLeave}
-        >
-          {mapEvents}
-        </GoogleMap>
+      <div>
+        <div id="map" style={mapStyle}>
+          <GoogleMap
+            bootstrapURLKeys={{
+              key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
+              libraries: 'places',
+            }}
+            center={this.props.center}
+            zoom={this.props.zoom}
+            hoverDistance={K_SIZE / 2}
+            onBoundsChange={this._onBoundsChange}
+            onClick={this.maybeSelectLocation}
+            onChildClick={this._onChildClick}
+            onChildMouseEnter={this._onChildMouseEnter}
+            onChildMouseLeave={this._onChildMouseLeave}
+          >
+            {mapEvents}
+            <input id="address" type="textbox" placeholder="Enter zipcode" value={this.state.zipcode}
+              onChange={e => this.setState({ zipcode: e.target.value })}
+            />
+            <input id="submit" type="button" value="Go" onClick={this.submitModalData} />
+          </GoogleMap>
+        </div>
       </div>
     );
   }
@@ -145,6 +157,6 @@ const mapStateToProps = state => (
   }
 );
 
-const mapDispatchToProps = { setMapCenter, clearBalloons };
+const mapDispatchToProps = { setMapCenter, clearBalloons, getZipcodeLocation };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);

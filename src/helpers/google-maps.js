@@ -49,6 +49,7 @@ const getLocationFromZipcode = (zipcode, dispatch, success, error) => {
   const geocoder = new gMaps.Geocoder();
   geocoder.geocode({ address: zipcode }, (results, status) => {
     if (status === gMaps.GeocoderStatus.OK) {
+      // map.setCenter(results[0].geometry.location);
       dispatch({
         type: success,
         payload: {

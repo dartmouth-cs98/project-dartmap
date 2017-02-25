@@ -96,7 +96,6 @@ class Home extends Component {
           handleAddEventData={this.handleAddEventData}
           closeAddEventDialog={this.closeAddEventDialog}
         />
-        <LocationDialog showModal={showModal} />
       </div>
     );
   }
