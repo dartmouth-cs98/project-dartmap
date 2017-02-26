@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
+import { postRSVP } from '../helpers/dartmap-api';
+import CommentBox from './live_feed/comment_dialog';
 
 // import redux actions
 import { fetchEvent } from '../actions';
@@ -16,10 +18,14 @@ class EventPage extends Component {
     super(props);
     this.state = {
       event: null,
+      event_id: this.props.params.id,
+      isRSVPed: false,
     };
     this.map = null;
     this.marker = null;
     this.infoWindow = null;
+
+    this.handleRSVP = this.handleRSVP.bind(this);
     if (!window.google) { // Load google maps api onto the page
       loadGoogleApi();
     }
@@ -97,6 +103,16 @@ class EventPage extends Component {
     }
   }
 
+  handleRSVP() {
+    const data = {};
+    data.user_id = 1;
+    data.event_id = parseInt(this.state.event_id, 10);
+
+    postRSVP(data).then((response) => {
+      this.setState({ isRSVPed: true });
+    });
+  }
+
   render() {
     const images = [];
     let i;
@@ -120,14 +136,21 @@ class EventPage extends Component {
     }).join(', ');
     return (
       <div className="evpg-container">
-        <div className="evpg-date">
-          {dateString}
-        </div>
-        <div className="evpg-title">
-          {this.state.event.name} @ {this.state.event.location_string}
-        </div>
-        <div className="evpg-subtitle evpg-time">
-          {startString} - {endString}
+        <div className="row">
+          <div className="col-md-5 center">
+            <div className="evpg-date">
+              {dateString}
+            </div>
+            <div className="evpg-title">
+              {this.state.event.name} @ {this.state.event.location_string}
+            </div>
+            <div className="evpg-subtitle evpg-time">
+              {startString} - {endString}
+            </div>
+          </div>
+          <div className="col-md-3 pull-right">
+            <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'RSVPed' : 'RSVP'}</button>
+          </div>
         </div>
         <div className="evpg-image">
           <ImageGallery
@@ -153,6 +176,7 @@ class EventPage extends Component {
             </div>
           </div>
         </div>
+        <CommentBox pollInterval={2000} event_id={this.state.event_id} />
       </div>
     );
   }

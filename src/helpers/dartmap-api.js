@@ -9,6 +9,22 @@ const CATEGORY_URL = 'categories/';
 const IMAGE_URL = 'sign_s3/';
 const EVENT_URL = 'events/';
 const USERS_URL = 'users/';
+const RSVP_URL = 'rsvp/';
+
+
+function formatParseProperJSON(toFormat) {
+  const s = toFormat.replace(/'/g, '"').replace(/ u"/g, ' "').replace(/\\n/g, "\\n").replace(/\\'/g, "\\'")
+               .replace(/\\"/g, '\\"')
+               .replace(/\\&/g, "\\&")
+               .replace(/\\r/g, "\\r")
+               .replace(/\\t/g, "\\t")
+               .replace(/\\b/g, "\\b")
+               .replace(/\\f/g, "\\f")
+               .replace('None', null)
+               .replace(/[\u0000-\u0019]+/g,"");
+
+  return JSON.parse(s, ':quirks_mode => true');
+}
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -36,8 +52,7 @@ export function formatAPIEventData(event) {
   newEvent.location_name = event.location.name;
   newEvent.placeId = event.location.place_id;
   // categories data
-  const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
-  newEvent.categories = $.parseJSON(catString);
+  newEvent.categories = formatParseProperJSON(event.categories);
 
   return newEvent;
 }
@@ -245,6 +260,93 @@ export function postToS3(s3URL, postData) {
     },
     error: (xhr, status, err) => {
       console.error(s3URL, status, err);
+    },
+  });
+  return response;
+}
+
+export function postComment(commentURL, postData) {
+  const response = $.ajax({
+    url: commentURL,
+    jsonp: false,
+    type: 'POST',
+    data: postData,
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}
+
+export function getComments(commentURL) {
+  const response = $.ajax({
+    url: commentURL,
+    jsonp: false,
+    type: 'GET',
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}
+
+export function updateComment(commentURL, putData) {
+  const response = $.ajax({
+    url: commentURL,
+    type: 'PUT',
+    data: putData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'PUT',
+    },
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}
+
+export function deleteComment(commentURL) {
+  const response = $.ajax({
+    url: commentURL,
+    type: 'DELETE',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}
+
+export function postRSVP(postData) {
+  const fullUrl = API_URL.concat(RSVP_URL);
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'POST',
+    data: postData,
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
     },
   });
   return response;

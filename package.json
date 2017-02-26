@@ -38,6 +38,8 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "facebook-plugins": "^1.0.5",
     "google-map-react": "^0.20.1",
     "jquery": "^3.1.1",
     "moment": "^2.15.2",
