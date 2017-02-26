@@ -43,9 +43,9 @@ class UserPage extends Component {
     this.setState({ uploadingPhoto: false });
   }
 
-  facebookLogout() {
-    fbLogout();
-  }
+  // facebookLogout() {
+  //   fbLogout();
+  // }
 
   sortEventList(eventList) {
     return eventList.sort(sortDateTimeReverse);

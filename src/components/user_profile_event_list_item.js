@@ -4,6 +4,8 @@ import React from 'react';
 import { deleteEvent } from '../helpers/dartmap-api';
 
 const UserEventListItem = (props) => {
+  let editing = false;
+
   // confirms whether the event should be deleted
   // TODO: make the confirmation dialog prettier
   function confirmDelete() {
@@ -14,6 +16,17 @@ const UserEventListItem = (props) => {
     } else {
       console.log('EVENT SHOULD NOT BE DELETED');
     }
+  }
+
+  function editingEvent() {
+    editing = true;
+  }
+
+  function interpretEditingBoolean() {
+    if (editing) {
+      return null;
+    }
+    return 'none';
   }
 
   // this block of code builds the string to display the event's categories
@@ -67,9 +80,11 @@ const UserEventListItem = (props) => {
         Description:<br />
       </text>
       <input
+        className="eventDetails"
         type="text"
         placeholder="*  Event details"
         value={props.event.description}
+        display={interpretEditingBoolean()}
       />
       <text className="attributeTitle">
         <br />
@@ -77,7 +92,7 @@ const UserEventListItem = (props) => {
       <button className="user-delete-event" type="button" onClick={confirmDelete}>
         Delete
       </button>
-      <button className="user-edit-event" type="button" onClick={confirmDelete}>
+      <button className="user-edit-event" type="button" onClick={editingEvent}>
         Edit
       </button>
     </div>
