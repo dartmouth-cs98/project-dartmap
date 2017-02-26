@@ -117,15 +117,15 @@ class AddEventPage5 extends Component {
       );
     });
     return (
-      <form className="add-event-form" onSubmit={this.handleSubmit}>
+      <form className="add-event-form" onSubmit={this.props.submitEventData}>
         <div className="add-event-fields">
-          <h2>Select event map icon:*</h2>
+          <h2>Select event map icon</h2>
           <div className="icon-select">
             {iconBtns}
           </div>
         </div>
         <div className="add-event-fields">
-          <h2>Select event image:</h2>
+          <h2>Select event image</h2>
           <UploadMultiImages updateImageURL={this.updateImageURL} />
         </div>
         <div className="add-event-btns">
@@ -137,7 +137,7 @@ class AddEventPage5 extends Component {
           />
           <input
             type="submit"
-            value="Next"
+            value="Submit Event"
             className={(!this.state.icon) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
           />
         </div>

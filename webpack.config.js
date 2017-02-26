@@ -10,6 +10,7 @@ module.exports = {
     './src', //this is where our app lives
   ],
   devServer: {
+    port: 8080,
     historyApiFallback: {
       index: 'index.html',
     },
