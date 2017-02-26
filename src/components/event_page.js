@@ -24,8 +24,8 @@ class EventPage extends Component {
     this.map = null;
     this.marker = null;
     this.infoWindow = null;
-
     this.handleRSVP = this.handleRSVP.bind(this);
+    this.toggleRSVP = this.toggleRSVP.bind(this);
     if (!window.google) { // Load google maps api onto the page
       loadGoogleApi();
     }
@@ -66,6 +66,9 @@ class EventPage extends Component {
   }
 
   componentDidUpdate() {
+    console.log(this.state.event);
+    this.toggleRSVP();
+
     if (window.google && this.state.event && !this.map) {
       this.loadMap();
     }
@@ -103,14 +106,34 @@ class EventPage extends Component {
     }
   }
 
+  toggleRSVP() {
+    if (this.state.event !== undefined && this.state.event !== null && this.state.event.attendees.length !== 0 && this.state.isRSVPed === false) {
+      let i;
+      for (i = 0; i < this.state.event.attendees.length; i += 1) {
+        if (this.state.event.attendees[i].id === 1) {
+          this.setState({
+            isRSVPed: true,
+          });
+          break;
+        }
+      }
+    }
+  }
+
   handleRSVP() {
     const data = {};
     data.user_id = 1;
     data.event_id = parseInt(this.state.event_id, 10);
 
-    postRSVP(data).then((response) => {
-      this.setState({ isRSVPed: true });
-    });
+    if (this.state.isRSVPed === true) { // De-RSVP
+      deleteRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    } else { // RSVP
+      postRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    }
   }
 
   render() {
@@ -137,7 +160,7 @@ class EventPage extends Component {
     return (
       <div className="evpg-container">
         <div className="row">
-          <div className="col-md-5 center">
+          <div className="col-md-12">
             <div className="evpg-date">
               {dateString}
             </div>
@@ -149,7 +172,7 @@ class EventPage extends Component {
             </div>
           </div>
           <div className="col-md-3 pull-right">
-            <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'RSVPed' : 'RSVP'}</button>
+            <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</button>
           </div>
         </div>
         <div className="evpg-image">

@@ -352,4 +352,26 @@ export function postRSVP(postData) {
   return response;
 }
 
+export function deleteRSVP(deleteData) {
+  const fullUrl = API_URL.concat(RSVP_URL);
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'DELETE',
+    data: deleteData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
 export default { getAllEvents, getAllCategories, getEvent, postNewEvent };
