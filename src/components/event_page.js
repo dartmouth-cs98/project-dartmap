@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
-import { postRSVP } from '../helpers/dartmap-api';
+import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
 
 // import redux actions
@@ -59,6 +59,7 @@ class EventPage extends Component {
   componentWillUpdate() {
     const id = parseInt(this.props.params.id, 10);
     if ((!this.state.event) || (this.state.event.id !== id)) {
+      // this.toggleRSVP();
       if (this.props.currentEvent && this.props.currentEvent.id === id) {
         this.setState({ event: this.props.currentEvent });
       }
@@ -66,10 +67,12 @@ class EventPage extends Component {
   }
 
   componentDidUpdate() {
+    // this.toggleRSVP();
     console.log(this.state.event);
-    this.toggleRSVP();
+
 
     if (window.google && this.state.event && !this.map) {
+      this.toggleRSVP();
       this.loadMap();
     }
   }
