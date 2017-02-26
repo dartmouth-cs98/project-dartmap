@@ -52,13 +52,11 @@
     "react-dropzone": "^3.9.2",
     "react-image-gallery": "^0.7.12",
     "react-modal": "^1.6.5",
-    "react-remarkable": "^1.1.1",
+    "react-redux": "^5.0.2",
     "react-router": "^2.8.1",
-    "react-s3-uploader": "^4.0.1",
     "react-select": "^1.0.0-rc.2",
-    "react-showdown": "^1.2.0",
-    "remarkable": "^1.7.1",
-    "showdown": "^1.6.4"
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
   },
   "bugs": {
     "url": "https://github.com/dartmouth-cs98/project-dartmap/issues"

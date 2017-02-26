@@ -11,13 +11,28 @@ const EVENT_URL = 'events/';
 const USERS_URL = 'users/';
 const RSVP_URL = 'rsvp/';
 
+
+function formatParseProperJSON(toFormat) {
+  const s = toFormat.replace(/'/g, '"').replace(/ u"/g, ' "').replace(/\\n/g, "\\n").replace(/\\'/g, "\\'")
+               .replace(/\\"/g, '\\"')
+               .replace(/\\&/g, "\\&")
+               .replace(/\\r/g, "\\r")
+               .replace(/\\t/g, "\\t")
+               .replace(/\\b/g, "\\b")
+               .replace(/\\f/g, "\\f")
+               .replace('None', null)
+               .replace(/[\u0000-\u0019]+/g,"");
+
+  return JSON.parse(s, ':quirks_mode => true');
+}
+
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
  *
  * @param {Object} the event object returned by the API
  * @return {Object} the flattened event object
  */
-function formatAPIEventData(event) {
+export function formatAPIEventData(event) {
   const newEvent = {};
   // event data
   newEvent.name = event.name;
@@ -37,24 +52,8 @@ function formatAPIEventData(event) {
   newEvent.location_name = event.location.name;
   newEvent.placeId = event.location.place_id;
   // categories data
-  const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
-  newEvent.categories = $.parseJSON(catString);
-  // const attendeesString = event.attendees.replace(/'/g, '"').replace(/ u"/g, ' "');
-  // preserve newlines, etc - use valid JSON
-  let s;
-  s = event.attendees.replace(/\\n/g, "\\n").replace(/'/g, '"').replace(/ u"/g, ' "')
-               .replace(/\\'/g, "\\'")
-               .replace(/\\"/g, '\\"')
-               .replace(/\\&/g, "\\&")
-               .replace(/\\r/g, "\\r")
-               .replace(/\\t/g, "\\t")
-               .replace(/\\b/g, "\\b")
-               .replace(/\\f/g, "\\f")
-               .replace('None', null);
-  // remove non-printable and other non-valid JSON chars
-  s = s.replace(/[\u0000-\u0019]+/g,"");
-  newEvent.attendees = JSON.parse(s, ':quirks_mode => true');
-  newEvent.comments = event.comments;
+  newEvent.categories = formatParseProperJSON(event.categories);
+
   return newEvent;
 }
 
@@ -83,7 +82,7 @@ function formatEventDataforAPI(event) {
   return eventData;
 }
 
-export function postNewEvent(event) {
+export function postNewEvent(dispatch, successAction, errorAction, event) {
   const eventData = formatEventDataforAPI(event);
   const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
@@ -92,16 +91,17 @@ export function postNewEvent(event) {
     type: 'POST',
     data: eventData,
     success: (data) => {
-      return data;
+      dispatch({ type: successAction, payload: { data } });
     },
     error: (xhr, status, err) => {
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
   return response;
 }
 
-export function getEvent(saveEvent, eventId) {
+export function getEvent(dispatch, successAction, errorAction, eventId) {
   const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
   $.ajax({
     url: fullUrl,
@@ -110,16 +110,18 @@ export function getEvent(saveEvent, eventId) {
     success: (data) => {
       const event = formatAPIEventData(data.events[0]);
       console.log('SUCCESS! GET /events/'.concat(eventId));
-      return saveEvent(event);
+      dispatch({ type: successAction, payload: { event } });
     },
     error: (xhr, status, err) => {
       console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
 }
 
-export function getAllEvents(saveEventList, latitude, longitude, radius) {
+export function getAllEvents(dispatch, successAction, errorAction,
+  latitude, longitude, radius) {
   const fullUrl = API_URL.concat(EVENT_URL);
   $.ajax({
     url: fullUrl,
@@ -135,16 +137,17 @@ export function getAllEvents(saveEventList, latitude, longitude, radius) {
         return formatAPIEventData(event);
       });
       console.log(data);
-      return saveEventList(eventList);
+      dispatch({ type: successAction, payload: { events: eventList } });
     },
     error: (xhr, status, err) => {
       console.log(' /events GET was not successful.');
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
 }
 
-export function getAllCategories(saveCatList) {
+export function getAllCategories(dispatch, successAction, errorAction) {
   const fullUrl = API_URL.concat(CATEGORY_URL);
   $.ajax({
     url: fullUrl,
@@ -152,11 +155,12 @@ export function getAllCategories(saveCatList) {
     dataType: 'json',
     success: (data) => {
       const catList = data.categories;
-      return saveCatList(catList);
+      dispatch({ type: successAction, payload: { catList } });
     },
     error: (xhr, status, err) => {
       console.log(' /categories GET was not successful.');
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
 }
@@ -180,7 +184,7 @@ export function getAllUsers() {
   });
 }
 
-export function getUserByPassword(saveUserList, userPassword) {
+export function getUserByPassword(callback, userPassword) {
   const fullUrl = API_URL.concat(USERS_URL).concat(userPassword);
   $.ajax({
     url: fullUrl,
@@ -188,10 +192,7 @@ export function getUserByPassword(saveUserList, userPassword) {
     dataType: 'json',
     success: (data) => {
       const userList = data.users;
-      return saveUserList(userList);
-      // console.log('data');
-      // console.log(data);
-      // return data;
+      return callback(userList);
     },
     error: (xhr, status, err) => {
       console.log(' /user GET was not successful.');
@@ -221,7 +222,7 @@ export function getSignedImageURL(file) {
   return response;
 }
 
-export function postFbToken(token) {
+export function postFbToken(callback, token) {
   const tokenData = {};
   tokenData.access_token = token.accessToken;
   const fullUrl = API_URL.concat(AUTH_URL);
@@ -231,6 +232,7 @@ export function postFbToken(token) {
     type: 'POST',
     data: tokenData,
     success: (data) => {
+      callback(data);
       return data;
     },
     error: (xhr, status, err) => {
@@ -371,3 +373,5 @@ export function deleteRSVP(deleteData) {
   });
   return response;
 }
+
+export default { getAllEvents, getAllCategories, getEvent, postNewEvent };

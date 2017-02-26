@@ -12,7 +12,7 @@ class AddEventPage1 extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
-    this.visibleErrorMessages = ['name', 'organizer', 'description', 'room'].map((data) => {
+    this.visibleErrorMessages = ['name', 'organizer', 'room', 'description'].map((data) => {
       return <div key={data} className="error-msg"> The {data} of the event is required. </div>;
     });
   }
@@ -32,44 +32,52 @@ class AddEventPage1 extends Component {
   render() {
     const nameErrorMessage = (this.state.name === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const organizerErrorMessage = (this.state.organizer === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
-    const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
-    const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessage;
+    const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessage;
+    const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[3] : this.hiddenErrorMessage;
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <input
-            type="text"
-            placeholder="*  Event name"
-            value={this.state.name || ''}
-            onChange={event => this.setState({ name: event.target.value })}
-            className={(this.state.name !== '') ? 'add-event-text' : 'add-event-text error-box'}
-          />
+          <div className='add-event-field-container-1'>
+            <h2>Event name</h2>
+            <input
+              type="text"
+              value={this.state.name || ''}
+              onChange={event => this.setState({ name: event.target.value })}
+              className={(this.state.name !== '') ? 'add-event-text' : 'add-event-text error-box'}
+            />
+          </div>
           {nameErrorMessage}
           <br />
-          <input
-            type="text"
-            placeholder="*  Event organizer"
-            value={this.state.organizer || ''}
-            onChange={event => this.setState({ organizer: event.target.value })}
-            className={(this.state.organizer !== '') ? 'add-event-text' : 'add-event-text error-box'}
-          />
+          <div className='add-event-field-container-1'>
+            <h2>Event organizer</h2>
+            <input
+              type="text"
+              value={this.state.organizer || ''}
+              onChange={event => this.setState({ organizer: event.target.value })}
+              className={(this.state.organizer !== '') ? 'add-event-text' : 'add-event-text error-box'}
+            />
+          </div>
           {organizerErrorMessage}
           <br />
-          <input
-            type="text"
-            placeholder="*  Room name or number"
-            value={this.state.location_string || ''}
-            onChange={event => this.setState({ location_string: event.target.value })}
-            className={(this.state.location_string !== '') ? 'add-event-text add-event-loc-string' : 'add-event-text add-event-loc-string error-box'}
-          />
+          <div className='add-event-field-container-1'>
+            <h2>Event room or location</h2>
+            <input
+              type="text"
+              value={this.state.location_string || ''}
+              onChange={event => this.setState({ location_string: event.target.value })}
+              className={(this.state.location_string !== '') ? 'add-event-text add-event-loc-string' : 'add-event-text add-event-loc-string error-box'}
+            />
+          </div>
           {roomErrorMessage}
           <br />
-          <textarea
-            placeholder="*  Event description"
-            value={this.state.description || ''}
-            onChange={event => this.setState({ description: event.target.value })}
-            className={(this.state.description === '') ? 'add-event-text error-box' : 'add-event-text'}
-          />
+          <div className='add-event-field-container-1'>
+            <h2>Event description</h2>
+            <textarea
+              value={this.state.description || ''}
+              onChange={event => this.setState({ description: event.target.value })}
+              className={(this.state.description === '') ? 'add-event-text error-box' : 'add-event-text'}
+            />
+          </div>
           {desciptionErrorMessage}
         </div>
         <div className="add-event-btns">
