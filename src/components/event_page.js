@@ -91,7 +91,7 @@ class EventPage extends Component {
   getAllRSVPs() {
     const names = this.props.currentEvent.attendees.map((attendee) => {
       return (
-        <li>
+        <li className="list-group-item">
           {attendee.name}
         </li>
       );
@@ -185,7 +185,7 @@ class EventPage extends Component {
             <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</button>
           </div>
         </div>
-        <div>
+        <div className="list-group">
           {this.getAllRSVPs()}
         </div>
         <div className="evpg-image">
