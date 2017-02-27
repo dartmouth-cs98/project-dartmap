@@ -1,7 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import CommentList from './comment_list';
 import CommentForm from './comment_form';
-import { postComment, getComments, updateComment, deleteComment } from '../../helpers/dartmap-api';
+import { fetchEvent, createComment, updateComment, deleteComment } from '../../actions';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const COMMENT_URL = 'comments/';
@@ -9,9 +10,6 @@ const COMMENT_URL = 'comments/';
 class CommentBox extends React.Component {
   constructor() {
     super();
-    this.state = {
-      data: [],
-    };
     this.url = API_URL.concat(COMMENT_URL);
     this.key = 0;
     this.updateKey = this.updateKey.bind(this);
@@ -20,7 +18,6 @@ class CommentBox extends React.Component {
     this.handleCommentEdit = this.handleCommentEdit.bind(this);
     this.handleCommentDelete = this.handleCommentDelete.bind(this);
     this.constructComment = this.constructComment.bind(this);
-    this.deleteCommentFromArray = this.deleteCommentFromArray.bind(this);
   }
 
   componentDidMount() {
@@ -34,37 +31,21 @@ class CommentBox extends React.Component {
   }
 
   handleCommentSubmit(comment) {
-    const comments = this.state.data;
-    const newComments = comments.concat([comment]);
-    postComment(this.url, comment).then((response) => {
-      this.setState({ data: newComments });
-    });
+    this.props.createComment(this.url, comment);
   }
 
   handleCommentEdit(id, comment) {
     const updateURL = this.url.concat(id);
-    const newComment = this.constructComment(comment.content);
-    const comments = this.deleteCommentFromArray(id);
-    const newComments = comments.concat([newComment]);
-    updateComment(updateURL, comment).then((response) => {
-      console.log(response);
-      this.setState({ data: newComments });
-    });
+    this.props.updateComment(updateURL, comment);
   }
 
   handleCommentDelete(id) {
     const deleteURL = this.url.concat(id);
-    const comments = this.deleteCommentFromArray(id);
-    deleteComment(deleteURL).then((response) => {
-      console.log(response);
-      this.setState({ data: comments });
-    });
+    this.props.deleteComment(deleteURL);
   }
 
   loadCommentsFromServer() {
-    getComments(this.url).then((response) => {
-      this.setState({ data: response.comments });
-    });
+    this.props.fetchEvent(this.props.event_id);
   }
 
   constructComment(text) {
@@ -73,18 +54,6 @@ class CommentBox extends React.Component {
     toSend.event_id = this.props.event_id;
     toSend.content = text;
     return toSend;
-  }
-
-  deleteCommentFromArray(id) {
-    let i;
-    for (i = 0; i < this.state.data.length; i += 1) {
-      if (this.state.data[i].id === id) {
-        break;
-      }
-    }
-    const comments = this.state.data;
-    comments.splice(i, 1);
-    return comments;
   }
 
   render() {
@@ -96,7 +65,7 @@ class CommentBox extends React.Component {
             <h1> Live Feed </h1>
             <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
             <div className="post-footer">
-              <CommentList data={this.state.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
+              <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
             </div>
           </div>
         </div>
@@ -105,4 +74,13 @@ class CommentBox extends React.Component {
   }
 }
 
-export default CommentBox;
+const mapStateToProps = state => (
+  {
+    currentEvent: state.events.currentEvent,
+    data: state.events.currentEvent.comments,
+  }
+);
+
+const mapDispatchToProps = { fetchEvent, createComment, updateComment, deleteComment };
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentBox);

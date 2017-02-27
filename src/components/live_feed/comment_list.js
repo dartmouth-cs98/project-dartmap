@@ -24,7 +24,7 @@ class CommentList extends React.Component {
       return (
         <li className="row list-group-item" key={comment.id}>
           <Comment author={comment.author} text={comment.content}
-            id={comment.id} time={comment.timestamp}
+            id={comment.id} time={comment.timestamp} image={comment.user_image}
             onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete}
           />
         </li>
