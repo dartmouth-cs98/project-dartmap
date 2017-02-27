@@ -30,6 +30,9 @@ export const ActionTypes = {
   SET_BALLOON_ID: 'SET_BALLOON_ID',
   CLEAR_BALLOONS: 'CLEAR_BALLOONS',
   SET_MAP_CENTER: 'SET_MAP_CENTER',
+  CREATE_COMMENT: 'CREATE_COMMENT',
+  UPDATE_COMMENT: 'UPDATE_COMMENT',
+  DELETE_COMMENT: 'DELETE_COMMENT',
 };
 
 export function getLoginStatusFromFb() {
@@ -151,5 +154,26 @@ export function setMapCenter(center) {
   return {
     type: ActionTypes.SET_MAP_CENTER,
     payload: { center },
+  };
+}
+
+export function createComment(url, comment) {
+  return (dispatch) => {
+    dartmapApi.postComment(dispatch, ActionTypes.CREATE_COMMENT,
+      ActionTypes.CREATE_COMMENT, url, comment);
+  };
+}
+
+export function updateComment(id, comment) {
+  return (dispatch) => {
+    dartmapApi.putComment(dispatch, ActionTypes.UPDATE_COMMENT,
+      ActionTypes.UPDATE_COMMENT, id, comment);
+  };
+}
+
+export function deleteComment(id) {
+  return (dispatch) => {
+    dartmapApi.deleteComment(dispatch, ActionTypes.DELETE_COMMENT,
+      ActionTypes.DELETE_COMMENT, id);
   };
 }

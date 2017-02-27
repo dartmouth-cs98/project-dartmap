@@ -25,7 +25,7 @@ class EventPage extends Component {
     this.marker = null;
     this.infoWindow = null;
     this.handleRSVP = this.handleRSVP.bind(this);
-    this.toggleRSVP = this.toggleRSVP.bind(this);
+    this.getInitialRSVP = this.getInitialRSVP.bind(this);
     if (!window.google) { // Load google maps api onto the page
       loadGoogleApi();
     }
@@ -59,7 +59,6 @@ class EventPage extends Component {
   componentWillUpdate() {
     const id = parseInt(this.props.params.id, 10);
     if ((!this.state.event) || (this.state.event.id !== id)) {
-      // this.toggleRSVP();
       if (this.props.currentEvent && this.props.currentEvent.id === id) {
         this.setState({ event: this.props.currentEvent });
       }
@@ -67,13 +66,39 @@ class EventPage extends Component {
   }
 
   componentDidUpdate() {
-    // this.toggleRSVP();
-    console.log(this.state.event);
-
-
     if (window.google && this.state.event && !this.map) {
-      this.toggleRSVP();
+      this.getInitialRSVP();
       this.loadMap();
+    }
+  }
+
+  getInitialRSVP() {
+    if (this.state.event !== undefined && this.state.event !== null && this.state.event.attendees.length !== 0 && this.state.isRSVPed === false) {
+      let i;
+      for (i = 0; i < this.state.event.attendees.length; i += 1) {
+        if (this.state.event.attendees[i].id === 1) {
+          this.setState({
+            isRSVPed: true,
+          });
+          break;
+        }
+      }
+    }
+  }
+
+  handleRSVP() {
+    const data = {};
+    data.user_id = 1;
+    data.event_id = parseInt(this.state.event_id, 10);
+
+    if (this.state.isRSVPed === true) { // De-RSVP
+      deleteRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    } else { // RSVP
+      postRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
     }
   }
 
@@ -109,36 +134,6 @@ class EventPage extends Component {
     }
   }
 
-  toggleRSVP() {
-    if (this.state.event !== undefined && this.state.event !== null && this.state.event.attendees.length !== 0 && this.state.isRSVPed === false) {
-      let i;
-      for (i = 0; i < this.state.event.attendees.length; i += 1) {
-        if (this.state.event.attendees[i].id === 1) {
-          this.setState({
-            isRSVPed: true,
-          });
-          break;
-        }
-      }
-    }
-  }
-
-  handleRSVP() {
-    const data = {};
-    data.user_id = 1;
-    data.event_id = parseInt(this.state.event_id, 10);
-
-    if (this.state.isRSVPed === true) { // De-RSVP
-      deleteRSVP(data).then((response) => {
-        this.setState({ isRSVPed: !this.state.isRSVPed });
-      });
-    } else { // RSVP
-      postRSVP(data).then((response) => {
-        this.setState({ isRSVPed: !this.state.isRSVPed });
-      });
-    }
-  }
-
   render() {
     const images = [];
     let i;
@@ -153,7 +148,6 @@ class EventPage extends Component {
         originalClass: 'gallery-image',
       });
     }
-    console.log(images);
     const dateString = this.state.event.date.format('dddd MMMM Do YYYY');
     const startString = this.state.event.start_time.format('h:mma');
     const endString = this.state.event.end_time.format('h:mma');
@@ -202,7 +196,7 @@ class EventPage extends Component {
             </div>
           </div>
         </div>
-        <CommentBox pollInterval={2000} event_id={this.state.event_id} />
+        <CommentBox pollInterval={1000} event_id={this.state.event_id} />
       </div>
     );
   }
