@@ -59,16 +59,14 @@ class CommentBox extends React.Component {
   render() {
     return (
       <div>
-        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
-        <div className="container">
-          <div className="col-md-12 panel panel-white post panel-shadow">
-            <h1> Live Feed </h1>
+        <table>
+          <thead>
             <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
-            <div className="post-footer">
-              <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
-            </div>
-          </div>
-        </div>
+          </thead>
+          <tbody>
+            <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
+          </tbody>
+        </table>
       </div>
     );
   }

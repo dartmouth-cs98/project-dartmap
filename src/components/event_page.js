@@ -91,9 +91,9 @@ class EventPage extends Component {
   getAllRSVPs() {
     const names = this.props.currentEvent.attendees.map((attendee) => {
       return (
-        <li className="list-group-item">
+        <td>
           {attendee.name}
-        </li>
+        </td>
       );
     });
     return names;
@@ -168,51 +168,96 @@ class EventPage extends Component {
       return cat.name;
     }).join(', ');
     return (
-      <div className="evpg-container">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="evpg-date">
-              {dateString}
+      <div className="navbar-fixed">
+        <nav>
+          <div className="nav-wrapper">
+            <a href="#" className="brand-logo right">Event</a>
+            <ul className="left hide-on-med-and-down">
+              <li className="active"><a href="#About">About</a></li>
+              <li><a href="#Going">Who is Going</a></li>
+              <li><a href="#Images">Images</a></li>
+              <li><a href="#Location">Location</a></li>
+              <li><a href="#LiveFeed">Live</a></li>
+            </ul>
+          </div>
+        </nav>
+        <div className="container">
+          <div id="About" className="section">
+            <div className="row">
+              <h5 className="col m6">About</h5>
             </div>
-            <div className="evpg-title">
-              {this.state.event.name} @ {this.state.event.location_string}
-            </div>
-            <div className="evpg-subtitle evpg-time">
-              {startString} - {endString}
+            <div className="center-align">
+              <div className="evpg-date">
+                {dateString}
+              </div>
+              <div className="evpg-title">
+                {this.state.event.name} @ {this.state.event.location_string}
+              </div>
+              <div className="evpg-subtitle evpg-time">
+                {startString} - {endString}
+              </div>
             </div>
           </div>
-          <div className="col-md-3 pull-right">
-            <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</button>
+          <div className="divider" />
+          <div id="Going" className="section">
+            <div className="row">
+              <h5 className="col m6">Who's Going?</h5>
+              <div className="right-align">
+                <a className="waves-effect waves-light btn" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</a>
+              </div>
+            </div>
+            <table className="highlight">
+              <tbody>
+                <tr>
+                  {this.getAllRSVPs()}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="divider" />
+          <div id="Images" className="section">
+            <div className="row">
+              <h5 className="col m6">Images</h5>
+            </div>
+            <div className="center-align">
+              <ImageGallery
+                items={images}
+                autoPlay
+                slideInterval={2000}
+              />
+            </div>
+          </div>
+          <div className="divider" />
+          <div id="Location" className="section">
+            <div className="row">
+              <h5 className="col m6">Location Details</h5>
+            </div>
+            <div className="row">
+              <div id="evpg-map" />
+              <div className="right-align">
+                <div className="evpg-description">
+                  <em>Description: </em>
+                  {this.state.event.description}
+                </div>
+                <div className="evpg-organizer">
+                  <em>Organized by: </em>
+                  {this.state.event.organizer}
+                </div>
+                <div className="evpg-categories">
+                  <em>Categories: </em>
+                  {categoryString}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="divider" />
+          <div id="LiveFeed" className="section">
+            <div className="row">
+              <h5 className="col m6">Live</h5>
+            </div>
+            <CommentBox pollInterval={1000} event_id={this.state.event_id} />
           </div>
         </div>
-        <div className="list-group">
-          {this.getAllRSVPs()}
-        </div>
-        <div className="evpg-image">
-          <ImageGallery
-            items={images}
-            autoPlay
-            slideInterval={2000}
-          />
-        </div>
-        <div className="evpg-secondary">
-          <div id="evpg-map" />
-          <div className="evpg-text">
-            <div className="evpg-description">
-              <em>Description: </em>
-              {this.state.event.description}
-            </div>
-            <div className="evpg-organizer">
-              <em>Organized by: </em>
-              {this.state.event.organizer}
-            </div>
-            <div className="evpg-categories">
-              <em>Categories: </em>
-              {categoryString}
-            </div>
-          </div>
-        </div>
-        <CommentBox pollInterval={1000} event_id={this.state.event_id} />
       </div>
     );
   }

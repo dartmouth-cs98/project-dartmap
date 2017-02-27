@@ -34,11 +34,11 @@ class CommentForm extends React.Component {
     return (
       <form className="post-heading row" onSubmit={this.handleSubmit}>
         <div className="col-md-1">
-          <img className="avatar" src="https://s3.amazonaws.com/dartmap/edrei.jpg" alt="avatar" />
+          <img className="circle responsive-img" src="https://s3.amazonaws.com/dartmap/edrei.jpg" alt="avatar" />
         </div>
         <div className="col-md-11 input-group">
           <input className="form-control" placeholder="Add a comment" type="text" value={this.state.text} onChange={this.handleTextChange} />
-          <input className="input-group-addon" type="submit" value="Submit" onClick={this.handleSubmit} />
+          <a className="waves-effect waves-teal btn-flat" onClick={this.handleSubmit}>Post</a>
         </div>
       </form>
     );
