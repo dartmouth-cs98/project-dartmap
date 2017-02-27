@@ -1,38 +1,83 @@
 // event_page.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
-import { getEvent } from '../helpers/dartmap-api';
-import { createMap, createMarker, createInfoWindow } from '../helpers/google-maps';
+import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
+import CommentBox from './live_feed/comment_dialog';
+
+// import redux actions
+import { fetchEvent } from '../actions';
+
+// import helper functions
+import {
+  createMap, createMarker, createInfoWindow, loadGoogleApi,
+} from '../helpers/google-maps';
 
 class EventPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       event: null,
+      event_id: this.props.params.id,
+      isRSVPed: false,
     };
     this.map = null;
     this.marker = null;
     this.infoWindow = null;
+    this.handleRSVP = this.handleRSVP.bind(this);
+    this.toggleRSVP = this.toggleRSVP.bind(this);
+    if (!window.google) { // Load google maps api onto the page
+      loadGoogleApi();
+    }
+    this.loadMap = this.loadMap.bind(this);
   }
 
   componentWillMount() {
-    getEvent((event) => {
-      this.setState({ event });
-    }, this.props.params.id);
+    const id = parseInt(this.props.params.id, 10);
+    if (this.props.events && this.props.events.length > 0) {
+      for (let i = 0; i < this.props.events.length; i += 1) {
+        const event = this.props.events[i];
+        if (event.id === id) {
+          this.setState({ event });
+          break;
+        }
+      }
+      if (this.props.currentEvent && this.props.currentEvent.id === id) {
+        this.setState({ event: this.props.currentEvent });
+      }
+    } else {
+      this.props.fetchEvent(this.props.params.id);
+    }
+  }
 
-    // Load google map onto the page asynchronously
-    (function (d, s, id) {
-      const scriptTag = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      const js = d.createElement(s);
-      js.id = id;
-      js.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI&libraries=places';
-      scriptTag.parentNode.insertBefore(js, scriptTag);
-    }(document, 'script', 'google-maps'));
+  componentDidMount() {
+    if (window.google && this.state.event && !this.map) {
+      this.loadMap();
+    }
+  }
+
+  componentWillUpdate() {
+    const id = parseInt(this.props.params.id, 10);
+    if ((!this.state.event) || (this.state.event.id !== id)) {
+      // this.toggleRSVP();
+      if (this.props.currentEvent && this.props.currentEvent.id === id) {
+        this.setState({ event: this.props.currentEvent });
+      }
+    }
   }
 
   componentDidUpdate() {
+    // this.toggleRSVP();
     console.log(this.state.event);
+
+
+    if (window.google && this.state.event && !this.map) {
+      this.toggleRSVP();
+      this.loadMap();
+    }
+  }
+
+  loadMap() {
     if (this.state.event && !this.map) {
       const mapHTML = document.getElementById('evpg-map');
       const location = {
@@ -64,6 +109,36 @@ class EventPage extends Component {
     }
   }
 
+  toggleRSVP() {
+    if (this.state.event !== undefined && this.state.event !== null && this.state.event.attendees.length !== 0 && this.state.isRSVPed === false) {
+      let i;
+      for (i = 0; i < this.state.event.attendees.length; i += 1) {
+        if (this.state.event.attendees[i].id === 1) {
+          this.setState({
+            isRSVPed: true,
+          });
+          break;
+        }
+      }
+    }
+  }
+
+  handleRSVP() {
+    const data = {};
+    data.user_id = 1;
+    data.event_id = parseInt(this.state.event_id, 10);
+
+    if (this.state.isRSVPed === true) { // De-RSVP
+      deleteRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    } else { // RSVP
+      postRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    }
+  }
+
   render() {
     const images = [];
     let i;
@@ -87,20 +162,26 @@ class EventPage extends Component {
     }).join(', ');
     return (
       <div className="evpg-container">
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI&libraries=places" />
-        <div className="evpg-date">
-          {dateString}
-        </div>
-        <div className="evpg-title">
-          {this.state.event.name} @ {this.state.event.location_string}
-        </div>
-        <div className="evpg-subtitle evpg-time">
-          {startString} - {endString}
+        <div className="row">
+          <div className="col-md-12">
+            <div className="evpg-date">
+              {dateString}
+            </div>
+            <div className="evpg-title">
+              {this.state.event.name} @ {this.state.event.location_string}
+            </div>
+            <div className="evpg-subtitle evpg-time">
+              {startString} - {endString}
+            </div>
+          </div>
+          <div className="col-md-3 pull-right">
+            <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</button>
+          </div>
         </div>
         <div className="evpg-image">
           <ImageGallery
             items={images}
-            autoPlay="autoPlay"
+            autoPlay
             slideInterval={2000}
           />
         </div>
@@ -121,9 +202,21 @@ class EventPage extends Component {
             </div>
           </div>
         </div>
+        <CommentBox pollInterval={2000} event_id={this.state.event_id} />
       </div>
     );
   }
 }
 
-export default EventPage;
+const mapStateToProps = state => (
+  {
+    events: state.events.all,
+    userLocation: {
+      lat: state.user.latitude,
+      lng: state.user.longitude,
+    },
+    currentEvent: state.events.currentEvent,
+  }
+);
+
+export default connect(mapStateToProps, { fetchEvent })(EventPage);

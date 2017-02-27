@@ -1,9 +1,11 @@
+// category_filter.js
 /*
   Filters by category
 */
 
-// category_filter.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import Select from 'react-select';
 
 const CATEGORIES = [
@@ -15,17 +17,20 @@ const CATEGORIES = [
   { label: 'Greek Life', value: 'Greek Life'},
   { label: 'Free Food', value: 'Free Food'},
 ]
+
+
 class CategoryFilter extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = { 
       value: CATEGORIES,
-    };
+    }
     this.handleChange = this.handleChange.bind(this);
     this.onCategoryChange = props.onCategoryChange;
+    this.initialSetDefault = true;
   }
+
 
   handleChange(value) {
     this.setState({ value });
@@ -49,7 +54,6 @@ class CategoryFilter extends Component {
         obj.push(single_obj);
       }
     }
-    console.log(obj);
     this.onCategoryChange(obj);
   }
 
@@ -70,4 +74,10 @@ class CategoryFilter extends Component {
   }
 }
 
-export default CategoryFilter;
+const mapStateToProps = state => (
+  {
+    catList: state.events.catList,
+  }
+);
+
+export default connect(mapStateToProps, null)(CategoryFilter);

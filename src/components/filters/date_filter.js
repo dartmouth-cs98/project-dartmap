@@ -4,6 +4,8 @@
 */
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 
 // dates that are checked by default
@@ -21,14 +23,28 @@ class DateFilter extends Component {
     }
 
     // receives the dates data object passed down from index.js
-    const datesData = props.dateBarData;
+    this.datesData = null;
 
     // dictionary of date strings to be displayed onscreen
-    this.datesDataDisplay = convertDatesToDisplay(datesData);
+    this.datesDataDisplay = null;
 
     this.state = { checked: defaultDates };
     this.handleChange = this.handleChange.bind(this);
     this.onDateChange = props.onDateChange;
+  }
+
+  componentWillMount() {
+    this.datesData = this.props.dateBarData;
+    if (this.datesData) {
+      this.datesDataDisplay = convertDatesToDisplay(this.datesData);
+    }
+  }
+
+  componentWillUpdate() {
+    if (this.props.dateBarData && !this.datesDataDisplay) {
+      this.datesData = this.props.dateBarData;
+      this.datesDataDisplay = convertDatesToDisplay(this.datesData);
+    }
   }
 
   handleChange(event) {
@@ -78,7 +94,7 @@ class DateFilter extends Component {
 
 
   render() {
-    if (this.props.datesDataDisplay === null) {
+    if (this.datesDataDisplay === null) {
       return <div className="hidden" />;
     }
     return (
@@ -121,4 +137,10 @@ class DateFilter extends Component {
   }
 }
 
-export default DateFilter;
+const mapStateToProps = state => (
+  {
+    dateBarData: state.events.dateBarData,
+  }
+);
+
+export default connect(mapStateToProps, null)(DateFilter);
