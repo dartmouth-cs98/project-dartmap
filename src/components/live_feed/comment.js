@@ -57,7 +57,7 @@ class Comment extends React.Component {
     return (
       <div className="col-md-12 row">
         <div className="col-md-1 comment-avatar rounded">
-          <img src="https://s3.amazonaws.com/dartmap/edrei.jpg" alt="" />
+          <img src={this.props.image} alt="" />
         </div>
         <div className="col-md-11 comment-box rounded">
           <div className="comment-head">
