@@ -1,13 +1,11 @@
 // user_page.js
 
 import React, { Component } from 'react';
-import { getAllEvents } from '../helpers/dartmap-api';
 import { connect } from 'react-redux';
 
+import { getAllEvents } from '../helpers/dartmap-api';
 import UploadPhotoDialog from './upload_photo_dialog';
-
 import UserEventList from './user_profile_event_list';
-
 import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
 
 class UserPage extends Component {
@@ -56,7 +54,7 @@ class UserPage extends Component {
   render() {
     if (this.state.eventList == null) {
       getAllEvents((unsortedEventList) => {
-        const eventList = this.sortEventList(unsortedEventList);
+        const eventList = this.sortEventList(unsortedEventList.payload.events);
         this.setState({ eventList });
       });
       return null;

@@ -338,6 +338,16 @@ hr {
   }
 }
 
+.user-event-item {
+  background-color: white;
+  border-bottom: thin solid black;
+  height: 100%;
+  padding-left: 8px;
+  padding-top: 8px;
+  width: 100%;
+  font-size: 15px;
+}
+
 .popup {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   font-size: 1rem;
