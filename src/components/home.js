@@ -175,6 +175,7 @@ class Home extends Component {
       // fill with all the categories that exist, so the default is for all categories to be selected
       let i;
       for (i = 0; i < this.state.categoriesList.length; i += 1) {
+        console.log(this.state.categoriesList[i]);
         filters.selectedCategories.push(this.state.categoriesList[i]);
       }
     }
