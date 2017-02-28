@@ -31,7 +31,7 @@ class CommentBox extends React.Component {
   }
 
   handleCommentSubmit(comment) {
-    this.props.createComment(this.url, comment);
+    this.props.createComment(this.url, comment, this.props.jwt);
   }
 
   handleCommentEdit(id, comment) {
@@ -78,6 +78,7 @@ const mapStateToProps = state => (
   {
     currentEvent: state.events.currentEvent,
     data: state.events.currentEvent.comments,
+    jwt: state.user.jwt,
   }
 );
 

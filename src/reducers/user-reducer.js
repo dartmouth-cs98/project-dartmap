@@ -26,17 +26,18 @@ const UserReducer = (state = {}, action) => {
       return newState;
     case ActionTypes.GET_FB_LOGIN_STATUS:
       newState = Object.assign({}, state, action.payload);
-      newState.loggedIn = (newState.fbResponse.status === 'connected');
+      if (newState.fbResponse) newState.loggedIn = (newState.fbResponse.status === 'connected');
       return newState;
     case ActionTypes.LOGIN:
       newState = Object.assign({}, state, action.payload);
-      newState.loggedIn = (newState.fbResponse.status === 'connected');
+      if (newState.fbResponse) newState.loggedIn = (newState.fbResponse.status === 'connected');
       return newState;
     case ActionTypes.LOGOUT:
       newState = {};
       newState.latitude = state.latitude;
       newState.longitude = state.longitude;
       newState.loggedIn = false;
+      newState.jwt = null;
       return newState;
     default:
       return state;

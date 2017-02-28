@@ -157,10 +157,10 @@ export function setMapCenter(center) {
   };
 }
 
-export function createComment(url, comment) {
+export function createComment(url, comment, jwt) {
   return (dispatch) => {
     dartmapApi.postComment(dispatch, ActionTypes.CREATE_COMMENT,
-      ActionTypes.CREATE_COMMENT, url, comment);
+      ActionTypes.CREATE_COMMENT, url, comment, jwt);
   };
 }
 
