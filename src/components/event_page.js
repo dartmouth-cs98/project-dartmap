@@ -26,6 +26,8 @@ class EventPage extends Component {
     this.infoWindow = null;
     this.handleRSVP = this.handleRSVP.bind(this);
     this.getInitialRSVP = this.getInitialRSVP.bind(this);
+    this.getAllRSVPs = this.getAllRSVPs.bind(this);
+
     if (!window.google) { // Load google maps api onto the page
       loadGoogleApi();
     }
@@ -84,6 +86,17 @@ class EventPage extends Component {
         }
       }
     }
+  }
+
+  getAllRSVPs() {
+    const names = this.props.currentEvent.attendees.map((attendee) => {
+      return (
+        <li className="list-group-item">
+          {attendee.name}
+        </li>
+      );
+    });
+    return names;
   }
 
   handleRSVP() {
@@ -171,6 +184,9 @@ class EventPage extends Component {
           <div className="col-md-3 pull-right">
             <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</button>
           </div>
+        </div>
+        <div className="list-group">
+          {this.getAllRSVPs()}
         </div>
         <div className="evpg-image">
           <ImageGallery
