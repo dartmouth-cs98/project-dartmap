@@ -51,8 +51,10 @@ export function formatAPIEventData(event) {
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
   newEvent.placeId = event.location.place_id;
-  // categories data
+
   newEvent.categories = formatParseProperJSON(event.categories);
+  newEvent.attendees = formatParseProperJSON(event.attendees);
+  newEvent.comments = formatParseProperJSON(event.comments);
 
   return newEvent;
 }
@@ -153,6 +155,25 @@ export function updateEvent(eventId, putData) {
       return data;
     },
     error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function getEventSansRedux(eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      const event = formatAPIEventData(data.events[0]);
+      console.log('SUCCESS! GET /events/'.concat(eventId));
+      return event;
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
       console.error(fullUrl, status, err);
     },
   });
@@ -304,7 +325,7 @@ export function postToS3(s3URL, postData) {
   return response;
 }
 
-export function postComment(commentURL, postData) {
+export function postComment(dispatch, successAction, errorAction, commentURL, postData) {
   const response = $.ajax({
     url: commentURL,
     jsonp: false,
@@ -312,16 +333,17 @@ export function postComment(commentURL, postData) {
     data: postData,
     success: (data) => {
       console.log(data);
-      return data;
+      dispatch({ type: successAction, payload: {} });
     },
     error: (xhr, status, err) => {
       console.error(commentURL, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
   return response;
 }
 
-export function getComments(commentURL) {
+export function getComments(dispatch, successAction, errorAction, commentURL) {
   const response = $.ajax({
     url: commentURL,
     jsonp: false,
@@ -336,7 +358,7 @@ export function getComments(commentURL) {
   return response;
 }
 
-export function updateComment(commentURL, putData) {
+export function putComment(dispatch, successAction, errorAction, commentURL, putData) {
   const response = $.ajax({
     url: commentURL,
     type: 'PUT',
@@ -346,16 +368,17 @@ export function updateComment(commentURL, putData) {
       'Access-Control-Allow-Methods': 'PUT',
     },
     success: (data) => {
-      return data;
+      dispatch({ type: successAction, payload: {} });
     },
     error: (xhr, status, err) => {
       console.error(commentURL, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
   return response;
 }
 
-export function deleteComment(commentURL) {
+export function deleteComment(dispatch, successAction, errorAction, commentURL) {
   const response = $.ajax({
     url: commentURL,
     type: 'DELETE',
@@ -364,10 +387,11 @@ export function deleteComment(commentURL) {
       'Access-Control-Allow-Methods': 'DELETE',
     },
     success: (data) => {
-      return data;
+      dispatch({ type: successAction, payload: {} });
     },
     error: (xhr, status, err) => {
       console.error(commentURL, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
   return response;
@@ -380,6 +404,28 @@ export function postRSVP(postData) {
     jsonp: false,
     type: 'POST',
     data: postData,
+    success: (data) => {
+      console.log(data);
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function deleteRSVP(deleteData) {
+  const fullUrl = API_URL.concat(RSVP_URL);
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'DELETE',
+    data: deleteData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
     success: (data) => {
       console.log(data);
       return data;

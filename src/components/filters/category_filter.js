@@ -6,113 +6,69 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Select from 'react-select';
+
+const CATEGORIES = [
+  { label: 'Academic', value: 'Academic'},
+  { label: 'Art', value: 'Art'},
+  { label: 'Sports', value: 'Sports'},
+  { label: 'Performance', value: 'Performance'},
+  { label: 'Lecture', value: 'Lecture'},
+  { label: 'Greek Life', value: 'Greek Life'},
+  { label: 'Free Food', value: 'Free Food'},
+]
+
+
 class CategoryFilter extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { checked: [] };
+    this.state = { 
+      value: CATEGORIES,
+    }
     this.handleChange = this.handleChange.bind(this);
     this.onCategoryChange = props.onCategoryChange;
     this.initialSetDefault = true;
   }
-  componentWillUpdate() {
-    if (this.props.catList && this.initialSetDefault) {
-      // set the default "checked" to be true for every category
-      const checked = [];
-      let i;
-      for (i = 0; i <= this.props.catList.length; i += 1) {
-        checked.push(i.toString());
+
+
+  handleChange(value) {
+    this.setState({ value });
+    var cats = value.split(",");
+    console.log(cats.length);
+    console.log('categories ',CATEGORIES);
+    var obj = [];
+    for (var i = 0; i < cats.length; ++i) {
+      if (cats[i] != undefined) {
+        var single_obj = {};
+        var id;
+        if (cats[i] === "Academic") id = 1;
+        if (cats[i] === "Art") id = 2;
+        if (cats[i] === "Sports") id = 3;
+        if (cats[i] === "Performance") id = 4;
+        if (cats[i] === "Lecture") id = 5;
+        if (cats[i] === "Greek Life") id = 6;
+        if (cats[i] === "Free Food") id = 7;
+        single_obj['id'] = id;
+        single_obj['name'] = cats[i]; 
+        obj.push(single_obj);
       }
-      this.setState({ checked });
-      this.initialSetDefault = false;
     }
+    this.onCategoryChange(obj);
   }
-
-  handleChange(event) {
-    const val = event.target.value;
-    let checked = this.state.checked.slice(); // copy
-
-    // the array of checked categories to send, e.g. [obj, obj, obj]
-    const categoryArray = [];
-
-    if (checked.includes(val)) {
-      checked.splice(checked.indexOf(val), 1);
-      // if a different box is being unchecked and box 0 is checked
-      if ((checked.includes('0'))) {
-        document.getElementById('c0').checked = false;
-        checked.splice(checked.indexOf('0'), 1);
-      }
-    } else {
-      checked.push(val);
-      // if the all categories button is selected
-      if (val === '0') {
-        checked = ['0'];
-        // check every box
-        this.props.catList.map((cat) => {
-          const cID = `c${cat.id}`; // c1, c2, etc...
-          checked.push((cat.id).toString());
-          document.getElementById(cID).checked = true;
-          return 0;
-        });
-      }
-    }
-
-    this.setState({ checked });
-
-    // convert checked strings to ints and add each category to categoryArray
-    let c, n;
-    for (c in checked) {
-      if (checked[c]) {
-        n = parseInt(checked[c], 10);
-        if (n > 0) {
-          categoryArray.push(this.props.catList[n - 1]);
-        }
-      }
-    }
-    // categoryArray.sort();
-
-    this.onCategoryChange(categoryArray);
-  }
-
 
   render() {
-    if (!this.props.catList || this.props.catList.length === 0) {
-      return <div className="hidden" />;
-    }
-    const boxes = this.props.catList.map((cat) => {
-      const cID = `c${cat.id}`; // c1, c2, etc...
-      return (
-        <div key={cID} className="segmented-control">
-          <input
-            type="checkbox"
-            id={cID}
-            name={cID}
-            value={(cat.id).toString()}
-            onChange={this.handleChange}
-            defaultChecked
-          />
-          <label htmlFor={cID} data-value={cat.name}>{cat.name}</label>
-        </div>
-      );
-    });
-
+    const dropdownValues = CATEGORIES;
     return (
-      <div className="category-filter section-inner">
-        <div className="segmented-control">
-          <input
-            type="checkbox"
-            id="c0"
-            name="c0"
-            value="0"
+      <div className="add-event-form" style={{ height: '70px' }}>
+         <div className="add-event-fields">
+          <Select multi simpleValue
+            options={dropdownValues}
+            value={this.state.value}
             onChange={this.handleChange}
-            defaultChecked
+            placeholder="Enter Categories to find Events"
           />
-          <label htmlFor="c0" data-value={'All categories'}>
-            All categories
-          </label>
         </div>
-        {boxes}
-        <br />
       </div>
     );
   }

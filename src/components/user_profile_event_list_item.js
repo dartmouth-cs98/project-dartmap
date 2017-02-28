@@ -38,6 +38,13 @@ class UserEventListItem extends Component {
       console.log('this.state.eventName');
       console.log(this.state.eventName);
       toSend.name = this.state.eventName;
+      toSend.organizer = this.state.eventOrganizer;
+      toSend.description = this.state.eventDescription;
+      toSend.start_time = this.state.eventStartTime;
+      toSend.end_time = this.state.eventEndTime;
+      toSend.location_name = this.state.eventLocation;
+      console.log('toSend:');
+      console.log(toSend);
       updateEvent(this.props.event.id, toSend);
       alert('Event updated!');
       console.log('TIMES');
