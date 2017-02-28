@@ -63,25 +63,27 @@ class Comment extends React.Component {
           <div className="comment-head">
             <h6 className="comment-name by-author">{this.props.author}</h6>
             <span>posted {this.getTime()}</span>
-            <div className="commentActions">
-              <div className={this.state.isEditing ? 'hidden' : ''}>
-                <button className="pull-right" onClick={this.handleDelete}>Delete</button>
-                <button className="pull-right" onClick={this.toggleEditing}>Edit</button>
+            <div className={this.props.enable_edit ? '' : 'hidden'}>
+              <div className="commentActions">
+                <div className={this.state.isEditing ? 'hidden' : ''}>
+                  <button className="pull-right" onClick={this.handleDelete}>Delete</button>
+                  <button className="pull-right" onClick={this.toggleEditing}>Edit</button>
+                </div>
+                <div className={this.state.isEditing ? '' : 'hidden'}>
+                  <a href="#" onClick={this.toggleEditing}>Done editing</a>
+                </div>
               </div>
+            </div>
+            <div className="comment-content">
               <div className={this.state.isEditing ? '' : 'hidden'}>
-                <a href="#" onClick={this.toggleEditing}>Done editing</a>
+                <form className="" onSubmit={this.handleEdit}>
+                  <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
+                  <input type="submit" value="Confirm Changes" />
+                </form>
               </div>
-            </div>
-          </div>
-          <div className="comment-content">
-            <div className={this.state.isEditing ? '' : 'hidden'}>
-              <form className="" onSubmit={this.handleEdit}>
-                <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
-                <input type="submit" value="Confirm Changes" />
-              </form>
-            </div>
-            <div className={this.state.isEditing ? 'hidden' : ''}>
-              {this.props.text}
+              <div className={this.state.isEditing ? 'hidden' : ''}>
+                {this.props.text}
+              </div>
             </div>
           </div>
         </div>
