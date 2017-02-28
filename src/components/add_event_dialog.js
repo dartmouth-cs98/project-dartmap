@@ -8,7 +8,7 @@ import AddEventPage2 from './add_events/add_event_page_2';
 import AddEventPage3 from './add_events/add_event_page_3';
 import AddEventPage4 from './add_events/add_event_page_4';
 import AddEventPage5 from './add_events/add_event_page_5';
-import AddEventSubmitPage from './add_events/add_event_submit_page';
+// import AddEventSubmitPage from './add_events/add_event_submit_page';
 
 import PageSlider from './add_events/add_event_page_slider';
 
@@ -115,4 +115,10 @@ class AddEventDialog extends Component {
   }
 }
 
-export default connect(null, { createEvent })(AddEventDialog);
+const mapStateToProps = state => (
+  {
+    catList: state.events.catList,
+  }
+);
+
+export default connect(mapStateToProps, { createEvent })(AddEventDialog);

@@ -9,13 +9,15 @@ class AddEventPage4 extends Component {
     this.state = {
       categories: null,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBack = this.handleBack.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
-    this.visibleErrorMessages = <div className="error-msg"> One category is required. </div>;
+    this.visibleErrorMessages = (
+      <div className="error-msg"> One category is required. </div>
+    );
+    this.validNext = 'nxt-btn add-event-btn';
+    this.invalidNext = 'invalid-nxt-btn add-event-btn nxt-btn';
   }
 
-  handleBack(event) {
+  handleBack = (event) => {
     const data = {
       categories: this.state.categories,
       currentPage: this.props.currentPage - 1,
@@ -23,7 +25,7 @@ class AddEventPage4 extends Component {
     this.props.handleData(data);
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.categories) {
       const data = {
@@ -34,8 +36,12 @@ class AddEventPage4 extends Component {
     }
   }
   render() {
-    const categoryErrorMessage = (this.state.categories === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
-    const dropdownValues = this.props.catList.map((cat) => {
+    let categoryErrorMessage = this.hiddenErrorMessage;
+    if (this.state.categories === []) {
+      categoryErrorMessage = this.visibleErrorMessages[0];
+    }
+    const categoryList = this.props.catList || [];
+    const dropdownValues = categoryList.map((cat) => {
       return { label: cat.name, value: cat.id };
     });
     return (
@@ -60,7 +66,9 @@ class AddEventPage4 extends Component {
           <input
             type="submit"
             value="Next"
-            className={(!this.state.categories) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
+            className={
+              (!this.state.categories) ? this.invalidNext : this.validNext
+            }
           />
         </div>
       </form>

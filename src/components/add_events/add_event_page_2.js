@@ -48,7 +48,9 @@ class AddEventPage2 extends Component {
     if (!this.state.end_time) {
       return true;
     }
-    return (this.state.start_time) && (this.state.end_time) && this.state.end_time.isAfter(this.state.start_time);
+    const start = DateTime.moment(this.state.start_time);
+    const end = DateTime.moment(this.state.end_time);
+    return (start) && (end) && end.isAfter(start);
   }
   render() {
     const dateErrorMessage = (this.state.date === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
@@ -58,7 +60,7 @@ class AddEventPage2 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <div className='add-event-field-container-2'>
+          <div className="add-event-field-container-2">
             <h2>Date</h2>
             <DateTime
               timeFormat={false}
@@ -74,7 +76,7 @@ class AddEventPage2 extends Component {
             />
           </div>
           {dateErrorMessage}
-          <div className='add-event-field-container-2'>
+          <div className="add-event-field-container-2">
             <h2>Start Time</h2>
             <DateTime
               dateFormat={false}
@@ -84,7 +86,7 @@ class AddEventPage2 extends Component {
             />
           </div>
           {startErrorMessage}
-          <div className='add-event-field-container-2'>
+          <div className="add-event-field-container-2">
             <h2>End Time</h2>
             <DateTime
               dateFormat={false}
