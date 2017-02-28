@@ -10,9 +10,6 @@ class AddEventPage5 extends Component {
       icon: props.data.icon,
       image_url: props.data.image_url,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBack = this.handleBack.bind(this);
-    this.updateImageURL = this.updateImageURL.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = <div className="error-msg"> The event icon is required. </div>;
     this.iconURLs = [
@@ -74,7 +71,7 @@ class AddEventPage5 extends Component {
     ];
   }
 
-  handleBack(event) {
+  handleBack = (event) => {
     event.preventDefault();
     const data = {
       icon: this.state.icon,
@@ -84,7 +81,7 @@ class AddEventPage5 extends Component {
     this.props.handleData(data);
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.icon) {
       const data = {
@@ -96,7 +93,7 @@ class AddEventPage5 extends Component {
     }
   }
 
-  updateImageURL(url) {
+  updateImageURL = (url) => {
     let updatedurl = null;
     const defaulturl = 'https://s27.postimg.org/o2c50l3fn/default.png';
     const imageurl = this.state.image_url.toString();
@@ -113,11 +110,16 @@ class AddEventPage5 extends Component {
   render() {
     const iconBtns = this.iconURLs.map((obj) => {
       return (
-        <AddEventIconBtn key={obj.id} icon={obj} selected={this.state.icon} handleSelect={iconData => this.setState({ icon: iconData })} />
+        <AddEventIconBtn
+          key={obj.id}
+          icon={obj}
+          selected={this.state.icon}
+          handleSelect={iconData => this.setState({ icon: iconData })}
+        />
       );
     });
     return (
-      <form className="add-event-form" onSubmit={this.props.submitEventData}>
+      <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
           <h2>Select event map icon</h2>
           <div className="icon-select">

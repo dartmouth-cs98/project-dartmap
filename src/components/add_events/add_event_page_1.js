@@ -37,7 +37,7 @@ class AddEventPage1 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <div className='add-event-field-container-1'>
+          <div className="add-event-field-container-1">
             <h2>Event name</h2>
             <input
               type="text"
@@ -48,7 +48,7 @@ class AddEventPage1 extends Component {
           </div>
           {nameErrorMessage}
           <br />
-          <div className='add-event-field-container-1'>
+          <div className="add-event-field-container-1">
             <h2>Event organizer</h2>
             <input
               type="text"
@@ -59,7 +59,7 @@ class AddEventPage1 extends Component {
           </div>
           {organizerErrorMessage}
           <br />
-          <div className='add-event-field-container-1'>
+          <div className="add-event-field-container-1">
             <h2>Event room or location</h2>
             <input
               type="text"
@@ -70,7 +70,7 @@ class AddEventPage1 extends Component {
           </div>
           {roomErrorMessage}
           <br />
-          <div className='add-event-field-container-1'>
+          <div className="add-event-field-container-1">
             <h2>Event description</h2>
             <textarea
               value={this.state.description || ''}
