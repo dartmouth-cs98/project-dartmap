@@ -32,15 +32,15 @@ class CommentForm extends React.Component {
 
   render() {
     return (
-      <form className="post-heading row" onSubmit={this.handleSubmit}>
-        <div className="col-md-1">
+      <li className="row collection-header">
+        <div className="col m1">
           <img className="circle responsive-img" src="https://s3.amazonaws.com/dartmap/edrei.jpg" alt="avatar" />
         </div>
-        <div className="col-md-11 input-group">
+        <div className="col m11">
           <input className="form-control" placeholder="Add a comment" type="text" value={this.state.text} onChange={this.handleTextChange} />
           <a className="waves-effect waves-teal btn-flat" onClick={this.handleSubmit}>Post</a>
         </div>
-      </form>
+      </li>
     );
   }
 }

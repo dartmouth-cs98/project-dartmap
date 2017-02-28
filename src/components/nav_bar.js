@@ -89,25 +89,23 @@ class NavBar extends Component {
     const menuClass = (this.state.showMenu) ? 'user-menu' : 'hidden';
 
     return (
-      <div>
-        <nav>
-          <div className="nav-wrapper">
-            <div className="mappit">
-              <img className="circle responsive-img" src="/images/dartmap.png" role="presentation" />
-              <h1 className="text">mappit</h1>
+      <div id="nav-bar">
+        <Link to="/" className="logo-link nav-btn">
+          <img id="logo" src="/images/dartmap.png" role="presentation" />
+          <h1 className="app-name">mappit</h1>
+        </Link>
+        {this.greeting}
+        <div className="nav-menu-container">
+          {this.userButton}
+          <div className={menuClass}>
+            <div className="user-menu-item-container" onClick={this.facebookLogout}>
+              <div className="user-menu-item-text">Log Out</div>
             </div>
-            {this.greeting}
-            {this.userButton}
-            <div className={menuClass}>
-              <div className="user-menu-item-container" onClick={this.facebookLogout}>
-                <div className="user-menu-item-text">Log Out</div>
-              </div>
-              <Link to="/user" id="user-link" className="nav-btn user-menu-item-container">
-                <div className="user-menu-item-text">User Profile Page</div>
-              </Link>
-            </div>
+            <Link to="/user" id="user-link" className="nav-btn user-menu-item-container">
+              <div className="user-menu-item-text">User Profile Page</div>
+            </Link>
           </div>
-        </nav>
+        </div>
       </div>
     );
   }

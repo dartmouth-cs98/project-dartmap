@@ -22,7 +22,7 @@ class CommentList extends React.Component {
   render() {
     const commentNodes = this.props.data.map((comment) => {
       return (
-        <li className="row list-group-item" key={comment.id}>
+        <li key={comment.id} className="collection-item">
           <Comment author={comment.author} text={comment.content}
             id={comment.id} time={comment.timestamp} image={comment.user_image}
             onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete}
@@ -32,9 +32,7 @@ class CommentList extends React.Component {
     });
     return (
       <div>
-        <ul className="list-group">
-          {commentNodes}
-        </ul>
+        {commentNodes}
       </div>
     );
   }

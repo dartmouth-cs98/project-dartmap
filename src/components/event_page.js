@@ -91,7 +91,7 @@ class EventPage extends Component {
   getAllRSVPs() {
     const names = this.props.currentEvent.attendees.map((attendee) => {
       return (
-        <td>
+        <td key={attendee.id}>
           {attendee.name}
         </td>
       );
@@ -153,7 +153,7 @@ class EventPage extends Component {
     if (!this.state.event) {
       return (
         <div className="progress">
-          <div className="determinate" style="width: 70%" />
+          <div className="determinate" />
         </div>
       );
     }
@@ -170,11 +170,11 @@ class EventPage extends Component {
       return cat.name;
     }).join(', ');
     return (
-      <div className="navbar-fixed">
+      <div>
         <nav>
           <div className="nav-wrapper">
             <a href="#" className="brand-logo right">Event</a>
-            <ul className="left hide-on-med-and-down">
+            <ul id="nav-mobile" className="left hide-on-med-and-down">
               <li className="active"><a href="#About">About</a></li>
               <li><a href="#Going">Who is Going</a></li>
               <li><a href="#Images">Images</a></li>

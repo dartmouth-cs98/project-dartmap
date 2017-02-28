@@ -59,14 +59,10 @@ class CommentBox extends React.Component {
   render() {
     return (
       <div>
-        <table>
-          <thead>
-            <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
-          </thead>
-          <tbody>
-            <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
-          </tbody>
-        </table>
+        <ul className="collection with-header">
+          <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
+          <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
+        </ul>
       </div>
     );
   }
