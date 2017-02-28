@@ -92,8 +92,10 @@ class NavBar extends Component {
       <div>
         <nav>
           <div className="nav-wrapper">
-            <img className="circle responsive-img" src="/images/dartmap.png" role="presentation" />
-            <h1 className="brand-logo left">mappit</h1>
+            <div className="mappit">
+              <img className="circle responsive-img" src="/images/dartmap.png" role="presentation" />
+              <h1 className="text">mappit</h1>
+            </div>
             {this.greeting}
             {this.userButton}
             <div className={menuClass}>

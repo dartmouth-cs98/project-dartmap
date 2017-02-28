@@ -152,7 +152,9 @@ class EventPage extends Component {
     let i;
     if (!this.state.event) {
       return (
-        <div>Loading. Please wait.</div>
+        <div className="progress">
+          <div className="determinate" style="width: 70%" />
+        </div>
       );
     }
     for (i = 0; i < this.state.event.image_url.length; i += 1) {
