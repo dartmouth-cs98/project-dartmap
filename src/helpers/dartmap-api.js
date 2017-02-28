@@ -286,12 +286,15 @@ export function postToS3(s3URL, postData) {
   return response;
 }
 
-export function postComment(dispatch, successAction, errorAction, commentURL, postData) {
+export function postComment(dispatch, successAction, errorAction, commentURL, postData, jwt) {
   const response = $.ajax({
     url: commentURL,
     jsonp: false,
     type: 'POST',
     data: postData,
+    headers: {
+      'Authorization': 'JWT ' + jwt,
+    },
     success: (data) => {
       console.log(data);
       dispatch({ type: successAction, payload: {} });
@@ -314,6 +317,7 @@ export function getComments(dispatch, successAction, errorAction, commentURL) {
     },
     error: (xhr, status, err) => {
       console.error(commentURL, status, err);
+      console.log('---', err);
     },
   });
   return response;
