@@ -40,10 +40,7 @@ class AddEventPage4 extends Component {
     if (this.state.categories === []) {
       categoryErrorMessage = this.visibleErrorMessages[0];
     }
-    const categoryList = this.props.catList || [];
-    const dropdownValues = categoryList.map((cat) => {
-      return { label: cat.name, value: cat.id };
-    });
+    const dropdownValues = this.props.catList || [];
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
