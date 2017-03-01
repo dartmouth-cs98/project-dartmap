@@ -8,6 +8,7 @@
 @import "./event-page.scss";
 @import "./filter-container.scss";
 @import "./comment.scss";
+@import "./segmented-controls.css";
 
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
@@ -225,14 +226,26 @@ hr {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   float: right;
   width: 20%;
-  height: 100%;
-  overflow: scroll;
+  height: 80%;
   padding-right: 16px;
   padding-top: 16px;
+}
 
+#event-list {
+  height: 60%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+}
+
+#event-listing {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  height: 100%;
+  width: 100%;
   .location-not-selected {
     display: none;
   }
+  overflow: scroll;
 }
 
 .warning-msg {
@@ -271,7 +284,6 @@ hr {
 .event-item {
   background-color: white;
   border-bottom: thin solid black;
-  height: 100%;
   padding-left: 8px;
   padding-top: 8px;
   width: 100%;

@@ -1,7 +1,6 @@
 // event_list.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import EventListItem from './event_list_item';
 
 class EventList extends Component {
@@ -53,14 +52,17 @@ class EventList extends Component {
       if (this.eventItems.length > 0) {
         return (
           <div id="event-menu">
-            <div className="add-event-btn-container">
-              <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
-                Add Event
-                <img id="plus" src="/icon_set_1/plus.png" role="presentation" />
-              </button>
-            </div>
             <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
-            {this.eventItems}
+            <div id="event-list">
+              <div id="event-listing">
+                {this.eventItems}
+              </div>
+            </div>
+            <div className="add-event-btn-container">
+              <a className="btn-floating btn-large waves-effect waves-light red" onClick={this.props.toggleAddEvent}>
+                <i className="material-icons">add</i>
+              </a>
+            </div>
           </div>
         );
       }
@@ -68,16 +70,6 @@ class EventList extends Component {
     // Case of no matching events.
     return (
       <div id="event-none">
-        <div className="add-event-btn-container">
-          <button
-            className="add-event-plus"
-            type="button"
-            onClick={this.props.toggleAddEvent}
-          >
-            Add Event
-            <img id="plus" src="/icon_set_1/plus.png" role="presentation" />
-          </button>
-        </div>
         <input
           id="search-bar"
           type="text"
@@ -85,10 +77,17 @@ class EventList extends Component {
           onChange={this.handleChange}
           placeholder="Type here..."
         />
-        <text className="warning-msg">
-          No Matching Events. <br />
-          Please Try Again.
-        </text>
+        <div id="event-list">
+          <text className="warning-msg">
+            No Matching Events. <br />
+            Please Try Again.
+          </text>
+        </div>
+        <div className="add-event-btn-container">
+          <a className="btn-floating btn-large waves-effect waves-light red" onClick={this.props.toggleAddEvent}>
+            <i className="material-icons">add</i>
+          </a>
+        </div>
       </div>
     );
   }
