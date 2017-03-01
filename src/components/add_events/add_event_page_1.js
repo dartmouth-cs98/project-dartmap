@@ -38,7 +38,7 @@ class AddEventPage1 extends Component {
     const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[3] : this.hiddenErrorMessage;
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
-        <div className="add-event-fields">
+        <div className="add-event-fields-page-1">
           <TextField
             className='add-event-field-container-1'
             hintText="e.g. Homecoming Bonfire"

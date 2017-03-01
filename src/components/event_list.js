@@ -52,7 +52,7 @@ class EventList extends Component {
       }
 
       // Case of matching events.
-      if (this.eventItems.length > 0) {
+      if (this.eventItems || this.eventItems.length > 0) {
         return (
           <div id="event-menu">
             <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
