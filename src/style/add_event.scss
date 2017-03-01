@@ -84,13 +84,13 @@
 }
 
 .add-event-field-container-1 {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   position: relative;
 }
 
 .add-event-field-container-2 {
-  margin-bottom: 40px;
-  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-top: 5px;
   position: relative;
 }
 
@@ -111,11 +111,17 @@
 
 .add-event-btns {
   display: inline-block;
-  width: 100%;
+  margin-bottom: 10px;
+  position: relative;
 }
 
 .add-event-btn {
   background-color: $green;
+}
+
+.add-event-btn-container{
+  position: absolute;
+  bottom: 0;
 }
 
 .back-btn {

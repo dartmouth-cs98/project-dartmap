@@ -1,13 +1,16 @@
 //style.scss
 
 //Imports
-@import "./add_event.scss";
 @import "./variables.scss";
+@import "./add_event.scss";
+@import "./event_list.scss";
+@import "./input_field.scss";
 @import "./user-profile.scss";
 @import "./upload_image.scss";
 @import "./event-page.scss";
 @import "./filter-container.scss";
 @import "./comment.scss";
+@import "./segmented-controls.css";
 
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
@@ -199,23 +202,6 @@ hr {
   box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
 }
 
-.event {
-  border: 0px;
-  background-color: $green;
-  @include event-style;
-}
-
-.event-hover {
-  border: 0px;
-  background-color: $light-grey;
-  z-index: 14;
-  @include event-style;
-
-  &:focus {
-    outline: none;
-  }
-}
-
 .map-event-img {
   height: 20px;
   width: 20px;
@@ -227,20 +213,6 @@ hr {
   height: 20px;
   width: 20px;
   margin-right: 5px;
-}
-
-#event-menu {
-  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  float: right;
-  width: 20%;
-  height: 100%;
-  overflow: scroll;
-  padding-right: 16px;
-  padding-top: 16px;
-
-  .location-not-selected {
-    display: none;
-  }
 }
 
 .warning-msg {
@@ -265,30 +237,6 @@ hr {
   text-align: center;
   padding-right: 16px;
   padding-top: 16px;
-}
-
-// Event List Components
-#event-menu #event-banner {
-  border-bottom: thin solid black;
-   .event-banner-item {
-    float: left;
-    padding-left: 16px;
-  }
-}
-
-.event-item {
-  background-color: white;
-  border-bottom: thin solid black;
-  height: 100%;
-  padding-left: 8px;
-  padding-top: 8px;
-  width: 100%;
-  font-size: 15px;
-
-  &:hover {
-    background-color: $light-grey;
-    cursor: pointer;
-  }
 }
 
 .popup {
