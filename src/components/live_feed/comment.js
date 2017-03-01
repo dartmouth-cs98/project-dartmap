@@ -63,21 +63,23 @@ class Comment extends React.Component {
         <div className="col m10">
           <div className="row">
             <span className="col m5"><b>{this.props.author}</b> posted {this.getTime()}</span>
-            <div className="right-align">
-              <div className={this.state.isEditing ? 'hidden' : ''}>
-                <button onClick={this.handleDelete}>Delete</button>
-                <button onClick={this.toggleEditing}>Edit</button>
+            <div className={this.props.enable_edit ? '' : 'hidden'}>
+              <div className="right-align">
+                <div className={this.state.isEditing ? 'hidden' : ''}>
+                  <button onClick={this.handleDelete}>Delete</button>
+                  <button onClick={this.toggleEditing}>Edit</button>
+                </div>
               </div>
-            </div>
-            <div className="comment-content">
-              <div className={this.state.isEditing ? '' : 'hidden'}>
-                <form className="" onSubmit={this.handleEdit}>
-                  <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
-                  <input type="submit" value="Confirm Changes" />
-                </form>
-              </div>
-              <div className={this.state.isEditing ? 'hidden' : ''}>
-                {this.props.text}
+              <div className="comment-content">
+                <div className={this.state.isEditing ? '' : 'hidden'}>
+                  <form className="" onSubmit={this.handleEdit}>
+                    <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
+                    <input type="submit" value="Confirm Changes" />
+                  </form>
+                </div>
+                <div className={this.state.isEditing ? 'hidden' : ''}>
+                  {this.props.text}
+                </div>
               </div>
             </div>
           </div>

@@ -60,7 +60,7 @@ class CommentBox extends React.Component {
     return (
       <div>
         <ul className="collection with-header">
-          <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
+          <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} user={this.props.user} />
           <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
         </ul>
         <div className="container">
