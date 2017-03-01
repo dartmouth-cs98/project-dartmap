@@ -1,7 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
+import { List, ListItem } from 'material-ui/List';
+import RaisedButton from 'material-ui/RaisedButton';
+import Avatar from 'material-ui/Avatar';
+import Subheader from 'material-ui/Subheader';
+
 import CommentList from './comment_list';
 import CommentForm from './comment_form';
+
 import { fetchEvent, createComment, updateComment, deleteComment } from '../../actions';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
@@ -59,21 +66,35 @@ class CommentBox extends React.Component {
   render() {
     return (
       <div>
-        <ul className="collection with-header">
-          <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
-          <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
-        </ul>
-        <div className="container">
-          <div className="col-md-12 panel panel-white post panel-shadow">
-            <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} user={this.props.user} />
-            <div className="post-footer">
-              <CommentList data={this.props.currentEvent ? this.props.currentEvent.comments : null}
-                onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete}
-                user_id={this.props.user && this.props.user.userInfo && this.props.user.userInfo[0] && this.props.user.userInfo[0].id ? this.props.user.userInfo[0].id : null}
-              />
-            </div>
-          </div>
-        </div>
+        <List>
+          <Subheader>
+            <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
+          </Subheader>
+          <CommentList data={this.props.currentEvent ? this.props.currentEvent.comments : null}
+            onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete}
+            user_id={this.props.user && this.props.user.userInfo && this.props.user.userInfo[0] && this.props.user.userInfo[0].id ? this.props.user.userInfo[0].id : null}
+          />
+          <ListItem
+            primaryText="Brendan Lim"
+            leftAvatar={<Avatar src="images/ok-128.jpg" />}
+          />
+          <ListItem
+            primaryText="Eric Hoffman"
+            leftAvatar={<Avatar src="images/kolage-128.jpg" />}
+          />
+          <ListItem
+            primaryText="Grace Ng"
+            leftAvatar={<Avatar src="images/uxceo-128.jpg" />}
+          />
+          <ListItem
+            primaryText="Kerem Suer"
+            leftAvatar={<Avatar src="images/kerem-128.jpg" />}
+          />
+          <ListItem
+            primaryText="Raquel Parrado"
+            leftAvatar={<Avatar src="images/raquelromanp-128.jpg" />}
+          />
+        </List>
       </div>
     );
   }
