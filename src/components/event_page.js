@@ -270,9 +270,6 @@ class EventPage extends Component {
           <div id="Images">
             <div className="row">
               <h2 className="col-md-6">Images</h2>
-              <div className="pull-right" style={styles.button}>
-                <RaisedButton label="Add Image" primary={true} onClick={this.addImage} />
-              </div>
             </div>
             <div className="center-align">
               <ImageGallery

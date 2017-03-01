@@ -1,9 +1,12 @@
 // event_list.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import EventListItem from './event_list_item';
+
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
+
+import EventListItem from './event_list_item';
 
 class EventList extends Component {
   constructor(props) {
@@ -59,6 +62,9 @@ class EventList extends Component {
               {this.eventItems}
             </div>
             <div className="add-event-btn-container">
+              <FloatingActionButton onClick={this.props.toggleGeolocation}>
+                <MapsMyLocation />
+              </FloatingActionButton>
               <FloatingActionButton onClick={this.props.toggleAddEvent}>
                 <ContentAdd />
               </FloatingActionButton>
@@ -66,7 +72,7 @@ class EventList extends Component {
           </div>
         );
       }
-    }else{
+    } else {
     // Case of no matching events.
       return (
         <div id="event-none">
@@ -84,6 +90,9 @@ class EventList extends Component {
             </text>
           </div>
           <div className="add-event-btn-container">
+            <FloatingActionButton onClick={this.props.toggleGeolocation}>
+              <MapsMyLocation />
+            </FloatingActionButton>
             <FloatingActionButton onClick={this.props.toggleAddEvent}>
               <ContentAdd />
             </FloatingActionButton>

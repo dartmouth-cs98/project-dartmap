@@ -33,6 +33,7 @@ class Home extends Component {
     this.handleAddEventData = this.handleAddEventData.bind(this);
     this.toggleAddEvent = this.toggleAddEvent.bind(this);
     this.getEvents = this.getEvents.bind(this);
+    this.toggleGeolocation = this.toggleGeolocation.bind(this);
   }
 
   componentWillMount() {
@@ -73,6 +74,10 @@ class Home extends Component {
   toggleAddEvent() {
     this.props.clearBalloons();
     this.setState({ addEvent: true });
+  }
+
+  toggleGeolocation() {
+    this.setState({ showModal: !this.state.showModal });
   }
 
   // Show balloons with event info on the map.
@@ -160,10 +165,6 @@ class Home extends Component {
 
 
   render() {
-    let showModal = false;
-    if (this.props.latitude === null && this.props.longitude === null) {
-      showModal = true;
-    }
     return (
       <div className="home-container">
         <MapContainer
@@ -173,6 +174,7 @@ class Home extends Component {
         <EventList
           toggleAddEvent={this.toggleAddEvent}
           selectedLocation={this.state.selectedLocation}
+          toggleGeolocation={this.toggleGeolocation}
         />
         <FilterContainer />
         <AddEventDialog
@@ -180,7 +182,7 @@ class Home extends Component {
           handleAddEventData={this.handleAddEventData}
           closeAddEventDialog={this.closeAddEventDialog}
         />
-        <LocationDialog showModal={showModal} />
+        <LocationDialog showModal={this.state.showModal} handleClose={this.toggleGeolocation} />
       </div>
     );
   }
