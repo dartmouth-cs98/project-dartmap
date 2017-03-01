@@ -63,6 +63,18 @@ class CommentBox extends React.Component {
           <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
           <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
         </ul>
+        <div className="container">
+          <div className="col-md-12 panel panel-white post panel-shadow">
+            <h1> Live Feed </h1>
+            <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} user={this.props.user} />
+            <div className="post-footer">
+              <CommentList data={this.props.currentEvent ? this.props.currentEvent.comments : null}
+                onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete}
+                user_id={this.props.user && this.props.user.userInfo && this.props.user.userInfo[0] && this.props.user.userInfo[0].id ? this.props.user.userInfo[0].id : null}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -71,7 +83,7 @@ class CommentBox extends React.Component {
 const mapStateToProps = state => (
   {
     currentEvent: state.events.currentEvent,
-    data: state.events.currentEvent.comments,
+    user: state.user,
   }
 );
 

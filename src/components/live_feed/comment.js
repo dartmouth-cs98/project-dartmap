@@ -68,8 +68,16 @@ class Comment extends React.Component {
                 <button onClick={this.handleDelete}>Delete</button>
                 <button onClick={this.toggleEditing}>Edit</button>
               </div>
+            </div>
+            <div className="comment-content">
               <div className={this.state.isEditing ? '' : 'hidden'}>
-                <a href="#" onClick={this.toggleEditing}>Done editing</a>
+                <form className="" onSubmit={this.handleEdit}>
+                  <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
+                  <input type="submit" value="Confirm Changes" />
+                </form>
+              </div>
+              <div className={this.state.isEditing ? 'hidden' : ''}>
+                {this.props.text}
               </div>
             </div>
           </div>

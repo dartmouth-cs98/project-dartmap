@@ -89,13 +89,16 @@ class EventPage extends Component {
   }
 
   getAllRSVPs() {
-    const names = this.props.currentEvent.attendees.map((attendee) => {
-      return (
-        <td key={attendee.id}>
-          {attendee.name}
-        </td>
-      );
-    });
+    let names;
+    if (this.props.currentEvent) {
+      names = this.props.currentEvent.attendees.map((attendee) => {
+        return (
+          <td key={attendee.name}>
+            {attendee.name}
+          </td>
+        );
+      });
+    }
     return names;
   }
 

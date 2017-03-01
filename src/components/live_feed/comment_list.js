@@ -20,7 +20,7 @@ class CommentList extends React.Component {
   }
 
   render() {
-    const commentNodes = this.props.data.map((comment) => {
+    const commentNodes = this.props.data ? this.props.data.map((comment) => {
       return (
         <li key={comment.id} className="collection-item">
           <Comment author={comment.author} text={comment.content}
@@ -29,7 +29,7 @@ class CommentList extends React.Component {
           />
         </li>
       );
-    });
+    }) : null;
     return (
       <div>
         {commentNodes}
