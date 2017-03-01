@@ -28,9 +28,9 @@ const store = createStore(reducers, {}, compose(
 ));
 injectTapEventPlugin();
 render((
-	<MuiThemeProvider>
-	  <Provider store={store}>
-	    <Router history={browserHistory} routes={routes} />
-	  </Provider>
-  	</MuiThemeProvider>
+  <MuiThemeProvider>
+    <Provider store={store}>
+      <Router history={browserHistory} routes={routes} />
+    </Provider>
+  </MuiThemeProvider>
 ), document.getElementById('main'));

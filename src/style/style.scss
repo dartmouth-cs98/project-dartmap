@@ -31,7 +31,7 @@ hr {
 }
 
 .app-container {
-  background-color: $light-grey;
+  background-color: white;
 }
 
 // Top Navigation Bar
@@ -69,6 +69,14 @@ hr {
     height: $nav-bar-height;
     width: $nav-bar-height;
   }
+}
+
+.nav-wrapper .mappit img {
+    height: 64px;
+}
+
+.nav-wrapper h1{
+  height: 64px;
 }
 
 .nav-btn {

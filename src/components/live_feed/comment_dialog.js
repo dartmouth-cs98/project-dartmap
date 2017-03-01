@@ -59,15 +59,18 @@ class CommentBox extends React.Component {
   render() {
     return (
       <div>
-        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
+        <ul className="collection with-header">
+          <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
+          <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
+        </ul>
         <div className="container">
           <div className="col-md-12 panel panel-white post panel-shadow">
             <h1> Live Feed </h1>
             <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} user={this.props.user} />
             <div className="post-footer">
-              <CommentList data={ this.props.currentEvent ? this.props.currentEvent.comments : null } 
-                          onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} 
-                          user_id={ this.props.user && this.props.user.userInfo && this.props.user.userInfo[0] && this.props.user.userInfo[0].id ? this.props.user.userInfo[0].id : null }
+              <CommentList data={this.props.currentEvent ? this.props.currentEvent.comments : null}
+                onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete}
+                user_id={this.props.user && this.props.user.userInfo && this.props.user.userInfo[0] && this.props.user.userInfo[0].id ? this.props.user.userInfo[0].id : null}
               />
             </div>
           </div>

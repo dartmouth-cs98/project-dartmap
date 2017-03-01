@@ -55,23 +55,18 @@ class Comment extends React.Component {
 
   render() {
     return (
-      <div className="col-md-12 row">
-        <div className="col-md-1 comment-avatar rounded">
-          <img src={this.props.image} alt="" />
+      <div className="row">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css" />
+        <div className="col m1">
+          <img className="circle responsive-img" src={this.props.image} alt="" />
         </div>
-        <div className="col-md-11 comment-box rounded">
-          <div className="comment-head">
-            <h6 className="comment-name by-author">{this.props.author}</h6>
-            <span>posted {this.getTime()}</span>
-            <div className={this.props.enable_edit ? '' : 'hidden'}>
-              <div className="commentActions">
-                <div className={this.state.isEditing ? 'hidden' : ''}>
-                  <button className="pull-right" onClick={this.handleDelete}>Delete</button>
-                  <button className="pull-right" onClick={this.toggleEditing}>Edit</button>
-                </div>
-                <div className={this.state.isEditing ? '' : 'hidden'}>
-                  <a href="#" onClick={this.toggleEditing}>Done editing</a>
-                </div>
+        <div className="col m10">
+          <div className="row">
+            <span className="col m5"><b>{this.props.author}</b> posted {this.getTime()}</span>
+            <div className="right-align">
+              <div className={this.state.isEditing ? 'hidden' : ''}>
+                <button onClick={this.handleDelete}>Delete</button>
+                <button onClick={this.toggleEditing}>Edit</button>
               </div>
             </div>
             <div className="comment-content">
@@ -84,6 +79,17 @@ class Comment extends React.Component {
               <div className={this.state.isEditing ? 'hidden' : ''}>
                 {this.props.text}
               </div>
+            </div>
+          </div>
+          <div>
+            <div className={this.state.isEditing ? '' : 'hidden'}>
+              <form className="" onSubmit={this.handleEdit}>
+                <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
+                <input type="submit" value="Confirm Changes" />
+              </form>
+            </div>
+            <div className={this.state.isEditing ? 'hidden' : ''}>
+              {this.props.text}
             </div>
           </div>
         </div>
