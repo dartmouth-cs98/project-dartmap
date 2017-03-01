@@ -7,6 +7,8 @@ import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // add the style sheets onto the page
 import 'react-datetime/css/react-datetime.css';
@@ -24,9 +26,11 @@ const store = createStore(reducers, {}, compose(
   applyMiddleware(thunk),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
-
+injectTapEventPlugin();
 render((
-  <Provider store={store}>
-    <Router history={browserHistory} routes={routes} />
-  </Provider>
+	<MuiThemeProvider>
+	  <Provider store={store}>
+	    <Router history={browserHistory} routes={routes} />
+	  </Provider>
+  	</MuiThemeProvider>
 ), document.getElementById('main'));
