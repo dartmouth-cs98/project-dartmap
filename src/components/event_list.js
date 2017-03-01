@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EventListItem from './event_list_item';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class EventList extends Component {
   constructor(props) {
@@ -57,9 +59,9 @@ class EventList extends Component {
               {this.eventItems}
             </div>
             <div className="add-event-btn-container">
-              <a className="btn-floating btn-large waves-effect waves-light red" onClick={this.props.toggleAddEvent}>
-                <i className="material-icons">add</i>
-              </a>
+              <FloatingActionButton onClick={this.props.toggleAddEvent}>
+                <ContentAdd />
+              </FloatingActionButton>
             </div>
           </div>
         );
@@ -82,9 +84,9 @@ class EventList extends Component {
             </text>
           </div>
           <div className="add-event-btn-container">
-            <a className="btn-floating btn-large waves-effect waves-light red" onClick={this.props.toggleAddEvent}>
-              <i className="material-icons">add</i>
-            </a>
+            <FloatingActionButton onClick={this.props.toggleAddEvent}>
+              <ContentAdd />
+            </FloatingActionButton>
           </div>
         </div>
       );
