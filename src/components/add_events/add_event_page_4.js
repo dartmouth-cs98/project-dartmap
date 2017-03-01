@@ -1,6 +1,7 @@
 // add_event_page_4.js
 import React, { Component } from 'react';
 import Select from 'react-select';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 class AddEventPage4 extends Component {
@@ -51,16 +52,18 @@ class AddEventPage4 extends Component {
           />
         </div>
         <div className="add-event-btns">
-          <input
+          <RaisedButton 
+            label="Back"
             type="button"
-            value="Back"
             onClick={(e) => { this.handleBack(e); }}
-            className="back-btn add-event-btn"
+            className="back-btn"
           />
-          <input
+          <RaisedButton 
+            label="Next"
+            primary={true}
             type="submit"
-            value="Next"
-            className={(!this.state.categories) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
+            disabled={(!this.state.categories)}
+            className="nxt-btn"
           />
         </div>
       </form>
