@@ -65,7 +65,6 @@ class CommentBox extends React.Component {
         </ul>
         <div className="container">
           <div className="col-md-12 panel panel-white post panel-shadow">
-            <h1> Live Feed </h1>
             <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} user={this.props.user} />
             <div className="post-footer">
               <CommentList data={this.props.currentEvent ? this.props.currentEvent.comments : null}

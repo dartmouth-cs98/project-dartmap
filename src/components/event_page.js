@@ -2,7 +2,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
-import TimePicker from 'material-ui/TimePicker';
+
+import Divider from 'material-ui/Divider';
+import { Tabs, Tab } from 'material-ui/Tabs';
+import RaisedButton from 'material-ui/RaisedButton';
+import Avatar from 'material-ui/Avatar';
+import {List, ListItem} from 'material-ui/List';
+
 import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
 
@@ -94,9 +100,10 @@ class EventPage extends Component {
     if (this.props.currentEvent) {
       names = this.props.currentEvent.attendees.map((attendee) => {
         return (
-          <td key={attendee.name}>
-            {attendee.name}
-          </td>
+          <ListItem key={attendee.name}
+            primaryText={attendee.name}
+            leftAvatar={<Avatar src="images/ok-128.jpg" />}
+          />
         );
       });
     }
@@ -173,39 +180,43 @@ class EventPage extends Component {
     const categoryString = this.state.event.categories.map((cat) => {
       return cat.name;
     }).join(', ');
+
+    const styles = {
+      button: {
+        margin: 12,
+      },
+      exampleImageInput: {
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: '100%',
+        opacity: 0,
+      },
+      tabsStyle: {
+        position: 'fixed',
+      },
+      dividerStyle: {
+        marginTop: 20,
+        marginBottom: 20,
+      },
+    };
+
     return (
       <div>
-        <TimePicker
-          hintText="12hr Format"
-        />
-        <nav className="navbar navbar-default">
-          <a className="navbar-brand" href="#">
-            <strong>Event</strong>
-          </a>
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <a className="#About">About <span className="sr-only">(current)</span></a>
-            </li>
-            <li className="nav-item">
-              <a className="#Going">Who is Going</a>
-            </li>
-            <li className="nav-item">
-              <a className="#Images">Images</a>
-            </li>
-            <li className="nav-item">
-              <a className="#Location">Location</a>
-            </li>
-            <li className="nav-item">
-              <a className="#LiveFeed">Live</a>
-            </li>
-          </ul>
-        </nav>
+        <Tabs>
+          <Tab label="About" href="#About" />
+          <Tab label="Who is Going" href="#Going" />
+          <Tab label="Images" href="#Images" />
+          <Tab label="Location" href="#Location" />
+          <Tab label="Live" href="#LiveFeed" />
+        </Tabs>
         <div className="container">
-          <div id="About" className="section">
-            <div className="row">
-              <h5 className="col m6">About</h5>
-            </div>
-            <div className="center-align">
+          <div id="About">
+            <h2>About</h2>
+            <div className="text-center">
               <div className="evpg-date">
                 {dateString}
               </div>
@@ -217,26 +228,22 @@ class EventPage extends Component {
               </div>
             </div>
           </div>
-          <div className="divider" />
-          <div id="Going" className="section">
+          <Divider style={styles.dividerStyle} />
+          <div id="Going">
             <div className="row">
-              <h5 className="col m6">Who's Going?</h5>
-              <div className="right-align">
-                <a className="waves-effect waves-light btn" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</a>
+              <h2 className="col-md-3">Who's Going?</h2>
+              <div className="pull-right" style={styles.button}>
+                <RaisedButton label={this.state.isRSVPed ? 'Going' : 'RSVP'} primary={true} onClick={this.handleRSVP} />
               </div>
             </div>
-            <table className="highlight">
-              <tbody>
-                <tr>
-                  {this.getAllRSVPs()}
-                </tr>
-              </tbody>
-            </table>
+            <List>
+              {this.getAllRSVPs()}
+            </List>
           </div>
-          <div className="divider" />
-          <div id="Images" className="section">
+          <Divider style={styles.dividerStyle} />
+          <div id="Images">
             <div className="row">
-              <h5 className="col m6">Images</h5>
+              <h2 className="col-md-6">Images</h2>
             </div>
             <div className="center-align">
               <ImageGallery
@@ -246,33 +253,31 @@ class EventPage extends Component {
               />
             </div>
           </div>
-          <div className="divider" />
-          <div id="Location" className="section">
+          <Divider style={styles.dividerStyle} />
+          <div id="Location">
             <div className="row">
-              <h5 className="col m6">Location Details</h5>
+              <h2 className="col-md-6">Location Details</h2>
             </div>
             <div className="row">
               <div id="evpg-map" />
-              <div className="right-align">
-                <div className="evpg-description">
-                  <em>Description: </em>
-                  {this.state.event.description}
-                </div>
-                <div className="evpg-organizer">
-                  <em>Organized by: </em>
-                  {this.state.event.organizer}
-                </div>
-                <div className="evpg-categories">
-                  <em>Categories: </em>
-                  {categoryString}
-                </div>
+              <div className="evpg-description">
+                <em>Description: </em>
+                {this.state.event.description}
+              </div>
+              <div className="evpg-organizer">
+                <em>Organized by: </em>
+                {this.state.event.organizer}
+              </div>
+              <div className="evpg-categories">
+                <em>Categories: </em>
+                {categoryString}
               </div>
             </div>
           </div>
-          <div className="divider" />
-          <div id="LiveFeed" className="section">
+          <Divider style={styles.dividerStyle} />
+          <div id="LiveFeed">
             <div className="row">
-              <h5 className="col m6">Live</h5>
+              <h2 className="col-md-6">Live</h2>
             </div>
             <CommentBox pollInterval={1000} event_id={this.state.event_id} />
           </div>
