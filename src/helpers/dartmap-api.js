@@ -122,25 +122,6 @@ export function getEvent(dispatch, successAction, errorAction, eventId) {
   });
 }
 
-export function getEventSansRedux(eventId) {
-  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
-  const response = $.ajax({
-    url: fullUrl,
-    type: 'GET',
-    dataType: 'json',
-    success: (data) => {
-      const event = formatAPIEventData(data.events[0]);
-      console.log('SUCCESS! GET /events/'.concat(eventId));
-      return event;
-    },
-    error: (xhr, status, err) => {
-      console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
-      console.error(fullUrl, status, err);
-    },
-  });
-  return response;
-}
-
 export function getAllEvents(dispatch, successAction, errorAction,
   latitude, longitude, radius) {
   const fullUrl = API_URL.concat(EVENT_URL);
