@@ -54,9 +54,7 @@ class EventList extends Component {
           <div id="event-menu">
             <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
             <div id="event-list">
-              <div id="event-listing">
-                {this.eventItems}
-              </div>
+              {this.eventItems}
             </div>
             <div className="add-event-btn-container">
               <a className="btn-floating btn-large waves-effect waves-light red" onClick={this.props.toggleAddEvent}>
@@ -66,30 +64,31 @@ class EventList extends Component {
           </div>
         );
       }
-    }
+    }else{
     // Case of no matching events.
-    return (
-      <div id="event-none">
-        <input
-          id="search-bar"
-          type="text"
-          value={this.state.searchString}
-          onChange={this.handleChange}
-          placeholder="Type here..."
-        />
-        <div id="event-list">
-          <text className="warning-msg">
-            No Matching Events. <br />
-            Please Try Again.
-          </text>
+      return (
+        <div id="event-none">
+          <input
+            id="search-bar"
+            type="text"
+            value={this.state.searchString}
+            onChange={this.handleChange}
+            placeholder="Type here..."
+          />
+          <div id="event-list">
+            <text className="warning-msg">
+              No Matching Events. <br />
+              Please Try Again.
+            </text>
+          </div>
+          <div className="add-event-btn-container">
+            <a className="btn-floating btn-large waves-effect waves-light red" onClick={this.props.toggleAddEvent}>
+              <i className="material-icons">add</i>
+            </a>
+          </div>
         </div>
-        <div className="add-event-btn-container">
-          <a className="btn-floating btn-large waves-effect waves-light red" onClick={this.props.toggleAddEvent}>
-            <i className="material-icons">add</i>
-          </a>
-        </div>
-      </div>
-    );
+      );
+    }
   }
 }
 
