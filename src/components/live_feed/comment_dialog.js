@@ -74,26 +74,6 @@ class CommentBox extends React.Component {
             onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete}
             user_id={this.props.user && this.props.user.userInfo && this.props.user.userInfo[0] && this.props.user.userInfo[0].id ? this.props.user.userInfo[0].id : null}
           />
-          <ListItem
-            primaryText="Brendan Lim"
-            leftAvatar={<Avatar src="images/ok-128.jpg" />}
-          />
-          <ListItem
-            primaryText="Eric Hoffman"
-            leftAvatar={<Avatar src="images/kolage-128.jpg" />}
-          />
-          <ListItem
-            primaryText="Grace Ng"
-            leftAvatar={<Avatar src="images/uxceo-128.jpg" />}
-          />
-          <ListItem
-            primaryText="Kerem Suer"
-            leftAvatar={<Avatar src="images/kerem-128.jpg" />}
-          />
-          <ListItem
-            primaryText="Raquel Parrado"
-            leftAvatar={<Avatar src="images/raquelromanp-128.jpg" />}
-          />
         </List>
       </div>
     );

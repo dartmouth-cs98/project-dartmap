@@ -8,6 +8,7 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
@@ -34,6 +35,7 @@ class EventPage extends Component {
     this.handleRSVP = this.handleRSVP.bind(this);
     this.getInitialRSVP = this.getInitialRSVP.bind(this);
     this.getAllRSVPs = this.getAllRSVPs.bind(this);
+    this.addImage = this.addImage.bind(this);
 
     if (!window.google) { // Load google maps api onto the page
       loadGoogleApi();
@@ -102,7 +104,7 @@ class EventPage extends Component {
         return (
           <ListItem key={attendee.name}
             primaryText={attendee.name}
-            leftAvatar={<Avatar src="images/ok-128.jpg" />}
+            leftAvatar={<Avatar src={attendee.picture} />}
           />
         );
       });
@@ -111,6 +113,22 @@ class EventPage extends Component {
   }
 
   handleRSVP() {
+    const data = {};
+    data.user_id = 1;
+    data.event_id = parseInt(this.state.event_id, 10);
+
+    if (this.state.isRSVPed === true) { // De-RSVP
+      deleteRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    } else { // RSVP
+      postRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    }
+  }
+
+  addImage() {
     const data = {};
     data.user_id = 1;
     data.event_id = parseInt(this.state.event_id, 10);
@@ -159,28 +177,6 @@ class EventPage extends Component {
   }
 
   render() {
-    const images = [];
-    let i;
-    if (!this.state.event) {
-      return (
-        <div className="progress">
-          <div className="determinate" />
-        </div>
-      );
-    }
-    for (i = 0; i < this.state.event.image_url.length; i += 1) {
-      images.push({ original: this.state.event.image_url[i],
-        thumbnail: this.state.event.image_url[i],
-        originalClass: 'gallery-image',
-      });
-    }
-    const dateString = this.state.event.date.format('dddd MMMM Do YYYY');
-    const startString = this.state.event.start_time.format('h:mma');
-    const endString = this.state.event.end_time.format('h:mma');
-    const categoryString = this.state.event.categories.map((cat) => {
-      return cat.name;
-    }).join(', ');
-
     const styles = {
       button: {
         margin: 12,
@@ -202,7 +198,37 @@ class EventPage extends Component {
         marginTop: 20,
         marginBottom: 20,
       },
+      progress: {
+        width: 300,
+        height: 300,
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        marginLeft: -150,
+        marginTop: -150,
+      },
     };
+    const images = [];
+    let i;
+    if (!this.state.event) {
+      return (
+        <div>
+          <CircularProgress size={300} style={styles.progress} thickness={5} />
+        </div>
+      );
+    }
+    for (i = 0; i < this.state.event.image_url.length; i += 1) {
+      images.push({ original: this.state.event.image_url[i],
+        thumbnail: this.state.event.image_url[i],
+        originalClass: 'gallery-image',
+      });
+    }
+    const dateString = this.state.event.date.format('dddd MMMM Do YYYY');
+    const startString = this.state.event.start_time.format('h:mma');
+    const endString = this.state.event.end_time.format('h:mma');
+    const categoryString = this.state.event.categories.map((cat) => {
+      return cat.name;
+    }).join(', ');
 
     return (
       <div>
@@ -244,6 +270,9 @@ class EventPage extends Component {
           <div id="Images">
             <div className="row">
               <h2 className="col-md-6">Images</h2>
+              <div className="pull-right" style={styles.button}>
+                <RaisedButton label="Add Image" primary={true} onClick={this.addImage} />
+              </div>
             </div>
             <div className="center-align">
               <ImageGallery

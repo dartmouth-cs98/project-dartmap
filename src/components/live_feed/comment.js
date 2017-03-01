@@ -55,14 +55,10 @@ class Comment extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css" />
-        <div className="col m1">
-          <img className="circle responsive-img" src={this.props.image} alt="" />
-        </div>
-        <div className="col m10">
+      <div>
+        <div className="col-md-10">
           <div className="row">
-            <span className="col m5"><b>{this.props.author}</b> posted {this.getTime()}</span>
+            <span className="col-md-5"><b>{this.props.author}</b> posted {this.getTime()}</span>
             <div className="right-align">
               <div className={this.state.isEditing ? 'hidden' : ''}>
                 <button onClick={this.handleDelete}>Delete</button>

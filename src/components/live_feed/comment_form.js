@@ -1,4 +1,8 @@
 import React from 'react';
+import Avatar from 'material-ui/Avatar';
+import TextField from 'material-ui/TextField';
+import { List, ListItem } from 'material-ui/List';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class CommentForm extends React.Component {
   constructor() {
@@ -31,16 +35,32 @@ class CommentForm extends React.Component {
   }
 
   render() {
+    const styles = {
+      avatar: {
+        marginRight: 20,
+      },
+      button: {
+        margin: 12,
+      },
+      text: {
+        width: '80%',
+      },
+    };
+
     return (
-      <li className="row collection-header">
-        <div className="col m1">
-          <img className="circle responsive-img" src="https://s3.amazonaws.com/dartmap/edrei.jpg" alt="avatar" />
+      <div className="row">
+        <Avatar
+          src="https://s3.amazonaws.com/dartmap/edrei.jpg"
+          style={styles.avatar}
+        />
+        <TextField style={styles.text}
+          floatingLabelText="Add Comment"
+          value={this.state.text} onChange={this.handleTextChange}
+        />
+        <div className="pull-right" style={styles.button}>
+          <RaisedButton label="Post" primary={true} onClick={this.handleSubmit} />
         </div>
-        <div className="col m11">
-          <input className="form-control" placeholder="Add a comment" type="text" value={this.state.text} onChange={this.handleTextChange} />
-          <a className="waves-effect waves-teal btn-flat" onClick={this.handleSubmit}>Post</a>
-        </div>
-      </li>
+      </div>
     );
   }
 }
