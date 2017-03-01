@@ -75,7 +75,7 @@ class AddEventPage1 extends Component {
             floatingLabelText="Event description"
             multiLine={true}
             rows={2}
-            rowsMax={2}
+            rowsMax={3}
             value={this.state.description || ''}
             fullWidth={true}
             onChange={event => this.setState({ description: event.target.value })}

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EventListItem from './event_list_item';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Drawer from 'material-ui/Drawer';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class EventList extends Component {
