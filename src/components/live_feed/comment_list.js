@@ -2,20 +2,18 @@ import React from 'react';
 import Comment from './comment';
 
 class CommentList extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isEditing: {},
     };
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleEdit(id, data) {
+  handleEdit = (id, data) => {
     this.props.onCommentEdit(id, data);
   }
 
-  handleDelete(id) {
+  handleDelete = (id) => {
     this.props.onCommentDelete(id);
   }
 
@@ -23,9 +21,14 @@ class CommentList extends React.Component {
     const commentNodes = this.props.data.map((comment) => {
       return (
         <li className="row list-group-item" key={comment.id}>
-          <Comment author={comment.author} text={comment.content}
-            id={comment.id} time={comment.timestamp} image={comment.user_image}
-            onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete}
+          <Comment
+            author={comment.author}
+            text={comment.content}
+            id={comment.id}
+            time={comment.timestamp}
+            image={comment.user_image}
+            onCommentEdit={this.handleEdit}
+            onCommentDelete={this.handleDelete}
           />
         </li>
       );

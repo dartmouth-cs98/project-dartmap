@@ -56,8 +56,9 @@ class AddEventDialog extends Component {
   handlePageData(data) {
     if (data.currentPage === this.pageCode.length) {
       this.setState(data, this.submitEventData);
+    } else {
+      this.setState(data);
     }
-    this.setState(data);
   }
   submitEventData() {
     const data = {
