@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
+import TimePicker from 'material-ui/TimePicker';
 import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
 
@@ -174,17 +175,30 @@ class EventPage extends Component {
     }).join(', ');
     return (
       <div>
-        <nav>
-          <div className="nav-wrapper">
-            <a href="#" className="brand-logo right">Event</a>
-            <ul id="nav-mobile" className="left hide-on-med-and-down">
-              <li className="active"><a href="#About">About</a></li>
-              <li><a href="#Going">Who is Going</a></li>
-              <li><a href="#Images">Images</a></li>
-              <li><a href="#Location">Location</a></li>
-              <li><a href="#LiveFeed">Live</a></li>
-            </ul>
-          </div>
+        <TimePicker
+          hintText="12hr Format"
+        />
+        <nav className="navbar navbar-default">
+          <a className="navbar-brand" href="#">
+            <strong>Event</strong>
+          </a>
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item active">
+              <a className="#About">About <span className="sr-only">(current)</span></a>
+            </li>
+            <li className="nav-item">
+              <a className="#Going">Who is Going</a>
+            </li>
+            <li className="nav-item">
+              <a className="#Images">Images</a>
+            </li>
+            <li className="nav-item">
+              <a className="#Location">Location</a>
+            </li>
+            <li className="nav-item">
+              <a className="#LiveFeed">Live</a>
+            </li>
+          </ul>
         </nav>
         <div className="container">
           <div id="About" className="section">
