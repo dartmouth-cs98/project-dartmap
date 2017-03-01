@@ -20,16 +20,16 @@ class CommentList extends React.Component {
   }
 
   render() {
-    const commentNodes = this.props.data.map((comment) => {
+    const commentNodes = this.props.data ? this.props.data.map((comment) => {
       return (
         <li className="row list-group-item" key={comment.id}>
-          <Comment author={comment.author} text={comment.content}
+          <Comment author={comment.author} text={comment.content} enable_edit={this.props.user_id===comment.user_id}
             id={comment.id} time={comment.timestamp} image={comment.user_image}
             onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete}
           />
         </li>
       );
-    });
+    }) : null;
     return (
       <div>
         <ul className="list-group">
