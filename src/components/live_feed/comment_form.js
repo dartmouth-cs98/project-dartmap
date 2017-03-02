@@ -34,7 +34,7 @@ class CommentForm extends React.Component {
     return (
       <li className="row collection-header">
         <div className="col m1">
-          <img className="circle responsive-img" src="https://s3.amazonaws.com/dartmap/edrei.jpg" alt="avatar" />
+          <img className="circle responsive-img" src={ (this.props.user && this.props.user.fbProfPicUrl) ? this.props.user.fbProfPicUrl : "https://image.freepik.com/icones-gratis/macho-acima-silhueta-escura_318-39674.png" } alt="avatar" />
         </div>
         <div className="col m11">
           <input className="form-control" placeholder="Add a comment" type="text" value={this.state.text} onChange={this.handleTextChange} />
