@@ -1,8 +1,9 @@
 // add_event_page_5.js
 import React, { Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+
 import AddEventIconBtn from './add_event_icon_btn';
 import UploadMultiImages from '../upload_multi_images';
-import RaisedButton from 'material-ui/RaisedButton';
 
 
 class AddEventPage5 extends Component {
@@ -13,59 +14,51 @@ class AddEventPage5 extends Component {
       image_url: props.data.image_url,
     };
     this.hiddenErrorMessage = <div className="hidden" />;
-    this.visibleErrorMessages = <div className="error-msg"> The event icon is required. </div>;
+    this.visibleErrorMessages = (
+      <div className="error-msg"> The event icon is required. </div>
+    );
     this.iconURLs = [
       {
         id: 1,
         name: 'Academic',
         url: 'https://s23.postimg.org/8i1v2t8cb/academic.png',
-      },
-      {
+      }, {
         id: 2,
         name: 'Art',
         url: 'https://s27.postimg.org/bwiklsppf/art.png',
-      },
-      {
+      }, {
         id: 3,
         name: 'Sports',
         url: 'https://s30.postimg.org/bxmzys9gh/game.png',
-      },
-      {
+      }, {
         id: 4,
         name: 'Performance',
         url: 'https://s24.postimg.org/o84drbk3p/music.png',
-      },
-      {
+      }, {
         id: 5,
         name: 'Lecture',
         url: 'https://s23.postimg.org/ji4pb0yyz/talk.png',
-      },
-      {
+      }, {
         id: 6,
         name: 'Free Food',
         url: 'https://s27.postimg.org/3t1ikm5ar/food.png',
-      },
-      {
+      }, {
         id: 7,
         name: 'games',
         url: 'https://s27.postimg.org/61lunzpg3/games.png',
-      },
-      {
+      }, {
         id: 8,
         name: 'music2',
         url: 'https://s29.postimg.org/k3jw3sw53/music.png',
-      },
-      {
+      }, {
         id: 9,
         name: 'openmeeting',
         url: 'https://s30.postimg.org/77dhr4t6p/openmeeting.png',
-      },
-      {
+      }, {
         id: 10,
         name: 'Greek Life',
         url: 'https://s28.postimg.org/cdfv0i8ot/party.png',
-      },
-      {
+      }, {
         id: 11,
         name: 'Unknown',
         url: 'https://s27.postimg.org/ws3spwi9f/unknown.png',
@@ -133,15 +126,15 @@ class AddEventPage5 extends Component {
           <UploadMultiImages updateImageURL={this.updateImageURL} />
         </div>
         <div className="add-event-btns">
-          <RaisedButton 
+          <RaisedButton
             label="Back"
             type="button"
             onClick={(e) => { this.handleBack(e); }}
             className="back-btn"
           />
-          <RaisedButton 
+          <RaisedButton
             label="Submit"
-            primary={true}
+            primary
             type="submit"
             disabled={(!this.state.icon)}
             className="nxt-btn"
