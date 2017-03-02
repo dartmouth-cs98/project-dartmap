@@ -11,10 +11,10 @@ const EventListItem = (props) => {
   if (!props.selectedLocation || props.selectedLocation === props.event.location) {
     return (
       <div className="event-item"
-        onMouseOver={() => props.setBalloonId(props.event.id)}
+        onMouseOver={() => props.setBalloonId(props.event.location_id)}
         onMouseOut={() => props.setBalloonId(null)}
         onClick={() => {
-          props.setStickyBalloonId(props.event.id);
+          props.setStickyBalloonId(props.event.location_id);
           props.setMapCenter({ lat: props.event.lat, lng: props.event.lng });
         }}
       >
@@ -36,11 +36,11 @@ const EventListItem = (props) => {
   }
   return (
     <div className="location-not-selected"
-      onMouseOver={() => props.setBalloonId(props.event.id)}
+      onMouseOver={() => props.setBalloonId(props.event.location_id)}
       onMouseOut={() => props.setBalloonId(null)}
       onClick={() => {
         props.setMapCenter({ lat: props.event.lat, lng: props.event.lng });
-        props.setStickyBalloonId(props.event.id);
+        props.setStickyBalloonId(props.event.location_id);
       }}
     />
   );
