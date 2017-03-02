@@ -48,16 +48,16 @@ class FilterContainer extends Component {
   render() {
     return (
     <div id="filter-container">
-    <div id="category-filter-container">
-      <CategoryFilter onCategoryChange={this.onCategoryChange} 
-      categoriesList={this.props.categoriesList} />
+    <div id="time-filter-container">
+      <TimeFilter onTimeChange={this.onTimeChange} />
       </div>
     <div id="date-filter-container">
       <DateFilter onDateChange={this.onDateChange} 
       dateBarData={this.props.dateBarData} />
       </div>
-    <div id="time-filter-container">
-      <TimeFilter onTimeChange={this.onTimeChange} />
+    <div id="category-filter-container">
+      <CategoryFilter onCategoryChange={this.onCategoryChange} 
+      categoriesList={this.props.categoriesList} />
       </div>
     </div>
     );

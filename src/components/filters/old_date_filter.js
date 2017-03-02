@@ -55,7 +55,6 @@ class DateFilter extends Component {
     let checked = this.state.checked.slice(); // copy
     console.log(checked);
     // the array of checked dates to send, e.g. [0, 1, 2, 5, 6]
-    const dateArray = [];
 
     if (checked.includes(val)) {
       checked.splice(checked.indexOf(val), 1);
@@ -80,7 +79,12 @@ class DateFilter extends Component {
       }
     }
     this.setState({ checked });
+    this.filterEvent();
+  }
 
+    filterEvent() {
+    var dateArray = [];
+    let checked=this.state.checked.slice();
     // convert checked strings to ints and add them to dateArray (sorted)
     let c, n;
     for (c in checked) {

@@ -27,6 +27,7 @@ class DateFilter extends Component {
 
     this.state = {
       checked: DEFAULT_DATES,
+      checked_boolean: DEFAULT_CHECKED,
       expanded: false,
     }
 
@@ -47,6 +48,9 @@ class DateFilter extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.showCheckboxes = this.showCheckboxes.bind(this);
     this.onDateChange = props.onDateChange;
+    this.filterEvent = this.filterEvent.bind(this);
+
+    this.filterEvent([0,1]);
   }
 
   componentWillMount = () => {
@@ -57,14 +61,18 @@ class DateFilter extends Component {
     
     const val = event.target.value;
     let checked = this.state.checked.slice(); // copy
+    let checked_boolean = this.state.checked_boolean.slice();
     if (checked.includes(val)) {
       checked.splice(checked.indexOf(val), 1);
+      checked_boolean[val]=false;
       if ((checked.includes('7'))) {
         document.getElementById('d7').checked = false;
         checked.splice(checked.indexOf('7'), 1);
+        checked_boolean[7]=false;
       }
     } else {
       checked.push(val);
+      checked_boolean[val]=true;
       if (val === '7') {
         // check every box
         document.getElementById('d0').checked = true;
@@ -75,10 +83,15 @@ class DateFilter extends Component {
         document.getElementById('d5').checked = true;
         document.getElementById('d6').checked = true;
         checked = ['0', '1', '2', '3', '4', '5', '6', '7'];
+        checked_boolean = [true,true,true,true,true,true,true,true];
       }
     }
     this.setState({ checked });
+    this.setState({ checked_boolean });
+    this.filterEvent(checked);
+  }
 
+  filterEvent(checked) {
     var dateArray=[];
     // convert checked strings to ints and add them to dateArray (sorted)
     let c, n;
@@ -92,8 +105,8 @@ class DateFilter extends Component {
     this.onDateChange(dateArray);
   }
 
+
   showCheckboxes() {
-    var checkboxes = document.getElementById("checkboxes");
     if (!this.state.expanded) {
       this.setState({ expanded : true });
     } else {
@@ -133,56 +146,56 @@ class DateFilter extends Component {
         <div >
          <label htmlFor="d0">
           <input type="checkbox" id="d0" name="d0" value="0" 
-          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[0]} 
+          onChange={this.handleChange} checked={this.state.checked_boolean[0]} 
           data-value={DATES[0]} />     {DATES[0]}</label>
         </div>
 
         <div >
         <label htmlFor="d1">
           <input type="checkbox" id="d1" name="d1" value="1" 
-          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[1]} 
+          onChange={this.handleChange} checked={this.state.checked_boolean[1]} 
            data-value={DATES[1]} />     {DATES[1]}</label>
         </div>
 
         <div >
         <label htmlFor="d2">
           <input type="checkbox" id="d2" name="d2" value="2" 
-          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[2]} 
+          onChange={this.handleChange} checked={this.state.checked_boolean[2]} 
            data-value={DATES[2]} />     {DATES[2]}</label>
         </div>
 
         <div >
         <label htmlFor="d3">
           <input type="checkbox" id="d3" name="d3" value="3" 
-          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[3]} 
+          onChange={this.handleChange} checked={this.state.checked_boolean[3]} 
            data-value={DATES[3]} />     {DATES[3]}</label>
         </div>
 
         <div >
          <label htmlFor="d4" >
           <input type="checkbox" id="d4" name="d4" value="4" 
-          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[4]} 
+          onChange={this.handleChange} checked={this.state.checked_boolean[4]} 
          data-value={DATES[4]} />     {DATES[4]}</label>
         </div>
 
         <div >
         <label htmlFor="d5">
           <input type="checkbox" id="d5" name="d5" value="5" 
-          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[5]} 
+          onChange={this.handleChange} checked={this.state.checked_boolean[5]} 
           data-value={DATES[5]}/>     {DATES[5]}</label>
         </div>
 
         <div >
         <label htmlFor="d6">
           <input type="checkbox" id="d6" name="d6" value="6" 
-          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[6]} 
+          onChange={this.handleChange} checked={this.state.checked_boolean[6]} 
            data-value={DATES[6]} />     {DATES[6]}</label>
         </div>
 
         <div >
         <label htmlFor="d7" >
           <input type="checkbox" id="d7" name="d7" value="7" 
-          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[7]} 
+          onChange={this.handleChange} checked={this.state.checked_boolean[7]} 
           data-value={DATES[7]} />     {DATES[7]}</label>
         </div>
 
