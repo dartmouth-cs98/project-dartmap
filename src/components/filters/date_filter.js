@@ -6,8 +6,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import Select from 'react-select';
-
 import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 
 // Display today and the next 6 days as filter options
