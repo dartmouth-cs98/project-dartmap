@@ -19,11 +19,11 @@ const MapReducer = (state = {}, action) => {
       return newState;
     case ActionTypes.SET_STICKY_BALLOON_ID:
       newState = Object.assign({}, state);
-      newState.stickyBalloonId = action.payload.eventId;
+      newState.stickyBalloonId = action.payload.locationId;
       return newState;
     case ActionTypes.SET_BALLOON_ID:
       newState = Object.assign({}, state);
-      newState.balloonId = action.payload.eventId;
+      newState.balloonId = action.payload.locationId;
       return newState;
     case ActionTypes.CLEAR_BALLOONS:
       newState = Object.assign({}, state);
