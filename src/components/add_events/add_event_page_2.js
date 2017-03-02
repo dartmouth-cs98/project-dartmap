@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react';
 import DateTime from 'react-datetime';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 class AddEventPage2 extends Component {
   constructor(props) {
@@ -99,16 +101,18 @@ class AddEventPage2 extends Component {
           {timeErrorMessage}
         </div>
         <div className="add-event-btns">
-          <input
+          <RaisedButton 
+            label="Back"
             type="button"
-            value="Back"
             onClick={(e) => { this.handleBack(e); }}
-            className="back-btn add-event-btn"
+            className="back-btn"
           />
-          <input
+          <RaisedButton 
+            label="Next"
+            primary={true}
             type="submit"
-            value="Next"
-            className={(!this.state.date || !this.state.start_time || !this.state.end_time || !this.isValidTime()) ? 'invalid-nxt-btn nxt-btn add-event-btn' : 'nxt-btn add-event-btn'}
+            disabled={(!this.state.date || !this.state.start_time || !this.state.end_time || !this.isValidTime())}
+            className="nxt-btn"
           />
         </div>
       </form>

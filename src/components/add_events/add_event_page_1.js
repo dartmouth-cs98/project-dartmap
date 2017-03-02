@@ -1,5 +1,7 @@
 // add_event_page_1.js
 import React, { Component } from 'react';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class AddEventPage1 extends Component {
   constructor(props) {
@@ -37,54 +39,56 @@ class AddEventPage1 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <div className="add-event-field-container-1">
-            <h2>Event name</h2>
-            <input
-              type="text"
-              value={this.state.name || ''}
-              onChange={event => this.setState({ name: event.target.value })}
-              className={(this.state.name !== '') ? 'add-event-text' : 'add-event-text error-box'}
-            />
-          </div>
+          <TextField
+            className="add-event-field-container-1"
+            hintText="e.g. Homecoming Bonfire"
+            floatingLabelText="Event name"
+            value={this.state.name || ''}
+            fullWidth
+            onChange={event => this.setState({ name: event.target.value })}
+          />
           {nameErrorMessage}
           <br />
-          <div className="add-event-field-container-1">
-            <h2>Event organizer</h2>
-            <input
-              type="text"
-              value={this.state.organizer || ''}
-              onChange={event => this.setState({ organizer: event.target.value })}
-              className={(this.state.organizer !== '') ? 'add-event-text' : 'add-event-text error-box'}
-            />
-          </div>
+          <TextField
+            className="add-event-field-container-1"
+            hintText="e.g. Collis Governing Board"
+            floatingLabelText="Event Organizer"
+            value={this.state.organizer || ''}
+            fullWidth
+            onChange={event => this.setState({ organizer: event.target.value })}
+          />
           {organizerErrorMessage}
           <br />
-          <div className="add-event-field-container-1">
-            <h2>Event room or location</h2>
-            <input
-              type="text"
-              value={this.state.location_string || ''}
-              onChange={event => this.setState({ location_string: event.target.value })}
-              className={(this.state.location_string !== '') ? 'add-event-text add-event-loc-string' : 'add-event-text add-event-loc-string error-box'}
-            />
-          </div>
+          <TextField
+            className="add-event-field-container-1"
+            hintText="e.g. The Green"
+            floatingLabelText="Event room or location"
+            value={this.state.location_string || ''}
+            fullWidth
+            onChange={event => this.setState({ location_string: event.target.value })}
+          />
           {roomErrorMessage}
           <br />
-          <div className="add-event-field-container-1">
-            <h2>Event description</h2>
-            <textarea
-              value={this.state.description || ''}
-              onChange={event => this.setState({ description: event.target.value })}
-              className={(this.state.description === '') ? 'add-event-text error-box' : 'add-event-text'}
-            />
-          </div>
+          <TextField
+            className="add-event-field-container-1"
+            hintText="e.g. See freshman running in circles around a fire"
+            floatingLabelText="Event description"
+            multiLine
+            rows={2}
+            rowsMax={2}
+            value={this.state.description || ''}
+            fullWidth
+            onChange={event => this.setState({ description: event.target.value })}
+          />
           {desciptionErrorMessage}
         </div>
         <div className="add-event-btns">
-          <input
+          <RaisedButton
+            label="Next"
+            primary
             type="submit"
-            value="Next"
-            className={(!this.state.description || !this.state.organizer || !this.state.name || !this.state.location_string) ? 'invalid-nxt-btn nxt-btn add-event-btn' : 'nxt-btn add-event-btn'}
+            disabled={(!this.state.description || !this.state.organizer || !this.state.name || !this.state.location_string)}
+            className="nxt-btn"
           />
         </div>
       </form>

@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import AddEventIconBtn from './add_event_icon_btn';
 import UploadMultiImages from '../upload_multi_images';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 class AddEventPage5 extends Component {
   constructor(props) {
@@ -131,16 +133,18 @@ class AddEventPage5 extends Component {
           <UploadMultiImages updateImageURL={this.updateImageURL} />
         </div>
         <div className="add-event-btns">
-          <input
+          <RaisedButton 
+            label="Back"
             type="button"
-            value="Back"
             onClick={(e) => { this.handleBack(e); }}
-            className="back-btn add-event-btn"
+            className="back-btn"
           />
-          <input
+          <RaisedButton 
+            label="Submit"
+            primary={true}
             type="submit"
-            value="Submit Event"
-            className={(!this.state.icon) ? 'invalid-nxt-btn add-event-btn nxt-btn' : 'nxt-btn add-event-btn'}
+            disabled={(!this.state.icon)}
+            className="nxt-btn"
           />
         </div>
       </form>

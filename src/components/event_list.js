@@ -1,8 +1,9 @@
 // event_list.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import EventListItem from './event_list_item';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class EventList extends Component {
   constructor(props) {
@@ -53,44 +54,43 @@ class EventList extends Component {
       if (this.eventItems.length > 0) {
         return (
           <div id="event-menu">
-            <div className="add-event-btn-container">
-              <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
-                Add Event
-                <img id="plus" src="/icon_set_1/plus.png" role="presentation" />
-              </button>
-            </div>
             <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
-            {this.eventItems}
+            <div id="event-list">
+              {this.eventItems}
+            </div>
+            <div className="add-event-btn-container">
+              <FloatingActionButton onClick={this.props.toggleAddEvent}>
+                <ContentAdd />
+              </FloatingActionButton>
+            </div>
           </div>
         );
       }
-    }
+    }else{
     // Case of no matching events.
-    return (
-      <div id="event-none">
-        <div className="add-event-btn-container">
-          <button
-            className="add-event-plus"
-            type="button"
-            onClick={this.props.toggleAddEvent}
-          >
-            Add Event
-            <img id="plus" src="/icon_set_1/plus.png" role="presentation" />
-          </button>
+      return (
+        <div id="event-none">
+          <input
+            id="search-bar"
+            type="text"
+            value={this.state.searchString}
+            onChange={this.handleChange}
+            placeholder="Type here..."
+          />
+          <div id="event-list">
+            <text className="warning-msg">
+              No Matching Events. <br />
+              Please Try Again.
+            </text>
+          </div>
+          <div className="add-event-btn-container">
+            <FloatingActionButton onClick={this.props.toggleAddEvent}>
+              <ContentAdd />
+            </FloatingActionButton>
+          </div>
         </div>
-        <input
-          id="search-bar"
-          type="text"
-          value={this.state.searchString}
-          onChange={this.handleChange}
-          placeholder="Type here..."
-        />
-        <text className="warning-msg">
-          No Matching Events. <br />
-          Please Try Again.
-        </text>
-      </div>
-    );
+      );
+    }
   }
 }
 
