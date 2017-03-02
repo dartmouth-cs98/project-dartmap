@@ -31,7 +31,7 @@ class CommentList extends React.Component {
           <ListItem key={comment.id}
             leftAvatar={<Avatar src={comment.user_image} />}
           >
-            <Comment author={comment.author} text={comment.content}
+            <Comment author={comment.author} text={comment.content} enable_edit={this.props.user_id===comment.user_id}
               id={comment.id} time={comment.timestamp} image={comment.user_image}
               onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete}
             />

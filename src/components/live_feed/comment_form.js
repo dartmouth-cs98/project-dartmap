@@ -50,7 +50,7 @@ class CommentForm extends React.Component {
     return (
       <div className="row">
         <Avatar
-          src="https://s3.amazonaws.com/dartmap/edrei.jpg"
+          src={(this.props.user && this.props.user.fbProfPicUrl) ? this.props.user.fbProfPicUrl : 'https://image.freepik.com/icones-gratis/macho-acima-silhueta-escura_318-39674.png'}
           style={styles.avatar}
         />
         <TextField style={styles.text}
