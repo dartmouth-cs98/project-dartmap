@@ -9,11 +9,18 @@ import Rcslider from 'rc-slider';
 import { connect } from 'react-redux';
 
 // const TIMES_DATA = {0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 0, 9: 2};
-const TIMES_DATA_DISPLAY = { 0: '8am', 1: '10am', 2: 'noon', 3: '2pm', 4: '4pm', 5: '6pm', 6: '8pm', 7: '10pm', 8: 'midnight', 9: '2am' };
-
-// function log(value) {
-//   console.log(value);
-// }
+const TIMES_DATA_DISPLAY = { 
+	0: '8am', 
+	1: '10am', 
+	2: 'noon', 
+	3: '2pm', 
+	4: '4pm', 
+	5: '6pm', 
+	6: '8pm', 
+	7: '10pm', 
+	8: 'midnight', 
+	9: '2am' 
+};
 
 class TimeFilter extends Component {
 
@@ -39,7 +46,6 @@ class TimeFilter extends Component {
   	}
 
   	handleChange(value) {
-  		console.log(value);
   		this.setState({ value });
   	}
 

@@ -46,7 +46,10 @@
   }
 }
 .date-filter, .time-filter, .category-filter {
+  margin-top:30px;
   margin-bottom: 30px;
+  margin-right: 200px;
+  width:250%;
   @include flex-space-around;
   @include flex-box;
 }
@@ -89,15 +92,14 @@
   bottom: 0;
 }
 
-#checkboxes-dropdown {
-  display: none;
+.checkboxes-dropdown {
   border: 1px #dadada solid;
 }
 
-#checkboxes-dropdown label {
+.checkboxes-dropdown label {
   display: block;
 }
 
-#checkboxes-dropdown label:hover {
-  background-color: #1e90ff;
+.checkboxes-dropdown label:hover {
+  background-color: #B8B8B8;
 }

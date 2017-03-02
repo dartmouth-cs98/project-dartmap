@@ -111,7 +111,7 @@ class DateFilter extends Component {
       <div className="multiselect">
         <div className="selectBox" onClick={this.showCheckboxes}>
           <select>
-            <option>Filter by Dates </option>
+            <option>Filter by Date </option>
           </select>
           <div className="overSelect"></div>
         </div>
@@ -124,44 +124,68 @@ class DateFilter extends Component {
       <div className="multiselect">
         <div className="selectBox" onClick={this.showCheckboxes}>
           <select>
-            <option>Filter by Dates</option>
+            <option>Filter by Date </option>
           </select>
           <div className="overSelect"></div>
         </div>
         <div className="checkboxes-dropdown" id="checkboxes">
 
         <div >
-          <input type="checkbox" id="d0" name="d0" value="0" onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[0]} />
-          <label htmlFor="d0" data-value={DATES[0]}>{DATES[0]}</label>
+         <label htmlFor="d0">
+          <input type="checkbox" id="d0" name="d0" value="0" 
+          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[0]} 
+          data-value={DATES[0]} />     {DATES[0]}</label>
         </div>
+
         <div >
-          <input type="checkbox" id="d1" name="d1" value="1" onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[1]} />
-          <label htmlFor="d1" data-value={DATES[1]}>{DATES[1]}</label>
+        <label htmlFor="d1">
+          <input type="checkbox" id="d1" name="d1" value="1" 
+          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[1]} 
+           data-value={DATES[1]} />     {DATES[1]}</label>
         </div>
+
         <div >
-          <input type="checkbox" id="d2" name="d2" value="2" onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[2]} />
-          <label htmlFor="d2" data-value={DATES[2]}>{DATES[2]}</label>
+        <label htmlFor="d2">
+          <input type="checkbox" id="d2" name="d2" value="2" 
+          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[2]} 
+           data-value={DATES[2]} />     {DATES[2]}</label>
         </div>
+
         <div >
-          <input type="checkbox" id="d3" name="d3" value="3" onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[3]} />
-          <label htmlFor="d3" data-value={DATES[3]}>{DATES[3]}</label>
+        <label htmlFor="d3">
+          <input type="checkbox" id="d3" name="d3" value="3" 
+          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[3]} 
+           data-value={DATES[3]} />     {DATES[3]}</label>
         </div>
+
         <div >
-          <input type="checkbox" id="d4" name="d4" value="4" onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[4]} />
-          <label htmlFor="d4" data-value={DATES[4]}>{DATES[4]}</label>
+         <label htmlFor="d4" >
+          <input type="checkbox" id="d4" name="d4" value="4" 
+          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[4]} 
+         data-value={DATES[4]} />     {DATES[4]}</label>
         </div>
+
         <div >
-          <input type="checkbox" id="d5" name="d5" value="5" onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[5]} />
-          <label htmlFor="d5" data-value={DATES[5]}>{DATES[5]}</label>
+        <label htmlFor="d5">
+          <input type="checkbox" id="d5" name="d5" value="5" 
+          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[5]} 
+          data-value={DATES[5]}/>     {DATES[5]}</label>
         </div>
+
         <div >
-          <input type="checkbox" id="d6" name="d6" value="6" onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[6]} />
-          <label htmlFor="d6" data-value={DATES[6]}>{DATES[6]}</label>
+        <label htmlFor="d6">
+          <input type="checkbox" id="d6" name="d6" value="6" 
+          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[6]} 
+           data-value={DATES[6]} />     {DATES[6]}</label>
         </div>
+
         <div >
-          <input type="checkbox" id="d7" name="d7" value="7" onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[7]} />
-          <label htmlFor="d7" data-value={DATES[7]}>{DATES[7]}</label>
+        <label htmlFor="d7" >
+          <input type="checkbox" id="d7" name="d7" value="7" 
+          onChange={this.handleChange} defaultChecked={DEFAULT_CHECKED[7]} 
+          data-value={DATES[7]} />     {DATES[7]}</label>
         </div>
+
         </div>
       </div>
     </form>
