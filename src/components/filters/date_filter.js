@@ -98,7 +98,7 @@ class DateFilter extends Component {
       return <div className="hidden" />;
     }
     return (
-      <div className="date-filter section-inner" style={{ color: '#008000', height: '30px' }}>
+      <div className="date-filter section-inner">
         <div className="segmented-control">
           <input type="checkbox" id="d0" name="d0" value="0" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[0]} />
           <label htmlFor="d0" data-value={this.datesDataDisplay[0]}>{this.datesDataDisplay[0]}</label>
