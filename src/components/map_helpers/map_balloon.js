@@ -22,10 +22,10 @@ class MapBalloon extends Component {
         <div className="hidden" />
       );
     }
-    this.locationId = this.events[0].location_id;
-    if ((this.props.stickyBalloonId !== this.locationId)
-      && (this.props.hoverKey !== this.locationId)
-      && (this.props.balloonId !== this.locationId)) {
+    const locationId = this.events[0].location_id;
+    if ((this.props.stickyBalloonId !== locationId)
+      && (this.props.hoverKey !== locationId)
+      && (this.props.balloonId !== locationId)) {
       return (
         <div className="hidden" />
       );
