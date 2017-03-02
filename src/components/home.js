@@ -51,11 +51,14 @@ class Home extends Component {
     }, true);
   }
 
-  componentWillUpdate() {
+  componentWillUpdate(nextProps, nextState) {
     if ((!this.props.events) || (this.props.events[0] === 'retry')) {
       if (this.props.latitude && this.props.longitude) {
         this.getEvents();
       }
+    }
+    if (this.props.latitude && this.props.longitude && (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude)) {
+      this.props.fetchEvents(nextProps.atitude, nextProps.longitude, RADIUS);
     }
   }
 
