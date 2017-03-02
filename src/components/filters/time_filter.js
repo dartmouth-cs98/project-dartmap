@@ -22,19 +22,25 @@ class TimeFilter extends Component {
 
     this.state = {
       expanded: false,
+      value: [0, 9],
     }
 
+    this.handleChange = this.handleChange.bind(this);
     this.showSlider = this.showSlider.bind(this);
     this.onTimeChange = props.onTimeChange;
 	}
 
 	showSlider() {
-    var slider = document.getElementById("slider");
     if (!this.state.expanded) {
       this.setState({ expanded : true });
     } else {
       this.setState({ expanded : false });
     }
+  	}
+
+  	handleChange(value) {
+  		console.log(value);
+  		this.setState({ value });
   	}
 
   	render() {
@@ -54,20 +60,24 @@ class TimeFilter extends Component {
     }
 
   	return (
-  		<form>
+
+  		 <form>
       <div className="multiselect">
         <div className="selectBox" onClick={this.showSlider}>
           <select>
             <option>Filter by Time </option>
           </select>
           <div className="overSelect"></div>
-
+          <div id="slider">
 	          <div className="time-filter">
 	      	<Rcslider tipFormatter={null} marks={TIMES_DATA_DISPLAY} 
 	      	min={0} max={9} allowCross={false} range dots step={1} 
-	      	defaultValue={[0, 9]} onAfterChange={this.onTimeChange} />
+	      	defaultValue={[0, 9]} value={this.state.value}
+	      	onChange={this.handleChange}
+	      	onAfterChange={this.onTimeChange} />
    			 </div>
         </div>
+      </div>
       </div>
     </form>
         );
