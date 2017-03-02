@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import DateFilter from './filters/old_date_filter';
+import DateFilter from './filters/date_filter';
 import TimeFilter from './filters/time_filter';
 import CategoryFilter from './filters/category_filter';
 // import ApplyFilterButton from './apply_filter_button';
