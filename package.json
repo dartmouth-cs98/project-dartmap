@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "bootstrap-multiselect": "^0.9.13-1",
     "facebook-plugins": "^1.0.5",
     "google-map-react": "^0.20.1",
     "jquery": "^3.1.1",
@@ -46,6 +47,8 @@
     "rc-progress": "^2.0.6",
     "rc-slider": "^5.1.2",
     "react": "^15.3.2",
+    "react-bootstrap": "^0.30.7",
+    "react-bootstrap-multiselect": "^2.3.0",
     "react-controllables": "^0.6.0",
     "react-datetime": "^2.6.0",
     "react-dom": "^15.3.2",
@@ -55,6 +58,8 @@
     "react-redux": "^5.0.2",
     "react-router": "^2.8.1",
     "react-select": "^1.0.0-rc.2",
+    "react-select-box": "^3.0.1",
+    "react-select-box-2": "^3.0.2",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0"
   },

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import DateFilter from './filters/date_filter';
+import DateFilter from './filters/old_date_filter';
 import TimeFilter from './filters/time_filter';
 import CategoryFilter from './filters/category_filter';
 // import ApplyFilterButton from './apply_filter_button';
@@ -47,11 +47,19 @@ class FilterContainer extends Component {
 
   render() {
     return (
-      <div id="filter-container">
-        <CategoryFilter onCategoryChange={this.onCategoryChange} categoriesList={this.props.categoriesList} />
-        <DateFilter onDateChange={this.onDateChange} dateBarData={this.props.dateBarData} />
-        <TimeFilter onTimeChange={this.onTimeChange} />
+    <div id="filter-container">
+    <div id="category-filter-container">
+      <CategoryFilter onCategoryChange={this.onCategoryChange} 
+      categoriesList={this.props.categoriesList} />
       </div>
+    <div id="date-filter-container">
+      <DateFilter onDateChange={this.onDateChange} 
+      dateBarData={this.props.dateBarData} />
+      </div>
+    <div id="time-filter-container">
+      <TimeFilter onTimeChange={this.onTimeChange} />
+      </div>
+    </div>
     );
   }
 }
