@@ -1,6 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+
 class Comment extends React.Component {
   constructor() {
     super();
@@ -54,39 +57,42 @@ class Comment extends React.Component {
   }
 
   render() {
+    const styles = {
+      button: {
+        margin: 12,
+      },
+      textField: {
+        marginLeft: 10,
+      },
+    };
+
     return (
       <div>
-        <div className="col-md-10">
-          <div className="row">
-            <span className="col-md-5"><b>{this.props.author}</b> posted {this.getTime()}</span>
-            <div className="right-align">
-              <div className={this.state.isEditing ? 'hidden' : ''}>
-                <button onClick={this.handleDelete}>Delete</button>
-                <button onClick={this.toggleEditing}>Edit</button>
-              </div>
-            </div>
-            <div className="comment-content">
-              <div className={this.state.isEditing ? '' : 'hidden'}>
-                <form className="" onSubmit={this.handleEdit}>
-                  <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
-                  <input type="submit" value="Confirm Changes" />
-                </form>
-              </div>
-              <div className={this.state.isEditing ? 'hidden' : ''}>
-                {this.props.text}
-              </div>
+        <div className="row">
+          <span className="col-md-5"><b>{this.props.author}</b> posted {this.getTime()}</span>
+          <div className="pull-right" style={styles.button}>
+            <div className={this.state.isEditing ? 'hidden' : ''}>
+              <RaisedButton label="Delete" primary={true} onClick={this.handleDelete} />
+              <RaisedButton label="Edit" primary={true} onClick={this.toggleEditing} />
             </div>
           </div>
-          <div>
-            <div className={this.state.isEditing ? '' : 'hidden'}>
-              <form className="" onSubmit={this.handleEdit}>
-                <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
-                <input type="submit" value="Confirm Changes" />
-              </form>
+        </div>
+        <div className="row">
+          <div className={this.state.isEditing ? '' : 'hidden'}>
+            <div className="col-md-5">
+              <TextField style={styles.textField}
+                defaultValue={this.props.text}
+                onChange={this.trackEdit}
+              />
             </div>
-            <div className={this.state.isEditing ? 'hidden' : ''}>
-              {this.props.text}
+            <div className="pull-right" style={styles.button}>
+              <RaisedButton label="Submit" primary={true} onClick={this.handleEdit} />
             </div>
+          </div>
+          <div className={this.state.isEditing ? 'hidden' : ''}>
+            <TextField style={styles.textField}
+              defaultValue={this.props.text}
+            />
           </div>
         </div>
       </div>
