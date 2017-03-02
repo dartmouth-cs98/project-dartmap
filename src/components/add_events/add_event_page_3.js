@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 
 class AddEventPage3 extends Component {
-  // static nullFunction() {}
   constructor(props) {
     super(props);
     this.state = {
@@ -66,8 +65,8 @@ class AddEventPage3 extends Component {
       if (!place.geometry) {
         // User entered the name of a Place that was not suggested and
         // pressed the Enter key, or the Place Details request failed.
-        const alertText = 'No details available for input: \'';
-        window.alert(alertText.concat(place.name).concat('\''));
+        const alertText = `No details available for input: '${place.name}'`;
+        window.alert(alertText);
       }
       // If the place has a geometry, then present it on a map.
       if (place.geometry.viewport) {
