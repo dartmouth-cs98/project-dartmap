@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { Avatar, ListItem } from 'material-ui/List';
+
 import Comment from './comment';
 
 class CommentList extends React.Component {
@@ -20,12 +23,16 @@ class CommentList extends React.Component {
   render() {
     const commentNodes = this.props.data ? this.props.data.map((comment) => {
       return (
-        <li key={comment.id} className="collection-item">
-          <Comment author={comment.author} text={comment.content} enable_edit={this.props.user_id === comment.user_id}
-            id={comment.id} time={comment.timestamp} image={comment.user_image}
-            onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete}
-          />
-        </li>
+        <div key={comment.id}>
+          <ListItem key={comment.id}
+            leftAvatar={<Avatar src={comment.user_image} />}
+          >
+            <Comment author={comment.author} text={comment.content} enable_edit={this.props.user_id === comment.user_id}
+              id={comment.id} time={comment.timestamp} image={comment.user_image}
+              onCommentEdit={this.handleEdit} onCommentDelete={this.handleDelete}
+            />
+          </ListItem>
+        </div>
       );
     }) : null;
     return (

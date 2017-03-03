@@ -1,7 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
+import { Subheader, List } from 'material-ui';
+
 import CommentList from './comment_list';
 import CommentForm from './comment_form';
+
 import { fetchEvent, createComment, updateComment, deleteComment } from '../../actions';
 
 const API_URL = 'https://dartmapapi.herokuapp.com/api/';
@@ -53,22 +57,15 @@ class CommentBox extends React.Component {
   render() {
     return (
       <div>
-        <ul className="collection with-header">
-          <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} user={this.props.user} />
-          <CommentList data={this.props.data} onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete} />
-        </ul>
-        <div className="container">
-          <div className="col-md-12 panel panel-white post panel-shadow">
-            <h1> Live Feed </h1>
-            <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} user={this.props.user} />
-            <div className="post-footer">
-              <CommentList data={this.props.currentEvent ? this.props.currentEvent.comments : null}
-                onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete}
-                user_id={this.props.user && this.props.user.userInfo && this.props.user.userInfo[0] && this.props.user.userInfo[0].id ? this.props.user.userInfo[0].id : null}
-              />
-            </div>
-          </div>
-        </div>
+        <List>
+          <Subheader>
+            <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
+          </Subheader>
+          <CommentList data={this.props.currentEvent ? this.props.currentEvent.comments : null}
+            onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete}
+            user_id={this.props.user && this.props.user.userInfo && this.props.user.userInfo[0] && this.props.user.userInfo[0].id ? this.props.user.userInfo[0].id : null}
+          />
+        </List>
       </div>
     );
   }
