@@ -29,6 +29,14 @@ class UserEventListItem extends Component {
       const catValue = cat.name;
       this.selectedCategories.push({ label: catLabel, value: catValue });
     }
+    let catString = '';
+    for (let i = 0; i < this.props.event.categories.length; i += 1) {
+      if (i !== 0) {
+        catString += ', ' + this.props.event.categories[i].name;
+      } else {
+        catString += this.props.event.categories[i].name;
+      }
+    }
     this.state = {
       editing: false,
       editEventButtonText: 'Edit',
@@ -40,6 +48,7 @@ class UserEventListItem extends Component {
       eventEndTime: this.props.event.end_time,
       eventLocation: this.props.event.location_name,
       eventCategories: this.selectedCategories,
+      eventCategoriesString: catString,
       eventLocationLng: this.props.event.lng,
       eventLocationLat: this.props.event.lat,
       eventLocationName: this.props.event.location_name,
@@ -103,7 +112,7 @@ class UserEventListItem extends Component {
       let catsToSend = '';
       for (let i = 0; i < this.state.eventCategories.length; i += 1) {
         if (i !== 0) {
-          catsToSend += ',';
+          catsToSend += ', ';
         }
         catsToSend += this.state.eventCategories[i].value;
         toSend.categories = catsToSend;
@@ -111,6 +120,8 @@ class UserEventListItem extends Component {
       console.log('toSend:');
       console.log(toSend);
       updateEvent(this.props.event.id, toSend);
+      // update string of categories
+      this.setState({ eventCategoriesString: catsToSend });
       alert('Event updated!');
     } else {
       this.setState({
@@ -142,7 +153,7 @@ class UserEventListItem extends Component {
     const obj = [];
     for (let i = 0; i < cats.length; ++i) {
       if (cats[i] != undefined) {
-        const single_obj = {};
+        const singleObj = {};
         let id;
         if (cats[i] === 'Academic') id = 1;
         if (cats[i] === 'Art') id = 2;
@@ -151,9 +162,9 @@ class UserEventListItem extends Component {
         if (cats[i] === 'Lecture') id = 5;
         if (cats[i] === 'Greek Life') id = 6;
         if (cats[i] === 'Free Food') id = 7;
-        single_obj.id = id;
-        single_obj.name = cats[i];
-        obj.push(single_obj);
+        singleObj.id = id;
+        singleObj.name = cats[i];
+        obj.push(singleObj);
       }
     }
     this.setState({ eventCategories: obj });
@@ -308,16 +319,6 @@ class UserEventListItem extends Component {
       categoriesStringLabel += 'ies:';
     }
 
-    let i;
-    let categoriesString = '';
-    for (i = 0; i < this.props.event.categories.length; i += 1) {
-      if (i !== 0) {
-        categoriesString += ', ' + this.props.event.categories[i].name;
-      } else {
-        categoriesString += this.props.event.categories[i].name;
-      }
-    }
-
     let eventMap = null;
     let eventName = null;
     let eventTime = null;
@@ -432,7 +433,7 @@ class UserEventListItem extends Component {
       );
       eventCategories = (
         <text className="attribute">
-          {categoriesString}<br />
+          {this.state.eventCategoriesString}<br />
         </text>
       );
       eventDescription = (
