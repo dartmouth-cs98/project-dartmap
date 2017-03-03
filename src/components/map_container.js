@@ -36,15 +36,13 @@ class MapContainer extends Component {
 
   componentWillReceiveProps(newProps) {
     // newProps.events is a pre-filtered list of events to display on the map.
-    if (newProps.events && newProps.events.length > 0) {
-      this.createLocationsFromEvents(newProps.events);
-      // this.setState({ locations });
-    }
+    this.createLocationsFromEvents(newProps.events);
+    // this.setState({ locations });
   }
 
   _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
     this.props.setMapCenter({ lat: center[0], lng: center[1] });
-    // this.props.clearBalloons();
+    this.props.clearBalloons();
     this.props.onZoomChange(zoom);
   }
 
@@ -59,14 +57,18 @@ class MapContainer extends Component {
 
   createLocationsFromEvents(eventList) {
     const locations = new Map();
-    for (let i = 0; i < eventList.length; i += 1) {
-      if (locations.has(eventList[i].location_id)) {
-        locations.get(eventList[i].location_id).push(eventList[i]);
-      } else {
-        locations.set(eventList[i].location_id, [eventList[i]]);
+    if (!eventList) {
+      this.setState({ locations });
+    } else {
+      for (let i = 0; i < eventList.length; i += 1) {
+        if (locations.has(eventList[i].location_id)) {
+          locations.get(eventList[i].location_id).push(eventList[i]);
+        } else {
+          locations.set(eventList[i].location_id, [eventList[i]]);
+        }
       }
+      this.setState({ locations });
     }
-    this.setState({ locations });
   }
 
   maybeSelectLocation = (event) => {

@@ -21,10 +21,11 @@ const CATEGORIES = [
 // Default to all categories
 const DEFAULT_CATEGORIES = [true,true,true,true,true,true,true,true]
 
-class CategoryFilter extends Component {
 
+class CategoryFilter extends Component {
   constructor(props) {
     super(props);
+
     this.state = { 
       checked: CATEGORIES,
       expanded: false,
@@ -34,7 +35,9 @@ class CategoryFilter extends Component {
     this.showCheckboxes = this.showCheckboxes.bind(this);
     this.onCategoryChange = props.onCategoryChange;
     this.initialSetDefault = true;
+    this.dropdownValues = [];
   }
+
 
   componentWillMount = () => {
     this.selectedCheckboxes = new Set();
@@ -90,9 +93,12 @@ class CategoryFilter extends Component {
         single_cat['name'] = checked[i]; 
         cat_filters.push(single_cat);
       }
+      this.setState({ categories: this.dropdownValues });
+      this.props.onCategoryChange(this.dropdownValues);
+      this.initialSetDefault = false;
     }
-    console.log(cat_filters);
     this.onCategoryChange(cat_filters);
+
   }
 
   showCheckboxes() {
@@ -105,6 +111,7 @@ class CategoryFilter extends Component {
 }
 
   render() {
+
     if (!this.state.expanded) {
       return (
         <form>
@@ -195,10 +202,4 @@ class CategoryFilter extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    catList: state.events.catList,
-  }
-);
-
-export default connect(mapStateToProps, null)(CategoryFilter);
+export default CategoryFilter;
