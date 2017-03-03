@@ -5,46 +5,27 @@
 @import "./segmented-controls.css";
 @import "./variables.scss";
 
-#category-filter-container {
-  display:inline-block;
-  margin-top:3%;
+.filter {
   width: 30%;
-  height: 20%;
-  vertical-align:top;
-}
-
-#date-filter-container {
-  display:inline-block;
-  width: 30%;
-  height: 20%;
-  margin-right:3%;
-  margin-top:3%;
-  vertical-align:top;
-}
-
-#time-filter-container {
-  display:inline-block;
-  margin-left:3%;
-  margin-right:3%;
-  margin-top:3%;
-  width: 30%;
-  height: 20%;
-  vertical-align:top;
+  display: inline-block;
 }
 
 #filter-container {
-  height: 20%;
-  width: 80%;
-  float: left;
-  display: inline-block;
-  padding: 0 25px;
-
-  #filter-btn {
-    display: inline-block;
-    background-color: orange;
-    float: right;
-  }
+  height: 40px;
+  width: 100%;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  @include flex-box;
+  @include flex-space-around;
+  @include flex-align-center;
 }
+
+#filter-btn {
+  display: inline-block;
+  background-color: orange;
+  float: right;
+}
+
 .date-filter, .category-filter {
   margin-top:30px;
   margin-bottom: 30px;
@@ -58,7 +39,7 @@
   margin-top:50px;
   margin-bottom: 30px;
   margin-right: 200px;
-  width:250%;
+  width:300%;
 }
 
 .category-filter {

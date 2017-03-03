@@ -29,34 +29,29 @@ class TimeFilter extends Component {
     super(props);
 
     this.state = {
-      expanded: false,
       value: [0, 9],
     }
-
-    this.handleChange = this.handleChange.bind(this);
-    this.showSlider = this.showSlider.bind(this);
-    this.onTimeChange = props.onTimeChange;
 	}
 
-	showSlider() {
-    if (!this.state.expanded) {
-      this.setState({ expanded : true });
-    } else {
-      this.setState({ expanded : false });
-    }
-  	}
+	// showSlider = () => {
+ //    if (!this.props.openTimeFilter) {
+ //      this.setState({ expanded : true });
+ //    } else {
+ //      this.setState({ expanded : false });
+ //    }
+ //  	}
 
-  	handleChange(value) {
+  	handleChange = (value) => {
   		this.setState({ value });
-      this.setState({ expanded : true });
+      console.log(value);
   	}
 
   	render() {
-  		if (!this.state.expanded) {
+  		if (!this.props.openTimeFilter) {
       return (
         <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.showSlider}>
+        <div className="selectBox" onClick={this.props.openFilter}>
           <select>
             <option>Filter by Time </option>
           </select>
@@ -70,7 +65,7 @@ class TimeFilter extends Component {
   	return (
   		 <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.showSlider}>
+        <div className="selectBox" onClick={this.props.openFilter}>
           <select>
             <option>Filter by Time </option>
           </select>

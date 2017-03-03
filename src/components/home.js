@@ -166,6 +166,7 @@ class Home extends Component {
     }
     return (
       <div className="home-container">
+        <FilterContainer />
         <MapContainer
           height={this.state.mapHeight}
           width={this.state.mapWidth}
@@ -174,7 +175,6 @@ class Home extends Component {
           toggleAddEvent={this.toggleAddEvent}
           selectedLocation={this.state.selectedLocation}
         />
-        <FilterContainer />
         <AddEventDialog
           addEvent={this.state.addEvent}
           handleAddEventData={this.handleAddEventData}

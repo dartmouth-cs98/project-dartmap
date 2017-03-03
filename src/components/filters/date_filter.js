@@ -47,13 +47,12 @@ class DateFilter extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.showCheckboxes = this.showCheckboxes.bind(this);
-    this.onDateChange = props.onDateChange;
+    // this.onDateChange = props.onDateChange;
     this.filterEvent = this.filterEvent.bind(this);
-
-    this.filterEvent([0,1]);
   }
 
   componentWillMount = () => {
+    this.filterEvent([0,1]);
     this.selectedCheckboxes = new Set();
   }
 
@@ -102,7 +101,7 @@ class DateFilter extends Component {
       }
     }
     dateArray.sort();
-    this.onDateChange(dateArray);
+    this.props.onDateChange(dateArray);
   }
 
 
