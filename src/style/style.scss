@@ -60,9 +60,12 @@ hr {
 
   // This is (currently) the user's name from facebook in the nav bar
   h2 {
-    color: #B3B3B3;
+    color: #337ab7;
+    font-size: 15pt;
     margin-bottom: 0;
+    margin: initial;
     line-height: $nav-bar-height;
+    right: 8px;
   }
 
   #logo {
@@ -77,6 +80,12 @@ hr {
 
 .nav-wrapper h1{
   height: 64px;
+}
+
+.nav-menu-right{
+  position: relative;
+  display: inherit;
+  right: 20px;
 }
 
 .nav-btn {
@@ -163,6 +172,9 @@ hr {
 .nav-menu-container {
   width: 140px;
   height: $nav-bar-height;
+  display: inline-block;
+  position: relative;
+  left: 15px;
 }
 
 // This is (currently) the add event button

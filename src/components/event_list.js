@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { FloatingActionButton } from 'material-ui';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Drawer from 'material-ui/Drawer';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import EventListItem from './event_list_item';
@@ -56,7 +57,7 @@ class EventList extends Component {
       }
 
       // Case of matching events (i.e. if there are events to be displayed)
-      if (this.eventItems.length > 0) {
+      if (this.eventItems || this.eventItems.length > 0) {
         return (
           <div id="event-menu">
             <input id="search-bar" type="text" value={this.state.searchString}
