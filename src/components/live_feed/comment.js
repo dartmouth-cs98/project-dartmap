@@ -1,12 +1,18 @@
 import React from 'react';
 import moment from 'moment';
 
+import { Dialog, FlatButton, RaisedButton, ListItem, Avatar, IconButton, IconMenu, MenuItem } from 'material-ui';
+import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+
 class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
       isEditing: false,
+      isEditDialogOpen: false,
+      isDeleteDialogOpen: false,
     };
   }
 
@@ -48,12 +54,78 @@ class Comment extends React.Component {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
+  handleOpenEdit = (e) => {
+    e.preventDefault();
+    this.setState({ isEditDialogOpen: !this.state.isEditDialogOpen });
+  }
+
+  handleOpenDelete = (e) => {
+    e.preventDefault();
+    this.setState({ isDeleteDialogOpen: !this.state.isDeleteDialogOpen });
+  }
+
   render() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary
+        onTouchTap={this.handleOpenDelete}
+      />,
+      <FlatButton
+        label="Discard"
+        primary
+        onTouchTap={this.handleDelete}
+      />,
+    ];
+
+    const iconButtonElement = (
+      <IconButton
+        touch
+        tooltip="more"
+        tooltipPosition="bottom-left"
+      >
+        <MoreVertIcon color={grey400} />
+      </IconButton>
+    );
+
+    const rightIconMenu = (
+      <IconMenu iconButtonElement={iconButtonElement}>
+        <MenuItem
+          onTouchTap={this.handleOpenEdit}
+        >
+          Edit
+        </MenuItem>
+        <Dialog
+          actions={actions}
+          modal={false}
+          open={this.state.isEditDialogOpen}
+          onRequestClose={this.handleOpenEdit}
+        >
+          Discard draft?
+        </Dialog>
+        <MenuItem
+          onTouchTap={this.handleOpenDelete}
+        >
+          Delete
+        </MenuItem>
+        <Dialog
+          actions={actions}
+          modal={false}
+          open={this.state.isDeleteDialogOpen}
+          onRequestClose={this.handleOpenDelete}
+        />
+      </IconMenu>
+    );
+
     return (
-      <div>
-        <div className="col-md-10">
-          <div className="row">
-            <span className="col m5"><b>{this.props.author}</b> posted {this.getTime()}</span>
+      <ListItem
+        leftAvatar={<Avatar src={this.props.image} />}
+        rightIconButton={rightIconMenu}
+        primaryText={
+          <span className="col m5"><b>{this.props.author}</b> posted {this.getTime()}</span>
+        }
+        secondaryText={
+          <div>
             <div className={this.props.enable_edit ? '' : 'hidden'}>
               <div className="right-align">
                 <div className={this.state.isEditing ? 'hidden' : ''}>
@@ -73,8 +145,6 @@ class Comment extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-          <div>
             <div className={this.state.isEditing ? '' : 'hidden'}>
               <form className="" onSubmit={this.handleEdit}>
                 <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
@@ -85,8 +155,9 @@ class Comment extends React.Component {
               {this.props.text}
             </div>
           </div>
-        </div>
-      </div>
+        }
+        secondaryTextLines={2}
+      />
     );
   }
 }
