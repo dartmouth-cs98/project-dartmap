@@ -100,7 +100,7 @@ class MapContainer extends Component {
         // This is the information that is passed to EventsWithControllableHover.
         mapEvents.push(<EventsWithControllableHover
           {...coords}
-          key={id}
+          key={location[0].location_id}
           id={id}
           // text={String(id)}
           // use your hover state (from store, react-controllables etc...)

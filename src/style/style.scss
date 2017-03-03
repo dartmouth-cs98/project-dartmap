@@ -249,6 +249,8 @@ hr {
   color: black;
   padding: 5px;
   position: relative;
+  margin-left: 6px;
+  margin-top: 6px;
   width: 350px;
   z-index: 15;
   @include flex-box;

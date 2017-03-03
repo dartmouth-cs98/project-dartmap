@@ -18,7 +18,7 @@ const EventsWithControllableHover = (props) => {
     <div>
       <button
         type="button"
-        onClick={() => props.setStickyBalloonId(props.id)}
+        onClick={() => props.setStickyBalloonId(props.location_id)}
         id={props.id}
         className={currentClass}
       >
