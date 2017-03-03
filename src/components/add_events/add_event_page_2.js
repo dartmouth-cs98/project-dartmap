@@ -13,18 +13,26 @@ class AddEventPage2 extends Component {
       end_time: props.data.end_time,
       date: props.data.date,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBack = this.handleBack.bind(this);
+
     this.hiddenErrorMessage = <div className="hidden" />;
-    this.visibleErrorMessages = ['date', 'start time', 'end time'].map((data) => {
-      return <div key={data} className="error-msg"> The {data} of the event is required. </div>;
+    const dataTypes = ['date', 'start time', 'end time'];
+    this.visibleErrorMessages = dataTypes.map((data) => {
+      return (
+        <div key={data} className="error-msg">
+          The {data} of the event is required.
+        </div>
+      );
     });
-    this.timeErrorMessage = <div className="error-msg"> The end time of the event must be after the start time. </div>;
-    this.isValidTime = this.isValidTime.bind(this);
+    this.timeErrorMessage = (
+      <div className="error-msg">
+        The end time of the event must be after the start time.
+      </div>
+    );
   }
-  handleSubmit(event) {
+
+  handleSubmit = (event) => {
     event.preventDefault();
-    if (this.state.date && this.state.start_time && this.state.end_time && this.isValidTime()) {
+    if (this.isValidSubmission()) {
       const data = {
         date: this.state.date,
         start_time: this.state.start_time,
@@ -34,7 +42,8 @@ class AddEventPage2 extends Component {
       this.props.handleData(data);
     }
   }
-  handleBack(event) {
+
+  handleBack = (event) => {
     const data = {
       date: this.state.date,
       start_time: this.state.start_time,
@@ -43,24 +52,56 @@ class AddEventPage2 extends Component {
     };
     this.props.handleData(data);
   }
-  isValidTime() {
+
+  isValidTime = () => {
     if (!this.state.start_time) {
       return true;
     }
     if (!this.state.end_time) {
       return true;
     }
-    return (this.state.start_time) && (this.state.end_time) && this.state.end_time.isAfter(this.state.start_time);
+    const start = DateTime.moment(this.state.start_time);
+    const end = DateTime.moment(this.state.end_time);
+    return (start) && (end) && end.isAfter(start);
   }
+
+  isValidSubmission = () => {
+    return (this.state.date && this.state.start_time &&
+      this.state.end_time && this.isValidTime()
+    );
+  }
+
   render() {
-    const dateErrorMessage = (this.state.date === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
-    const startErrorMessage = (this.state.start_time === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
-    const endErrorMessage = (this.state.end_time === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessage;
-    const timeErrorMessage = (this.isValidTime()) ? this.hiddenErrorMessage : this.timeErrorMessage;
+    let dateErrorMessage = this.hiddenErrorMessage;
+    let startErrorMessage = this.hiddenErrorMessage;
+    let endErrorMessage = this.hiddenErrorMessage;
+    let timeErrorMessage = this.hiddenErrorMessage;
+    if (this.state.date === '') {
+      dateErrorMessage = this.visibleErrorMessages[0];
+    }
+    if (this.state.start_time === '') {
+      startErrorMessage = this.visibleErrorMessages[1];
+    }
+    if (this.state.end_time === '') {
+      endErrorMessage = this.visibleErrorMessages[2];
+    }
+    if (!this.isValidTime()) {
+      timeErrorMessage = this.timeErrorMessage;
+    }
+    const validClass = 'add-event-field';
+    const errorClass = validClass.concat('error-box');
+    const dateClassName = (this.state.date !== '') ? validClass : errorClass;
+    let startClass = errorClass;
+    let endClass = errorClass;
+    if (this.isValidTime()) {
+      startClass = (this.state.start_time !== '') ? validClass : errorClass;
+      endClass = (this.state.end_time !== '') ? validClass : errorClass;
+    }
+
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <div className='add-event-field-container-2'>
+          <div className="add-event-field-container-2">
             <h2>Date</h2>
             <DateTime
               timeFormat={false}
@@ -68,48 +109,48 @@ class AddEventPage2 extends Component {
               onChange={(moment) => { this.setState({ date: moment }); }}
               closeOnSelect
               isValidDate={(current) => {
-                // this function ensures that events cannot be created for dates before today
+                // this ensures that events cannot be created for past dates
                 const yesterday = DateTime.moment().subtract(1, 'day');
                 return current.isAfter(yesterday);
               }}
-              className={(this.state.date !== '') ? 'add-event-field add-event-date' : 'add-event-field add-event-date error-box'}
+              className={dateClassName.concat(' add-event-date')}
             />
           </div>
           {dateErrorMessage}
-          <div className='add-event-field-container-2'>
+          <div className="add-event-field-container-2">
             <h2>Start Time</h2>
             <DateTime
               dateFormat={false}
               value={this.state.start_time}
               onChange={(moment) => { this.setState({ start_time: moment }); }}
-              className={((this.state.start_time !== '') && this.isValidTime()) ? 'add-event-field add-event-time' : 'add-event-field add-event-time error-box'}
+              className={startClass.concat('add-event-time')}
             />
           </div>
           {startErrorMessage}
-          <div className='add-event-field-container-2'>
+          <div className="add-event-field-container-2">
             <h2>End Time</h2>
             <DateTime
               dateFormat={false}
               value={this.state.end_time}
               onChange={(moment) => { this.setState({ end_time: moment }); }}
-              className={((this.state.end_time !== '') && this.isValidTime()) ? 'add-event-field add-event-time' : 'add-event-field add-event-time error-box'}
+              className={endClass.concat('add-event-time')}
             />
           </div>
           {endErrorMessage}
           {timeErrorMessage}
         </div>
         <div className="add-event-btns">
-          <RaisedButton 
+          <RaisedButton
             label="Back"
             type="button"
-            onClick={(e) => { this.handleBack(e); }}
+            onClick={e => this.handleBack(e)}
             className="back-btn"
           />
-          <RaisedButton 
+          <RaisedButton
             label="Next"
-            primary={true}
+            primary
             type="submit"
-            disabled={(!this.state.date || !this.state.start_time || !this.state.end_time || !this.isValidTime())}
+            disabled={!this.isValidSubmission()}
             className="nxt-btn"
           />
         </div>

@@ -76,7 +76,9 @@ class EventPage extends Component {
   }
 
   getInitialRSVP() {
-    if (this.state.event !== undefined && this.state.event !== null && this.state.event.attendees.length !== 0 && this.state.isRSVPed === false) {
+    if (this.state.event !== undefined && this.state.event !== null
+      && this.state.event.attendees.length !== 0
+      && this.state.isRSVPed === false) {
       let i;
       for (i = 0; i < this.state.event.attendees.length; i += 1) {
         if (this.state.event.attendees[i].id === 1) {
@@ -179,12 +181,14 @@ class EventPage extends Component {
           hintText="12hr Format"
         />
         <nav className="navbar navbar-default">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="?">
             <strong>Event</strong>
           </a>
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <a className="#About">About <span className="sr-only">(current)</span></a>
+              <a className="#About">
+                About <span className="sr-only">(current)</span>
+              </a>
             </li>
             <li className="nav-item">
               <a className="#Going">Who is Going</a>
@@ -220,9 +224,13 @@ class EventPage extends Component {
           <div className="divider" />
           <div id="Going" className="section">
             <div className="row">
-              <h5 className="col m6">Who's Going?</h5>
+              <h5 className="col m6">Who is Going?</h5>
               <div className="right-align">
-                <a className="waves-effect waves-light btn" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</a>
+                <a className="waves-effect waves-light btn"
+                  onClick={this.handleRSVP}
+                >
+                  {this.state.isRSVPed ? 'Going' : 'RSVP'}
+                </a>
               </div>
             </div>
             <table className="highlight">
