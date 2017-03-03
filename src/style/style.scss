@@ -210,6 +210,8 @@ hr {
 .home-container {
   height: 90%;
   background-color: white;
+  position: relative;
+  top: 5px;
 }
 
 // Map Components
@@ -251,6 +253,12 @@ hr {
 }
 
 #search-bar {
+  width: 90%;
+  background-color: white;
+  display: inline-block;
+}
+
+.search-bar-box {
   width: 100%;
   background-color: white;
 }
@@ -260,14 +268,11 @@ hr {
 }
 
 #event-none {
-  float: right;
-  width: 20%;
-  height: 100%;
+  @include flex-box;
+  @include flex-column;
   overflow: scroll;
   background-color: white;
   text-align: center;
-  padding-right: 16px;
-  padding-top: 16px;
 }
 
 .popup {

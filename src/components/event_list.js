@@ -1,7 +1,7 @@
 // event_list.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Drawer from 'material-ui/Drawer';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -57,13 +57,20 @@ class EventList extends Component {
       // Case of matching events.
       if (this.eventItems || this.eventItems.length > 0) {
         return (
-            <div id="event-menu">
-                <input id="search-bar" type="text" value={this.state.searchString}
-                  onChange={this.handleChange} placeholder="Type here..."
-                />
-                <div id="event-list">
-                  {this.eventItems}
+            <div>
+              <Drawer containerClassName="side-drawer" open containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
+                <div className="search-bar-box">
+                  <input id="search-bar" type="text" value={this.state.searchString}
+                    onChange={this.handleChange} placeholder="Type here..."
+                  />
+                  <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
                 </div>
+                <div id="event-menu">
+                  <div id="event-list">
+                    {this.eventItems}
+                  </div>
+                </div>
+              </Drawer>
               <div className="add-event-btn-container">
                 <FloatingActionButton onClick={this.props.toggleAddEvent}>
                   <ContentAdd />
@@ -76,14 +83,13 @@ class EventList extends Component {
     // Case of no matching events.
       return (
           <div id="event-none">
-            <Drawer containerClassName="side-drawer" open containerStyle={{height: 'calc(100% - 64px)', top: 64}}>
-              <input
-                id="search-bar"
-                type="text"
-                value={this.state.searchString}
-                onChange={this.handleChange}
-                placeholder="Type here..."
-              />
+              <Drawer containerClassName="side-drawer" open containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
+              <div className="search-bar-box">
+                  <input id="search-bar" type="text" value={this.state.searchString}
+                    onChange={this.handleChange} placeholder="Type here..."
+                  />
+                  <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
+              </div>
               <div id="event-list">
                 <text className="warning-msg">
                   No Matching Events. <br />
