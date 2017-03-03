@@ -258,7 +258,7 @@ class EventPage extends Component {
           <Divider style={styles.dividerStyle} />
           <div id="Going">
             <div className="row">
-              <h2 className="col-md-3">Who's Going?</h2>
+              <h2 className="col-md-3">Who Is Going?</h2>
               <div className="pull-right" style={styles.button}>
                 <RaisedButton label={this.state.isRSVPed ? 'Going' : 'RSVP'} primary={true} onClick={this.handleRSVP} />
               </div>
