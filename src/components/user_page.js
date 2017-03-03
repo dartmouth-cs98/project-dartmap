@@ -3,10 +3,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { List, Drawer, makeSelectable, ListItem } from 'material-ui';
+import { zIndex } from 'material-ui/styles';
+
 import { getAllEvents } from '../helpers/dartmap-api';
 import UploadPhotoDialog from './upload_photo_dialog';
 import UserEventList from './user_profile_event_list';
 import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
+
+const SelectableList = makeSelectable(List);
 
 class UserPage extends Component {
 
@@ -59,35 +64,63 @@ class UserPage extends Component {
       });
       return null;
     }
+
+    const styles = {
+      drawer: {
+        width: 400,
+      },
+    };
+
     return (
-      <div className="profile">
-        <div className="photo-container">
-          <img
-            className="photo"
-            src={this.props.user.fbProfPicUrl}
-            alt="You"
-          />
-          <div className="upload-photo">
-            <button
-              className="upload-photo-button"
-              type="button"
-              onClick={this.openUploadPhotoDialog}
-            >
-            Change Photo
-            </button>
+      <div>
+        <Drawer className="col-md-3"
+          docked
+          open
+          containerStyle={{ zIndex: zIndex.drawer - 100, width: '400px' }}
+        >
+          <SelectableList>
+            <ListItem
+              primaryText="General"
+              primaryTogglesNestedList
+              nestedItems={[
+                <ListItem primaryText="Required Knowledge" value="/get-started/required-knowledge" />,
+                <ListItem primaryText="Installation" value="/get-started/installation" />,
+                <ListItem primaryText="Usage" value="/get-started/usage" />,
+                <ListItem primaryText="Server Rendering" value="/get-started/server-rendering" />,
+                <ListItem primaryText="Examples" value="/get-started/examples" />,
+              ]}
+            />
+          </SelectableList>
+        </Drawer>
+        <div className="col-md-9 profile">
+          <div className="photo-container">
+            <img
+              className="photo"
+              src={this.props.user.fbProfPicUrl}
+              alt="You"
+            />
+            <div className="upload-photo">
+              <button
+                className="upload-photo-button"
+                type="button"
+                onClick={this.openUploadPhotoDialog}
+              >
+              Change Photo
+              </button>
+            </div>
           </div>
+          <h1>Hi!</h1>
+          <br />
+          <h1>Your submitted events:</h1>
+          <UploadPhotoDialog
+            uploadingPhoto={this.state.uploadingPhoto}
+            closeUploadPhotoDialog={this.closeUploadPhotoDialog}
+          />
+          <UserEventList
+            events={this.state.eventList}
+            onEventListItemClick={this.onEventListItemClick}
+          />
         </div>
-        <h1>Hi!</h1>
-        <br />
-        <h1>Your submitted events:</h1>
-        <UploadPhotoDialog
-          uploadingPhoto={this.state.uploadingPhoto}
-          closeUploadPhotoDialog={this.closeUploadPhotoDialog}
-        />
-        <UserEventList
-          events={this.state.eventList}
-          onEventListItemClick={this.onEventListItemClick}
-        />
       </div>
     );
   }
