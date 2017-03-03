@@ -79,7 +79,7 @@ class AddEventPage2 extends Component {
             <DateTime
               dateFormat={false}
               value={this.state.start_time}
-              onChange={(moment) => { this.setState({ start_time: moment }); }}
+              onChange={(moment) => { this.setState({ start_time: moment }); console.log(moment); }}
               className={((this.state.start_time !== '') && this.isValidTime()) ? 'add-event-field add-event-time' : 'add-event-field add-event-time error-box'}
             />
           </div>

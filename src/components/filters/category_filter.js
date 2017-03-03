@@ -9,59 +9,58 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 
 const CATEGORIES = [
-  { label: 'Academic', value: 'Academic'},
-  { label: 'Art', value: 'Art'},
-  { label: 'Sports', value: 'Sports'},
-  { label: 'Performance', value: 'Performance'},
-  { label: 'Lecture', value: 'Lecture'},
-  { label: 'Greek Life', value: 'Greek Life'},
-  { label: 'Free Food', value: 'Free Food'},
-]
+  { label: 'Academic', value: 'Academic' },
+  { label: 'Art', value: 'Art' },
+  { label: 'Sports', value: 'Sports' },
+  { label: 'Performance', value: 'Performance' },
+  { label: 'Lecture', value: 'Lecture' },
+  { label: 'Greek Life', value: 'Greek Life' },
+  { label: 'Free Food', value: 'Free Food' },
+];
 
 
 class CategoryFilter extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       value: CATEGORIES,
-    }
+    };
     this.handleChange = this.handleChange.bind(this);
-    this.onCategoryChange = props.onCategoryChange;
     this.initialSetDefault = true;
   }
 
 
   handleChange(value) {
     this.setState({ value });
-    var cats = value.split(",");
+    const cats = value.split(',');
     console.log(cats.length);
-    console.log('categories ',CATEGORIES);
-    var obj = [];
-    for (var i = 0; i < cats.length; ++i) {
+    console.log('categories ', CATEGORIES);
+    const obj = [];
+    for (let i = 0; i < cats.length; ++i) {
       if (cats[i] != undefined) {
-        var single_obj = {};
-        var id;
-        if (cats[i] === "Academic") id = 1;
-        if (cats[i] === "Art") id = 2;
-        if (cats[i] === "Sports") id = 3;
-        if (cats[i] === "Performance") id = 4;
-        if (cats[i] === "Lecture") id = 5;
-        if (cats[i] === "Greek Life") id = 6;
-        if (cats[i] === "Free Food") id = 7;
-        single_obj['id'] = id;
-        single_obj['name'] = cats[i]; 
+        const single_obj = {};
+        let id;
+        if (cats[i] === 'Academic') id = 1;
+        if (cats[i] === 'Art') id = 2;
+        if (cats[i] === 'Sports') id = 3;
+        if (cats[i] === 'Performance') id = 4;
+        if (cats[i] === 'Lecture') id = 5;
+        if (cats[i] === 'Greek Life') id = 6;
+        if (cats[i] === 'Free Food') id = 7;
+        single_obj.id = id;
+        single_obj.name = cats[i];
         obj.push(single_obj);
       }
     }
-    this.onCategoryChange(obj);
+    this.props.onCategoryChange(obj);
   }
 
   render() {
     const dropdownValues = CATEGORIES;
     return (
       <div className="add-event-form" style={{ height: '70px' }}>
-         <div className="add-event-fields">
+        <div className="add-event-fields">
           <Select multi simpleValue
             options={dropdownValues}
             value={this.state.value}
