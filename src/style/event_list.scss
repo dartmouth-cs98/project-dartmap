@@ -31,13 +31,13 @@
   @include flex-box;
   @include flex-column;
   position: relative;
-  height: inherit;
-  overflow: scroll;
+  height: 92%;
 }
 
 #event-list {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   flex-grow: 1;
 
   @include flex-box;
