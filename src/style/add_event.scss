@@ -69,6 +69,14 @@
   @include flex-space-between;
 }
 
+.add-event-form-data {
+  height: 70%;
+  overflow: scroll;
+  @include flex-box;
+  @include flex-column;
+  @include flex-space-between;
+}
+
 .add-event-text {
   border: 0;
   border-bottom: 1px solid $light-grey;
@@ -84,13 +92,14 @@
 }
 
 .add-event-field-container-1 {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   position: relative;
+  width: 100%;
 }
 
 .add-event-field-container-2 {
-  margin-bottom: 40px;
-  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-top: 5px;
   position: relative;
 }
 
@@ -111,15 +120,20 @@
 
 .add-event-btns {
   display: inline-block;
-  width: 100%;
+  margin-bottom: 10px;
+  position: relative;
 }
 
 .add-event-btn {
   background-color: $green;
 }
 
+.add-event-btn-container{
+  position: absolute;
+  bottom: 0;
+}
+
 .back-btn {
-  border: 1px solid $green;
   float: left;
   &:hover {
     cursor: pointer;
@@ -127,7 +141,6 @@
 }
 
 .nxt-btn {
-  border: 1px solid $green;
   float: right;
   &:hover {
     cursor: pointer;
@@ -135,7 +148,10 @@
 }
 
 .invalid-nxt-btn {
-  background-color: $light-grey;
+  float: right;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 // Location Selection Page

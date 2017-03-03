@@ -133,6 +133,7 @@ class DateFilter extends Component {
         );
     }
     return (
+
      <form>
       <div className="multiselect">
         <div className="selectBox" onClick={this.showCheckboxes}>

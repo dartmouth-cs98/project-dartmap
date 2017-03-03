@@ -1,6 +1,8 @@
 // add_event_page_3.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 class AddEventPage3 extends Component {
   // static nullFunction() {}
@@ -179,16 +181,18 @@ class AddEventPage3 extends Component {
           <div id="add-event-map" />
         </div>
         <div className="add-event-btns">
-          <input
+          <RaisedButton 
+            label="Back"
             type="button"
-            value="Back"
             onClick={(e) => { this.handleBack(e); }}
-            className="back-btn add-event-btn"
+            className="back-btn"
           />
-          <input
+          <RaisedButton 
+            label="Next"
+            primary={true}
             type="submit"
-            value="Next"
-            className={(!this.state.location) ? invalidNext : validNext}
+            disabled={(!this.state.location)}
+            className="nxt-btn"
           />
         </div>
       </form>
