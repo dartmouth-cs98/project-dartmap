@@ -5,20 +5,18 @@ import { Avatar, ListItem } from 'material-ui/List';
 import Comment from './comment';
 
 class CommentList extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isEditing: {},
     };
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleEdit(id, data) {
+  handleEdit = (id, data) => {
     this.props.onCommentEdit(id, data);
   }
 
-  handleDelete(id) {
+  handleDelete = (id) => {
     this.props.onCommentDelete(id);
   }
 

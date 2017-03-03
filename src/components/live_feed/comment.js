@@ -2,17 +2,12 @@ import React from 'react';
 import moment from 'moment';
 
 class Comment extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       text: '',
       isEditing: false,
     };
-    this.trackEdit = this.trackEdit.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.toggleEditing = this.toggleEditing.bind(this);
-    this.getTime = this.getTime.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -22,20 +17,20 @@ class Comment extends React.Component {
     return true;
   }
 
-  getTime() {
+  getTime = () => {
     let time;
     time = moment.utc(this.props.time).toDate();
     time = moment(time).format('YYYY-MM-DD h:mm A');
     return time;
   }
 
-  trackEdit(e) {
+  trackEdit = (e) => {
     this.setState({
       text: e.target.value,
     });
   }
 
-  handleEdit(e) {
+  handleEdit = (e) => {
     e.preventDefault();
     const data = {};
     data.content = this.state.text;
@@ -43,12 +38,12 @@ class Comment extends React.Component {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  handleDelete(e) {
+  handleDelete = (e) => {
     e.preventDefault();
     this.props.onCommentDelete(this.props.id);
   }
 
-  toggleEditing(e) {
+  toggleEditing = (e) => {
     e.preventDefault();
     this.setState({ isEditing: !this.state.isEditing });
   }

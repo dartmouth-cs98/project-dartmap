@@ -17,38 +17,36 @@ class FilterContainer extends Component {
       selectedTime: null,
       selectedCategories: [],
     };
-    this.applyFilters = this.applyFilters.bind(this);
-    this.onTimeChange = this.onTimeChange.bind(this);
-    this.onDateChange = this.onDateChange.bind(this);
-    this.onCategoryChange = this.onCategoryChange.bind(this);
   }
 
-  onDateChange(selectedDate) {
+  onDateChange = (selectedDate) => {
     this.setState({ selectedDate });
     const filters = Object.assign({}, this.state, { selectedDate });
     this.applyFilters(filters);
   }
 
-  onTimeChange(selectedTime) {
+  onTimeChange = (selectedTime) => {
     this.setState({ selectedTime });
     const filters = Object.assign({}, this.state, { selectedTime });
     this.applyFilters(filters);
   }
 
-  onCategoryChange(selectedCategories) {
+  onCategoryChange = (selectedCategories) => {
     this.setState({ selectedCategories });
-    const filters = Object.assign({}, this.state, { selectedCategories });
+    const filters = Object.assign({}, this.state);
+    filters.selectedCategories = selectedCategories;
     this.applyFilters(filters);
   }
 
-  applyFilters(filters) {
+  applyFilters = (filters) => {
+    console.log('applying filters');
     this.props.filterEvents(filters);
   }
 
   render() {
     return (
       <div id="filter-container">
-        <CategoryFilter onCategoryChange={this.onCategoryChange} categoriesList={this.props.categoriesList} />
+        <CategoryFilter onCategoryChange={this.onCategoryChange} catList={this.props.catList} />
         <DateFilter onDateChange={this.onDateChange} dateBarData={this.props.dateBarData} />
         <TimeFilter onTimeChange={this.onTimeChange} />
       </div>
@@ -61,6 +59,8 @@ const mapStateToProps = state => (
     events: state.events.all,
     lat: state.user.latitude,
     lng: state.user.longitude,
+    catList: state.events.catList,
+    dateBarData: state.events.dateBarData,
   }
 );
 

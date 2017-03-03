@@ -8,7 +8,7 @@ import AddEventPage2 from './add_events/add_event_page_2';
 import AddEventPage3 from './add_events/add_event_page_3';
 import AddEventPage4 from './add_events/add_event_page_4';
 import AddEventPage5 from './add_events/add_event_page_5';
-import AddEventSubmitPage from './add_events/add_event_submit_page';
+// import AddEventSubmitPage from './add_events/add_event_submit_page';
 
 import PageSlider from './add_events/add_event_page_slider';
 
@@ -54,7 +54,11 @@ class AddEventDialog extends Component {
     });
   }
   handlePageData(data) {
-    this.setState(data);
+    if (data.currentPage === this.pageCode.length) {
+      this.setState(data, this.submitEventData);
+    } else {
+      this.setState(data);
+    }
   }
   submitEventData() {
     const data = {
@@ -90,7 +94,6 @@ class AddEventDialog extends Component {
       <AddEventPage3 currentPage={this.state.currentPage} data={page3Data} handleData={this.handlePageData} />,
       <AddEventPage4 currentPage={this.state.currentPage} catList={this.props.catList} data={page4Data} handleData={this.handlePageData} />,
       <AddEventPage5 currentPage={this.state.currentPage} data={page5Data} handleData={this.handlePageData} submitEventData={this.submitEventData} />,
-      // <AddEventSubmitPage data={this.state} submitEventData={this.submitEventData} />,
     ];
 
     if (this.props.addEvent) {
@@ -115,4 +118,10 @@ class AddEventDialog extends Component {
   }
 }
 
-export default connect(null, { createEvent })(AddEventDialog);
+const mapStateToProps = state => (
+  {
+    catList: state.events.catList,
+  }
+);
+
+export default connect(mapStateToProps, { createEvent })(AddEventDialog);

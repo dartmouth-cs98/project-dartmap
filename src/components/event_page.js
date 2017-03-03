@@ -79,7 +79,9 @@ class EventPage extends Component {
   }
 
   getInitialRSVP() {
-    if (this.state.event !== undefined && this.state.event !== null && this.state.event.attendees.length !== 0 && this.state.isRSVPed === false) {
+    if (this.state.event !== undefined && this.state.event !== null
+      && this.state.event.attendees.length !== 0
+      && this.state.isRSVPed === false) {
       let i;
       for (i = 0; i < this.state.event.attendees.length; i += 1) {
         if (this.state.event.attendees[i].id === 1) {

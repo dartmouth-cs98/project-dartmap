@@ -12,16 +12,10 @@ const API_URL = 'https://dartmapapi.herokuapp.com/api/';
 const COMMENT_URL = 'comments/';
 
 class CommentBox extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.url = API_URL.concat(COMMENT_URL);
     this.key = 0;
-    this.updateKey = this.updateKey.bind(this);
-    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
-    this.loadCommentsFromServer = this.loadCommentsFromServer.bind(this);
-    this.handleCommentEdit = this.handleCommentEdit.bind(this);
-    this.handleCommentDelete = this.handleCommentDelete.bind(this);
-    this.constructComment = this.constructComment.bind(this);
   }
 
   componentDidMount() {
@@ -29,30 +23,30 @@ class CommentBox extends React.Component {
     setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   }
 
-  updateKey() {
+  updateKey = () => {
     this.key = this.key + 1;
     return this.key;
   }
 
-  handleCommentSubmit(comment) {
+  handleCommentSubmit = (comment) => {
     this.props.createComment(this.url, comment);
   }
 
-  handleCommentEdit(id, comment) {
+  handleCommentEdit = (id, comment) => {
     const updateURL = this.url.concat(id);
     this.props.updateComment(updateURL, comment);
   }
 
-  handleCommentDelete(id) {
+  handleCommentDelete = (id) => {
     const deleteURL = this.url.concat(id);
     this.props.deleteComment(deleteURL);
   }
 
-  loadCommentsFromServer() {
+  loadCommentsFromServer = () => {
     this.props.fetchEvent(this.props.event_id);
   }
 
-  constructComment(text) {
+  constructComment = (text) => {
     const toSend = {};
     toSend.user_id = '1';
     toSend.event_id = this.props.event_id;

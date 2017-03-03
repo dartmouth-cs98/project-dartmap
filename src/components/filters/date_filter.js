@@ -4,7 +4,6 @@
 */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 
@@ -137,10 +136,4 @@ class DateFilter extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    dateBarData: state.events.dateBarData,
-  }
-);
-
-export default connect(mapStateToProps, null)(DateFilter);
+export default DateFilter;

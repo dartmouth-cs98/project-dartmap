@@ -32,11 +32,6 @@ class Home extends Component {
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
     };
-    this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
-    this.handleAddEventData = this.handleAddEventData.bind(this);
-    this.toggleAddEvent = this.toggleAddEvent.bind(this);
-    this.getEvents = this.getEvents.bind(this);
-    this.toggleGeolocation = this.toggleGeolocation.bind(this);
   }
 
   componentWillMount() {
@@ -55,7 +50,7 @@ class Home extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if ((!this.props.events) || (this.props.events[0] === 'retry')) {
+    if ((!this.props.eventList) || (this.props.eventList[0] === 'retry')) {
       if (this.props.latitude && this.props.longitude) {
         this.getEvents();
       }
@@ -65,44 +60,25 @@ class Home extends Component {
     }
   }
 
-  getEvents() {
+  getEvents = () => {
     this.props.fetchEvents(this.props.latitude, this.props.longitude, RADIUS);
   }
 
-  closeAddEventDialog() {
+  closeAddEventDialog = () => {
     this.setState({ addEvent: false });
   }
 
-  handleAddEventData(data) {
+  handleAddEventData = (data) => {
     this.setState({ addEvent: false }, this.getEvents);
   }
 
-  toggleAddEvent() {
+  toggleAddEvent = () => {
     this.props.clearBalloons();
     this.setState({ addEvent: true });
   }
 
-  toggleGeolocation() {
+  toggleGeolocation = () => {
     this.setState({ showModal: !this.state.showModal });
-  }
-
-  // Show balloons with event info on the map.
-  // The state is sent to the MapContainer.
-  showBalloon(eventId) {
-    this.setState({ showBalloonEventId: eventId });
-  }
-
-  showStickyBalloon(eventId) {
-    if (this.state.showStickyBalloonEventId !== eventId) {
-      this.setState({ showStickyBalloonEventId: eventId });
-    }
-  }
-
-  removePopUps() {
-    this.setState({
-      showBalloonEventId: null,
-      showStickyBalloonEventId: null,
-    });
   }
 
   render() {
@@ -136,10 +112,12 @@ class Home extends Component {
 
 const mapStateToProps = state => (
   {
-    events: state.events.all,
+    eventList: state.events.all,
     latitude: state.user.latitude,
     longitude: state.user.longitude,
     user: state.user,
+    // eventData: state.events,
+    mapCenter: state.map.center,
   }
 );
 

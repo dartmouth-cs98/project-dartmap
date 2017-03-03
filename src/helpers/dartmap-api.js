@@ -13,15 +13,18 @@ const RSVP_URL = 'rsvp/';
 
 
 function formatParseProperJSON(toFormat) {
-  const s = toFormat.replace(/'/g, '"').replace(/ u"/g, ' "').replace(/\\n/g, "\\n").replace(/\\'/g, "\\'")
+  const s = toFormat.replace(/'/g, '"')
+               .replace(/ u"/g, ' "')
+               .replace(/\\n/g, '\\n')
+               .replace(/\\'/g, '\\\'')
                .replace(/\\"/g, '\\"')
-               .replace(/\\&/g, "\\&")
-               .replace(/\\r/g, "\\r")
-               .replace(/\\t/g, "\\t")
-               .replace(/\\b/g, "\\b")
-               .replace(/\\f/g, "\\f")
+               .replace(/\\&/g, '\\&')
+               .replace(/\\r/g, '\\r')
+               .replace(/\\t/g, '\\t')
+               .replace(/\\b/g, '\\b')
+               .replace(/\\f/g, '\\f')
                .replace('None', null)
-               .replace(/[\u0000-\u0019]+/g,"");
+               .replace(/[\u0000-\u0019]+/g, '');
 
   return JSON.parse(s, ':quirks_mode => true');
 }
@@ -86,6 +89,7 @@ function formatEventDataforAPI(event) {
 
 export function postNewEvent(dispatch, successAction, errorAction, event) {
   const eventData = formatEventDataforAPI(event);
+  console.log(eventData);
   const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
     url: fullUrl,

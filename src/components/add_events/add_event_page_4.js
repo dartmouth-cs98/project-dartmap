@@ -10,13 +10,15 @@ class AddEventPage4 extends Component {
     this.state = {
       categories: null,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBack = this.handleBack.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
-    this.visibleErrorMessages = <div className="error-msg"> One category is required. </div>;
+    this.visibleErrorMessages = (
+      <div className="error-msg"> One category is required. </div>
+    );
+    // this.validNext = 'nxt-btn add-event-btn';
+    // this.invalidNext = 'invalid-nxt-btn add-event-btn nxt-btn';
   }
 
-  handleBack(event) {
+  handleBack = (event) => {
     const data = {
       categories: this.state.categories,
       currentPage: this.props.currentPage - 1,
@@ -24,7 +26,7 @@ class AddEventPage4 extends Component {
     this.props.handleData(data);
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.categories) {
       const data = {
@@ -35,10 +37,11 @@ class AddEventPage4 extends Component {
     }
   }
   render() {
-    const categoryErrorMessage = (this.state.categories === []) ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
-    const dropdownValues = this.props.catList.map((cat) => {
-      return { label: cat.name, value: cat.id };
-    });
+    let categoryErrorMessage = this.hiddenErrorMessage;
+    if (this.state.categories === []) {
+      categoryErrorMessage = this.visibleErrorMessages[0];
+    }
+    const dropdownValues = this.props.catList || [];
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
@@ -52,15 +55,15 @@ class AddEventPage4 extends Component {
           />
         </div>
         <div className="add-event-btns">
-          <RaisedButton 
+          <RaisedButton
             label="Back"
             type="button"
             onClick={(e) => { this.handleBack(e); }}
             className="back-btn"
           />
-          <RaisedButton 
+          <RaisedButton
             label="Next"
-            primary={true}
+            primary
             type="submit"
             disabled={(!this.state.categories)}
             className="nxt-btn"

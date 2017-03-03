@@ -40,52 +40,52 @@ class AddEventPage1 extends Component {
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
           <TextField
-            className='add-event-field-container-1'
+            className="add-event-field-container-1"
             hintText="e.g. Homecoming Bonfire"
             floatingLabelText="Event name"
             value={this.state.name || ''}
-            fullWidth={true}
+            fullWidth
             onChange={event => this.setState({ name: event.target.value })}
           />
           {nameErrorMessage}
           <br />
           <TextField
-            className='add-event-field-container-1'
+            className="add-event-field-container-1"
             hintText="e.g. Collis Governing Board"
             floatingLabelText="Event Organizer"
             value={this.state.organizer || ''}
-            fullWidth={true}
+            fullWidth
             onChange={event => this.setState({ organizer: event.target.value })}
           />
           {organizerErrorMessage}
           <br />
           <TextField
-            className='add-event-field-container-1'
+            className="add-event-field-container-1"
             hintText="e.g. The Green"
             floatingLabelText="Event room or location"
             value={this.state.location_string || ''}
-            fullWidth={true}
+            fullWidth
             onChange={event => this.setState({ location_string: event.target.value })}
           />
           {roomErrorMessage}
           <br />
           <TextField
-            className='add-event-field-container-1'
+            className="add-event-field-container-1"
             hintText="e.g. See freshman running in circles around a fire"
             floatingLabelText="Event description"
-            multiLine={true}
+            multiLine
             rows={2}
             rowsMax={2}
             value={this.state.description || ''}
-            fullWidth={true}
+            fullWidth
             onChange={event => this.setState({ description: event.target.value })}
           />
           {desciptionErrorMessage}
         </div>
         <div className="add-event-btns">
-          <RaisedButton 
+          <RaisedButton
             label="Next"
-            primary={true}
+            primary
             type="submit"
             disabled={(!this.state.description || !this.state.organizer || !this.state.name || !this.state.location_string)}
             className="nxt-btn"

@@ -14,6 +14,7 @@ class EventList extends Component {
     this.prevDate = null;
     this.state = { searchString: '' };
   }
+
   handleChange = (e) => {
     this.setState({ searchString: e.target.value });
   };
@@ -56,7 +57,9 @@ class EventList extends Component {
       if (this.eventItems.length > 0) {
         return (
           <div id="event-menu">
-            <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
+            <input id="search-bar" type="text" value={this.state.searchString}
+              onChange={this.handleChange} placeholder="Type here..."
+            />
             <div id="event-list">
               {this.eventItems}
             </div>
@@ -93,6 +96,7 @@ class EventList extends Component {
         </div>
       );
     }
+    return <div className="hidden" />;
   }
 }
 
