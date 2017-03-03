@@ -23,18 +23,24 @@ const EventsReducer = (state = {}, action) => {
       newState = Object.assign({}, state, { all: ['retry'] });
       return newState;
     case ActionTypes.FILTER_EVENTS:
-      if (!state.all) {
-        return state;
+      if (!state.all || state.all[0] === 'retry') {
+        newFilters = { filters: action.payload.filters };
+      } else {
+        newFilters = filterEvents(action.payload.filters, state.all,
+          state.catList, state.dateBarData);
       }
-      newFilters = filterEvents(action.payload.filters, state.all,
-        state.catList, state.dateBarData);
-      newState = Object.assign({}, state);
-      newState.filters = newFilters.filters;
-      newState.filteredEventList = newFilters.filteredEventList;
+      newState = Object.assign({}, state, newFilters);
       return newState;
     case ActionTypes.FETCH_CATEGORIES:
       newState = Object.assign({}, state);
-      newState.catList = action.payload.catList;
+      newState.catList = [];
+      for (let i = 0; i < action.payload.catList.length; i += 1) {
+        const cat = action.payload.catList[i];
+        newState.catList.push({
+          label: cat.name,
+          value: cat.id,
+        });
+      }
       return newState;
     case ActionTypes.SET_DATE_DATA:
       newState = Object.assign({}, state);

@@ -129,17 +129,17 @@ export function fetchCategories() {
   };
 }
 
-export function setStickyBalloonId(eventId) {
+export function setStickyBalloonId(locationId) {
   return {
     type: ActionTypes.SET_STICKY_BALLOON_ID,
-    payload: { eventId },
+    payload: { locationId },
   };
 }
 
-export function setBalloonId(eventId) {
+export function setBalloonId(locationId) {
   return {
     type: ActionTypes.SET_BALLOON_ID,
-    payload: { eventId },
+    payload: { locationId },
   };
 }
 

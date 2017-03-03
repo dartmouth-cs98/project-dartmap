@@ -29,10 +29,6 @@ class Home extends Component {
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
     };
-    this.closeAddEventDialog = this.closeAddEventDialog.bind(this);
-    this.handleAddEventData = this.handleAddEventData.bind(this);
-    this.toggleAddEvent = this.toggleAddEvent.bind(this);
-    this.getEvents = this.getEvents.bind(this);
   }
 
   componentWillMount() {
@@ -51,113 +47,29 @@ class Home extends Component {
   }
 
   componentWillUpdate() {
-    if ((!this.props.events) || (this.props.events[0] === 'retry')) {
+    if ((!this.props.eventList) || (this.props.eventList[0] === 'retry')) {
       if (this.props.latitude && this.props.longitude) {
         this.getEvents();
       }
     }
   }
 
-  getEvents() {
+  getEvents = () => {
     this.props.fetchEvents(this.props.latitude, this.props.longitude, RADIUS);
   }
 
-  closeAddEventDialog() {
+  closeAddEventDialog = () => {
     this.setState({ addEvent: false });
   }
 
-  handleAddEventData(data) {
+  handleAddEventData = (data) => {
     this.setState({ addEvent: false }, this.getEvents);
   }
 
-  toggleAddEvent() {
+  toggleAddEvent = () => {
     this.props.clearBalloons();
     this.setState({ addEvent: true });
   }
-
-  // Show balloons with event info on the map.
-  // The state is sent to the MapContainer.
-  showBalloon(eventId) {
-    this.setState({ showBalloonEventId: eventId });
-  }
-
-  showStickyBalloon(eventId) {
-    if (this.state.showStickyBalloonEventId !== eventId) {
-      this.setState({ showStickyBalloonEventId: eventId });
-    }
-  }
-
-  removePopUps() {
-    this.setState({
-      showBalloonEventId: null,
-      showStickyBalloonEventId: null,
-    });
-
-    // // Remove sticky popups.
-    // const parent = document.getElementsByTagName('body')[0];
-    // const popupsToRemove = document.getElementsByClassName('popup');
-    // while (popupsToRemove.length > 0) {
-    //   parent.removeChild(popupsToRemove[popupsToRemove.length - 1]);
-    // }
-  }
-
-  filterEvents(theFilters) {
-    let filteredEvents = [];
-    const filters = theFilters;
-
-    if (filters.selectedDate == null) {
-      filters.selectedDate = DEFAULT_DATE_FILTER;
-    }
-    if (filters.selectedTime == null) {
-      filters.selectedTime = DEFAULT_TIME_FILTER;
-    }
-    if (filters.selectedCategories.length <= 0) {
-      // fill with all the categories that exist, so the default is for all categories to be selected
-      let i;
-      for (i = 0; i < this.state.categoriesList.length; i += 1) {
-        console.log(this.state.categoriesList[i]);
-        filters.selectedCategories.push(this.state.categoriesList[i]);
-      }
-    }
-
-    // console.log(this.state.eventList);
-
-    // filter by date, then filter THAT by time
-    // TODO: I think we could make this just 3 if statements
-    if (filters != null) {
-      filteredEvents = this.state.eventList;
-      // OLD:
-      if ((filters.selectedDate != null) && (filters.selectedTime != null)) {
-        filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
-        filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
-      } else if (filters.selectedDate != null) {
-        filteredEvents = filterDates(filters, this.dateBarData, this.state.eventList);
-      } else if (filters.selectedTime != null) {
-        filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
-      }
-      // NEW:
-      // if (filters.selectedDate != null) {
-      //   filteredEvents = filterDates(filters, this.dateBarData, filteredEvents.slice());
-      // }
-      // if (filters.selectedTime != null) {
-      //   filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());
-      // }
-      if (filters.selectedCategories.length <= 0) {
-        filteredEvents = [];
-      } else {
-        filteredEvents = filterCategories(filters, this.state.categoriesList, filteredEvents.slice());
-      }
-    }
-    this.setState({ filters, filteredEventList: filteredEvents });
-
-    // sort all filtered events first by date and then by time
-    filteredEvents.sort(sortDateTime);
-
-    // only important for the very beginning (see the render() method)
-    // console.log(filteredEvents);
-    return filteredEvents;
-  }
-
 
   render() {
     let showModal = false;
@@ -188,10 +100,12 @@ class Home extends Component {
 
 const mapStateToProps = state => (
   {
-    events: state.events.all,
+    eventList: state.events.all,
     latitude: state.user.latitude,
     longitude: state.user.longitude,
     user: state.user,
+    // eventData: state.events,
+    mapCenter: state.map.center,
   }
 );
 

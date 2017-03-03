@@ -2,17 +2,12 @@ import React from 'react';
 import moment from 'moment';
 
 class Comment extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       text: '',
       isEditing: false,
     };
-    this.trackEdit = this.trackEdit.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.toggleEditing = this.toggleEditing.bind(this);
-    this.getTime = this.getTime.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -22,20 +17,20 @@ class Comment extends React.Component {
     return true;
   }
 
-  getTime() {
+  getTime = () => {
     let time;
     time = moment.utc(this.props.time).toDate();
     time = moment(time).format('YYYY-MM-DD h:mm A');
     return time;
   }
 
-  trackEdit(e) {
+  trackEdit = (e) => {
     this.setState({
       text: e.target.value,
     });
   }
 
-  handleEdit(e) {
+  handleEdit = (e) => {
     e.preventDefault();
     const data = {};
     data.content = this.state.text;
@@ -43,12 +38,12 @@ class Comment extends React.Component {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  handleDelete(e) {
+  handleDelete = (e) => {
     e.preventDefault();
     this.props.onCommentDelete(this.props.id);
   }
 
-  toggleEditing(e) {
+  toggleEditing = (e) => {
     e.preventDefault();
     this.setState({ isEditing: !this.state.isEditing });
   }
@@ -63,21 +58,23 @@ class Comment extends React.Component {
         <div className="col m10">
           <div className="row">
             <span className="col m5"><b>{this.props.author}</b> posted {this.getTime()}</span>
-            <div className="right-align">
-              <div className={this.state.isEditing ? 'hidden' : ''}>
-                <button onClick={this.handleDelete}>Delete</button>
-                <button onClick={this.toggleEditing}>Edit</button>
+            <div className={this.props.enable_edit ? '' : 'hidden'}>
+              <div className="right-align">
+                <div className={this.state.isEditing ? 'hidden' : ''}>
+                  <button onClick={this.handleDelete}>Delete</button>
+                  <button onClick={this.toggleEditing}>Edit</button>
+                </div>
               </div>
-            </div>
-            <div className="comment-content">
-              <div className={this.state.isEditing ? '' : 'hidden'}>
-                <form className="" onSubmit={this.handleEdit}>
-                  <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
-                  <input type="submit" value="Confirm Changes" />
-                </form>
-              </div>
-              <div className={this.state.isEditing ? 'hidden' : ''}>
-                {this.props.text}
+              <div className="comment-content">
+                <div className={this.state.isEditing ? '' : 'hidden'}>
+                  <form className="" onSubmit={this.handleEdit}>
+                    <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
+                    <input type="submit" value="Confirm Changes" />
+                  </form>
+                </div>
+                <div className={this.state.isEditing ? 'hidden' : ''}>
+                  {this.props.text}
+                </div>
               </div>
             </div>
           </div>
