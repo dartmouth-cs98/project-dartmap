@@ -5,26 +5,17 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 
 class AddEventPage3 extends Component {
-  // static nullFunction() {}
   constructor(props) {
     super(props);
     this.state = {
       location: props.data.location,
       selectedMarker: null,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBack = this.handleBack.bind(this);
-    this.handleSelectedLocation = this.handleSelectedLocation.bind(this);
-    this.nearbySearch = this.nearbySearch.bind(this);
-    this.createMarker = this.createMarker.bind(this);
-    this.createInfoWindow = this.createInfoWindow.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = ['location'].map((data) => {
-      return (
-        <div key={data} className="error-msg">
-          The {data} of the event is required.
-        </div>
-      );
+      return (<div key={data} className="error-msg">
+        The {data} of the event is required.
+      </div>);
     });
     this.map = null;
     this.gPlaces = null;
@@ -74,7 +65,8 @@ class AddEventPage3 extends Component {
       if (!place.geometry) {
         // User entered the name of a Place that was not suggested and
         // pressed the Enter key, or the Place Details request failed.
-        window.alert('No details available for input: \''.concat(place.name).concat('\''));
+        const alertText = `No details available for input: '${place.name}'`;
+        window.alert(alertText);
       }
       // If the place has a geometry, then present it on a map.
       if (place.geometry.viewport) {
@@ -99,12 +91,14 @@ class AddEventPage3 extends Component {
     });
   }
 
-  nearbySearch(bounds) {
+  nearbySearch = (bounds) => {
     this.gPlaces.nearbySearch({ bounds },
       (result) => {
         if (result) {
           for (let i = 0; i < result.length; i += 1) {
-            const marker = this.createMarker(result[i].name, result[i].geometry.location, result[i].place_id);
+            const marker = this.createMarker(result[i].name,
+              result[i].geometry.location, result[i].place_id
+            );
             this.markers.push(marker);
           }
         }
@@ -112,7 +106,7 @@ class AddEventPage3 extends Component {
     );
   }
 
-  createMarker(name, location, placeId) {
+  createMarker = (name, location, placeId) => {
     const marker = new this.gMaps.Marker({
       map: this.map,
       position: location,
@@ -133,12 +127,12 @@ class AddEventPage3 extends Component {
     return marker;
   }
 
-  createInfoWindow(name, marker) {
+  createInfoWindow = (name, marker) => {
     this.infoWindow.setContent(name);
     this.infoWindow.open(this.map, marker);
   }
 
-  handleBack(event) {
+  handleBack = (event) => {
     const data = {
       location: this.state.location,
       currentPage: this.props.currentPage - 1,
@@ -146,7 +140,7 @@ class AddEventPage3 extends Component {
     this.props.handleData(data);
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.location) {
       const data = {
@@ -157,14 +151,12 @@ class AddEventPage3 extends Component {
     }
   }
 
-  handleSelectedLocation(data) {
+  handleSelectedLocation = (data) => {
     this.setState(data);
     console.log(data);
   }
 
   render() {
-    const validNext = 'nxt-btn add-event-btn';
-    const invalidNext = 'invalid-nxt-btn add-event-btn nxt-btn';
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
@@ -181,15 +173,15 @@ class AddEventPage3 extends Component {
           <div id="add-event-map" />
         </div>
         <div className="add-event-btns">
-          <RaisedButton 
+          <RaisedButton
             label="Back"
             type="button"
             onClick={(e) => { this.handleBack(e); }}
             className="back-btn"
           />
-          <RaisedButton 
+          <RaisedButton
             label="Next"
-            primary={true}
+            primary
             type="submit"
             disabled={(!this.state.location)}
             className="nxt-btn"
