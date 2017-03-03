@@ -14,8 +14,8 @@ const UserReducer = (state = {}, action) => {
       return newState;
     case ActionTypes.LOCATION_FAIL:
       newState = Object.assign({}, state, {
-        latitude: null,
-        longitude: null,
+        latitude: 43.703549,
+        longitude: -72.286758,
       });
       return newState;
     case ActionTypes.RETRY_LOCATION:

@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
+
+import { Divider, Tabs, Tab, RaisedButton, Avatar, List, ListItem, CircularProgress } from 'material-ui';
+
 import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
 
@@ -18,7 +21,7 @@ class EventPage extends Component {
     super(props);
     this.state = {
       event: null,
-      event_id: this.props.params.id,
+      event_id: parseInt(this.props.params.id, 10),
       isRSVPed: false,
     };
     this.map = null;
@@ -27,6 +30,7 @@ class EventPage extends Component {
     this.handleRSVP = this.handleRSVP.bind(this);
     this.getInitialRSVP = this.getInitialRSVP.bind(this);
     this.getAllRSVPs = this.getAllRSVPs.bind(this);
+    this.addImage = this.addImage.bind(this);
 
     if (!window.google) { // Load google maps api onto the page
       loadGoogleApi();
@@ -75,7 +79,9 @@ class EventPage extends Component {
   }
 
   getInitialRSVP() {
-    if (this.state.event !== undefined && this.state.event !== null && this.state.event.attendees.length !== 0 && this.state.isRSVPed === false) {
+    if (this.state.event !== undefined && this.state.event !== null
+      && this.state.event.attendees.length !== 0
+      && this.state.isRSVPed === false) {
       let i;
       for (i = 0; i < this.state.event.attendees.length; i += 1) {
         if (this.state.event.attendees[i].id === 1) {
@@ -89,20 +95,40 @@ class EventPage extends Component {
   }
 
   getAllRSVPs() {
-    const names = this.props.currentEvent.attendees.map((attendee) => {
-      return (
-        <li className="list-group-item">
-          {attendee.name}
-        </li>
-      );
-    });
+    let names;
+    if (this.props.currentEvent) {
+      names = this.props.currentEvent.attendees.map((attendee) => {
+        return (
+          <ListItem key={attendee.name}
+            primaryText={attendee.name}
+            leftAvatar={<Avatar src={attendee.picture} />}
+          />
+        );
+      });
+    }
     return names;
   }
 
   handleRSVP() {
     const data = {};
     data.user_id = 1;
-    data.event_id = parseInt(this.state.event_id, 10);
+    data.event_id = this.state.event_id;
+
+    if (this.state.isRSVPed === true) { // De-RSVP
+      deleteRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    } else { // RSVP
+      postRSVP(data).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    }
+  }
+
+  addImage() {
+    const data = {};
+    data.user_id = 1;
+    data.event_id = this.state.event_id;
 
     if (this.state.isRSVPed === true) { // De-RSVP
       deleteRSVP(data).then((response) => {
@@ -148,11 +174,45 @@ class EventPage extends Component {
   }
 
   render() {
+    const styles = {
+      button: {
+        margin: 12,
+      },
+      exampleImageInput: {
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: '100%',
+        opacity: 0,
+      },
+      tabsStyle: {
+        position: 'fixed',
+      },
+      dividerStyle: {
+        marginTop: 20,
+        marginBottom: 20,
+      },
+      progress: {
+        width: 300,
+        height: 300,
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        marginLeft: -150,
+        marginTop: -150,
+      },
+    };
+
     const images = [];
     let i;
     if (!this.state.event) {
       return (
-        <div>Loading. Please wait.</div>
+        <div>
+          <CircularProgress size={300} style={styles.progress} thickness={5} />
+        </div>
       );
     }
     for (i = 0; i < this.state.event.image_url.length; i += 1) {
@@ -167,52 +227,85 @@ class EventPage extends Component {
     const categoryString = this.state.event.categories.map((cat) => {
       return cat.name;
     }).join(', ');
+
     return (
-      <div className="evpg-container">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="evpg-date">
-              {dateString}
-            </div>
-            <div className="evpg-title">
-              {this.state.event.name} @ {this.state.event.location_string}
-            </div>
-            <div className="evpg-subtitle evpg-time">
-              {startString} - {endString}
-            </div>
-          </div>
-          <div className="col-md-3 pull-right">
-            <button type="button" onClick={this.handleRSVP}>{this.state.isRSVPed ? 'Going' : 'RSVP'}</button>
-          </div>
-        </div>
-        <div className="list-group">
-          {this.getAllRSVPs()}
-        </div>
-        <div className="evpg-image">
-          <ImageGallery
-            items={images}
-            autoPlay
-            slideInterval={2000}
-          />
-        </div>
-        <div className="evpg-secondary">
-          <div id="evpg-map" />
-          <div className="evpg-text">
-            <div className="evpg-description">
-              <em>Description: </em>
-              {this.state.event.description}
-            </div>
-            <div className="evpg-organizer">
-              <em>Organized by: </em>
-              {this.state.event.organizer}
-            </div>
-            <div className="evpg-categories">
-              <em>Categories: </em>
-              {categoryString}
+      <div>
+        <Tabs>
+          <Tab label="About" href="#About" />
+          <Tab label="Who is Going" href="#Going" />
+          <Tab label="Images" href="#Images" />
+          <Tab label="Location" href="#Location" />
+          <Tab label="Live" href="#LiveFeed" />
+        </Tabs>
+        <div className="container">
+          <div id="About">
+            <h2>About</h2>
+            <div className="text-center">
+              <div className="evpg-date">
+                {dateString}
+              </div>
+              <div className="evpg-title">
+                {this.state.event.name} @ {this.state.event.location_string}
+              </div>
+              <div className="evpg-subtitle evpg-time">
+                {startString} - {endString}
+              </div>
             </div>
           </div>
+          <Divider style={styles.dividerStyle} />
+          <div id="Going">
+            <div className="row">
+              <h2 className="col-md-3">Who Is Going?</h2>
+              <div className="pull-right" style={styles.button}>
+                <RaisedButton label={this.state.isRSVPed ? 'Going' : 'RSVP'} primary={true} onClick={this.handleRSVP} />
+              </div>
+            </div>
+            <List>
+              {this.getAllRSVPs()}
+            </List>
+          </div>
+          <Divider style={styles.dividerStyle} />
+          <div id="Images">
+            <div className="row">
+              <h2 className="col-md-6">Images</h2>
+            </div>
+            <div className="center-align">
+              <ImageGallery
+                items={images}
+                autoPlay
+                slideInterval={2000}
+              />
+            </div>
+          </div>
+          <Divider style={styles.dividerStyle} />
+          <div id="Location">
+            <div className="row">
+              <h2 className="col-md-6">Location Details</h2>
+            </div>
+            <div className="row">
+              <div id="evpg-map" />
+              <div className="evpg-description">
+                <em>Description: </em>
+                {this.state.event.description}
+              </div>
+              <div className="evpg-organizer">
+                <em>Organized by: </em>
+                {this.state.event.organizer}
+              </div>
+              <div className="evpg-categories">
+                <em>Categories: </em>
+                {categoryString}
+              </div>
+            </div>
+          </div>
+          <Divider style={styles.dividerStyle} />
+          <div id="LiveFeed">
+            <div className="row">
+              <h2 className="col-md-6">Live</h2>
+            </div>
+            <CommentBox pollInterval={1000} event_id={this.state.event_id} />
+          </div>
         </div>
-        <CommentBox pollInterval={1000} event_id={this.state.event_id} />
       </div>
     );
   }
