@@ -17,7 +17,7 @@ import LocationDialog from './location_dialog';
 // import the redux actions
 import { fetchEvents, getLocation, clearBalloons } from '../actions';
 
-const MAP_HEIGHT_MULTIPLIER = 0.65;
+const MAP_HEIGHT_MULTIPLIER = 0.75;
 const MAP_WIDTH_MULTIPLIER = 0.95;
 const RADIUS = 10000;
 
@@ -97,6 +97,7 @@ class Home extends Component {
           <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleGeolocation}>
             <MapsMyLocation />
           </IconButton>
+
         </div>
         <FilterContainer />
         <AddEventDialog

@@ -71,3 +71,11 @@
   }
 }
 
+.arrow {
+  display: inline-block;
+  float: right;
+  &:hover {
+    cursor: pointer;
+  }
+}
+

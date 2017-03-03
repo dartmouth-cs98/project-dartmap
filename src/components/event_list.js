@@ -5,6 +5,8 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Drawer from 'material-ui/Drawer';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 import EventListItem from './event_list_item';
 
@@ -20,8 +22,17 @@ class EventList extends Component {
     this.setState({ searchString: e.target.value });
   };
 
+  handleToggle = () => {
+    this.setState({open: !this.state.open});
+  };
+
   render() {
     this.eventItems = [];
+    if(this.state.open){
+      var arrowurl = "https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-left-01-128.png";
+    }else{
+      var arrowurl = "http://www.freeiconspng.com/uploads/right-arrow-icon-27.png";
+    }
 
     if (this.props.events && this.props.events.length > 0) {
       for (let i = 0; i < this.props.events.length; i += 1) {
@@ -58,19 +69,24 @@ class EventList extends Component {
       if (this.eventItems || this.eventItems.length > 0) {
         return (
             <div>
-              <Drawer containerClassName="side-drawer" open containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
-                <div className="search-bar-box">
-                  <input id="search-bar" type="text" value={this.state.searchString}
-                    onChange={this.handleChange} placeholder="Type here..."
-                  />
-                  <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
-                </div>
-                <div id="event-menu">
-                  <div id="event-list">
-                    {this.eventItems}
+              <div className="side-drawer">
+                <Drawer open={this.state.open} containerStyle={{ height: '5.5%', top: 0, width: '290px', position: 'absolute', overflow: 'hidden'}}>
+                  <img className= "arrow" src={arrowurl} width="10%" onClick={this.handleToggle}/>
+                </Drawer>
+                <Drawer open={this.state.open} containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
+                  <div className="search-bar-box">
+                    <input id="search-bar" type="text" value={this.state.searchString}
+                      onChange={this.handleChange} placeholder="Type here..."
+                    />
+                    <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
                   </div>
-                </div>
-              </Drawer>
+                  <div id="event-menu">
+                    <div id="event-list">
+                      {this.eventItems}
+                    </div>
+                  </div>
+                </Drawer>
+              </div>
               <div className="add-event-btn-container">
                 <FloatingActionButton onClick={this.props.toggleAddEvent}>
                   <ContentAdd />
@@ -83,20 +99,25 @@ class EventList extends Component {
     // Case of no matching events.
       return (
           <div id="event-none">
-              <Drawer containerClassName="side-drawer" open containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
-              <div className="search-bar-box">
+            <div className="side-drawer">
+              <Drawer open={this.state.open} containerStyle={{ height: '5.5%', top: 0, width: '290px', position: 'absolute', overflow: 'hidden'}}>
+                <img className= "arrow" src={arrowurl} width="10%" onClick={this.handleToggle}/>
+              </Drawer>
+              <Drawer open={this.state.open} containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
+                <div className="search-bar-box">
                   <input id="search-bar" type="text" value={this.state.searchString}
                     onChange={this.handleChange} placeholder="Type here..."
                   />
                   <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
-              </div>
-              <div id="event-list">
-                <text className="warning-msg">
-                  No Matching Events. <br />
-                  Please Try Again.
-                </text>
-              </div>
-            </Drawer>
+                </div>
+                <div id="event-list">
+                  <text className="warning-msg">
+                    No Matching Events. <br />
+                    Please Try Again.
+                  </text>
+                </div>
+              </Drawer>
+            </div>
             <div className="add-event-btn-container">
               <FloatingActionButton onClick={this.props.toggleAddEvent}>
                 <ContentAdd />
