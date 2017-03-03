@@ -41,12 +41,12 @@ class LocationDialog extends Component {
     const actions = [
       <FlatButton
         label="Cancel"
-        primary={true}
+        primary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
         label="Submit"
-        primary={true}
+        primary
         onTouchTap={this.submitModalData}
       />,
     ];
@@ -56,14 +56,14 @@ class LocationDialog extends Component {
         <Dialog
           title="Enter in new zipcode"
           actions={actions}
-          modal={true}
+          modal
           open={this.props.showModal}
         >
           <TextField
             value={this.state.zipcode}
             onChange={e => this.setState({ zipcode: e.target.value })}
             placeholder="Type here..."
-            fullWidth={true}
+            fullWidth
           />
         </Dialog>
       </div>
