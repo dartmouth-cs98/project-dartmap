@@ -42,7 +42,6 @@ class FilterContainer extends Component {
   }
 
   applyFilters = (filters) => {
-    console.log('applying filters');
     this.props.filterEvents(filters);
   }
 
@@ -50,6 +49,22 @@ class FilterContainer extends Component {
     this.setState({
       openTimeFilter: !this.state.openTimeFilter,
       openDateFilter: false,
+      openCategoryFilter: false,
+    });
+  }
+
+  toggleCategoryFilter = () => {
+    this.setState({
+      openTimeFilter: false, 
+      openDateFilter: false,
+      openCategoryFilter: !this.state.openCategoryFilter,
+    });
+  }
+
+  toggleDateFilter = () => {
+    this.setState({
+      openTimeFilter: false, 
+      openDateFilter: !this.state.openDateFilter,
       openCategoryFilter: false,
     });
   }
@@ -64,12 +79,18 @@ class FilterContainer extends Component {
       />
       </div>
     <div className="filter">
-      <DateFilter dateFilter={this.state.dateFilter} onDateChange={this.onDateChange} 
-      dateBarData={this.props.dateBarData} />
+      <DateFilter dateFilter={this.state.dateFilter} 
+      onDateChange={this.onDateChange} 
+      dateBarData={this.props.dateBarData} 
+      openFilter={this.toggleDateFilter}
+      openDateFilter={this.state.openDateFilter}/>
       </div>
     <div className="filter">
       <CategoryFilter onCategoryChange={this.onCategoryChange} 
-      categoriesList={this.props.categoriesList} catList={this.props.catList} />
+      categoriesList={this.props.categoriesList} 
+      catList={this.props.catList} 
+      openFilter={this.toggleCategoryFilter}
+      openCategoryFilter={this.state.openCategoryFilter}/>
       </div>
     </div>
     );

@@ -28,11 +28,9 @@ class CategoryFilter extends Component {
 
     this.state = { 
       checked: CATEGORIES,
-      expanded: false,
       checked_boolean: DEFAULT_CATEGORIES,
     }
     this.handleChange = this.handleChange.bind(this);
-    this.showCheckboxes = this.showCheckboxes.bind(this);
     this.onCategoryChange = props.onCategoryChange;
     this.initialSetDefault = true;
     this.dropdownValues = [];
@@ -101,22 +99,13 @@ class CategoryFilter extends Component {
 
   }
 
-  showCheckboxes() {
-    if (!this.state.expanded) {
-      this.setState({ expanded : true });
-    } else {
-      this.setState({ expanded : false });
-    }
-    console.log(this.state.checked);
-}
-
   render() {
 
-    if (!this.state.expanded) {
+    if (!this.props.openCategoryFilter) {
       return (
         <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.showCheckboxes}>
+        <div className="selectBox" onClick={this.props.openFilter}>
           <select>
             <option>Filter by Category</option>
           </select>
@@ -129,7 +118,7 @@ class CategoryFilter extends Component {
     return (
      <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.showCheckboxes}>
+        <div className="selectBox" onClick={this.props.openFilter}>
           <select>
             <option>Filter by Category</option>
           </select>

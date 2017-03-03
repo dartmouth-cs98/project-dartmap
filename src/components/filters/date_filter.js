@@ -27,7 +27,6 @@ class DateFilter extends Component {
     this.state = {
       checked: DEFAULT_DATES,
       checked_boolean: DEFAULT_CHECKED,
-      expanded: false,
     }
 
      // receives the dates data object passed down from index.js
@@ -45,8 +44,6 @@ class DateFilter extends Component {
       }
     }
     this.handleChange = this.handleChange.bind(this);
-    this.showCheckboxes = this.showCheckboxes.bind(this);
-    // this.onDateChange = props.onDateChange;
     this.filterEvent = this.filterEvent.bind(this);
   }
 
@@ -103,24 +100,15 @@ class DateFilter extends Component {
     this.props.onDateChange(dateArray);
   }
 
-
-  showCheckboxes() {
-    if (!this.state.expanded) {
-      this.setState({ expanded : true });
-    } else {
-      this.setState({ expanded : false });
-    }
-  }
-
   render() {
     if (this.datesDataDisplay === null) {
       return <div className="hidden" />;
     }
-    else if (!this.state.expanded) {
+    else if (!this.props.openDateFilter) {
       return (
         <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.showCheckboxes}>
+        <div className="selectBox" onClick={this.props.openFilter}>
           <select>
             <option>Filter by Date </option>
           </select>
@@ -134,7 +122,7 @@ class DateFilter extends Component {
 
      <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.showCheckboxes}>
+        <div className="selectBox" onClick={this.props.openFilter}>
           <select>
             <option>Filter by Date </option>
           </select>
