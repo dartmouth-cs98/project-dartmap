@@ -268,6 +268,17 @@ hr {
   z-index: 15;
   @include flex-box;
   @include flex-column;
+
+  hbar {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.popup-location {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0;
 }
 
 .description {
