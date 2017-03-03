@@ -1,12 +1,19 @@
 import React from 'react';
 import moment from 'moment';
 
+import { TextField, Dialog, FlatButton, RaisedButton, ListItem, Avatar, IconButton, IconMenu, MenuItem } from 'material-ui';
+import { cyan500, grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+
 class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       text: '',
       isEditing: false,
+      isEditDialogOpen: false,
+      isDeleteDialogOpen: false,
+      isExpandComment: false,
     };
   }
 
@@ -48,46 +55,148 @@ class Comment extends React.Component {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
+  handleOpenEdit = (e) => {
+    e.preventDefault();
+    this.setState({ isEditDialogOpen: !this.state.isEditDialogOpen });
+  }
+
+  handleOpenDelete = (e) => {
+    e.preventDefault();
+    this.setState({ isDeleteDialogOpen: !this.state.isDeleteDialogOpen });
+  }
+
+  expandComment = (e) => {
+    if (this.props.text.length > 130) {
+      this.setState({ isExpandComment: !this.state.isExpandComment });
+    }
+  }
+
   render() {
-    return (
-      <div>
-        <div className="col-md-10">
-          <div className="row">
-            <span className="col m5"><b>{this.props.author}</b> posted {this.getTime()}</span>
-            <div className={this.props.enable_edit ? '' : 'hidden'}>
-              <div className="right-align">
-                <div className={this.state.isEditing ? 'hidden' : ''}>
-                  <button onClick={this.handleDelete}>Delete</button>
-                  <button onClick={this.toggleEditing}>Edit</button>
-                </div>
-              </div>
-              <div className="comment-content">
-                <div className={this.state.isEditing ? '' : 'hidden'}>
-                  <form className="" onSubmit={this.handleEdit}>
-                    <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
-                    <input type="submit" value="Confirm Changes" />
-                  </form>
-                </div>
-                <div className={this.state.isEditing ? 'hidden' : ''}>
-                  {this.props.text}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className={this.state.isEditing ? '' : 'hidden'}>
-              <form className="" onSubmit={this.handleEdit}>
-                <input type="text" defaultValue={this.props.text} onChange={this.trackEdit} />
-                <input type="submit" value="Confirm Changes" />
-              </form>
-            </div>
-            <div className={this.state.isEditing ? 'hidden' : ''}>
-              {this.props.text}
-            </div>
-          </div>
-        </div>
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary
+        onTouchTap={this.handleOpenDelete}
+      />,
+      <FlatButton
+        label="Discard"
+        primary
+        onTouchTap={this.handleDelete}
+      />,
+    ];
+
+    const iconButtonElement = (
+      <IconButton
+        touch
+        tooltip="more"
+        tooltipPosition="bottom-left"
+      >
+        <MoreVertIcon color={grey400} />
+      </IconButton>
+    );
+
+    const rightIconMenu = (
+      <div className={this.props.enable_edit ? '' : 'hidden'}>
+        <IconMenu iconButtonElement={iconButtonElement}>
+          <MenuItem
+            onTouchTap={this.toggleEditing}
+          >
+            Edit
+          </MenuItem>
+          <MenuItem
+            onTouchTap={this.handleDelete}
+          >
+            Delete
+          </MenuItem>
+        </IconMenu>
       </div>
     );
+    const styles = {
+      text: {
+        width: '80%',
+        zIndex: 2,
+        fontSize: 17,
+      },
+      secondary: {
+        height: 40,
+      },
+      secondaryExpanded: {
+        height: 55,
+      },
+    };
+
+    if (this.state.isExpandComment) {
+      return (
+        <ListItem
+          leftAvatar={<Avatar src={this.props.image} />}
+          rightIconButton={rightIconMenu}
+          primaryText={
+            <span style={{ fontSize: '12px', color: 'grey' }}><b>{this.props.author}</b> posted {this.getTime()}</span>
+          }
+          secondaryText={
+            <div style={styles.secondaryExpanded}>
+              <div>
+                <div className={this.state.isEditing ? '' : 'hidden'}>
+                  <TextField style={styles.text} underlineShow defaultValue={this.props.text} onChange={this.trackEdit} />
+                  <FlatButton
+                    label="Cancel"
+                    primary
+                    onTouchTap={this.toggleEditing}
+                    className="pull-right"
+                  />
+                  <FlatButton
+                    label="Submit"
+                    primary
+                    onTouchTap={this.handleEdit}
+                    className="pull-right"
+                  />
+                </div>
+                <div className={this.state.isEditing ? 'hidden' : ''}>
+                  <p style={{ lineHeight: '20px', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '16px', fontSize: '17px', color: 'black' }} >{this.props.text}</p>
+                </div>
+              </div>
+            </div>
+          }
+          onTouchTap={this.expandComment}
+          secondaryTextLines={2}
+        />
+      );
+    } else {
+      return (
+        <ListItem
+          leftAvatar={<Avatar src={this.props.image} />}
+          rightIconButton={rightIconMenu}
+          primaryText={
+            <span style={{ fontSize: '12px', color: 'grey' }}><b>{this.props.author}</b> posted {this.getTime()}</span>
+          }
+          secondaryText={
+            <div style={styles.secondary}>
+              <div>
+                <div className={this.state.isEditing ? '' : 'hidden'}>
+                  <TextField style={styles.text} underlineShow defaultValue={this.props.text} onChange={this.trackEdit} />
+                  <FlatButton
+                    label="Cancel"
+                    primary
+                    onTouchTap={this.toggleEditing}
+                    className="pull-right"
+                  />
+                  <FlatButton
+                    label="Submit"
+                    primary
+                    onTouchTap={this.handleEdit}
+                    className="pull-right"
+                  />
+                </div>
+                <div className={this.state.isEditing ? 'hidden' : ''}>
+                  <p style={{ lineHeight: '20px', overflow: 'hidden', textOverflow: 'ellipsis', marginTop: '16px', fontSize: '17px', color: 'black' }} >{this.props.text}</p>
+                </div>
+              </div>
+            </div>
+          }
+          onTouchTap={this.expandComment}
+        />
+      );
+    }
   }
 }
 

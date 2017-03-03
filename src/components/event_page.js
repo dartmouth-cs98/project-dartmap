@@ -196,13 +196,13 @@ class EventPage extends Component {
         marginBottom: 20,
       },
       progress: {
-        width: 300,
-        height: 300,
+        width: 150,
+        height: 150,
         position: 'absolute',
         left: '50%',
         top: '50%',
-        marginLeft: -150,
-        marginTop: -150,
+        marginLeft: -75,
+        marginTop: -75,
       },
     };
 
@@ -211,7 +211,7 @@ class EventPage extends Component {
     if (!this.state.event) {
       return (
         <div>
-          <CircularProgress size={300} style={styles.progress} thickness={5} />
+          <CircularProgress size={150} style={styles.progress} thickness={5} />
         </div>
       );
     }
