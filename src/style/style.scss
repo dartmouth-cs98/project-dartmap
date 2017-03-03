@@ -212,6 +212,24 @@ hr {
   }
 }
 
+// Button for a user to change the location of an event
+.user-change-event-location {
+  background-color: #23ABD9;
+  border: 1px solid;
+  /*border-radius: 20px;*/
+  /*float: right;*/
+  text-align: center;
+  font-size: 8pt;
+  height: 100%;
+  line-height: 100%;
+  /*margin-bottom: 10px;*/
+
+  &:hover {
+    background-color: #00BFFF;
+    cursor: pointer;
+  }
+}
+
 // Button for a user to edit an event
 .user-edit-event {
   background-color: #00B800;
@@ -365,6 +383,12 @@ hr {
   padding-top: 8px;
   width: 100%;
   font-size: 15px;
+}
+
+.uspg-map {
+  width: 35%;
+  height: 200px;
+  float: right;
 }
 
 .popup {

@@ -32,6 +32,7 @@ class UserEventListItem extends Component {
     this.state = {
       editing: false,
       editEventButtonText: 'Edit',
+      // selectedMarker: null,
       eventName: this.props.event.name,
       eventOrganizer: this.props.event.organizer,
       eventDescription: this.props.event.description,
@@ -39,60 +40,42 @@ class UserEventListItem extends Component {
       eventEndTime: this.props.event.end_time,
       eventLocation: this.props.event.location_name,
       eventCategories: this.selectedCategories,
+      eventLocationLng: this.props.event.lng,
+      eventLocationLat: this.props.event.lat,
+      eventLocationName: this.props.event.location_name,
+      eventIconUrl: this.props.event.icon_url,
     };
-    // this.map = null;
-    // this.marker = null;
+    this.map = null;
+    this.marker = null;
+    // this.editMap = null;
+    // this.gPlaces = null;
+    // this.gMaps = this.gMaps || (window.google && window.google.maps);
+    // this.infoWindow = null;
+    // this.editMarker = null;
+    // this.editMarkers = [];
     // this.infoWindow = null;
     this.confirmDelete = this.confirmDelete.bind(this);
     this.editingEvent = this.editingEvent.bind(this);
     this.isValidTime = this.isValidTime.bind(this);
     this.handleCategChange = this.handleCategChange.bind(this);
-    // this.loadMap = this.loadMap.bind(this);
+    if (!window.google) { // Load google maps api onto the page
+      loadGoogleApi();
+    }
+    this.loadMap = this.loadMap.bind(this);
+    // this.loadEditMap = this.loadEditMap.bind(this);
   }
 
-  // loadMap() {
-  //   if (!this.map) {
-  //     const mapHTML = document.getElementById('evpg-map');
-  //     const location = {
-  //       lng: this.state.event.lng,
-  //       lat: this.state.event.lat,
-  //     };
-  //     const locationName = this.state.event.location_name;
-  //     const iconUrl = this.state.event.icon_url;
-  //     const mapOptions = {
-  //       center: location,
-  //       zoom: 15,
-  //       fullscreenControl: false,
-  //       mapTypeControl: false,
-  //     };
-  //     const icon = {
-  //       url: iconUrl,
-  //       anchor: {
-  //         x: 15,
-  //         y: 15,
-  //       },
-  //       scaledSize: {
-  //         height: 30,
-  //         width: 30,
-  //       },
-  //     };
-  //     this.map = createMap(mapHTML, mapOptions);
-  //     this.marker = createMarker(this.map, location, icon);
-  //     this.infoWindow = createInfoWindow(this.map, this.marker, locationName);
-  //   }
-  // }
+  componentDidMount() {
+    if (window.google && this.props.event && !this.map) {
+      this.loadMap();
+    }
+  }
 
-  // componentDidMount() {
-  //   if (window.google && this.props.event && !this.map) {
-  //     this.loadMap();
-  //   }
-  // }
-
-  // componentDidUpdate() {
-  //   if (window.google && this.props.event && !this.map) {
-  //     this.loadMap();
-  //   }
-  // }
+  componentDidUpdate() {
+    if (window.google && this.props.event && !this.map) {
+      this.loadMap();
+    }
+  }
 
   confirmDelete() {
     const r = confirm('Are you sure you want to delete this event?');
@@ -134,6 +117,7 @@ class UserEventListItem extends Component {
         editing: true,
         editEventButtonText: 'Save',
       });
+      // this.loadEditMap();
     }
   }
 
@@ -175,6 +159,144 @@ class UserEventListItem extends Component {
     this.setState({ eventCategories: obj });
   }
 
+  loadMap() {
+    if (!this.map) {
+      const mapHTML = document.getElementById('uspg-map-' + this.props.event.id);
+      const location = {
+        lng: this.state.eventLocationLng,
+        lat: this.state.eventLocationLat,
+      };
+      const locationName = this.state.eventLocationName;
+      const iconUrl = this.state.eventIconUrl;
+      const mapOptions = {
+        center: location,
+        zoom: 15,
+        fullscreenControl: false,
+        mapTypeControl: false,
+      };
+      const icon = {
+        url: iconUrl,
+        anchor: {
+          x: 15,
+          y: 15,
+        },
+        scaledSize: {
+          height: 30,
+          width: 30,
+        },
+      };
+      this.map = createMap(mapHTML, mapOptions);
+      this.marker = createMarker(this.map, location, icon);
+      this.infoWindow = createInfoWindow(this.map, this.marker, locationName);
+    }
+  }
+
+  // loadEditMap() {
+  //   this.gMaps = this.gMaps || (window.google && window.google.maps);
+  //   const mapHTML = document.getElementById('add-event-map');
+  //   const searchHTML = document.getElementById('map-search-box');
+  //   const location = {
+  //     lng: this.state.eventLocationLng,
+  //     lat: this.state.eventLocationLat,
+  //   };
+  //   this.editMap = new this.gMaps.Map(mapHTML, {
+  //     center: location,
+  //     zoom: 15,
+  //     streetViewControl: false,
+  //     fullscreenControl: false,
+  //     mapTypeControl: false,
+  //   });
+  //   this.infoWindow = new this.gMaps.InfoWindow();
+  //   this.gPlaces = new this.gMaps.places.PlacesService(this.editMap);
+  //   this.textBox = new this.gMaps.places.Autocomplete(searchHTML);
+  //   this.textBox.bindTo('bounds', this.editMap);
+
+  //   // adding a listener so that every time the map moves, we do a search
+  //   this.editMap.addListener('bounds_changed', (event) => {
+  //     this.nearbySearch(this.editMap.getBounds());
+  //   });
+
+  //   // adding a listener so that when the user selects a location in the
+  //   // search box, the relevant marker & bubble appear on the map
+  //   this.textBox.addListener('place_changed', (event) => {
+  //     const place = this.textBox.getPlace();
+  //     while (this.editMarkers.length > 0) {
+  //       this.editMarkers[0].setVisible(false);
+  //       this.editMarkers.shift();
+  //     }
+  //     if (!this.editMarker) {
+  //       this.editMarker = new this.gMaps.Marker({
+  //         map: this.editMap,
+  //         position: place.geometry.location,
+  //       });
+  //     }
+  //     this.editMarker.setVisible(false);
+  //     if (!place.geometry) {
+  //       // User entered the name of a Place that was not suggested and
+  //       // pressed the Enter key, or the Place Details request failed.
+  //       const alertText = `No details available for input: '${place.name}'`;
+  //       window.alert(alertText);
+  //     }
+  //     // If the place has a geometry, then present it on a map.
+  //     if (place.geometry.viewport) {
+  //       this.editMap.fitBounds(place.geometry.viewport);
+  //     } else {
+  //       this.editMap.setCenter(place.geometry.location);
+  //       this.editMap.setZoom(17);  // Why 17? Because it looks good.
+  //     }
+  //     this.editMarker.setPosition(place.geometry.location);
+  //     this.createInfoWindow(place.name, this.editMarker);
+  //     const pos = this.editMarker.getPosition();
+  //     this.setState({
+  //       selectedMarker: this.editMarker,
+  //       location: {
+  //         placeId: place.place_id,
+  //         name: place.name,
+  //         lat: pos.lat(),
+  //         lng: pos.lng(),
+  //       },
+  //     });
+  //     this.editMarker.setVisible(true);
+  //   });
+  // }
+
+  // nearbySearch = (bounds) => {
+  //   this.gPlaces.nearbySearch({ bounds },
+  //     (result) => {
+  //       if (result) {
+  //         for (let i = 0; i < result.length; i += 1) {
+  //           const editMarker = this.createMarker(result[i].name,
+  //             result[i].geometry.location, result[i].place_id
+  //           );
+  //           this.editMarkers.push(editMarker);
+  //         }
+  //       }
+  //     }
+  //   );
+  // }
+
+  // createMarker = (name, location, placeId) => {
+  //   const marker = new this.gMaps.Marker({
+  //     map: this.editMap,
+  //     position: location,
+  //   });
+  //   this.gMaps.event.addListener(marker, 'click', () => {
+  //     this.createInfoWindow(name, marker);
+  //     const pos = marker.getPosition();
+  //     this.setState({
+  //       selectedMarker: marker,
+  //       eventLocationLng: pos.lat(),
+  //       eventLocationLat: pos.lng(),
+  //       eventLocationName: name,
+  //     });
+  //   });
+  //   return marker;
+  // }
+
+  // createInfoWindow = (name, marker) => {
+  //   this.infoWindow.setContent(name);
+  //   this.infoWindow.open(this.map, marker);
+  // }
 
 
   render() {
@@ -196,13 +318,31 @@ class UserEventListItem extends Component {
       }
     }
 
+    let eventMap = null;
     let eventName = null;
     let eventTime = null;
+    let eventLocation = null;
     let eventOrganizer = null;
     let eventCategories = null;
     let eventDescription = null;
     // if user is editing this event
     if (this.state.editing) {
+      eventMap = (
+        <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
+        // <div className="add-event-fields">
+          // <input
+            // id="map-search-box"
+            // type="text"
+            // placeholder="Search for or select location"
+            // value={(this.state.eventLocationLng && this.state.eventLocationName) || ''}
+            // onChange={(event) => {
+              // this.setState({ location: { name: event.target.value } });
+            // }}
+            // className="add-event-text add-event-loc-string"
+          // />
+          // <div id="add-event-map" />
+        // </div>
+      );
       eventName = (
         <input
           className="eventDetails"
@@ -230,11 +370,16 @@ class UserEventListItem extends Component {
           <DateTime
             dateFormat={false}
             defaultValue={this.state.eventEndTime}
-            value = {this.state.eventEndTime}
+            value={this.state.eventEndTime}
             onChange={(moment) => { this.setState({ eventEndTime: moment }); }}
             // className={((this.props.event.start_time !== '') && this.isValidTime()) ? 'add-event-field add-event-time' : 'add-event-field add-event-time error-box'}
           />
         </div>
+      );
+      eventLocation = (
+        <button className="user-change-event-location" type="button" onClick={this.confirmDelete}>
+          Change location (this will eventually be replaced by Location/Room name)
+        </button>
       );
       eventOrganizer = (
         <input
@@ -262,6 +407,9 @@ class UserEventListItem extends Component {
         />
       );
     } else {
+      eventMap = (
+        <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
+      );
       eventName = (
         <h6 className="name">
           {this.state.eventName}
@@ -270,6 +418,11 @@ class UserEventListItem extends Component {
       eventTime = (
         <text className="attribute">
           {this.state.eventStartTime.format('h:mm A')} ~ {this.state.eventEndTime.format('h:mm A')}<br />
+        </text>
+      );
+      eventLocation = (
+        <text className="attribute">
+          {this.state.eventLocation}<br />
         </text>
       );
       eventOrganizer = (
@@ -289,9 +442,10 @@ class UserEventListItem extends Component {
       );
     }
 
-
     return (
       <div className="user-event-item">
+        
+        {eventMap}
 
         {eventName}
 
@@ -304,9 +458,9 @@ class UserEventListItem extends Component {
         <text className="attributeTitle">
           <br />Location:
         </text>
-        <text className="attribute">
-          {this.state.eventLocation}
-        </text>
+
+        {eventLocation}
+
         <text className="attributeTitle">
           <br />Organizer:
         </text>
@@ -334,7 +488,6 @@ class UserEventListItem extends Component {
         <button id="editEventButton" className="user-edit-event" type="button" onClick={this.editingEvent}>
           {this.state.editEventButtonText}
         </button>
-        <div id="evpg-map" />
       </div>
     );
   }

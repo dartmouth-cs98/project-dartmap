@@ -61,7 +61,7 @@ class EventList extends Component {
         return (
           <div id="event-menu">
             <input id="search-bar" type="text" value={this.state.searchString}
-              onChange={this.handleChange} placeholder="Type here..."
+              onChange={this.handleChange} placeholder="Search here..."
             />
             <div id="event-list">
               {this.eventItems}
@@ -71,7 +71,6 @@ class EventList extends Component {
                 <ContentAdd />
               </FloatingActionButton>
             </div>
-            <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
             {this.eventItems}
           </div>
         );
