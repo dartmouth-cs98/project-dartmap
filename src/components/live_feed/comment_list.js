@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { List, ListItem } from 'material-ui/List';
-import RaisedButton from 'material-ui/RaisedButton';
-import Avatar from 'material-ui/Avatar';
+import { Avatar, ListItem } from 'material-ui/List';
 
 import Comment from './comment';
 

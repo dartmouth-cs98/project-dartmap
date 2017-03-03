@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { List, ListItem } from 'material-ui/List';
-import RaisedButton from 'material-ui/RaisedButton';
-import Avatar from 'material-ui/Avatar';
-import Subheader from 'material-ui/Subheader';
+import { Subheader, List } from 'material-ui';
 
 import CommentList from './comment_list';
 import CommentForm from './comment_form';

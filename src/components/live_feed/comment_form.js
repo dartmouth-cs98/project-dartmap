@@ -1,8 +1,6 @@
 import React from 'react';
-import Avatar from 'material-ui/Avatar';
-import TextField from 'material-ui/TextField';
-import { List, ListItem } from 'material-ui/List';
-import RaisedButton from 'material-ui/RaisedButton';
+
+import { RaisedButton, Avatar, TextField } from 'material-ui';
 
 class CommentForm extends React.Component {
   constructor() {

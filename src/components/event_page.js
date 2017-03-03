@@ -3,12 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
 
-import Divider from 'material-ui/Divider';
-import { Tabs, Tab } from 'material-ui/Tabs';
-import RaisedButton from 'material-ui/RaisedButton';
-import Avatar from 'material-ui/Avatar';
-import {List, ListItem} from 'material-ui/List';
-import CircularProgress from 'material-ui/CircularProgress';
+import { Divider, Tabs, Tab, RaisedButton, Avatar, List, ListItem, CircularProgress } from 'material-ui';
 
 import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
