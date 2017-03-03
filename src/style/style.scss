@@ -100,6 +100,12 @@ hr {
   }
 }
 
+.side-drawer {
+  position: relative;
+  height: inherit;
+  width: inherit;
+}
+
 .fb-user {
   background-color: #3b5998;
   border: 0px;
@@ -214,7 +220,7 @@ hr {
 }
 
 .mapAndButton {
-  width: 75%;
+  width: 95%;
   height: 65%;
   margin: 16px;
   position: relative;

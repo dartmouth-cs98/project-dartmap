@@ -13,7 +13,7 @@ class EventList extends Component {
     super(props);
     this.isSameDay = false;
     this.prevDate = null;
-    this.state = { searchString: '' };
+    this.state = { searchString: '' , open: true };
   }
 
   handleChange = (e) => {
@@ -57,44 +57,46 @@ class EventList extends Component {
       // Case of matching events.
       if (this.eventItems || this.eventItems.length > 0) {
         return (
-          <div id="event-menu">
-            <input id="search-bar" type="text" value={this.state.searchString}
-              onChange={this.handleChange} placeholder="Type here..."
-            />
-            <div id="event-list">
-              {this.eventItems}
+            <div id="event-menu">
+                <input id="search-bar" type="text" value={this.state.searchString}
+                  onChange={this.handleChange} placeholder="Type here..."
+                />
+                <div id="event-list">
+                  {this.eventItems}
+                </div>
+              <div className="add-event-btn-container">
+                <FloatingActionButton onClick={this.props.toggleAddEvent}>
+                  <ContentAdd />
+                </FloatingActionButton>
+              </div>
             </div>
+        );
+      }
+    } else {
+    // Case of no matching events.
+      return (
+          <div id="event-none">
+            <Drawer containerClassName="side-drawer" open containerStyle={{height: 'calc(100% - 64px)', top: 64}}>
+              <input
+                id="search-bar"
+                type="text"
+                value={this.state.searchString}
+                onChange={this.handleChange}
+                placeholder="Type here..."
+              />
+              <div id="event-list">
+                <text className="warning-msg">
+                  No Matching Events. <br />
+                  Please Try Again.
+                </text>
+              </div>
+            </Drawer>
             <div className="add-event-btn-container">
               <FloatingActionButton onClick={this.props.toggleAddEvent}>
                 <ContentAdd />
               </FloatingActionButton>
             </div>
           </div>
-        );
-      }
-    } else {
-    // Case of no matching events.
-      return (
-        <div id="event-none">
-          <input
-            id="search-bar"
-            type="text"
-            value={this.state.searchString}
-            onChange={this.handleChange}
-            placeholder="Type here..."
-          />
-          <div id="event-list">
-            <text className="warning-msg">
-              No Matching Events. <br />
-              Please Try Again.
-            </text>
-          </div>
-          <div className="add-event-btn-container">
-            <FloatingActionButton onClick={this.props.toggleAddEvent}>
-              <ContentAdd />
-            </FloatingActionButton>
-          </div>
-        </div>
       );
     }
     return <div className="hidden" />;
