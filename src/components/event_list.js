@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import { FloatingActionButton } from 'material-ui';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import EventListItem from './event_list_item';

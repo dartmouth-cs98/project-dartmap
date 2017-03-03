@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { RaisedButton, Avatar, TextField } from 'material-ui';
 const NO_PROF_PIC = 'https://image.freepik.com/icones-gratis/macho-acima-silhueta-escura_318-39674.png';
-
 
 class CommentForm extends React.Component {
   constructor(props) {
@@ -27,27 +27,32 @@ class CommentForm extends React.Component {
   render() {
     let profPicUrl = this.props.user && this.props.user.fbProfPicUrl;
     profPicUrl = profPicUrl || NO_PROF_PIC;
+    const styles = {
+      avatar: {
+        marginRight: 20,
+      },
+      button: {
+        margin: 12,
+      },
+      text: {
+        width: '80%',
+      },
+    };
+
     return (
-      <li className="row collection-header">
-        <div className="col m1">
-          <img
-            className="circle responsive-img"
-            src={profPicUrl}
-            alt="avatar"
-          />
+      <div className="row">
+        <Avatar
+          src={profPicUrl}
+          style={styles.avatar}
+        />
+        <TextField style={styles.text}
+          floatingLabelText="Add Comment"
+          value={this.state.text} onChange={this.handleTextChange}
+        />
+        <div className="pull-right" style={styles.button}>
+          <RaisedButton label="Post" primary onClick={this.handleSubmit} />
         </div>
-        <div className="col m11">
-          <input className="form-control" type="text"
-            placeholder="Add a comment"
-            value={this.state.text} onChange={this.handleTextChange}
-          />
-          <a className="waves-effect waves-teal btn-flat"
-            onClick={this.handleSubmit}
-          >
-            Post
-          </a>
-        </div>
-      </li>
+      </div>
     );
   }
 }

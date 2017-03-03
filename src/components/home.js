@@ -4,6 +4,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { FloatingActionButton } from 'material-ui';
+import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
+
 // import the react Components
 import EventList from './event_list';
 import MapContainer from './map_container';
@@ -46,11 +49,14 @@ class Home extends Component {
     }, true);
   }
 
-  componentWillUpdate() {
+  componentWillUpdate(nextProps, nextState) {
     if ((!this.props.eventList) || (this.props.eventList[0] === 'retry')) {
       if (this.props.latitude && this.props.longitude) {
         this.getEvents();
       }
+    }
+    if (this.props.latitude && this.props.longitude && (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude)) {
+      this.props.fetchEvents(nextProps.latitude, nextProps.longitude, RADIUS);
     }
   }
 
@@ -71,20 +77,26 @@ class Home extends Component {
     this.setState({ addEvent: true });
   }
 
+  toggleGeolocation = () => {
+    this.setState({ showModal: !this.state.showModal });
+  }
+
   render() {
-    let showModal = false;
-    if (this.props.latitude === null && this.props.longitude === null) {
-      showModal = true;
-    }
     return (
       <div className="home-container">
-        <MapContainer
-          height={this.state.mapHeight}
-          width={this.state.mapWidth}
-        />
+        <div className="mapAndButton">
+          <MapContainer
+            height={this.state.mapHeight}
+            width={this.state.mapWidth}
+          />
+          <FloatingActionButton className="geoButton" onClick={this.toggleGeolocation}>
+            <MapsMyLocation />
+          </FloatingActionButton>
+        </div>
         <EventList
           toggleAddEvent={this.toggleAddEvent}
           selectedLocation={this.state.selectedLocation}
+          toggleGeolocation={this.toggleGeolocation}
         />
         <FilterContainer />
         <AddEventDialog
@@ -92,7 +104,7 @@ class Home extends Component {
           handleAddEventData={this.handleAddEventData}
           closeAddEventDialog={this.closeAddEventDialog}
         />
-        <LocationDialog showModal={showModal} />
+        <LocationDialog showModal={this.state.showModal} handleClose={this.toggleGeolocation} />
       </div>
     );
   }
