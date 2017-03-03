@@ -42,7 +42,7 @@ class CommentForm extends React.Component {
     return (
       <div className="row">
         <Avatar
-          src={profPicUrl}
+          src={(this.props.user && this.props.user.fbProfPicUrl) ? this.props.user.fbProfPicUrl : 'https://image.freepik.com/icones-gratis/macho-acima-silhueta-escura_318-39674.png'}
           style={styles.avatar}
         />
         <TextField style={styles.text}
@@ -50,7 +50,7 @@ class CommentForm extends React.Component {
           value={this.state.text} onChange={this.handleTextChange}
         />
         <div className="pull-right" style={styles.button}>
-          <RaisedButton label="Post" primary onClick={this.handleSubmit} />
+          <RaisedButton label="Post" primary={true} onClick={this.handleSubmit} />
         </div>
       </div>
     );
