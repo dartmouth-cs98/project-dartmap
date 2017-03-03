@@ -2422,8 +2422,19 @@ hr {
 #map {
   float: left;
   padding: 5px;
-  margin: 16px 16px 16px 16px;
   box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.8); }
+
+.mapAndButton {
+  width: 75%;
+  height: 65%;
+  margin: 16px;
+  position: relative;
+  display: inline-block; }
+
+.geoButton {
+  position: absolute;
+  top: 10px;
+  right: 10px; }
 
 .map-event-img {
   height: 20px;
