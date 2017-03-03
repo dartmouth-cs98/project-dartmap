@@ -26,7 +26,7 @@ class EventPage extends Component {
     super(props);
     this.state = {
       event: null,
-      event_id: this.props.params.id,
+      event_id: parseInt(this.props.params.id, 10),
       isRSVPed: false,
     };
     this.map = null;
@@ -115,7 +115,7 @@ class EventPage extends Component {
   handleRSVP() {
     const data = {};
     data.user_id = 1;
-    data.event_id = parseInt(this.state.event_id, 10);
+    data.event_id = this.state.event_id;
 
     if (this.state.isRSVPed === true) { // De-RSVP
       deleteRSVP(data).then((response) => {
@@ -131,7 +131,7 @@ class EventPage extends Component {
   addImage() {
     const data = {};
     data.user_id = 1;
-    data.event_id = parseInt(this.state.event_id, 10);
+    data.event_id = this.state.event_id;
 
     if (this.state.isRSVPed === true) { // De-RSVP
       deleteRSVP(data).then((response) => {
@@ -208,6 +208,7 @@ class EventPage extends Component {
         marginTop: -150,
       },
     };
+
     const images = [];
     let i;
     if (!this.state.event) {

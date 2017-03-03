@@ -141,7 +141,7 @@ const mapStateToProps = state => (
       lat: state.user.latitude,
       lng: state.user.longitude,
     },
-    center: { lat: state.user.latitude, lng: state.user.longitude },
+    center: state.map.center,
   }
 );
 

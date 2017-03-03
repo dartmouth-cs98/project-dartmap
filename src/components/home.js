@@ -58,7 +58,7 @@ class Home extends Component {
       }
     }
     if (this.props.latitude && this.props.longitude && (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude)) {
-      this.props.fetchEvents(nextProps.atitude, nextProps.longitude, RADIUS);
+      this.props.fetchEvents(nextProps.latitude, nextProps.longitude, RADIUS);
     }
   }
 
