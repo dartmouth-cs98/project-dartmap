@@ -16,14 +16,20 @@ class MapBalloon extends Component {
     this.popUp = [];
   }
   render() {
-    if ((this.props.stickyBalloonId !== this.props.id)
-      && (this.props.hoverKey !== this.props.id)
-      && (this.props.balloonId !== this.props.id)) {
+    this.events = this.props.eventsForLocation;
+    if (this.events.length < 1) {
       return (
         <div className="hidden" />
       );
     }
-    this.events = this.props.eventsForLocation;
+    const locationId = this.events[0].location_id;
+    if ((this.props.stickyBalloonId !== locationId)
+      && (this.props.hoverKey !== locationId)
+      && (this.props.balloonId !== locationId)) {
+      return (
+        <div className="hidden" />
+      );
+    }
     this.popUp = [];
     for (let i = 0; i < this.events.length; i += 1) {
       const event = this.events[i];

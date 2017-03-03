@@ -20,13 +20,6 @@ export default function filterEventList(theFilters, eventList, categoriesList, d
   if (!filters.selectedCategories) {
     filters.selectedCategories = [];
   }
-  if (filters.selectedCategories.length <= 0) {
-    // fill with all the categories that exist, so the default is for all categories to be selected
-    let i;
-    for (i = 0; i < categoriesList.length; i += 1) {
-      filters.selectedCategories.push(categoriesList[i]);
-    }
-  }
 
   filteredEvents = filterDates(filters, dateBarData, eventList);
   filteredEvents = filterTimes(filters, TIMES_DATA_DISPLAY, filteredEvents.slice());

@@ -4,7 +4,6 @@
 */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 
@@ -98,7 +97,7 @@ class DateFilter extends Component {
       return <div className="hidden" />;
     }
     return (
-      <div className="date-filter section-inner" style={{ color: '#1E90FF', height: '30px' }}>
+      <div className="date-filter section-inner">
         <div className="segmented-control">
           <input type="checkbox" id="d0" name="d0" value="0" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[0]} />
           <label htmlFor="d0" data-value={this.datesDataDisplay[0]}>{this.datesDataDisplay[0]}</label>
@@ -137,10 +136,4 @@ class DateFilter extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    dateBarData: state.events.dateBarData,
-  }
-);
-
-export default connect(mapStateToProps, null)(DateFilter);
+export default DateFilter;

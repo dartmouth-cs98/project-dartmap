@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { FloatingActionButton } from 'material-ui';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+
 import EventListItem from './event_list_item';
 
 class EventList extends Component {
@@ -11,6 +14,7 @@ class EventList extends Component {
     this.prevDate = null;
     this.state = { searchString: '' };
   }
+
   handleChange = (e) => {
     this.setState({ searchString: e.target.value });
   };
@@ -55,44 +59,48 @@ class EventList extends Component {
       if (this.eventItems.length > 0) {
         return (
           <div id="event-menu">
+            <input id="search-bar" type="text" value={this.state.searchString}
+              onChange={this.handleChange} placeholder="Type here..."
+            />
+            <div id="event-list">
+              {this.eventItems}
+            </div>
             <div className="add-event-btn-container">
-              <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
-                Add Event
-                <img id="plus" src="/icon_set_1/plus.png" role="presentation" />
-              </button>
+              <FloatingActionButton onClick={this.props.toggleAddEvent}>
+                <ContentAdd />
+              </FloatingActionButton>
             </div>
             <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
             {this.eventItems}
           </div>
         );
       }
-    }
-    // Case of no matching events (i.e. if there are no events to be displayed)
-    return (
-      <div id="event-none">
-        <div className="add-event-btn-container">
-          <button
-            className="add-event-plus"
-            type="button"
-            onClick={this.props.toggleAddEvent}
-          >
-            Add Event
-            <img id="plus" src="/icon_set_1/plus.png" role="presentation" />
-          </button>
+    } else {
+      // Case of no matching events (i.e. if there are no events to be displayed)
+      return (
+        <div id="event-none">
+          <input
+            id="search-bar"
+            type="text"
+            value={this.state.searchString}
+            onChange={this.handleChange}
+            placeholder="Search here..."
+          />
+          <div id="event-list">
+            <text className="warning-msg">
+              No Matching Events. <br />
+              Please Try Again.
+            </text>
+          </div>
+          <div className="add-event-btn-container">
+            <FloatingActionButton onClick={this.props.toggleAddEvent}>
+              <ContentAdd />
+            </FloatingActionButton>
+          </div>
         </div>
-        <input
-          id="search-bar"
-          type="text"
-          value={this.state.searchString}
-          onChange={this.handleChange}
-          placeholder="Search here..."
-        />
-        <text className="warning-msg">
-          No Matching Events. <br />
-          Please Try Again.
-        </text>
-      </div>
-    );
+      );
+    }
+    return <div className="hidden" />;
   }
 }
 

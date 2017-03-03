@@ -4,35 +4,22 @@
 */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
 import Select from 'react-select';
 
-const CATEGORIES = [
-  { label: 'Academic', value: 'Academic' },
-  { label: 'Art', value: 'Art' },
-  { label: 'Sports', value: 'Sports' },
-  { label: 'Performance', value: 'Performance' },
-  { label: 'Lecture', value: 'Lecture' },
-  { label: 'Greek Life', value: 'Greek Life' },
-  { label: 'Free Food', value: 'Free Food' },
-];
-
-
 class CategoryFilter extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      value: CATEGORIES,
+      categories: null,
     };
     this.handleChange = this.handleChange.bind(this);
     this.initialSetDefault = true;
+    this.dropdownValues = [];
   }
 
 
   handleChange(value) {
-    this.setState({ value });
+    this.setState({ categories }, this.updateFilteredEventList);
     const cats = value.split(',');
     console.log(cats.length);
     console.log('categories ', CATEGORIES);
@@ -53,17 +40,32 @@ class CategoryFilter extends Component {
         obj.push(single_obj);
       }
     }
-    this.props.onCategoryChange(obj);
+  }
+
+  componentWillUpdate = () => {
+    if (this.props.catList && this.initialSetDefault) {
+      for (let i = 0; i < this.props.catList.length; i += 1) {
+        const cat = this.props.catList[i];
+        this.dropdownValues.push({ label: cat.label, value: cat.value });
+      }
+      this.setState({ categories: this.dropdownValues });
+      this.props.onCategoryChange(this.dropdownValues);
+      this.initialSetDefault = false;
+    }
+  }
+
+  updateFilteredEventList = () => {
+    this.props.onCategoryChange(this.state.categories);
   }
 
   render() {
-    const dropdownValues = CATEGORIES;
+    console.log(this.state.categories);
     return (
       <div className="add-event-form" style={{ height: '70px' }}>
         <div className="add-event-fields">
-          <Select multi simpleValue
-            options={dropdownValues}
-            value={this.state.value}
+          <Select multi joinValues
+            options={this.dropdownValues}
+            value={this.state.categories}
             onChange={this.handleChange}
             placeholder="Enter Categories to find Events"
           />
@@ -73,10 +75,4 @@ class CategoryFilter extends Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    catList: state.events.catList,
-  }
-);
-
-export default connect(mapStateToProps, null)(CategoryFilter);
+export default CategoryFilter;

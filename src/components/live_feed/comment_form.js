@@ -1,23 +1,17 @@
 import React from 'react';
 
+import { RaisedButton, Avatar, TextField } from 'material-ui';
+const NO_PROF_PIC = 'https://image.freepik.com/icones-gratis/macho-acima-silhueta-escura_318-39674.png';
+
 class CommentForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       text: '',
     };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleTextChange = this.handleTextChange.bind(this);
   }
 
-  handleTextChange(e) {
-    this.setState({
-      text: e.target.value,
-    });
-  }
-
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
     const text = this.state.text.trim();
     if (!text) {
@@ -31,16 +25,34 @@ class CommentForm extends React.Component {
   }
 
   render() {
+    let profPicUrl = this.props.user && this.props.user.fbProfPicUrl;
+    profPicUrl = profPicUrl || NO_PROF_PIC;
+    const styles = {
+      avatar: {
+        marginRight: 20,
+      },
+      button: {
+        margin: 12,
+      },
+      text: {
+        width: '80%',
+      },
+    };
+
     return (
-      <form className="post-heading row" onSubmit={this.handleSubmit}>
-        <div className="col-md-1">
-          <img className="avatar" src="https://s3.amazonaws.com/dartmap/edrei.jpg" alt="avatar" />
+      <div className="row">
+        <Avatar
+          src={profPicUrl}
+          style={styles.avatar}
+        />
+        <TextField style={styles.text}
+          floatingLabelText="Add Comment"
+          value={this.state.text} onChange={this.handleTextChange}
+        />
+        <div className="pull-right" style={styles.button}>
+          <RaisedButton label="Post" primary onClick={this.handleSubmit} />
         </div>
-        <div className="col-md-11 input-group">
-          <input className="form-control" placeholder="Add a comment" type="text" value={this.state.text} onChange={this.handleTextChange} />
-          <input className="input-group-addon" type="submit" value="Submit" onClick={this.handleSubmit} />
-        </div>
-      </form>
+      </div>
     );
   }
 }
