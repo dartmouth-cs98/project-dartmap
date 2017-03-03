@@ -55,9 +55,9 @@ export function formatAPIEventData(event) {
   newEvent.location_name = event.location.name;
   newEvent.placeId = event.location.place_id;
 
-  newEvent.categories = formatParseProperJSON(event.categories);
-  newEvent.attendees = formatParseProperJSON(event.attendees);
-  newEvent.comments = formatParseProperJSON(event.comments);
+  newEvent.categories = eval(event.categories);
+  newEvent.attendees = eval(event.attendees);
+  newEvent.comments = eval(event.comments);
 
   return newEvent;
 }
