@@ -9,6 +9,8 @@ import Rcslider from 'rc-slider';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 
+import { Popover } from 'material-ui';
+
 // const TIMES_DATA = {0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 0, 9: 2};
 const TIMES_DATA_DISPLAY = { 
 	0: '8am', 
@@ -32,14 +34,6 @@ class TimeFilter extends Component {
       value: [0, 9],
     }
 	}
-
-	// showSlider = () => {
- //    if (!this.props.openTimeFilter) {
- //      this.setState({ expanded : true });
- //    } else {
- //      this.setState({ expanded : false });
- //    }
- //  	}
 
   	handleChange = (value) => {
   		this.setState({ value });
@@ -69,7 +63,14 @@ class TimeFilter extends Component {
           <select>
             <option>Filter by Time </option>
           </select>
-          <div className="overSelect"></div>
+
+          <Popover
+            open={this.props.openTimeFilter}
+            anchorEl={this.props.anchorEl}
+            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            onRequestClose={this.props.openFilter}
+          >
           <div id="slider">
 	          <div className="time-filter">
 	      	<Rcslider tipFormatter={null} marks={TIMES_DATA_DISPLAY} 
@@ -79,6 +80,7 @@ class TimeFilter extends Component {
 	      	onAfterChange={this.onTimeChange} />
       </div>
       </div>
+      </Popover>
       </div>
       </div>
     </form>

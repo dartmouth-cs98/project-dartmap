@@ -6,6 +6,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { Popover, Checkbox } from 'material-ui';
+
 // List of categories
 const CATEGORIES = [
   'Academic',
@@ -21,6 +23,14 @@ const CATEGORIES = [
 // Default to all categories
 const DEFAULT_CATEGORIES = [true,true,true,true,true,true,true,true]
 
+const styles = {
+  block: {
+    maxWidth: 500,
+  },
+  checkbox: {
+    marginBottom: 16,
+  },
+};
 
 class CategoryFilter extends Component {
   constructor(props) {
@@ -44,6 +54,7 @@ class CategoryFilter extends Component {
   handleChange(event) {
 
     const val = event.target.value;
+    console.log(val);
     let checked = this.state.checked.slice(); // copy
     let checked_boolean = this.state.checked_boolean.slice();
 
@@ -95,6 +106,7 @@ class CategoryFilter extends Component {
       this.props.onCategoryChange(this.dropdownValues);
       this.initialSetDefault = false;
     }
+    console.log(cat_filters)
     this.onCategoryChange(cat_filters);
 
   }
@@ -124,65 +136,90 @@ class CategoryFilter extends Component {
           </select>
           <div className="overSelect"></div>
         </div>
-        <div className="checkboxes-dropdown" id="checkboxes">
+        <Popover
+          open={this.props.openCategoryFilter}
+          anchorEl={this.props.anchorEl}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          onRequestClose={this.props.openFilter}
+        >
+        <div style={styles.block}>
+        <Checkbox 
+          label="Academic"
+          style={styles.checkbox}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[0]}
+          value="Academic"
+          id="Academic"
+          />
 
-        <div >
-          <label htmlFor="Academic">
-          <input type="checkbox" id="Academic" name="Academic" value="Academic"
-          onChange={this.handleChange} checked={this.state.checked_boolean[0]} 
-          data-value="Academic" />     Academic</label>
-        </div>
+        <Checkbox 
+          label="Art"
+          style={styles.checkbox}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[1]}
+          value="Art"
+          id="Art"
+          />
 
-        <div >
-        <label htmlFor="Art">
-          <input type="checkbox" id="Art" name="Art" value="Art"
-          onChange={this.handleChange} checked={this.state.checked_boolean[1]} 
-           data-value="Art" />     Art</label>
-        </div>
+        <Checkbox 
+          label="Sports"
+          style={styles.checkbox}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[2]}
+          value="Sports"
+          id="Sports"
+          />
 
-        <div >
-        <label htmlFor="Sports">
-          <input type="checkbox" id="Sports" name="Sports" value="Sports"
-          onChange={this.handleChange} checked={this.state.checked_boolean[2]} 
-           data-value="Sports" />     Sports</label>
-        </div>
+        <Checkbox 
+          label="Performance"
+          style={styles.checkbox}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[3]}
+          value="Performance"
+          id="Performance"
+          />
 
-        <div >
-        <label htmlFor="Performance" >
-          <input type="checkbox" id="Performance" name="Performance" value="Performance"
-          onChange={this.handleChange} checked={this.state.checked_boolean[3]} 
-          data-value="Performance" />     Performance</label>
-        </div>
+        <Checkbox 
+          label="Lecture"
+          style={styles.checkbox}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[4]}
+          value="Lecture"
+          id="Lecture"
+          />
 
-        <div >
-        <label htmlFor="Lecture">
-          <input type="checkbox" id="Lecture" name="Lecture" value="Lecture"
-          onChange={this.handleChange} checked={this.state.checked_boolean[4]} 
-           data-value="Lecture" />     Lecture</label>
-        </div>
+        <Checkbox 
+          label="Greek Life"
+          style={styles.checkbox}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[5]}
+          value="Greek Life"
+          id="Greek Life"
+          />
 
-        <div >
-        <label htmlFor="Greek Life">
-          <input type="checkbox" id="Greek Life" name="Greek Life" value="Greek Life"
-          onChange={this.handleChange} checked={this.state.checked_boolean[5]} 
-           data-value="Greek Life" />     Greek Life</label>
-        </div>
+        <Checkbox 
+          label="Free Food"
+          style={styles.checkbox}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[6]}
+          value="Free Food"
+          id="Free Food"
+          />
 
-        <div >
-        <label htmlFor="Free Food">
-          <input type="checkbox" id="Free Food" name="Free Food" value="Free Food"
-          onChange={this.handleChange} checked={this.state.checked_boolean[6]} 
-           data-value="Free Food" />     Free Food</label>
-        </div>
+        <Checkbox 
+          label="All Categories"
+          style={styles.checkbox}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[7]}
+          value="All Categories"
+          id="All Categories"
+          />
 
-        <div >
-        <label htmlFor="All Categories">
-          <input type="checkbox" id="All Categories" name="All Categories" value="All Categories"
-          onChange={this.handleChange} checked={this.state.checked_boolean[7]} 
-           data-value="All Categories" />     All Categories</label>
-        </div>
+          </div>
+
+        </Popover>
           
-        </div>
       </div>
     </form>
 

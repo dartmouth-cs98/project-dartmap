@@ -45,27 +45,30 @@ class FilterContainer extends Component {
     this.props.filterEvents(filters);
   }
 
-  toggleTimeFilter = () => {
+  toggleTimeFilter = (event) => {
     this.setState({
       openTimeFilter: !this.state.openTimeFilter,
       openDateFilter: false,
       openCategoryFilter: false,
+      anchorEl: event.currentTarget,
     });
   }
 
-  toggleCategoryFilter = () => {
+  toggleCategoryFilter = (event) => {
     this.setState({
       openTimeFilter: false, 
       openDateFilter: false,
       openCategoryFilter: !this.state.openCategoryFilter,
+      anchorEl: event.currentTarget,
     });
   }
 
-  toggleDateFilter = () => {
+  toggleDateFilter = (event) => {
     this.setState({
       openTimeFilter: false, 
       openDateFilter: !this.state.openDateFilter,
       openCategoryFilter: false,
+      anchorEl: event.currentTarget,
     });
   }
 
@@ -76,6 +79,7 @@ class FilterContainer extends Component {
       <TimeFilter openTimeFilter={this.state.openTimeFilter} 
         openFilter={this.toggleTimeFilter} 
         onTimeChange={this.onTimeChange}
+        anchorEl={this.state.anchorEl}
       />
       </div>
     <div className="filter">
@@ -83,14 +87,16 @@ class FilterContainer extends Component {
       onDateChange={this.onDateChange} 
       dateBarData={this.props.dateBarData} 
       openFilter={this.toggleDateFilter}
-      openDateFilter={this.state.openDateFilter}/>
+      openDateFilter={this.state.openDateFilter}
+      anchorEl={this.state.anchorEl}/>
       </div>
     <div className="filter">
       <CategoryFilter onCategoryChange={this.onCategoryChange} 
       categoriesList={this.props.categoriesList} 
       catList={this.props.catList} 
       openFilter={this.toggleCategoryFilter}
-      openCategoryFilter={this.state.openCategoryFilter}/>
+      openCategoryFilter={this.state.openCategoryFilter}
+      anchorEl={this.state.anchorEl}/>
       </div>
     </div>
     );

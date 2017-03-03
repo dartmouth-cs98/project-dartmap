@@ -7,6 +7,8 @@ import React, { Component } from 'react';
 
 import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 
+import { Popover } from 'material-ui';
+
 // Display today and the next 6 days as filter options
 // and an option for the next 2 weeks
 const NUM_DAYS_DISPLAY = 8;
@@ -128,7 +130,13 @@ class DateFilter extends Component {
           </select>
           <div className="overSelect"></div>
         </div>
-        <div className="checkboxes-dropdown" id="checkboxes">
+        <Popover
+          open={this.props.openDateFilter}
+          anchorEl={this.props.anchorEl}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          onRequestClose={this.props.openFilter}
+        >
 
         <div >
          <label htmlFor="d0">
@@ -185,8 +193,7 @@ class DateFilter extends Component {
           onChange={this.handleChange} checked={this.state.checked_boolean[7]} 
           data-value={DATES[7]} />     {DATES[7]}</label>
         </div>
-
-        </div>
+      </Popover>
       </div>
     </form>
 
