@@ -257,7 +257,7 @@ class EventPage extends Component {
             <div className="row">
               <h2 className="col-md-3">Who Is Going?</h2>
               <div className="pull-right" style={styles.button}>
-                <RaisedButton label={this.state.isRSVPed ? 'Going' : 'RSVP'} primary={true} onClick={this.handleRSVP} />
+                <RaisedButton label={this.state.isRSVPed ? 'Going' : 'RSVP'} primary onClick={this.handleRSVP} />
               </div>
             </div>
             <List>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { RaisedButton, Avatar, TextField } from 'material-ui';
+
 const NO_PROF_PIC = 'https://image.freepik.com/icones-gratis/macho-acima-silhueta-escura_318-39674.png';
 
 class CommentForm extends React.Component {

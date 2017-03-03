@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { FloatingActionButton } from 'material-ui';
+import { IconButton } from 'material-ui';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
 
 // import the react Components
@@ -89,9 +89,9 @@ class Home extends Component {
             height={this.state.mapHeight}
             width={this.state.mapWidth}
           />
-          <FloatingActionButton className="geoButton" onClick={this.toggleGeolocation}>
+          <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleGeolocation}>
             <MapsMyLocation />
-          </FloatingActionButton>
+          </IconButton>
         </div>
         <EventList
           toggleAddEvent={this.toggleAddEvent}
