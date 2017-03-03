@@ -11,24 +11,6 @@ const EVENT_URL = 'events/';
 const USERS_URL = 'users/';
 const RSVP_URL = 'rsvp/';
 
-
-function formatParseProperJSON(toFormat) {
-  const s = toFormat.replace(/'/g, '"')
-               .replace(/ u"/g, ' "')
-               .replace(/\\n/g, '\\n')
-               .replace(/\\'/g, '\\\'')
-               .replace(/\\"/g, '\\"')
-               .replace(/\\&/g, '\\&')
-               .replace(/\\r/g, '\\r')
-               .replace(/\\t/g, '\\t')
-               .replace(/\\b/g, '\\b')
-               .replace(/\\f/g, '\\f')
-               .replace('None', null)
-               .replace(/[\u0000-\u0019]+/g, '');
-
-  return JSON.parse(s, ':quirks_mode => true');
-}
-
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
  *
