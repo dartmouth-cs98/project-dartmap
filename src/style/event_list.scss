@@ -27,19 +27,16 @@
 
 #event-menu {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  float: right;
-  width: 20%;
-  height: 80vh;
-  padding-right: 16px;
-  padding-top: 16px;
 
   @include flex-box;
   @include flex-column;
+  position: relative;
+  height: inherit;
+  overflow: scroll;
 }
 
 #event-list {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  height: 60%;
   overflow: scroll;
   flex-grow: 1;
 
@@ -71,6 +68,14 @@
 
   &:focus {
     outline: none;
+  }
+}
+
+.arrow {
+  display: inline-block;
+  float: right;
+  &:hover {
+    cursor: pointer;
   }
 }
 
