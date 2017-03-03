@@ -194,6 +194,60 @@ hr {
   }
 }
 
+// Button for a user to delete an event
+.user-delete-event {
+  background-color: #BD1919;
+  border: 1px solid;
+  /*border-radius: 20px;*/
+  /*float: right;*/
+  text-align: center;
+  font-size: 18pt;
+  height: 100%;
+  line-height: 100%;
+  /*margin-bottom: 10px;*/
+
+  &:hover {
+    background-color: #FF0000;
+    cursor: pointer;
+  }
+}
+
+// Button for a user to change the location of an event
+.user-change-event-location {
+  background-color: #23ABD9;
+  border: 1px solid;
+  /*border-radius: 20px;*/
+  /*float: right;*/
+  text-align: center;
+  font-size: 8pt;
+  height: 100%;
+  line-height: 100%;
+  /*margin-bottom: 10px;*/
+
+  &:hover {
+    background-color: #00BFFF;
+    cursor: pointer;
+  }
+}
+
+// Button for a user to edit an event
+.user-edit-event {
+  background-color: #00B800;
+  border: 1px solid;
+  /*border-radius: 20px;*/
+  /*float: right;*/
+  text-align: center;
+  font-size: 18pt;
+  height: 100%;
+  line-height: 100%;
+  /*margin-bottom: 10px;*/
+
+  &:hover {
+    background-color: #00FF00;
+    cursor: pointer;
+  }
+}
+
 #plus {
   height: 30px;
   width: 30px;
@@ -240,12 +294,45 @@ hr {
   margin-right: 5px;
 }
 
+#event-menu {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  float: right;
+  width: 20%;
+  height: 100%;
+  overflow: scroll;
+  padding-right: 16px;
+  padding-top: 16px;
+
+  .location-not-selected {
+    display: none;
+  }
+}
+
+#user-event-menu {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  float: center;
+  width: 80%;
+  height: 100%;
+  overflow: scroll;
+  padding-left: 10%;
+  padding-top: 16px;
+
+  .location-not-selected {
+    display: none;
+  }
+}
+
 .warning-msg {
   background-color: white;
 }
 
 #search-bar {
   width: 100%;
+  background-color: white;
+}
+
+#user-search-bar {
+  width: 30%;
   background-color: white;
 }
 
@@ -262,6 +349,46 @@ hr {
   text-align: center;
   padding-right: 16px;
   padding-top: 16px;
+}
+
+// Event List Components
+#event-menu #event-banner {
+  border-bottom: thin solid black;
+   .event-banner-item {
+    float: left;
+    padding-left: 16px;
+  }
+}
+
+.event-item {
+  background-color: white;
+  border-bottom: thin solid black;
+  height: 100%;
+  padding-left: 8px;
+  padding-top: 8px;
+  width: 100%;
+  font-size: 15px;
+
+  &:hover {
+    background-color: $light-grey;
+    cursor: pointer;
+  }
+}
+
+.user-event-item {
+  background-color: white;
+  border-bottom: thin solid black;
+  height: 100%;
+  padding-left: 8px;
+  padding-top: 8px;
+  width: 100%;
+  font-size: 15px;
+}
+
+.uspg-map {
+  width: 35%;
+  height: 200px;
+  float: right;
 }
 
 .popup {
@@ -330,6 +457,13 @@ hr {
 
 .date-display {
   background-color: $green;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
+.user-date-display {
+  background-color: #878787;
   color: white;
   position: relative;
   text-align: center;

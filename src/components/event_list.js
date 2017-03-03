@@ -24,6 +24,7 @@ class EventList extends Component {
     this.eventItems = [];
 
     if (this.props.events && this.props.events.length > 0) {
+      // FOR EACH EVENT
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
         const eListItem = [<EventListItem
@@ -47,6 +48,7 @@ class EventList extends Component {
         this.prevDate = event.date;
       }
 
+      // SEARCHING
       const searchString = this.state.searchString.trim().toLowerCase();
       if (searchString.length > 0) {
         console.log(this.eventItems);
@@ -54,12 +56,12 @@ class EventList extends Component {
           ? null : i[0].props.event.name.toLowerCase().match(searchString)));
       }
 
-      // Case of matching events.
+      // Case of matching events (i.e. if there are events to be displayed)
       if (this.eventItems || this.eventItems.length > 0) {
         return (
           <div id="event-menu">
             <input id="search-bar" type="text" value={this.state.searchString}
-              onChange={this.handleChange} placeholder="Type here..."
+              onChange={this.handleChange} placeholder="Search here..."
             />
             <div id="event-list">
               {this.eventItems}
@@ -69,11 +71,12 @@ class EventList extends Component {
                 <ContentAdd />
               </FloatingActionButton>
             </div>
+            {this.eventItems}
           </div>
         );
       }
     } else {
-    // Case of no matching events.
+      // Case of no matching events (i.e. if there are no events to be displayed)
       return (
         <div id="event-none">
           <input
@@ -81,7 +84,7 @@ class EventList extends Component {
             type="text"
             value={this.state.searchString}
             onChange={this.handleChange}
-            placeholder="Type here..."
+            placeholder="Search here..."
           />
           <div id="event-list">
             <text className="warning-msg">
