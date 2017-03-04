@@ -26,8 +26,7 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    let profPicUrl = this.props.user && this.props.user.fbProfPicUrl;
-    profPicUrl = profPicUrl || NO_PROF_PIC;
+    const profPicUrl = this.props.user && this.props.user.fbProfPicUrl ? this.props.user.fbProfPicUrl : NO_PROF_PIC;
     const styles = {
       avatar: {
         marginRight: 20,
