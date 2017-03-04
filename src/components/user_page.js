@@ -3,15 +3,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { List, Drawer, makeSelectable, ListItem } from 'material-ui';
+import { Tabs, Tab, Menu, MenuItem, Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, RaisedButton, Avatar, List, Drawer, ListItem } from 'material-ui';
 import { zIndex } from 'material-ui/styles';
+import CancelNavigation from 'material-ui/svg-icons/navigation/cancel';
+import RefreshNavigation from 'material-ui/svg-icons/navigation/refresh';
+
+// import the redux actions
+import { logout } from '../actions';
 
 import { getAllEvents } from '../helpers/dartmap-api';
 import UploadPhotoDialog from './upload_photo_dialog';
 import UserEventList from './user_profile_event_list';
 import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
-
-const SelectableList = makeSelectable(List);
 
 class UserPage extends Component {
 
@@ -25,6 +28,7 @@ class UserPage extends Component {
     this.closeUploadPhotoDialog = this.closeUploadPhotoDialog.bind(this);
     this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.sortEventList = this.sortEventList.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   // getEvents() {
@@ -55,6 +59,11 @@ class UserPage extends Component {
     return eventList.sort(sortDateTimeReverse);
   }
 
+  logout() {
+    this.props.logout();
+    window.location.replace('../');
+  }
+
   // TODO: fix profile picture source, as well as user name, etc
   render() {
     if (this.state.eventList == null) {
@@ -70,61 +79,53 @@ class UserPage extends Component {
         width: 400,
       },
     };
-
+// <RaisedButton label="Change Photo" primary onClick={this.openUploadPhotoDialog} />
     return (
       <div>
-        <Drawer className="col-md-3"
-          docked
-          open
-          containerStyle={{ zIndex: zIndex.drawer - 100, width: '400px' }}
-        >
-          <SelectableList>
-            <ListItem
-              primaryText="General"
-              primaryTogglesNestedList
-              nestedItems={[
-                <ListItem primaryText="Required Knowledge" value="/get-started/required-knowledge" />,
-                <ListItem primaryText="Installation" value="/get-started/installation" />,
-                <ListItem primaryText="Usage" value="/get-started/usage" />,
-                <ListItem primaryText="Server Rendering" value="/get-started/server-rendering" />,
-                <ListItem primaryText="Examples" value="/get-started/examples" />,
-              ]}
-            />
-          </SelectableList>
-        </Drawer>
-        <div className="col-md-9 profile">
-          <div className="photo-container">
-            <img
-              className="photo"
-              src={this.props.user.fbProfPicUrl}
-              alt="You"
-            />
-            <div className="upload-photo">
-              <button
-                className="upload-photo-button"
-                type="button"
-                onClick={this.openUploadPhotoDialog}
-              >
-              Change Photo
-              </button>
+        <Tabs style={{ marginLeft: '28%', position: 'static', top: 0, width: '72%', marginTop: '60px', zIndex: 1500 }}>
+          <Tab label="Submitted Events" href="#SubmitEvents">
+            <div className="container">
+              <h1>Your Submitted Events</h1>
+              <UserEventList
+                events={this.state.eventList}
+                onEventListItemClick={this.onEventListItemClick}
+              />
             </div>
-          </div>
-          <h1>Hi!</h1>
-          <br />
-          <h1>Your submitted events:</h1>
-          <UploadPhotoDialog
-            uploadingPhoto={this.state.uploadingPhoto}
-            closeUploadPhotoDialog={this.closeUploadPhotoDialog}
-          />
-          <UserEventList
-            events={this.state.eventList}
-            onEventListItemClick={this.onEventListItemClick}
-          />
+          </Tab>
+          <Tab label="RSVP'ed Events" href="#RSVPEvents">
+            <div className="container">
+              <h1>Your RSVP Events</h1>
+              <UserEventList
+                events={this.state.eventList}
+                onEventListItemClick={this.onEventListItemClick}
+              />
+            </div>
+          </Tab>
+        </Tabs>
+        <div className="row" style={{ marginTop: '103px' }}>
+          <Drawer className="col-md-4"
+            docked
+            open
+            containerStyle={{ zIndex: zIndex.drawer - 100, width: '28%' }}
+          >
+            <Card style={{ marginTop: '108px', paddingBottom: '25px' }}>
+              <Avatar size={25} className="img-responsive center-block" style={{ minWidth: '0%', width: '150px', height: '150px', marginLeft: '125px', marginTop: '25px' }}
+                src={this.props.user.fbProfPicUrl} alt="avatar"
+              />
+              <p style={{ textAlign: 'center', marginTop: '20px', color: '#5a7391', fontSize: '25px', fontWeight: 600, marginBottom: '7px' }} >{this.props.user.userInfo[0].name}</p>
+            </Card>
+            <Menu>
+              <MenuItem primaryText="Change Picture" leftIcon={<RefreshNavigation />} />
+              <MenuItem primaryText="Logout" leftIcon={<CancelNavigation />} onTouchTap={this.logout} />
+            </Menu>
+          </Drawer>
         </div>
       </div>
     );
   }
 }
+
+const mapDispatchToProps = { logout };
 
 const mapStateToProps = state => (
   {
@@ -132,4 +133,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps, null)(UserPage);
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
