@@ -9,7 +9,7 @@ import Rcslider from 'rc-slider';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 
-import { Popover } from 'material-ui';
+import { Popover, Slider, RaisedButton } from 'material-ui';
 
 // const TIMES_DATA = {0: 8, 1: 10, 2: 12, 3: 14, 4: 16, 5: 18, 6: 20, 7: 22, 8: 0, 9: 2};
 const TIMES_DATA_DISPLAY = { 
@@ -45,12 +45,10 @@ class TimeFilter extends Component {
       return (
         <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.props.openFilter}>
-          <select>
-            <option>Filter by Time </option>
-          </select>
-          <div className="overSelect"></div>
-        </div>
+        <RaisedButton className="block"
+        onTouchTap={this.props.openFilter}
+        label="Filter by Time"
+        />
       </div>
     </form>
         );
@@ -59,30 +57,28 @@ class TimeFilter extends Component {
   	return (
   		 <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.props.openFilter}>
-          <select>
-            <option>Filter by Time </option>
-          </select>
+        <RaisedButton className="block"
+        onTouchTap={this.props.openFilter}
+        label="Filter by Time"
+        />
+        </div>
 
-          <Popover
+          <Popover className="slider-container"
             open={this.props.openTimeFilter}
             anchorEl={this.props.anchorEl}
             anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
             targetOrigin={{horizontal: 'left', vertical: 'top'}}
             onRequestClose={this.props.openFilter}
           >
-          <div id="slider">
-	          <div className="time-filter">
-	      	<Rcslider tipFormatter={null} marks={TIMES_DATA_DISPLAY} 
+          <div className="slider">
+	      	<Rcslider 
+          tipFormatter={null} marks={TIMES_DATA_DISPLAY} 
 	      	min={0} max={9} allowCross={false} range dots step={1} 
 	      	defaultValue={[0, 9]} value={this.state.value}
 	      	onChange={this.handleChange} 
 	      	onAfterChange={this.onTimeChange} />
-      </div>
-      </div>
+          </div>
       </Popover>
-      </div>
-      </div>
     </form>
         );
 

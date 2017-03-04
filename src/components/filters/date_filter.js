@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 
 import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 
-import { Popover } from 'material-ui';
+import { Popover, Checkbox, RaisedButton } from 'material-ui';
 
 // Display today and the next 6 days as filter options
 // and an option for the next 2 weeks
@@ -20,6 +20,7 @@ const DEFAULT_DATES = ["0","1"];
 // Array of dates with labels and values both set
 // to the date
 var DATES = [];
+
 
 class DateFilter extends Component {
 
@@ -57,6 +58,7 @@ class DateFilter extends Component {
   handleChange(event) {
     
     const val = event.target.value;
+    console.log(val);
     let checked = this.state.checked.slice(); // copy
     let checked_boolean = this.state.checked_boolean.slice();
     if (checked.includes(val)) {
@@ -99,6 +101,7 @@ class DateFilter extends Component {
       }
     }
     dateArray.sort();
+    console.log(dateArray);
     this.props.onDateChange(dateArray);
   }
 
@@ -110,12 +113,10 @@ class DateFilter extends Component {
       return (
         <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.props.openFilter}>
-          <select>
-            <option>Filter by Date </option>
-          </select>
-          <div className="overSelect"></div>
-        </div>
+        <RaisedButton className="block"
+        onTouchTap={this.props.openFilter}
+        label="Filter by Date"
+        />
       </div>
     </form>
         );
@@ -124,13 +125,12 @@ class DateFilter extends Component {
 
      <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.props.openFilter}>
-          <select>
-            <option>Filter by Date </option>
-          </select>
-          <div className="overSelect"></div>
+       <RaisedButton className="block"
+        onTouchTap={this.props.openFilter}
+        label="Filter by Date"
+        />
         </div>
-        <Popover
+        <Popover className="checkbox"
           open={this.props.openDateFilter}
           anchorEl={this.props.anchorEl}
           anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
@@ -138,63 +138,71 @@ class DateFilter extends Component {
           onRequestClose={this.props.openFilter}
         >
 
-        <div >
-         <label htmlFor="d0">
-          <input type="checkbox" id="d0" name="d0" value="0" 
-          onChange={this.handleChange} checked={this.state.checked_boolean[0]} 
-          data-value={DATES[0]} />     {DATES[0]}</label>
-        </div>
+        <Checkbox 
+          label={DATES[0]}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[0]}
+          value="0"
+          id="d0"
+          />
 
-        <div >
-        <label htmlFor="d1">
-          <input type="checkbox" id="d1" name="d1" value="1" 
-          onChange={this.handleChange} checked={this.state.checked_boolean[1]} 
-           data-value={DATES[1]} />     {DATES[1]}</label>
-        </div>
+        <Checkbox 
+          label={DATES[1]}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[1]}
+          value="1"
+          id="d1"
+          />
 
-        <div >
-        <label htmlFor="d2">
-          <input type="checkbox" id="d2" name="d2" value="2" 
-          onChange={this.handleChange} checked={this.state.checked_boolean[2]} 
-           data-value={DATES[2]} />     {DATES[2]}</label>
-        </div>
+        <Checkbox 
+          label={DATES[2]}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[2]}
+          value="2"
+          id="d2"
+          />
 
-        <div >
-        <label htmlFor="d3">
-          <input type="checkbox" id="d3" name="d3" value="3" 
-          onChange={this.handleChange} checked={this.state.checked_boolean[3]} 
-           data-value={DATES[3]} />     {DATES[3]}</label>
-        </div>
+        <Checkbox 
+          label={DATES[3]}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[3]}
+          value="3"
+          id="d3"
+          />
 
-        <div >
-         <label htmlFor="d4" >
-          <input type="checkbox" id="d4" name="d4" value="4" 
-          onChange={this.handleChange} checked={this.state.checked_boolean[4]} 
-         data-value={DATES[4]} />     {DATES[4]}</label>
-        </div>
+        <Checkbox 
+          label={DATES[4]}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[4]}
+          value="4"
+          id="d4"
+          />
 
-        <div >
-        <label htmlFor="d5">
-          <input type="checkbox" id="d5" name="d5" value="5" 
-          onChange={this.handleChange} checked={this.state.checked_boolean[5]} 
-          data-value={DATES[5]}/>     {DATES[5]}</label>
-        </div>
+        <Checkbox 
+          label={DATES[5]}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[5]}
+          value="5"
+          id="d5"
+          />
 
-        <div >
-        <label htmlFor="d6">
-          <input type="checkbox" id="d6" name="d6" value="6" 
-          onChange={this.handleChange} checked={this.state.checked_boolean[6]} 
-           data-value={DATES[6]} />     {DATES[6]}</label>
-        </div>
+        <Checkbox 
+          label={DATES[6]}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[6]}
+          value="6"
+          id="d6"
+          />
 
-        <div >
-        <label htmlFor="d7" >
-          <input type="checkbox" id="d7" name="d7" value="7" 
-          onChange={this.handleChange} checked={this.state.checked_boolean[7]} 
-          data-value={DATES[7]} />     {DATES[7]}</label>
-        </div>
+        <Checkbox 
+          label={DATES[7]}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[7]}
+          value="7"
+          id="d7"
+          />
+
       </Popover>
-      </div>
     </form>
 
     );

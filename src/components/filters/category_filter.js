@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Popover, Checkbox } from 'material-ui';
+import { Popover, Checkbox, RaisedButton } from 'material-ui';
 
 // List of categories
 const CATEGORIES = [
@@ -22,15 +22,6 @@ const CATEGORIES = [
 
 // Default to all categories
 const DEFAULT_CATEGORIES = [true,true,true,true,true,true,true,true]
-
-const styles = {
-  block: {
-    maxWidth: 500,
-  },
-  checkbox: {
-    marginBottom: 16,
-  },
-};
 
 class CategoryFilter extends Component {
   constructor(props) {
@@ -117,12 +108,10 @@ class CategoryFilter extends Component {
       return (
         <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.props.openFilter}>
-          <select>
-            <option>Filter by Category</option>
-          </select>
-          <div className="overSelect"></div>
-        </div>
+      <RaisedButton className="block"
+        onTouchTap={this.props.openFilter}
+        label="Filter by Category"
+        />
       </div>
     </form>
         );
@@ -130,23 +119,20 @@ class CategoryFilter extends Component {
     return (
      <form>
       <div className="multiselect">
-        <div className="selectBox" onClick={this.props.openFilter}>
-          <select>
-            <option>Filter by Category</option>
-          </select>
-          <div className="overSelect"></div>
+      <RaisedButton className="block"
+        onTouchTap={this.props.openFilter}
+        label="Filter by Category"
+        />
         </div>
-        <Popover
+        <Popover className="checkbox"
           open={this.props.openCategoryFilter}
           anchorEl={this.props.anchorEl}
           anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
           targetOrigin={{horizontal: 'left', vertical: 'top'}}
           onRequestClose={this.props.openFilter}
         >
-        <div style={styles.block}>
         <Checkbox 
           label="Academic"
-          style={styles.checkbox}
           onCheck={this.handleChange}
           checked={this.state.checked_boolean[0]}
           value="Academic"
@@ -155,7 +141,6 @@ class CategoryFilter extends Component {
 
         <Checkbox 
           label="Art"
-          style={styles.checkbox}
           onCheck={this.handleChange}
           checked={this.state.checked_boolean[1]}
           value="Art"
@@ -164,7 +149,6 @@ class CategoryFilter extends Component {
 
         <Checkbox 
           label="Sports"
-          style={styles.checkbox}
           onCheck={this.handleChange}
           checked={this.state.checked_boolean[2]}
           value="Sports"
@@ -173,7 +157,6 @@ class CategoryFilter extends Component {
 
         <Checkbox 
           label="Performance"
-          style={styles.checkbox}
           onCheck={this.handleChange}
           checked={this.state.checked_boolean[3]}
           value="Performance"
@@ -182,7 +165,6 @@ class CategoryFilter extends Component {
 
         <Checkbox 
           label="Lecture"
-          style={styles.checkbox}
           onCheck={this.handleChange}
           checked={this.state.checked_boolean[4]}
           value="Lecture"
@@ -191,7 +173,6 @@ class CategoryFilter extends Component {
 
         <Checkbox 
           label="Greek Life"
-          style={styles.checkbox}
           onCheck={this.handleChange}
           checked={this.state.checked_boolean[5]}
           value="Greek Life"
@@ -200,7 +181,6 @@ class CategoryFilter extends Component {
 
         <Checkbox 
           label="Free Food"
-          style={styles.checkbox}
           onCheck={this.handleChange}
           checked={this.state.checked_boolean[6]}
           value="Free Food"
@@ -209,18 +189,15 @@ class CategoryFilter extends Component {
 
         <Checkbox 
           label="All Categories"
-          style={styles.checkbox}
           onCheck={this.handleChange}
           checked={this.state.checked_boolean[7]}
           value="All Categories"
           id="All Categories"
           />
 
-          </div>
-
         </Popover>
+
           
-      </div>
     </form>
 
     );
