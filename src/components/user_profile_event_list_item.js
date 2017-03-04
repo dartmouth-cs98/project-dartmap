@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import DateTime from 'react-datetime';
 import Select from 'react-select';
+
+import { ListItem, FlatButton } from 'material-ui';
+
 import { deleteEvent, updateEvent } from '../helpers/dartmap-api';
 
 // import helper functions
@@ -444,52 +447,45 @@ class UserEventListItem extends Component {
     }
 
     return (
-      <div className="user-event-item">
-        
-        {eventMap}
-
-        {eventName}
-
-        <text className="attributeTitle">
-          <br />Time:<br />
-        </text>
-
-        {eventTime}
-
-        <text className="attributeTitle">
-          <br />Location:
-        </text>
-
-        {eventLocation}
-
-        <text className="attributeTitle">
-          <br />Organizer:
-        </text>
-
-        {eventOrganizer}
-
-        <text className="attributeTitle">
-          <br />{categoriesStringLabel}
-        </text>
-
-        {eventCategories}
-
-        <text className="attributeTitle">
-          <br />Description:
-        </text>
-
-        {eventDescription}
-
-        <text className="attributeTitle">
-          <br />
-        </text>
-        <button className="user-delete-event" type="button" onClick={this.confirmDelete}>
-          Delete
-        </button>
-        <button id="editEventButton" className="user-edit-event" type="button" onClick={this.editingEvent}>
-          {this.state.editEventButtonText}
-        </button>
-      </div>
+      <ListItem>
+        <div>
+          {eventMap}
+          {eventName}
+          <text className="attributeTitle">
+            <br />Time:<br />
+          </text>
+          {eventTime}
+          <text className="attributeTitle">
+            <br />Location:
+          </text>
+          {eventLocation}
+          <text className="attributeTitle">
+            <br />Organizer:
+          </text>
+          {eventOrganizer}
+          <text className="attributeTitle">
+            <br />{categoriesStringLabel}
+          </text>
+          {eventCategories}
+          <text className="attributeTitle">
+            <br />Description:
+          </text>
+          {eventDescription}
+          <text className="attributeTitle">
+            <br />
+          </text>
+          <FlatButton
+            label={this.state.editEventButtonText}
+            primary
+            onTouchTap={this.editingEvent}
+          />
+          <FlatButton
+            label="Delete"
+            primary
+            onTouchTap={this.confirmDelete}
+          />
+        </div>
+      </ListItem>
     );
   }
 }

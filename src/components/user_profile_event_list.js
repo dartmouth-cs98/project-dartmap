@@ -1,5 +1,8 @@
 // event_list.js
 import React, { Component } from 'react';
+
+import { List, TextField } from 'material-ui';
+
 import UserEventListItem from './user_profile_event_list_item';
 
 class UserEventList extends Component {
@@ -52,17 +55,19 @@ class UserEventList extends Component {
       // Case of matching events (i.e. if there are events to be displayed)
       if (this.eventItems.length > 0) {
         return (
-          <div id="user-event-menu">
-            <input id="user-search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
-            {this.eventItems}
+          <div>
+            <TextField value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
+            <List>
+              {this.eventItems}
+            </List>
           </div>
         );
       }
     }
     // Case of no matching events (i.e. if there are no events to be displayed)
     return (
-      <div id="event-none">
-        <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
+      <div>
+        <TextField value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
         <text className="warning-msg">
           No Matching Events. <br />
           Please Try Again.
