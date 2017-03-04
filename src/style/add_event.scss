@@ -13,8 +13,13 @@
   background-color: rgba(209, 209, 224, .6);
 }
 
+.add-event-fields-page-1 {
+  max-height: 90%;
+  overflow: scroll;
+}
+
 .add-event-cover > * {
-  z-index: 15;
+  z-index: 1500;
 }
 
 #add-event {
@@ -92,9 +97,9 @@
 }
 
 .add-event-field-container-1 {
-  margin-bottom: 5px;
   position: relative;
   width: 100%;
+
 }
 
 .add-event-field-container-2 {
@@ -131,6 +136,7 @@
 .add-event-btn-container{
   position: absolute;
   bottom: 0;
+  right: 0;
 }
 
 .back-btn {

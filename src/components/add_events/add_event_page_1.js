@@ -38,7 +38,7 @@ class AddEventPage1 extends Component {
     const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[3] : this.hiddenErrorMessage;
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
-        <div className="add-event-fields">
+        <div className="add-event-fields-page-1">
           <TextField
             className="add-event-field-container-1"
             hintText="e.g. Homecoming Bonfire"
@@ -73,6 +73,9 @@ class AddEventPage1 extends Component {
             className="add-event-field-container-1"
             hintText="e.g. See freshman running in circles around a fire"
             floatingLabelText="Event description"
+            multiLine
+            rows={2}
+            rowsMax={3}
             value={this.state.description || ''}
             fullWidth
             onChange={event => this.setState({ description: event.target.value })}

@@ -60,9 +60,12 @@ hr {
 
   // This is (currently) the user's name from facebook in the nav bar
   h2 {
-    color: #B3B3B3;
+    color: #337ab7;
+    font-size: 15pt;
     margin-bottom: 0;
+    margin: initial;
     line-height: $nav-bar-height;
+    right: 8px;
   }
 
   #logo {
@@ -79,6 +82,12 @@ hr {
   height: 64px;
 }
 
+.nav-menu-right{
+  position: relative;
+  display: inherit;
+  right: 20px;
+}
+
 .nav-btn {
   color: black;
   text-decoration: none;
@@ -89,6 +98,12 @@ hr {
     color: black;
     outline: none;
   }
+}
+
+side-drawer {
+  position: relative;
+  height: inherit;
+  width: inherit;
 }
 
 .fb-user {
@@ -163,6 +178,9 @@ hr {
 .nav-menu-container {
   width: 140px;
   height: $nav-bar-height;
+  display: inline-block;
+  position: relative;
+  left: 15px;
 }
 
 // This is (currently) the add event button
@@ -192,6 +210,8 @@ hr {
 .home-container {
   height: 90%;
   background-color: white;
+  position: relative;
+  top: 5px;
 }
 
 // Map Components
@@ -202,8 +222,8 @@ hr {
 }
 
 .mapAndButton {
-  width: 75%;
-  height: 65%;
+  width: 95%;
+  height: 75%;
   margin: 16px;
   position: relative;
   display: inline-block;
@@ -233,6 +253,12 @@ hr {
 }
 
 #search-bar {
+  width: 90%;
+  background-color: white;
+  display: inline-block;
+}
+
+.search-bar-box {
   width: 100%;
   background-color: white;
 }
@@ -242,14 +268,11 @@ hr {
 }
 
 #event-none {
-  float: right;
-  width: 20%;
-  height: 100%;
+  @include flex-box;
+  @include flex-column;
   overflow: scroll;
   background-color: white;
   text-align: center;
-  padding-right: 16px;
-  padding-top: 16px;
 }
 
 .popup {
@@ -330,7 +353,7 @@ hr {
 }
 
 .date-display {
-  background-color: $green;
+  background-color: #337ab7;
   color: white;
   position: relative;
   text-align: center;

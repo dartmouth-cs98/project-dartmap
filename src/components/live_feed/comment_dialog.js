@@ -58,9 +58,7 @@ class CommentBox extends React.Component {
     return (
       <div>
         <List>
-          <Subheader>
-            <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
-          </Subheader>
+          <CommentForm constructComment={this.constructComment} onCommentSubmit={this.handleCommentSubmit} event_id={this.props.event_id} />
           <CommentList data={this.props.currentEvent ? this.props.currentEvent.comments : null}
             onCommentEdit={this.handleCommentEdit} onCommentDelete={this.handleCommentDelete}
             user_id={this.props.user && this.props.user.userInfo && this.props.user.userInfo[0] && this.props.user.userInfo[0].id ? this.props.user.userInfo[0].id : null}
