@@ -13,7 +13,7 @@ class NavBar extends Component {
       showMenu: false,
     };
     this.defaultGreeting = (
-      <h2 className="navbar-greeting">Welcome! Please log in...</h2>
+      <h2 className="navbar-greeting">Welcome! Please log in...     </h2>
     );
     this.userButton = this.fbLoginButton;
     this.greeting = this.defaultGreeting;
@@ -36,7 +36,7 @@ class NavBar extends Component {
   facebookLogin() {
     this.props.login();
     const loginButton = document.getElementById('login-button');
-    loginButton.innerHTML = 'Logging in...';
+    loginButton.innerHTML = 'Logging in...     ';
   }
 
   openMenu() {
@@ -58,7 +58,7 @@ class NavBar extends Component {
     if (this.props.user.loggedIn) {
       this.greeting = (
         <h2 className="navbar-greeting">
-          Hi, {this.props.userInfo.name}!
+          Hi, {this.props.userInfo.name}!    
         </h2>
       );
       if (this.props.fbProfPicUrl) {
@@ -94,16 +94,18 @@ class NavBar extends Component {
           <img id="logo" src="/images/dartmap.png" role="presentation" />
           <h1 className="app-name">mappit</h1>
         </Link>
-        {this.greeting}
-        <div className="nav-menu-container">
-          {this.userButton}
-          <div className={menuClass}>
-            <div className="user-menu-item-container" onClick={this.facebookLogout}>
-              <div className="user-menu-item-text">Log Out</div>
+        <div className="nav-menu-right">
+          {this.greeting}
+          <div className="nav-menu-container">
+            {this.userButton}
+            <div className={menuClass}>
+              <div className="user-menu-item-container" onClick={this.facebookLogout}>
+                <div className="user-menu-item-text">Log Out</div>
+              </div>
+              <Link to="/user" id="user-link" className="nav-btn user-menu-item-container">
+                <div className="user-menu-item-text">User Profile Page</div>
+              </Link>
             </div>
-            <Link to="/user" id="user-link" className="nav-btn user-menu-item-container">
-              <div className="user-menu-item-text">User Profile Page</div>
-            </Link>
           </div>
         </div>
       </div>

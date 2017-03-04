@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { FloatingActionButton } from 'material-ui';
+import { IconButton } from 'material-ui';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
 
 // import the react Components
@@ -17,8 +17,8 @@ import LocationDialog from './location_dialog';
 // import the redux actions
 import { fetchEvents, getLocation, clearBalloons } from '../actions';
 
-const MAP_HEIGHT_MULTIPLIER = 0.65;
-const MAP_WIDTH_MULTIPLIER = 0.75;
+const MAP_HEIGHT_MULTIPLIER = 0.75;
+const MAP_WIDTH_MULTIPLIER = 0.95;
 const RADIUS = 10000;
 
 class Home extends Component {
@@ -84,20 +84,21 @@ class Home extends Component {
   render() {
     return (
       <div className="home-container">
-        <div className="mapAndButton">
-          <MapContainer
-            height={this.state.mapHeight}
-            width={this.state.mapWidth}
-          />
-          <FloatingActionButton className="geoButton" onClick={this.toggleGeolocation}>
-            <MapsMyLocation />
-          </FloatingActionButton>
-        </div>
         <EventList
           toggleAddEvent={this.toggleAddEvent}
           selectedLocation={this.state.selectedLocation}
           toggleGeolocation={this.toggleGeolocation}
         />
+        <div className="mapAndButton">
+          <MapContainer
+            height={this.state.mapHeight}
+            width={this.state.mapWidth}
+          />
+          <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleGeolocation}>
+            <MapsMyLocation />
+          </IconButton>
+
+        </div>
         <FilterContainer />
         <AddEventDialog
           addEvent={this.state.addEvent}
