@@ -48,7 +48,7 @@ class MapContainer extends Component {
 
   _onChildClick = (key, childProps) => {
     // Recenter the map to the event that is clicked on.
-    // this.props.onCenterChange([childProps.lat, childProps.lng]);
+    this.props.setMapCenter({ lat: childProps.lat, lng: childProps.lng });
   }
 
   _onChildMouseEnter = (key /* , childProps */) => {

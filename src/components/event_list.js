@@ -28,9 +28,9 @@ class EventList extends Component {
   render() {
     this.eventItems = [];
     if(this.state.open){
-      var arrowurl = "https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-left-01-128.png";
+      var arrowurl = "https://s22.postimg.org/7w3kbqdkx/leftarrow.png";
     }else{
-      var arrowurl = "http://www.freeiconspng.com/uploads/right-arrow-icon-27.png";
+      var arrowurl = "https://s27.postimg.org/4lgynq277/rightarrow.png";
     }
 
     if (this.props.events && this.props.events.length > 0) {
