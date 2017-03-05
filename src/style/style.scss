@@ -41,11 +41,15 @@ hr {
   font-size: 30pt;
   height: $nav-bar-height;
   line-height: $nav-bar-height;
-  position: relative;
   padding: 0 15px;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%;
+
   box-shadow: 0px 5px 10px -5px black;
   -webkit-box-shadow: 0px 5px 10px -5px black;
   -moz-box-shadow: 0px 5px 10px -5px black;
+  z-index: 1250;
 
   @include flex-space-between;
   @include flex-box;
@@ -200,6 +204,12 @@ side-drawer {
   }
 }
 
+#plus {
+  height: 30px;
+  width: 30px;
+  margin-left: 20px;
+}
+
 // Button for a user to delete an event
 .user-delete-event {
   background-color: #BD1919;
@@ -254,12 +264,6 @@ side-drawer {
   }
 }
 
-#plus {
-  height: 30px;
-  width: 30px;
-  margin-left: 20px;
-}
-
 // This is the div that encompasses everything that is not in the navigation bar
 .home-container {
   height: 90%;
@@ -300,20 +304,6 @@ side-drawer {
   height: 20px;
   width: 20px;
   margin-right: 5px;
-}
-
-#event-menu {
-  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  float: right;
-  width: 20%;
-  height: 100%;
-  overflow: scroll;
-  padding-right: 16px;
-  padding-top: 16px;
-
-  .location-not-selected {
-    display: none;
-  }
 }
 
 #user-event-menu {
@@ -360,30 +350,6 @@ side-drawer {
   overflow: scroll;
   background-color: white;
   text-align: center;
-}
-
-// Event List Components
-#event-menu #event-banner {
-  border-bottom: thin solid black;
-   .event-banner-item {
-    float: left;
-    padding-left: 16px;
-  }
-}
-
-.event-item {
-  background-color: white;
-  border-bottom: thin solid black;
-  height: 100%;
-  padding-left: 8px;
-  padding-top: 8px;
-  width: 100%;
-  font-size: 15px;
-
-  &:hover {
-    background-color: $light-grey;
-    cursor: pointer;
-  }
 }
 
 .user-event-item {
@@ -453,9 +419,13 @@ side-drawer {
   box-shadow: 0px 0px 20px black;
 }
 
-#close-button {
+.close-button {
+  align-self: flex-end;
+  align-self: -webkit-flex-end;
+  align-self: -moz-flex-end;
+  font-size: 2rem;
   position: absolute;
-  right: 20px;
+  right: 15px;
   top: 5px;
   &:hover {
     color: #DC143C;
@@ -512,16 +482,6 @@ side-drawer {
 
 .error-box {
   border-color: red;
-}
-
-.close-button {
-  align-self: flex-end;
-  align-self: -webkit-flex-end;
-  align-self: -moz-flex-end;
-  &:hover {
-    color: #DC143C;
-    cursor: pointer;
-  }
 }
 
 .Modal {

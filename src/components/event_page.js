@@ -234,7 +234,7 @@ class EventPage extends Component {
 
     return (
       <div>
-        <Tabs>
+        <Tabs style={{ position: 'fixed', top: 0, width: '100%' }}>
           <Tab label="About" href="#About" />
           <Tab label="Who is Going" href="#Going" />
           <Tab label="Images" href="#Images" />

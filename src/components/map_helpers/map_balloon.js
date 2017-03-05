@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { List } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
 
 // import React components
 import MapBalloonEvent from './map_balloon_event';
@@ -36,11 +38,9 @@ class MapBalloon extends Component {
       const event = this.events[i];
       if (i === 0) {
         this.popUp.push(
-          <div className='popup-location' key="location">{event.location_name}</div>
+          <Subheader key='event-location-name'>Events at {event.location_name}</Subheader>
         );
       }
-      key = 'hbar'.concat(event.id);
-      this.popUp.push(<div key={key} className="hbar"><hr /></div>);
       key = 'balloon'.concat(event.id);
       this.popUp.push(
         <MapBalloonEvent event={event} num={this.events.length} key={key} />

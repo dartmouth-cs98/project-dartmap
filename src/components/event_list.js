@@ -28,9 +28,9 @@ class EventList extends Component {
   render() {
     this.eventItems = [];
     if(this.state.open){
-      var arrowurl = "https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-left-01-128.png";
+      var arrowurl = "https://s22.postimg.org/7w3kbqdkx/leftarrow.png";
     }else{
-      var arrowurl = "http://www.freeiconspng.com/uploads/right-arrow-icon-27.png";
+      var arrowurl = "https://s27.postimg.org/4lgynq277/rightarrow.png";
     }
 
     if (this.props.events && this.props.events.length > 0) {
@@ -101,10 +101,10 @@ class EventList extends Component {
       return (
         <div id="event-none">
           <div className="side-drawer">
-            <Drawer open={this.state.open} containerStyle={{ height: '5.5%', top: 0, width: '290px', position: 'absolute', overflow: 'hidden'}}>
-              <img className= "arrow" src={arrowurl} width="10%" onClick={this.handleToggle}/>
+            <Drawer open={this.state.open} containerStyle={{ height: '5.5%', top: 0, width: '290px', position: 'absolute', overflow: 'hidden' }}>
+              <img className="arrow" src={arrowurl} width="10%" onClick={this.handleToggle}/>
             </Drawer>
-            <Drawer open={this.state.open} containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
+            <Drawer open={this.state.open} containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden' }}>
               <div className="search-bar-box">
                 <input id="search-bar" type="text" value={this.state.searchString}
                   onChange={this.handleChange} placeholder="Search here..."
