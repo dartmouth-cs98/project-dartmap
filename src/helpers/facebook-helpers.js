@@ -33,7 +33,7 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
     if (fbResponse.authResponse.userID) {
       if (!login) {
         getUserByPassword((userInfo) => {
-          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
+          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture?type=large`;
           FB.api(fbUserImageUrl, (graphResponse) => {
             let fbProfPicUrl = null;
             if (graphResponse && !graphResponse.error) {
@@ -44,7 +44,7 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
         }, fbResponse.authResponse.userID);
       } else {
         postFbToken((userInfo) => {
-          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
+          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture?type=large`;
           FB.api(fbUserImageUrl, (graphResponse) => {
             let fbProfPicUrl = null;
             if (graphResponse && !graphResponse.error) {
