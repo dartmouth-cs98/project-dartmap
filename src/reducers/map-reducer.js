@@ -13,6 +13,13 @@ const MapReducer = (state = {}, action) => {
         lng: action.payload.longitude,
       };
       return newState;
+    case ActionTypes.LOCATION_FAIL:
+      newState = Object.assign({}, state);
+      newState.center = {
+        lat: 43.703549,
+        lng: -72.286758,
+      };
+      return newState;
     case ActionTypes.SET_MAP_CENTER:
       newState = Object.assign({}, state);
       newState.center = action.payload.center;
