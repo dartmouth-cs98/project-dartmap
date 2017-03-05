@@ -49,7 +49,7 @@ class EventList extends Component {
         if (i === 0 || (i >= 1 && !this.isSameDay)) {
           this.eventItems.push(
             <div className="date-display" key={'date'.concat(i)}>
-              {event.date.format('ddd MM/DD/YYYY')}
+              {event.date.format('dddd,  MMMM D')}
             </div>
           );
         }
@@ -75,7 +75,7 @@ class EventList extends Component {
                 <Drawer open={this.state.open} containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
                   <div className="search-bar-box">
                     <input id="search-bar" type="text" value={this.state.searchString}
-                      onChange={this.handleChange} placeholder="Type here..."
+                      onChange={this.handleChange} placeholder="Search here..."
                     />
                     <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
                   </div>
@@ -105,7 +105,7 @@ class EventList extends Component {
               <Drawer open={this.state.open} containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
                 <div className="search-bar-box">
                   <input id="search-bar" type="text" value={this.state.searchString}
-                    onChange={this.handleChange} placeholder="Type here..."
+                    onChange={this.handleChange} placeholder="Search here..."
                   />
                   <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
                 </div>
