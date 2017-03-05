@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Tabs, Tab, Menu, MenuItem, Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, RaisedButton, Avatar, List, Drawer, ListItem } from 'material-ui';
+import { Tabs, Tab, Menu, MenuItem, Card, Avatar, Drawer } from 'material-ui';
 import { zIndex } from 'material-ui/styles';
 import CancelNavigation from 'material-ui/svg-icons/navigation/cancel';
 import RefreshNavigation from 'material-ui/svg-icons/navigation/refresh';

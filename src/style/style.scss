@@ -104,6 +104,12 @@ hr {
   }
 }
 
+side-drawer {
+  position: relative;
+  height: inherit;
+  width: inherit;
+}
+
 .fb-user {
   background-color: #3b5998;
   border: 0px;
@@ -198,6 +204,12 @@ hr {
   }
 }
 
+#plus {
+  height: 30px;
+  width: 30px;
+  margin-left: 20px;
+}
+
 // Button for a user to delete an event
 .user-delete-event {
   background-color: #BD1919;
@@ -252,16 +264,12 @@ hr {
   }
 }
 
-#plus {
-  height: 30px;
-  width: 30px;
-  margin-left: 20px;
-}
-
 // This is the div that encompasses everything that is not in the navigation bar
 .home-container {
   height: 90%;
   background-color: white;
+  position: relative;
+  top: 5px;
 }
 
 // Map Components
@@ -272,8 +280,8 @@ hr {
 }
 
 .mapAndButton {
-  width: 75%;
-  height: 65%;
+  width: 95%;
+  height: 75%;
   margin: 16px;
   position: relative;
   display: inline-block;
@@ -298,20 +306,6 @@ hr {
   margin-right: 5px;
 }
 
-#event-menu {
-  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  float: right;
-  width: 20%;
-  height: 100%;
-  overflow: scroll;
-  padding-right: 16px;
-  padding-top: 16px;
-
-  .location-not-selected {
-    display: none;
-  }
-}
-
 #user-event-menu {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   float: center;
@@ -331,6 +325,12 @@ hr {
 }
 
 #search-bar {
+  width: 90%;
+  background-color: white;
+  display: inline-block;
+}
+
+.search-bar-box {
   width: 100%;
   background-color: white;
 }
@@ -345,38 +345,11 @@ hr {
 }
 
 #event-none {
-  float: right;
-  width: 20%;
-  height: 100%;
+  @include flex-box;
+  @include flex-column;
   overflow: scroll;
   background-color: white;
   text-align: center;
-  padding-right: 16px;
-  padding-top: 16px;
-}
-
-// Event List Components
-#event-menu #event-banner {
-  border-bottom: thin solid black;
-   .event-banner-item {
-    float: left;
-    padding-left: 16px;
-  }
-}
-
-.event-item {
-  background-color: white;
-  border-bottom: thin solid black;
-  height: 100%;
-  padding-left: 8px;
-  padding-top: 8px;
-  width: 100%;
-  font-size: 15px;
-
-  &:hover {
-    background-color: $light-grey;
-    cursor: pointer;
-  }
 }
 
 .user-event-item {
@@ -400,15 +373,28 @@ hr {
   font-size: 1rem;
   background-color: white;
   border: 1px solid;
-  border-color: $green;
+  border-color: #337ab7;
   box-shadow: 0 0 8px 2px #888;
   color: black;
   padding: 5px;
   position: relative;
+  margin-left: 6px;
+  margin-top: 6px;
   width: 350px;
   z-index: 15;
   @include flex-box;
   @include flex-column;
+
+  hbar {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.popup-location {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0;
 }
 
 .description {
@@ -460,7 +446,7 @@ hr {
 }
 
 .date-display {
-  background-color: $green;
+  background-color: #337ab7;
   color: white;
   position: relative;
   text-align: center;
