@@ -102,6 +102,7 @@ class DateFilter extends Component {
     }
     dateArray.sort();
     console.log(dateArray);
+    console.log(dateArray);
     this.props.onDateChange(dateArray);
   }
 

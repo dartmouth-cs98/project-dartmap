@@ -11,24 +11,6 @@ const EVENT_URL = 'events/';
 const USERS_URL = 'users/';
 const RSVP_URL = 'rsvp/';
 
-
-function formatParseProperJSON(toFormat) {
-  const s = toFormat.replace(/'/g, '"')
-               .replace(/ u"/g, ' "')
-               .replace(/\\n/g, '\\n')
-               .replace(/\\'/g, '\\\'')
-               .replace(/\\"/g, '\\"')
-               .replace(/\\&/g, '\\&')
-               .replace(/\\r/g, '\\r')
-               .replace(/\\t/g, '\\t')
-               .replace(/\\b/g, '\\b')
-               .replace(/\\f/g, '\\f')
-               .replace('None', null)
-               .replace(/[\u0000-\u0019]+/g, '');
-
-  return JSON.parse(s, ':quirks_mode => true');
-}
-
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
  *
@@ -55,9 +37,9 @@ export function formatAPIEventData(event) {
   newEvent.location_name = event.location.name;
   newEvent.placeId = event.location.place_id;
 
-  newEvent.categories = formatParseProperJSON(event.categories);
-  newEvent.attendees = formatParseProperJSON(event.attendees);
-  newEvent.comments = formatParseProperJSON(event.comments);
+  newEvent.categories = eval(event.categories);
+  newEvent.attendees = eval(event.attendees);
+  newEvent.comments = eval(event.comments);
 
   return newEvent;
 }
@@ -115,7 +97,6 @@ export function getEvent(dispatch, successAction, errorAction, eventId) {
     dataType: 'json',
     success: (data) => {
       const event = formatAPIEventData(data.events[0]);
-      console.log('SUCCESS! GET /events/'.concat(eventId));
       dispatch({ type: successAction, payload: { event } });
     },
     error: (xhr, status, err) => {

@@ -27,20 +27,17 @@
 
 #event-menu {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  float: right;
-  width: 20%;
-  height: 80vh;
-  padding-right: 16px;
-  padding-top: 16px;
 
   @include flex-box;
   @include flex-column;
+  position: relative;
+  height: 92%;
 }
 
 #event-list {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  height: 60%;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   flex-grow: 1;
 
   @include flex-box;
@@ -59,7 +56,7 @@
 
 .event {
   border: 0px;
-  background-color: $green;
+  background-color: #337ab7;
   @include event-style;
 }
 
@@ -71,6 +68,14 @@
 
   &:focus {
     outline: none;
+  }
+}
+
+.arrow {
+  display: inline-block;
+  float: right;
+  &:hover {
+    cursor: pointer;
   }
 }
 

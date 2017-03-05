@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { RaisedButton, Avatar, TextField } from 'material-ui';
+import { ListItem, RaisedButton, Avatar, TextField } from 'material-ui';
+
 const NO_PROF_PIC = 'https://image.freepik.com/icones-gratis/macho-acima-silhueta-escura_318-39674.png';
 
 class CommentForm extends React.Component {
@@ -25,8 +26,7 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    let profPicUrl = this.props.user && this.props.user.fbProfPicUrl;
-    profPicUrl = profPicUrl || NO_PROF_PIC;
+    const profPicUrl = this.props.user && this.props.user.fbProfPicUrl ? this.props.user.fbProfPicUrl : NO_PROF_PIC;
     const styles = {
       avatar: {
         marginRight: 20,
@@ -35,24 +35,24 @@ class CommentForm extends React.Component {
         margin: 12,
       },
       text: {
-        width: '80%',
+        width: '85%',
       },
     };
 
     return (
-      <div className="row">
-        <Avatar
-          src={(this.props.user && this.props.user.fbProfPicUrl) ? this.props.user.fbProfPicUrl : 'https://image.freepik.com/icones-gratis/macho-acima-silhueta-escura_318-39674.png'}
-          style={styles.avatar}
-        />
-        <TextField style={styles.text}
-          floatingLabelText="Add Comment"
-          value={this.state.text} onChange={this.handleTextChange}
-        />
-        <div className="pull-right" style={styles.button}>
-          <RaisedButton label="Post" primary={true} onClick={this.handleSubmit} />
-        </div>
-      </div>
+      <ListItem
+        leftAvatar={<Avatar src={profPicUrl} />}
+        primaryText={
+          <div>
+            <TextField style={styles.text} floatingLabelText="Add Comment" value={this.state.text} onChange={this.handleTextChange} />
+            <RaisedButton
+              label="Post" primary
+              onTouchTap={this.handleSubmit}
+              className="pull-right"
+            />
+          </div>
+        }
+      />
     );
   }
 }
