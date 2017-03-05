@@ -60,7 +60,7 @@ class Home extends Component {
         this.getEvents();
       }
     }
-    if (this.props.latitude && this.props.longitude && (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude)) {
+    if (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude) {
       this.props.fetchEvents(nextProps.latitude, nextProps.longitude, RADIUS);
     }
   }
