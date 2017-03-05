@@ -2,9 +2,11 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import {ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
+import { clearBalloons } from '../../actions';
 
 const MapBalloonEvent = (props) => {
   const event = props.event;
@@ -49,11 +51,15 @@ const MapBalloonEvent = (props) => {
               primaryText='Click to view more information'
               key={'nested-link'.concat(props.num)}
               style={listItemStyle}
+              onClick={props.clearBalloons}
         />,
       ]}
     />
   );
 };
+const mapStateToProps = state => (
+  { }
+);
+const mapDispatchToProps = { clearBalloons };
 
-export default MapBalloonEvent;
-
+export default connect(mapStateToProps, mapDispatchToProps)(MapBalloonEvent);

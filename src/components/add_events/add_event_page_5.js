@@ -90,7 +90,7 @@ class AddEventPage5 extends Component {
 
   updateImageURL = (url) => {
     let updatedurl = null;
-    const defaulturl = 'https://s27.postimg.org/o2c50l3fn/default.png';
+    const defaulturl = 'https://postimg.org/image/fdzz2goav/';
     const imageurl = this.state.image_url.toString();
     if (imageurl.localeCompare(defaulturl) === 0) {
       updatedurl = url;
