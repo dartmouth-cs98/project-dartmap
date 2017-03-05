@@ -326,9 +326,13 @@ side-drawer {
   box-shadow: 0px 0px 20px black;
 }
 
-#close-button {
+.close-button {
+  align-self: flex-end;
+  align-self: -webkit-flex-end;
+  align-self: -moz-flex-end;
+  font-size: 2rem;
   position: absolute;
-  right: 20px;
+  right: 15px;
   top: 5px;
   &:hover {
     color: #DC143C;
@@ -378,16 +382,6 @@ side-drawer {
 
 .error-box {
   border-color: red;
-}
-
-.close-button {
-  align-self: flex-end;
-  align-self: -webkit-flex-end;
-  align-self: -moz-flex-end;
-  &:hover {
-    color: #DC143C;
-    cursor: pointer;
-  }
 }
 
 .Modal {
