@@ -22,7 +22,7 @@ const MapBalloonEvent = (props) => {
   return (
     <div className="balloon-evt">
       <img src={event.icon_url} alt="icon" className="popup-icon" />
-      <b>{event.name} @ {event.start_time.format('h:mm A')}</b>
+      <div>{event.name} @ {event.start_time.format('h:mm A')}</div>
       <div>{event.description}</div>
       <div>Organizer: {event.organizer}</div>
       <Link to={'/events/'.concat(event.id)}>View More</Link>

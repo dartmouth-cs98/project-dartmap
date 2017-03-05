@@ -123,7 +123,7 @@ class AddEventPage2 extends Component {
               dateFormat={false}
               value={this.state.start_time}
               onChange={(moment) => { this.setState({ start_time: moment }); }}
-              className={startClass.concat('add-event-time')}
+              className={startClass.concat(' add-event-time')}
             />
           </div>
           {startErrorMessage}
@@ -133,7 +133,7 @@ class AddEventPage2 extends Component {
               dateFormat={false}
               value={this.state.end_time}
               onChange={(moment) => { this.setState({ end_time: moment }); }}
-              className={endClass.concat('add-event-time')}
+              className={endClass.concat(' add-event-time')}
             />
           </div>
           {endErrorMessage}

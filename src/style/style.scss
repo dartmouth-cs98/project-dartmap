@@ -280,15 +280,28 @@ side-drawer {
   font-size: 1rem;
   background-color: white;
   border: 1px solid;
-  border-color: $green;
+  border-color: #337ab7;
   box-shadow: 0 0 8px 2px #888;
   color: black;
   padding: 5px;
   position: relative;
+  margin-left: 6px;
+  margin-top: 6px;
   width: 350px;
   z-index: 15;
   @include flex-box;
   @include flex-column;
+
+  hbar {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.popup-location {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0;
 }
 
 .description {
