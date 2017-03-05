@@ -52,17 +52,19 @@ class UserEventListItem extends Component {
       eventLocationLng: this.props.event.lng,
       eventLocationLat: this.props.event.lat,
       eventLocationName: this.props.event.location_name,
+      eventLocationString: this.props.event.location_string,
       eventIconUrl: this.props.event.icon_url,
     };
     this.map = null;
     this.marker = null;
-    // this.editMap = null;
-    // this.gPlaces = null;
-    // this.gMaps = this.gMaps || (window.google && window.google.maps);
-    // this.infoWindow = null;
-    // this.editMarker = null;
-    // this.editMarkers = [];
-    // this.infoWindow = null;
+    this.editMap = null;
+    this.gPlaces = null;
+    this.gMaps = this.gMaps || (window.google && window.google.maps);
+    this.infoWindow = null;
+    this.editMarker = null;
+    this.editMarkers = [];
+    this.infoWindow = null;
+    this.htmlHasLoaded = false;
     this.confirmDelete = this.confirmDelete.bind(this);
     this.editingEvent = this.editingEvent.bind(this);
     this.isValidTime = this.isValidTime.bind(this);
@@ -71,18 +73,20 @@ class UserEventListItem extends Component {
       loadGoogleApi();
     }
     this.loadMap = this.loadMap.bind(this);
-    // this.loadEditMap = this.loadEditMap.bind(this);
+    this.loadEditMap = this.loadEditMap.bind(this);
   }
 
   componentDidMount() {
     if (window.google && this.props.event && !this.map) {
       this.loadMap();
+      this.loadEditMap();
     }
   }
 
   componentDidUpdate() {
     if (window.google && this.props.event && !this.map) {
       this.loadMap();
+      this.loadEditMap();
     }
   }
 
@@ -105,9 +109,10 @@ class UserEventListItem extends Component {
       toSend.name = this.state.eventName;
       toSend.organizer = this.state.eventOrganizer;
       toSend.description = this.state.eventDescription;
-      toSend.start_time = this.state.eventStartTime._i;
-      toSend.end_time = this.state.eventEndTime._i;
+      toSend.start_time = this.state.eventStartTime.format('HH:mm');
+      toSend.end_time = this.state.eventEndTime.format('HH:mm');
       toSend.location_name = this.state.eventLocation;
+      toSend.location_string = this.state.eventLocationString;
       // format the categories to send
       let catsToSend = '';
       for (let i = 0; i < this.state.eventCategories.length; i += 1) {
@@ -122,13 +127,13 @@ class UserEventListItem extends Component {
       updateEvent(this.props.event.id, toSend);
       // update string of categories
       this.setState({ eventCategoriesString: catsToSend });
-      alert('Event updated!');
+      alert('Event saved!');
     } else {
       this.setState({
         editing: true,
         editEventButtonText: 'Save',
       });
-      // this.loadEditMap();
+      
     }
   }
 
@@ -202,113 +207,112 @@ class UserEventListItem extends Component {
     }
   }
 
-  // loadEditMap() {
-  //   this.gMaps = this.gMaps || (window.google && window.google.maps);
-  //   const mapHTML = document.getElementById('add-event-map');
-  //   const searchHTML = document.getElementById('map-search-box');
-  //   const location = {
-  //     lng: this.state.eventLocationLng,
-  //     lat: this.state.eventLocationLat,
-  //   };
-  //   this.editMap = new this.gMaps.Map(mapHTML, {
-  //     center: location,
-  //     zoom: 15,
-  //     streetViewControl: false,
-  //     fullscreenControl: false,
-  //     mapTypeControl: false,
-  //   });
-  //   this.infoWindow = new this.gMaps.InfoWindow();
-  //   this.gPlaces = new this.gMaps.places.PlacesService(this.editMap);
-  //   this.textBox = new this.gMaps.places.Autocomplete(searchHTML);
-  //   this.textBox.bindTo('bounds', this.editMap);
+  loadEditMap() {
+    this.gMaps = this.gMaps || (window.google && window.google.maps);
+    const mapHTML = document.getElementById('uspg-editmap-' + this.props.event.id);
+    const searchHTML = document.getElementById('map-search-box');
+    const location = {
+      lng: this.state.eventLocationLng,
+      lat: this.state.eventLocationLat,
+    };
+    this.editMap = new this.gMaps.Map(mapHTML, {
+      center: location,
+      zoom: 15,
+      streetViewControl: false,
+      fullscreenControl: false,
+      mapTypeControl: false,
+    });
+    this.infoWindow = new this.gMaps.InfoWindow();
+    this.gPlaces = new this.gMaps.places.PlacesService(this.editMap);
+    this.textBox = new this.gMaps.places.Autocomplete(searchHTML);
+    this.textBox.bindTo('bounds', this.editMap);
 
-  //   // adding a listener so that every time the map moves, we do a search
-  //   this.editMap.addListener('bounds_changed', (event) => {
-  //     this.nearbySearch(this.editMap.getBounds());
-  //   });
+    // adding a listener so that every time the map moves, we do a search
+    this.editMap.addListener('bounds_changed', (event) => {
+      this.nearbySearch(this.editMap.getBounds());
+    });
 
-  //   // adding a listener so that when the user selects a location in the
-  //   // search box, the relevant marker & bubble appear on the map
-  //   this.textBox.addListener('place_changed', (event) => {
-  //     const place = this.textBox.getPlace();
-  //     while (this.editMarkers.length > 0) {
-  //       this.editMarkers[0].setVisible(false);
-  //       this.editMarkers.shift();
-  //     }
-  //     if (!this.editMarker) {
-  //       this.editMarker = new this.gMaps.Marker({
-  //         map: this.editMap,
-  //         position: place.geometry.location,
-  //       });
-  //     }
-  //     this.editMarker.setVisible(false);
-  //     if (!place.geometry) {
-  //       // User entered the name of a Place that was not suggested and
-  //       // pressed the Enter key, or the Place Details request failed.
-  //       const alertText = `No details available for input: '${place.name}'`;
-  //       window.alert(alertText);
-  //     }
-  //     // If the place has a geometry, then present it on a map.
-  //     if (place.geometry.viewport) {
-  //       this.editMap.fitBounds(place.geometry.viewport);
-  //     } else {
-  //       this.editMap.setCenter(place.geometry.location);
-  //       this.editMap.setZoom(17);  // Why 17? Because it looks good.
-  //     }
-  //     this.editMarker.setPosition(place.geometry.location);
-  //     this.createInfoWindow(place.name, this.editMarker);
-  //     const pos = this.editMarker.getPosition();
-  //     this.setState({
-  //       selectedMarker: this.editMarker,
-  //       location: {
-  //         placeId: place.place_id,
-  //         name: place.name,
-  //         lat: pos.lat(),
-  //         lng: pos.lng(),
-  //       },
-  //     });
-  //     this.editMarker.setVisible(true);
-  //   });
-  // }
+    // adding a listener so that when the user selects a location in the
+    // search box, the relevant marker & bubble appear on the map
+    this.textBox.addListener('place_changed', (event) => {
+      const place = this.textBox.getPlace();
+      while (this.editMarkers.length > 0) {
+        this.editMarkers[0].setVisible(false);
+        this.editMarkers.shift();
+      }
+      if (!this.editMarker) {
+        this.editMarker = new this.gMaps.Marker({
+          map: this.editMap,
+          position: place.geometry.location,
+        });
+      }
+      this.editMarker.setVisible(false);
+      if (!place.geometry) {
+        // User entered the name of a Place that was not suggested and
+        // pressed the Enter key, or the Place Details request failed.
+        const alertText = `No details available for input: '${place.name}'`;
+        window.alert(alertText);
+      }
+      // If the place has a geometry, then present it on a map.
+      if (place.geometry.viewport) {
+        this.editMap.fitBounds(place.geometry.viewport);
+      } else {
+        this.editMap.setCenter(place.geometry.location);
+        this.editMap.setZoom(17);  // Why 17? Because it looks good.
+      }
+      this.editMarker.setPosition(place.geometry.location);
+      this.createInfoWindow(place.name, this.editMarker);
+      const pos = this.editMarker.getPosition();
+      this.setState({
+        selectedMarker: this.editMarker,
+        location: {
+          placeId: place.place_id,
+          name: place.name,
+          lat: pos.lat(),
+          lng: pos.lng(),
+        },
+      });
+      this.editMarker.setVisible(true);
+    });
+  }
 
-  // nearbySearch = (bounds) => {
-  //   this.gPlaces.nearbySearch({ bounds },
-  //     (result) => {
-  //       if (result) {
-  //         for (let i = 0; i < result.length; i += 1) {
-  //           const editMarker = this.createMarker(result[i].name,
-  //             result[i].geometry.location, result[i].place_id
-  //           );
-  //           this.editMarkers.push(editMarker);
-  //         }
-  //       }
-  //     }
-  //   );
-  // }
+  nearbySearch = (bounds) => {
+    this.gPlaces.nearbySearch({ bounds },
+      (result) => {
+        if (result) {
+          for (let i = 0; i < result.length; i += 1) {
+            const editMarker = this.createMarker(result[i].name,
+              result[i].geometry.location, result[i].place_id
+            );
+            this.editMarkers.push(editMarker);
+          }
+        }
+      }
+    );
+  }
 
-  // createMarker = (name, location, placeId) => {
-  //   const marker = new this.gMaps.Marker({
-  //     map: this.editMap,
-  //     position: location,
-  //   });
-  //   this.gMaps.event.addListener(marker, 'click', () => {
-  //     this.createInfoWindow(name, marker);
-  //     const pos = marker.getPosition();
-  //     this.setState({
-  //       selectedMarker: marker,
-  //       eventLocationLng: pos.lat(),
-  //       eventLocationLat: pos.lng(),
-  //       eventLocationName: name,
-  //     });
-  //   });
-  //   return marker;
-  // }
+  createMarker = (name, location, placeId) => {
+    const marker = new this.gMaps.Marker({
+      map: this.editMap,
+      position: location,
+    });
+    this.gMaps.event.addListener(marker, 'click', () => {
+      this.createInfoWindow(name, marker);
+      const pos = marker.getPosition();
+      this.setState({
+        selectedMarker: marker,
+        eventLocationLng: pos.lat(),
+        eventLocationLat: pos.lng(),
+        eventLocationName: name,
+      });
+    });
+    return marker;
+  }
 
-  // createInfoWindow = (name, marker) => {
-  //   this.infoWindow.setContent(name);
-  //   this.infoWindow.open(this.map, marker);
-  // }
-
+  createInfoWindow = (name, marker) => {
+    this.infoWindow.setContent(name);
+    this.infoWindow.open(this.map, marker);
+  }
 
   render() {
     // this block of code builds the string to display the event's categories
@@ -322,28 +326,35 @@ class UserEventListItem extends Component {
     let eventMap = null;
     let eventName = null;
     let eventTime = null;
-    let eventLocationName = null;
+    let eventLocationString = null;
     let eventOrganizer = null;
     let eventCategories = null;
     let eventDescription = null;
+    eventMap = (
+      // <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
+      <div className="add-event-fields">
+        <input
+          id="map-search-box"
+          type="text"
+          placeholder="Search for or select location"
+          value={(this.state.eventLocationLng && this.state.eventLocationName) || ''}
+          onChange={(event) => {
+            this.setState({ location: { name: event.target.value } });
+          }}
+          className="add-event-text add-event-loc-string"
+        />
+        <div id={"uspg-editmap-" + this.props.event.id} className="uspg-map" />
+        <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
+      </div>
+    );
+
     // if user is editing this event
     if (this.state.editing) {
-      eventMap = (
-        <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
-        // <div className="add-event-fields">
-          // <input
-            // id="map-search-box"
-            // type="text"
-            // placeholder="Search for or select location"
-            // value={(this.state.eventLocationLng && this.state.eventLocationName) || ''}
-            // onChange={(event) => {
-              // this.setState({ location: { name: event.target.value } });
-            // }}
-            // className="add-event-text add-event-loc-string"
-          // />
-          // <div id="add-event-map" />
-        // </div>
-      );
+      if (this.htmlHasLoaded) {
+        document.getElementById('uspg-editmap-' + this.props.event.id).className = 'uspg-map';
+        document.getElementById('uspg-map-' + this.props.event.id).className = 'hidden';
+      }
+      this.htmlHasLoaded = true;
       eventName = (
         <input
           className="eventDetails"
@@ -362,7 +373,7 @@ class UserEventListItem extends Component {
             dateFormat={false}
             defaultValue={this.state.eventStartTime}
             value={this.state.eventStartTime}
-            onChange={(moment) => { this.setState({ eventStartTime: moment }); console.log(moment); }}
+            onChange={(moment) => { this.setState({ eventStartTime: moment }); console.log(moment.format('HH:mm')); }}
             // className={((this.state.eventStartTime !== '') && this.isValidTime()) ? 'add-event-field add-event-time' : 'add-event-field add-event-time error-box'}
           />
           <text className="attributeTitle">
@@ -377,13 +388,13 @@ class UserEventListItem extends Component {
           />
         </div>
       );
-      eventLocationName = (
+      eventLocationString = (
         <input
-          className="eventLocationName"
+          className="eventLocationString"
           type="text"
           placeholder="*  Room name/location"
-          defaultValue={this.state.eventLocationName}
-          onChange={event => this.setState({ eventLocationName: event.target.value })}
+          defaultValue={this.state.eventLocationString}
+          onChange={event => this.setState({ eventLocationString: event.target.value })}
         />
       );
       eventOrganizer = (
@@ -412,9 +423,11 @@ class UserEventListItem extends Component {
         />
       );
     } else {
-      eventMap = (
-        <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
-      );
+      if (this.htmlHasLoaded) {
+        document.getElementById('uspg-editmap-' + this.props.event.id).className = 'hidden';
+        document.getElementById('uspg-map-' + this.props.event.id).className = 'uspg-map';
+      }
+      this.htmlHasLoaded = true;
       eventName = (
         <h6 className="name">
           {this.state.eventName}
@@ -425,9 +438,9 @@ class UserEventListItem extends Component {
           {this.state.eventStartTime.format('h:mm A')} ~ {this.state.eventEndTime.format('h:mm A')}<br />
         </text>
       );
-      eventLocationName = (
+      eventLocationString = (
         <text className="attribute">
-          {this.state.eventLocationName}<br />
+          {this.state.eventLocationString}<br />
         </text>
       );
       eventOrganizer = (
@@ -449,7 +462,7 @@ class UserEventListItem extends Component {
 
     return (
       <div className="user-event-item">
-        
+
         {eventMap}
 
         {eventName}
@@ -464,7 +477,7 @@ class UserEventListItem extends Component {
           <br />Location:
         </text>
 
-        {eventLocationName}
+        {eventLocationString}
 
         <text className="attributeTitle">
           <br />Organizer:
