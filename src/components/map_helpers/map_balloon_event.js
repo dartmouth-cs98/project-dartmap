@@ -2,32 +2,58 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import {ListItem} from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
+import TextField from 'material-ui/TextField';
 
 const MapBalloonEvent = (props) => {
   const event = props.event;
   const categoryString = event.categories.map((cat) => {
     return cat.name;
   }).join(', ');
-  if (props.num === 1) { // if there is only one event in the balloon
-    return (
-      <div className="balloon-evt">
-        <b>{event.name} @ {event.start_time.format('h:mm A')}</b>
-        <div>{event.description}</div>
-        <div>Organizer: {event.organizer}</div>
-        <div>Categories: {categoryString}</div>
-        <Link to={'/events/'.concat(event.id)}>View More</Link>
-      </div>
-    );
-  }
+  const listItemStyle = {
+
+  };
+
   return (
-    <div className="balloon-evt">
-      <img src={event.icon_url} alt="icon" className="popup-icon" />
-      <div>{event.name} @ {event.start_time.format('h:mm A')}</div>
-      <div>{event.description}</div>
-      <div>Organizer: {event.organizer}</div>
-      <Link to={'/events/'.concat(event.id)}>View More</Link>
-    </div>
+    <ListItem 
+      value={props.num}
+      primaryText={event.name + ' @ ' + event.start_time.format('h:mm A')}
+      leftAvatar={<Avatar src={event.icon_url} />}
+      key={'outer-text'.concat(props.num)}
+      nestedItems={[
+        <ListItem 
+              value={props.num}
+              primaryText='Description'
+              secondaryText={event.description}
+              key={'nested-description'.concat(props.num)}
+              style={listItemStyle}
+        />,
+        <ListItem 
+              value={props.num}
+              primaryText='Organizer'
+              secondaryText={event.organizer}
+              key={'nested-organizer'.concat(props.num)}
+              style={listItemStyle}
+        />,
+        <ListItem 
+              value={props.num}
+              primaryText='Categories'
+              secondaryText={categoryString}
+              key={'nested-categories'.concat(props.num)}
+              style={listItemStyle}
+        />,
+        <ListItem 
+              containerElement={<Link to={'/events/'.concat(event.id)} />}
+              value={props.num}
+              primaryText='Click to view more information'
+              key={'nested-link'.concat(props.num)}
+              style={listItemStyle}
+        />,
+      ]}
+    />
   );
 };
 
 export default MapBalloonEvent;
+
