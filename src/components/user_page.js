@@ -79,7 +79,7 @@ class UserPage extends Component {
       <div>
         <Tabs style={{ marginLeft: '28%', position: 'static', top: 0, width: '72%', marginTop: '60px', zIndex: 1500 }}>
           <Tab label="Submitted Events" href="#SubmitEvents">
-            <div className="container">
+            <div className="user-event-list">
               <h1>Your Submitted Events</h1>
               <UserEventList
                 events={this.state.eventList}
@@ -88,7 +88,7 @@ class UserPage extends Component {
             </div>
           </Tab>
           <Tab label="RSVP'ed Events" href="#RSVPEvents">
-            <div className="container">
+            <div className="user-event-list">
               <h1>Your RSVP Events</h1>
               <UserEventList
                 events={this.state.eventList}
@@ -97,24 +97,22 @@ class UserPage extends Component {
             </div>
           </Tab>
         </Tabs>
-        <div className="row" style={{ marginTop: '103px' }}>
-          <Drawer className="col-md-4"
-            docked
-            open
-            containerStyle={{ zIndex: zIndex.drawer - 100, width: '28%' }}
-          >
-            <Card style={{ marginTop: '108px', paddingBottom: '25px' }}>
-              <Avatar size={25} className="img-responsive center-block" style={{ minWidth: '0%', width: '150px', height: '150px', marginLeft: '125px', marginTop: '25px' }}
-                src={this.props.user.fbProfPicUrl} alt="avatar"
-              />
-              <p style={{ textAlign: 'center', marginTop: '20px', color: '#5a7391', fontSize: '25px', fontWeight: 600, marginBottom: '7px' }} >{this.props.user.userInfo[0].name}</p>
-            </Card>
-            <Menu>
-              <MenuItem primaryText="Change Picture" leftIcon={<RefreshNavigation />} />
-              <MenuItem primaryText="Logout" leftIcon={<CancelNavigation />} onTouchTap={this.logout} />
-            </Menu>
-          </Drawer>
-        </div>
+        <Drawer
+          docked
+          open
+          containerStyle={{ zIndex: zIndex.drawer - 100, width: '28%', marginTop: '108px' }}
+        >
+          <Card style={{ paddingBottom: '25px' }}>
+            <Avatar size={25} className="img-responsive center-block" style={{ minWidth: '0%', width: '150px', height: '150px', marginLeft: '125px', marginTop: '25px' }}
+              src={this.props.user.fbProfPicUrl} alt="avatar"
+            />
+            <p style={{ textAlign: 'center', marginTop: '20px', color: '#5a7391', fontSize: '25px', fontWeight: 600, marginBottom: '7px' }} >{this.props.user.userInfo[0].name}</p>
+          </Card>
+          <Menu>
+            <MenuItem primaryText="Change Picture" leftIcon={<RefreshNavigation />} />
+            <MenuItem primaryText="Logout" leftIcon={<CancelNavigation />} onTouchTap={this.logout} />
+          </Menu>
+        </Drawer>
       </div>
     );
   }
