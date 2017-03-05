@@ -74,11 +74,6 @@ class UserPage extends Component {
       return null;
     }
 
-    const styles = {
-      drawer: {
-        width: 400,
-      },
-    };
 // <RaisedButton label="Change Photo" primary onClick={this.openUploadPhotoDialog} />
     return (
       <div>

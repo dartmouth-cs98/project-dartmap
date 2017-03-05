@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import DateTime from 'react-datetime';
 import Select from 'react-select';
+import moment from 'moment';
 
-import { ListItem, FlatButton } from 'material-ui';
+import { TimePicker, DatePicker, TextField, SelectField, MenuItem, ListItem, FlatButton } from 'material-ui';
 
 import { deleteEvent, updateEvent } from '../helpers/dartmap-api';
 
@@ -47,8 +48,8 @@ class UserEventListItem extends Component {
       eventName: this.props.event.name,
       eventOrganizer: this.props.event.organizer,
       eventDescription: this.props.event.description,
-      eventStartTime: this.props.event.start_time,
-      eventEndTime: this.props.event.end_time,
+      eventStartTime: this.props.event.start_time.toDate(),
+      eventEndTime: this.props.event.end_time.toDate(),
       eventLocation: this.props.event.location_name,
       eventCategories: this.selectedCategories,
       eventCategoriesString: catString,
@@ -108,8 +109,8 @@ class UserEventListItem extends Component {
       toSend.name = this.state.eventName;
       toSend.organizer = this.state.eventOrganizer;
       toSend.description = this.state.eventDescription;
-      toSend.start_time = this.state.eventStartTime._i;
-      toSend.end_time = this.state.eventEndTime._i;
+      toSend.start_time = moment(this.state.eventStartTime)._i;
+      toSend.end_time = moment(this.state.eventEndTime)._i;
       toSend.location_name = this.state.eventLocation;
       // format the categories to send
       let catsToSend = '';
@@ -142,7 +143,8 @@ class UserEventListItem extends Component {
     if (!this.state.eventEndTime) {
       return true;
     }
-    return (this.state.eventStartTime) && (this.state.eventEndTime) && this.state.eventEndTime.isAfter(this.state.eventStartTime);
+    // return (this.state.eventStartTime) && (this.state.eventEndTime) && this.state.eventEndTime.isAfter(this.state.eventStartTime);
+    return (this.state.eventStartTime) && (this.state.eventEndTime) && (this.state.eventStartTime < this.state.eventEndTime);
   }
 
   // onCategoryChange(selectedCategories) {
@@ -175,7 +177,7 @@ class UserEventListItem extends Component {
 
   loadMap() {
     if (!this.map) {
-      const mapHTML = document.getElementById('uspg-map-' + this.props.event.id);
+      const mapHTML = document.getElementById('uspg-map-'.concat(this.props.event.id));
       const location = {
         lng: this.state.eventLocationLng,
         lat: this.state.eventLocationLat,
@@ -205,113 +207,12 @@ class UserEventListItem extends Component {
     }
   }
 
-  // loadEditMap() {
-  //   this.gMaps = this.gMaps || (window.google && window.google.maps);
-  //   const mapHTML = document.getElementById('add-event-map');
-  //   const searchHTML = document.getElementById('map-search-box');
-  //   const location = {
-  //     lng: this.state.eventLocationLng,
-  //     lat: this.state.eventLocationLat,
-  //   };
-  //   this.editMap = new this.gMaps.Map(mapHTML, {
-  //     center: location,
-  //     zoom: 15,
-  //     streetViewControl: false,
-  //     fullscreenControl: false,
-  //     mapTypeControl: false,
-  //   });
-  //   this.infoWindow = new this.gMaps.InfoWindow();
-  //   this.gPlaces = new this.gMaps.places.PlacesService(this.editMap);
-  //   this.textBox = new this.gMaps.places.Autocomplete(searchHTML);
-  //   this.textBox.bindTo('bounds', this.editMap);
-
-  //   // adding a listener so that every time the map moves, we do a search
-  //   this.editMap.addListener('bounds_changed', (event) => {
-  //     this.nearbySearch(this.editMap.getBounds());
-  //   });
-
-  //   // adding a listener so that when the user selects a location in the
-  //   // search box, the relevant marker & bubble appear on the map
-  //   this.textBox.addListener('place_changed', (event) => {
-  //     const place = this.textBox.getPlace();
-  //     while (this.editMarkers.length > 0) {
-  //       this.editMarkers[0].setVisible(false);
-  //       this.editMarkers.shift();
-  //     }
-  //     if (!this.editMarker) {
-  //       this.editMarker = new this.gMaps.Marker({
-  //         map: this.editMap,
-  //         position: place.geometry.location,
-  //       });
-  //     }
-  //     this.editMarker.setVisible(false);
-  //     if (!place.geometry) {
-  //       // User entered the name of a Place that was not suggested and
-  //       // pressed the Enter key, or the Place Details request failed.
-  //       const alertText = `No details available for input: '${place.name}'`;
-  //       window.alert(alertText);
-  //     }
-  //     // If the place has a geometry, then present it on a map.
-  //     if (place.geometry.viewport) {
-  //       this.editMap.fitBounds(place.geometry.viewport);
-  //     } else {
-  //       this.editMap.setCenter(place.geometry.location);
-  //       this.editMap.setZoom(17);  // Why 17? Because it looks good.
-  //     }
-  //     this.editMarker.setPosition(place.geometry.location);
-  //     this.createInfoWindow(place.name, this.editMarker);
-  //     const pos = this.editMarker.getPosition();
-  //     this.setState({
-  //       selectedMarker: this.editMarker,
-  //       location: {
-  //         placeId: place.place_id,
-  //         name: place.name,
-  //         lat: pos.lat(),
-  //         lng: pos.lng(),
-  //       },
-  //     });
-  //     this.editMarker.setVisible(true);
-  //   });
-  // }
-
-  // nearbySearch = (bounds) => {
-  //   this.gPlaces.nearbySearch({ bounds },
-  //     (result) => {
-  //       if (result) {
-  //         for (let i = 0; i < result.length; i += 1) {
-  //           const editMarker = this.createMarker(result[i].name,
-  //             result[i].geometry.location, result[i].place_id
-  //           );
-  //           this.editMarkers.push(editMarker);
-  //         }
-  //       }
-  //     }
-  //   );
-  // }
-
-  // createMarker = (name, location, placeId) => {
-  //   const marker = new this.gMaps.Marker({
-  //     map: this.editMap,
-  //     position: location,
-  //   });
-  //   this.gMaps.event.addListener(marker, 'click', () => {
-  //     this.createInfoWindow(name, marker);
-  //     const pos = marker.getPosition();
-  //     this.setState({
-  //       selectedMarker: marker,
-  //       eventLocationLng: pos.lat(),
-  //       eventLocationLat: pos.lng(),
-  //       eventLocationName: name,
-  //     });
-  //   });
-  //   return marker;
-  // }
-
-  // createInfoWindow = (name, marker) => {
-  //   this.infoWindow.setContent(name);
-  //   this.infoWindow.open(this.map, marker);
-  // }
-
+  handleChangeTimeStart = (event, date) => {
+    this.setState({ eventStartTime: date });
+  };
+  handleChangeTimeEnd = (event, date) => {
+    this.setState({ eventEndTime: date });
+  };
 
   render() {
     // this block of code builds the string to display the event's categories
@@ -332,7 +233,7 @@ class UserEventListItem extends Component {
     // if user is editing this event
     if (this.state.editing) {
       eventMap = (
-        <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
+        <div id={'uspg-map-'.concat(this.props.event.id)} className="uspg-map" />
         // <div className="add-event-fields">
           // <input
             // id="map-search-box"
@@ -348,10 +249,7 @@ class UserEventListItem extends Component {
         // </div>
       );
       eventName = (
-        <input
-          className="eventDetails"
-          type="text"
-          placeholder="*  Event name"
+        <TextField style={{ height: '33px' }}
           defaultValue={this.state.eventName}
           onChange={event => this.setState({ eventName: event.target.value })}
         />
@@ -359,75 +257,82 @@ class UserEventListItem extends Component {
       eventTime = (
         <div>
           <text className="attributeTitle">
-            <br />Start Time:
+            <br />Start Time:&nbsp;
           </text>
-          <DateTime
-            dateFormat={false}
-            defaultValue={this.state.eventStartTime}
+          <TimePicker style={{ display: 'inline', height: '33px' }}
+            defaultTime={this.state.eventStartTime}
             value={this.state.eventStartTime}
-            onChange={(moment) => { this.setState({ eventStartTime: moment }); console.log(moment); }}
-            // className={((this.state.eventStartTime !== '') && this.isValidTime()) ? 'add-event-field add-event-time' : 'add-event-field add-event-time error-box'}
+            onChange={this.handleChangeTimeStart}
           />
           <text className="attributeTitle">
-            <br />End Time:
+            <br />End Time:&nbsp;
           </text>
-          <DateTime
-            dateFormat={false}
-            defaultValue={this.state.eventEndTime}
+          <TimePicker style={{ display: 'inline', height: '33px' }}
+            defaultTime={this.state.eventEndTime}
             value={this.state.eventEndTime}
-            onChange={(moment) => { this.setState({ eventEndTime: moment }); }}
-            // className={((this.props.event.start_time !== '') && this.isValidTime()) ? 'add-event-field add-event-time' : 'add-event-field add-event-time error-box'}
+            onChange={this.handleChangeTimeEnd}
           />
         </div>
       );
-      eventLocation = (
-        <button className="user-change-event-location" type="button" onClick={this.confirmDelete}>
-          Change location (this will eventually be replaced by Location/Room name)
-        </button>
-      );
+      // eventLocation = (
+      //   <button className="user-change-event-location" type="button" onClick={this.confirmDelete}>
+      //     Change location (this will eventually be replaced by Location/Room name)
+      //   </button>
+      // );
       eventOrganizer = (
-        <input
-          className="eventDetails"
-          type="text"
-          placeholder="*  Event organizer"
+        <TextField style={{ height: '33px' }}
           defaultValue={this.state.eventOrganizer}
           onChange={event => this.setState({ eventOrganizer: event.target.value })}
         />
       );
       eventCategories = (
-        <Select multi joinValues
-          options={CATEGORIES}
-          value={this.state.eventCategories}
-          onChange={categories => this.setState({ eventCategories: categories })}
-        />
+        <div className="row">
+          <text className="attribute col-md-1">
+            <br />{categoriesStringLabel}&nbsp;
+          </text>
+          <div className="col-md-7" style={{ left: '-8px' }}>
+            <Select multi joinValues
+              options={CATEGORIES}
+              value={this.state.eventCategories}
+              onChange={categories => this.setState({ eventCategories: categories })}
+            />
+          </div>
+        </div>
       );
       eventDescription = (
-        <input
-          className="eventDetails"
-          type="text"
-          placeholder="*  Event details"
+        <TextField
           defaultValue={this.state.eventDescription}
           onChange={event => this.setState({ eventDescription: event.target.value })}
         />
       );
     } else {
       eventMap = (
-        <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
+        <div id={'uspg-map-'.concat(this.props.event.id)} className="uspg-map" />
       );
       eventName = (
-        <h6 className="name">
+        <h6 style={{ display: 'inline' }} className="name">
           {this.state.eventName}
         </h6>
       );
       eventTime = (
-        <text className="attribute">
-          {this.state.eventStartTime.format('h:mm A')} ~ {this.state.eventEndTime.format('h:mm A')}<br />
-        </text>
+        <div>
+          <text className="attributeTitle">
+            <br />Time:&nbsp;
+          </text>
+          <text className="attribute">
+            {moment(this.state.eventStartTime).format('h:mm A')} ~ {moment(this.state.eventEndTime).format('h:mm A')}<br />
+          </text>
+        </div>
       );
       eventLocation = (
-        <text className="attribute">
-          {this.state.eventLocation}<br />
-        </text>
+        <div>
+          <text className="attributeTitle">
+            <br />Location:&nbsp;
+          </text>
+          <text className="attribute">
+            {this.state.eventLocation}<br />
+          </text>
+        </div>
       );
       eventOrganizer = (
         <text className="attribute">
@@ -435,9 +340,14 @@ class UserEventListItem extends Component {
         </text>
       );
       eventCategories = (
-        <text className="attribute">
-          {this.state.eventCategoriesString}<br />
-        </text>
+        <div>
+          <text className="attribute">
+            <br />{categoriesStringLabel}&nbsp;
+          </text>
+          <text className="attribute">
+            {this.state.eventCategoriesString}<br />
+          </text>
+        </div>
       );
       eventDescription = (
         <text className="attribute">
@@ -450,30 +360,29 @@ class UserEventListItem extends Component {
       <ListItem>
         <div>
           {eventMap}
-          {eventName}
-          <text className="attributeTitle">
-            <br />Time:<br />
-          </text>
+          <div>
+            <text className="attributeTitle">
+              <br />Event Name:&nbsp;
+            </text>
+            {eventName}
+          </div>
           {eventTime}
-          <text className="attributeTitle">
-            <br />Location:
-          </text>
           {eventLocation}
-          <text className="attributeTitle">
-            <br />Organizer:
-          </text>
-          {eventOrganizer}
-          <text className="attributeTitle">
-            <br />{categoriesStringLabel}
-          </text>
-          {eventCategories}
-          <text className="attributeTitle">
-            <br />Description:
-          </text>
-          {eventDescription}
-          <text className="attributeTitle">
-            <br />
-          </text>
+          <div>
+            <text className="attributeTitle">
+              <br />Organizer:&nbsp;
+            </text>
+            {eventOrganizer}
+          </div>
+          <div>
+            {eventCategories}
+          </div>
+          <div>
+            <text className="attributeTitle">
+              <br />Description:&nbsp;
+            </text>
+            {eventDescription}
+          </div>
           <FlatButton
             label={this.state.editEventButtonText}
             primary
