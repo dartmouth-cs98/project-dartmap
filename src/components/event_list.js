@@ -28,12 +28,13 @@ class EventList extends Component {
   render() {
     this.eventItems = [];
     if(this.state.open){
-      var arrowurl = "https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-left-01-128.png";
+      var arrowurl = "https://s22.postimg.org/7w3kbqdkx/leftarrow.png";
     }else{
-      var arrowurl = "http://www.freeiconspng.com/uploads/right-arrow-icon-27.png";
+      var arrowurl = "https://s27.postimg.org/4lgynq277/rightarrow.png";
     }
 
     if (this.props.events && this.props.events.length > 0) {
+      // FOR EACH EVENT
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
         const eListItem = [<EventListItem
@@ -57,6 +58,7 @@ class EventList extends Component {
         this.prevDate = event.date;
       }
 
+      // SEARCHING
       const searchString = this.state.searchString.trim().toLowerCase();
       if (searchString.length > 0) {
         console.log(this.eventItems);
@@ -64,40 +66,10 @@ class EventList extends Component {
           ? null : i[0].props.event.name.toLowerCase().match(searchString)));
       }
 
-      // Case of matching events.
+      // Case of matching events (i.e. if there are events to be displayed)
       if (this.eventItems || this.eventItems.length > 0) {
         return (
-            <div>
-              <div className="side-drawer">
-                <Drawer open={this.state.open} containerStyle={{ height: '5.5%', top: 0, width: '290px', position: 'absolute', overflow: 'hidden'}}>
-                  <img className= "arrow" src={arrowurl} width="10%" onClick={this.handleToggle}/>
-                </Drawer>
-                <Drawer open={this.state.open} containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden'}}>
-                  <div className="search-bar-box">
-                    <input id="search-bar" type="text" value={this.state.searchString}
-                      onChange={this.handleChange} placeholder="Search here..."
-                    />
-                    <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
-                  </div>
-                  <div id="event-menu">
-                    <div id="event-list">
-                      {this.eventItems}
-                    </div>
-                  </div>
-                </Drawer>
-              </div>
-              <div className="add-event-btn-container">
-                <FloatingActionButton onClick={this.props.toggleAddEvent}>
-                  <ContentAdd />
-                </FloatingActionButton>
-              </div>
-            </div>
-        );
-      }
-    } else {
-    // Case of no matching events.
-      return (
-          <div id="event-none">
+          <div>
             <div className="side-drawer">
               <Drawer open={this.state.open} containerStyle={{ height: '5.5%', top: 0, width: '290px', position: 'absolute', overflow: 'hidden'}}>
                 <img className= "arrow" src={arrowurl} width="10%" onClick={this.handleToggle}/>
@@ -109,11 +81,10 @@ class EventList extends Component {
                   />
                   <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
                 </div>
-                <div id="event-list">
-                  <text className="warning-msg">
-                    No Matching Events. <br />
-                    Please Try Again.
-                  </text>
+                <div id="event-menu">
+                  <div id="event-list">
+                    {this.eventItems}
+                  </div>
                 </div>
               </Drawer>
             </div>
@@ -123,6 +94,37 @@ class EventList extends Component {
               </FloatingActionButton>
             </div>
           </div>
+        );
+      }
+    } else {
+      // Case of no matching events (i.e. if there are no events to be displayed)
+      return (
+        <div id="event-none">
+          <div className="side-drawer">
+            <Drawer open={this.state.open} containerStyle={{ height: '5.5%', top: 0, width: '290px', position: 'absolute', overflow: 'hidden' }}>
+              <img className="arrow" src={arrowurl} width="10%" onClick={this.handleToggle}/>
+            </Drawer>
+            <Drawer open={this.state.open} containerStyle={{ height: '100%', top: 0, position: 'absolute', overflow: 'hidden' }}>
+              <div className="search-bar-box">
+                <input id="search-bar" type="text" value={this.state.searchString}
+                  onChange={this.handleChange} placeholder="Search here..."
+                />
+                <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block"/>
+              </div>
+              <div id="event-list">
+                <text className="warning-msg">
+                  No Matching Events. <br />
+                  Please Try Again.
+                </text>
+              </div>
+            </Drawer>
+          </div>
+          <div className="add-event-btn-container">
+            <FloatingActionButton onClick={this.props.toggleAddEvent}>
+              <ContentAdd />
+            </FloatingActionButton>
+          </div>
+        </div>
       );
     }
     return <div className="hidden" />;

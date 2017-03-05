@@ -107,6 +107,64 @@ export function getEvent(dispatch, successAction, errorAction, eventId) {
   });
 }
 
+export function deleteEvent(eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'DELETE',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function updateEvent(eventId, putData) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'PUT',
+    data: putData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'PUT',
+    },
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function getEventSansRedux(eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      const event = formatAPIEventData(data.events[0]);
+      console.log('SUCCESS! GET /events/'.concat(eventId));
+      return event;
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
 export function getAllEvents(dispatch, successAction, errorAction,
   latitude, longitude, radius) {
   const fullUrl = API_URL.concat(EVENT_URL);

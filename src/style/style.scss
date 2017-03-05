@@ -41,11 +41,15 @@ hr {
   font-size: 30pt;
   height: $nav-bar-height;
   line-height: $nav-bar-height;
-  position: relative;
   padding: 0 15px;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%;
+
   box-shadow: 0px 5px 10px -5px black;
   -webkit-box-shadow: 0px 5px 10px -5px black;
   -moz-box-shadow: 0px 5px 10px -5px black;
+  z-index: 1250;
 
   @include flex-space-between;
   @include flex-box;
@@ -206,6 +210,60 @@ side-drawer {
   margin-left: 20px;
 }
 
+// Button for a user to delete an event
+.user-delete-event {
+  background-color: #BD1919;
+  border: 1px solid;
+  /*border-radius: 20px;*/
+  /*float: right;*/
+  text-align: center;
+  font-size: 18pt;
+  height: 100%;
+  line-height: 100%;
+  /*margin-bottom: 10px;*/
+
+  &:hover {
+    background-color: #FF0000;
+    cursor: pointer;
+  }
+}
+
+// Button for a user to change the location of an event
+.user-change-event-location {
+  background-color: #23ABD9;
+  border: 1px solid;
+  /*border-radius: 20px;*/
+  /*float: right;*/
+  text-align: center;
+  font-size: 8pt;
+  height: 100%;
+  line-height: 100%;
+  /*margin-bottom: 10px;*/
+
+  &:hover {
+    background-color: #00BFFF;
+    cursor: pointer;
+  }
+}
+
+// Button for a user to edit an event
+.user-edit-event {
+  background-color: #00B800;
+  border: 1px solid;
+  /*border-radius: 20px;*/
+  /*float: right;*/
+  text-align: center;
+  font-size: 18pt;
+  height: 100%;
+  line-height: 100%;
+  /*margin-bottom: 10px;*/
+
+  &:hover {
+    background-color: #00FF00;
+    cursor: pointer;
+  }
+}
+
 // This is the div that encompasses everything that is not in the navigation bar
 .home-container {
   height: 90%;
@@ -248,6 +306,20 @@ side-drawer {
   margin-right: 5px;
 }
 
+#user-event-menu {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  float: center;
+  width: 80%;
+  height: 100%;
+  overflow: scroll;
+  padding-left: 10%;
+  padding-top: 16px;
+
+  .location-not-selected {
+    display: none;
+  }
+}
+
 .warning-msg {
   background-color: white;
 }
@@ -263,6 +335,11 @@ side-drawer {
   background-color: white;
 }
 
+#user-search-bar {
+  width: 30%;
+  background-color: white;
+}
+
 .highlight {
   background-color: #fffd77;
 }
@@ -273,6 +350,22 @@ side-drawer {
   overflow: scroll;
   background-color: white;
   text-align: center;
+}
+
+.user-event-item {
+  background-color: white;
+  border-bottom: thin solid black;
+  height: 100%;
+  padding-left: 8px;
+  padding-top: 8px;
+  width: 100%;
+  font-size: 15px;
+}
+
+.uspg-map {
+  width: 35%;
+  height: 200px;
+  float: right;
 }
 
 .popup {
@@ -326,9 +419,13 @@ side-drawer {
   box-shadow: 0px 0px 20px black;
 }
 
-#close-button {
+.close-button {
+  align-self: flex-end;
+  align-self: -webkit-flex-end;
+  align-self: -moz-flex-end;
+  font-size: 2rem;
   position: absolute;
-  right: 20px;
+  right: 15px;
   top: 5px;
   &:hover {
     color: #DC143C;
@@ -359,6 +456,13 @@ side-drawer {
   text-align: center;
 }
 
+.user-date-display {
+  background-color: #878787;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
 .name {
   font-size: 13.1pt;
   white-space: nowrap;
@@ -378,16 +482,6 @@ side-drawer {
 
 .error-box {
   border-color: red;
-}
-
-.close-button {
-  align-self: flex-end;
-  align-self: -webkit-flex-end;
-  align-self: -moz-flex-end;
-  &:hover {
-    color: #DC143C;
-    cursor: pointer;
-  }
 }
 
 .Modal {

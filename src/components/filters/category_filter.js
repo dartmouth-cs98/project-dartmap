@@ -26,6 +26,7 @@ class CategoryFilter extends Component {
     this.selectedCheckboxes = new Set();
   }
 
+
   componentWillUpdate = () => {
     if (this.setInitialDefault && this.props.catList) {
       this.setInitialDefault = false;
@@ -45,7 +46,6 @@ class CategoryFilter extends Component {
     const val = event.target.value;
     let checked = this.state.checked.slice(); // copy
     let checkedBoolean = this.state.checked_boolean.slice();
-
     console.log('checked', checked, val);
     console.log('all categories', this.state.allCategories);
     if (checked.includes(val)) {
