@@ -60,7 +60,7 @@ class Home extends Component {
         this.getEvents();
       }
     }
-    if (this.props.latitude && this.props.longitude && (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude)) {
+    if (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude) {
       this.props.fetchEvents(nextProps.latitude, nextProps.longitude, RADIUS);
     }
   }
@@ -93,7 +93,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="home-container">
+      <div className="home-container" style={{ marginTop: '60px' }}>
         <EventList
           toggleAddEvent={this.toggleAddEvent}
           selectedLocation={this.state.selectedLocation}
@@ -107,7 +107,6 @@ class Home extends Component {
           <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleGeolocation}>
             <MapsMyLocation />
           </IconButton>
-
         </div>
         <FilterContainer />
         <AddEventDialog
