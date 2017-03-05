@@ -26,7 +26,9 @@ const store = createStore(reducers, {}, compose(
   applyMiddleware(thunk),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
+
 injectTapEventPlugin();
+
 render((
   <MuiThemeProvider>
     <Provider store={store}>

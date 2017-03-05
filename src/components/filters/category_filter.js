@@ -4,204 +4,147 @@
 */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import { Popover, Checkbox, RaisedButton } from 'material-ui';
 
-// List of categories
-const CATEGORIES = [
-  'Academic',
-  'Art',
-  'Sports',
-  'Performance',
-  'Lecture',
-  'Greek Life',
-  'Free Food',
-  'All Categories',
-]
-
 // Default to all categories
-const DEFAULT_CATEGORIES = [true,true,true,true,true,true,true,true]
+const DEFAULT_CATEGORIES = [true, true, true, true, true, true, true, true];
 
 class CategoryFilter extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { 
-      checked: CATEGORIES,
+    this.state = {
+      checked: [],
       checked_boolean: DEFAULT_CATEGORIES,
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.onCategoryChange = props.onCategoryChange;
-    this.initialSetDefault = true;
-    this.dropdownValues = [];
+      allCategories: [],
+    };
+    this.setInitialDefault = true;
   }
-
 
   componentWillMount = () => {
     this.selectedCheckboxes = new Set();
   }
 
-  handleChange(event) {
+  componentWillUpdate = () => {
+    if (this.setInitialDefault && this.props.catList) {
+      this.setInitialDefault = false;
+      const catFilters = this.props.catList.map((cat) => {
+        return { id: cat.value, name: cat.label };
+      });
+      console.log('catFilters', catFilters);
+      this.props.onCategoryChange(catFilters);
+      const checkedList = this.props.catList.map((cat) => { return cat.label; });
+      checkedList.push('All Categories');
+      console.log('update', checkedList);
+      this.setState({ checked: checkedList, allCategories: checkedList });
+    }
+  }
 
+  handleChange = (event) => {
     const val = event.target.value;
-    console.log(val);
     let checked = this.state.checked.slice(); // copy
-    let checked_boolean = this.state.checked_boolean.slice();
+    let checkedBoolean = this.state.checked_boolean.slice();
 
+    console.log('checked', checked, val);
+    console.log('all categories', this.state.allCategories);
     if (checked.includes(val)) {
       checked.splice(checked.indexOf(val), 1);
-      checked_boolean[CATEGORIES.indexOf(val)]=false;
+      checkedBoolean[this.state.allCategories.indexOf(val)] = false;
       if (checked.includes('All Categories')) {
-        document.getElementById('All Categories').checked = false;
         checked.splice(checked.indexOf('All Categories'), 1);
-        checked_boolean[7]=false;
+        checkedBoolean[7] = false;
       }
+      console.log('after checked updates', checked, checkedBoolean);
     } else {
       checked.push(val);
-      checked_boolean[CATEGORIES.indexOf(val)]=true;
+      checkedBoolean[this.state.allCategories.indexOf(val)] = true;
       if (val === 'All Categories') {
         // check every box
-        document.getElementById('Academic').checked = true;
-        document.getElementById('Art').checked = true;
-        document.getElementById('Sports').checked = true;
-        document.getElementById('Performance').checked = true;
-        document.getElementById('Lecture').checked = true;
-        document.getElementById('Greek Life').checked = true;
-        document.getElementById('Free Food').checked = true;
-        checked = CATEGORIES;
-        checked_boolean = DEFAULT_CATEGORIES;
+        checked = this.state.allCategories;
+        checkedBoolean = DEFAULT_CATEGORIES;
       }
     }
-    this.setState({ checked });
-    this.setState({ checked_boolean });
 
-    var cat_filters = [];
-    for (var i = 0; i < checked.length; ++i) {
-      if (checked[i] != undefined) {
-        var single_cat = {};
-        var id;
-        if (checked[i] === "Academic") id = 1;
-        if (checked[i] === "Art") id = 2;
-        if (checked[i] === "Sports") id = 3;
-        if (checked[i] === "Performance") id = 4;
-        if (checked[i] === "Lecture") id = 5;
-        if (checked[i] === "Greek Life") id = 6;
-        if (checked[i] === "Free Food") id = 7;
-        if (checked[i] === "All Categories") break;
-        single_cat['id'] = id;
-        single_cat['name'] = checked[i]; 
-        cat_filters.push(single_cat);
+    const catFilters = [];
+    for (let i = 0; i < checked.length; i += 1) {
+      if (checked[i] !== undefined) {
+        const singleCat = {};
+        let id;
+        if (checked[i] === 'Academic') id = 1;
+        if (checked[i] === 'Art') id = 2;
+        if (checked[i] === 'Sports') id = 3;
+        if (checked[i] === 'Performance') id = 4;
+        if (checked[i] === 'Lecture') id = 5;
+        if (checked[i] === 'Greek Life') id = 6;
+        if (checked[i] === 'Free Food') id = 7;
+        if (checked[i] === 'All Categories') break;
+        singleCat.id = id;
+        singleCat.name = checked[i];
+        catFilters.push(singleCat);
       }
-      this.setState({ categories: this.dropdownValues });
-      this.props.onCategoryChange(this.dropdownValues);
-      this.initialSetDefault = false;
     }
-    console.log(cat_filters)
-    this.onCategoryChange(cat_filters);
-
+    this.setState({ checked, checked_boolean: checkedBoolean });
+    console.log('category', catFilters);
+    this.props.onCategoryChange(catFilters);
   }
 
   render() {
-
     if (!this.props.openCategoryFilter) {
       return (
         <form>
-      <div className="multiselect">
-      <RaisedButton className="block"
-        onTouchTap={this.props.openFilter}
-        label="Filter by Category"
+          <div className="multiselect">
+            <RaisedButton className="block"
+              onTouchTap={this.props.openFilter}
+              label="Filter by Category"
+            />
+          </div>
+        </form>
+      );
+    }
+    const checkBoxes = this.props.catList.map((category) => {
+      return (
+        <Checkbox
+          label={category.label}
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[category.value - 1]}
+          value={category.label}
+          id={category.label}
+          key={category.value}
         />
-      </div>
-    </form>
-        );
-      }
+      );
+    });
+    checkBoxes.push(
+      <Checkbox
+        label="All Categories"
+        onCheck={this.handleChange}
+        checked={this.state.checked_boolean[this.props.catList.length]}
+        value="All Categories"
+        id="All Categories"
+        key={this.props.catList.length + 1}
+      />
+    );
+    console.log(checkBoxes);
+
     return (
-     <form>
-      <div className="multiselect">
-      <RaisedButton className="block"
-        onTouchTap={this.props.openFilter}
-        label="Filter by Category"
-        />
+      <form>
+        <div className="multiselect">
+          <RaisedButton className="block"
+            onTouchTap={this.props.openFilter}
+            label="Filter by Category"
+          />
         </div>
         <Popover className="checkbox"
           open={this.props.openCategoryFilter}
           anchorEl={this.props.anchorEl}
-          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.props.openFilter}
         >
-        <Checkbox 
-          label="Academic"
-          onCheck={this.handleChange}
-          checked={this.state.checked_boolean[0]}
-          value="Academic"
-          id="Academic"
-          />
-
-        <Checkbox 
-          label="Art"
-          onCheck={this.handleChange}
-          checked={this.state.checked_boolean[1]}
-          value="Art"
-          id="Art"
-          />
-
-        <Checkbox 
-          label="Sports"
-          onCheck={this.handleChange}
-          checked={this.state.checked_boolean[2]}
-          value="Sports"
-          id="Sports"
-          />
-
-        <Checkbox 
-          label="Performance"
-          onCheck={this.handleChange}
-          checked={this.state.checked_boolean[3]}
-          value="Performance"
-          id="Performance"
-          />
-
-        <Checkbox 
-          label="Lecture"
-          onCheck={this.handleChange}
-          checked={this.state.checked_boolean[4]}
-          value="Lecture"
-          id="Lecture"
-          />
-
-        <Checkbox 
-          label="Greek Life"
-          onCheck={this.handleChange}
-          checked={this.state.checked_boolean[5]}
-          value="Greek Life"
-          id="Greek Life"
-          />
-
-        <Checkbox 
-          label="Free Food"
-          onCheck={this.handleChange}
-          checked={this.state.checked_boolean[6]}
-          value="Free Food"
-          id="Free Food"
-          />
-
-        <Checkbox 
-          label="All Categories"
-          onCheck={this.handleChange}
-          checked={this.state.checked_boolean[7]}
-          value="All Categories"
-          id="All Categories"
-          />
-
+          {checkBoxes}
         </Popover>
-
-          
-    </form>
-
+      </form>
     );
-
   }
 }
 

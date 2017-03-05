@@ -79,6 +79,7 @@ export function createEvent(event) {
 }
 
 export function filterEvents(filters) {
+  console.log('in actions', filters);
   return {
     type: ActionTypes.FILTER_EVENTS,
     payload: { filters },

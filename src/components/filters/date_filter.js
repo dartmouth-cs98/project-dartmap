@@ -15,7 +15,7 @@ const NUM_DAYS_DISPLAY = 8;
 
 // Check the next 2 days by default
 const DEFAULT_CHECKED = [true,true,false,false,false,false,false,false];
-const DEFAULT_DATES = ["0","1"];
+const DEFAULT_DATES = ['0','1'];
 
 // Array of dates with labels and values both set
 // to the date
@@ -51,7 +51,7 @@ class DateFilter extends Component {
   }
 
   componentWillMount = () => {
-    this.filterEvent([0,1]);
+    this.filterEvent(DEFAULT_DATES);
     this.selectedCheckboxes = new Set();
   }
 
@@ -101,8 +101,7 @@ class DateFilter extends Component {
       }
     }
     dateArray.sort();
-    console.log(dateArray);
-    console.log(dateArray);
+    console.log('date filter',dateArray);
     this.props.onDateChange(dateArray);
   }
 

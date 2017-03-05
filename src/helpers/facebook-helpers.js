@@ -31,30 +31,6 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
   const FB = window.FB;
   if (fbResponse.status === 'connected') {
     if (fbResponse.authResponse.userID) {
-<<<<<<< HEAD
-      // if (login) {
-      postFbToken((jwt) => {
-        const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
-        FB.api(fbUserImageUrl, (graphResponse) => {
-          let fbProfPicUrl = null;
-          if (graphResponse && !graphResponse.error) {
-            fbProfPicUrl = graphResponse.data.url;
-          }
-          callbackFunc({ jwt });
-        });
-      }, fbResponse.authResponse);
-      // }
-      getUserByPassword((userInfo) => {
-        const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
-        FB.api(fbUserImageUrl, (graphResponse) => {
-          let fbProfPicUrl = null;
-          if (graphResponse && !graphResponse.error) {
-            fbProfPicUrl = graphResponse.data.url;
-          }
-          callbackFunc({ userInfo, fbResponse, fbProfPicUrl });
-        });
-      }, fbResponse.authResponse.userID);
-=======
       if (!login) {
         getUserByPassword((userInfo) => {
           const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture?type=large`;
@@ -78,7 +54,6 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
           });
         }, fbResponse.authResponse);
       }
->>>>>>> 565e8ce9a1514c2ebe105aa628cd40b2c6fc15a7
     }
   } else {
     callbackFunc({ fbResponse });

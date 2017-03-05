@@ -1,14 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 
-<<<<<<< HEAD
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
-=======
 import { TextField, Dialog, FlatButton, RaisedButton, ListItem, Avatar, IconButton, IconMenu, MenuItem } from 'material-ui';
 import { cyan500, grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
->>>>>>> 565e8ce9a1514c2ebe105aa628cd40b2c6fc15a7
 
 class Comment extends React.Component {
   constructor(props) {
@@ -77,50 +72,7 @@ class Comment extends React.Component {
   }
 
   render() {
-<<<<<<< HEAD
-    const styles = {
-      button: {
-        margin: 12,
-      },
-      textField: {
-        marginLeft: 10,
-      },
-    };
 
-    return (
-      <div>
-        <div className="row">
-          <span className="col-md-5"><b>{this.props.author}</b> posted {this.getTime()}</span>
-          <div className={this.props.enable_edit ? '' : 'hidden'}>
-            <div className="pull-right" style={styles.button}>
-              <div className={this.state.isEditing ? 'hidden' : ''}>
-                <RaisedButton label="Delete" primary={true} onClick={this.handleDelete} />
-                <RaisedButton label="Edit" primary={true} onClick={this.toggleEditing} />
-              </div>
-            </div>
-            <div className="row">
-              <div className={this.state.isEditing ? '' : 'hidden'}>
-                <div className="col-md-5">
-                  <TextField style={styles.textField}
-                    defaultValue={this.props.text}
-                    onChange={this.trackEdit}
-                  />
-                </div>
-                <div className="pull-right" style={styles.button}>
-                  <RaisedButton label="Submit" primary={true} onClick={this.handleEdit} />
-                </div>
-              </div>
-              <div className={this.state.isEditing ? 'hidden' : ''}>
-                <TextField style={styles.textField}
-                  defaultValue={this.props.text}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-=======
     const actions = [
       <FlatButton
         label="Cancel"
@@ -246,7 +198,6 @@ class Comment extends React.Component {
         />
       );
     }
->>>>>>> 565e8ce9a1514c2ebe105aa628cd40b2c6fc15a7
   }
 }
 

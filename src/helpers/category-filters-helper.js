@@ -11,7 +11,8 @@ function compareCategoryLists(categories1, categories2) {
     // iterate through each category in categories2
     for (c2 = 0; c2 < categories2.length; c2 += 1) {
       // if they match
-      if (categories1[c1].id === categories2[c2].value) {
+      console.log(categories1[c1].id, categories2[c2].id);
+      if (categories1[c1].id === categories2[c2].id) {
         return true;
       }
     }
@@ -30,7 +31,6 @@ function filterCategories(filters, categoriesList, eventList) {
     const event = eventList[i];
     // get the categories the event is tagged with
     const eventCategs = event.categories;
-
     // skip an event if it is not tagged with any categories, and...
     // if any one of the event's categories (eventCategs) is the same as any one of the selected categories (filterCategs)
     if ((eventCategs != null) && (compareCategoryLists(eventCategs, filterCategs))) {
