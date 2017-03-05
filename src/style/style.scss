@@ -100,6 +100,12 @@ hr {
   }
 }
 
+side-drawer {
+  position: relative;
+  height: inherit;
+  width: inherit;
+}
+
 .fb-user {
   background-color: #3b5998;
   border: 0px;
@@ -258,6 +264,8 @@ hr {
 .home-container {
   height: 90%;
   background-color: white;
+  position: relative;
+  top: 5px;
 }
 
 // Map Components
@@ -268,8 +276,8 @@ hr {
 }
 
 .mapAndButton {
-  width: 75%;
-  height: 65%;
+  width: 95%;
+  height: 75%;
   margin: 16px;
   position: relative;
   display: inline-block;
@@ -327,6 +335,12 @@ hr {
 }
 
 #search-bar {
+  width: 90%;
+  background-color: white;
+  display: inline-block;
+}
+
+.search-bar-box {
   width: 100%;
   background-color: white;
 }
@@ -341,14 +355,11 @@ hr {
 }
 
 #event-none {
-  float: right;
-  width: 20%;
-  height: 100%;
+  @include flex-box;
+  @include flex-column;
   overflow: scroll;
   background-color: white;
   text-align: center;
-  padding-right: 16px;
-  padding-top: 16px;
 }
 
 // Event List Components
@@ -396,15 +407,28 @@ hr {
   font-size: 1rem;
   background-color: white;
   border: 1px solid;
-  border-color: $green;
+  border-color: #337ab7;
   box-shadow: 0 0 8px 2px #888;
   color: black;
   padding: 5px;
   position: relative;
+  margin-left: 6px;
+  margin-top: 6px;
   width: 350px;
   z-index: 15;
   @include flex-box;
   @include flex-column;
+
+  hbar {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.popup-location {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0;
 }
 
 .description {
@@ -456,7 +480,7 @@ hr {
 }
 
 .date-display {
-  background-color: $green;
+  background-color: #337ab7;
   color: white;
   position: relative;
   text-align: center;

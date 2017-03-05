@@ -322,7 +322,7 @@ class UserEventListItem extends Component {
     let eventMap = null;
     let eventName = null;
     let eventTime = null;
-    let eventLocation = null;
+    let eventLocationName = null;
     let eventOrganizer = null;
     let eventCategories = null;
     let eventDescription = null;
@@ -377,10 +377,14 @@ class UserEventListItem extends Component {
           />
         </div>
       );
-      eventLocation = (
-        <button className="user-change-event-location" type="button" onClick={this.confirmDelete}>
-          Change location (this will eventually be replaced by Location/Room name)
-        </button>
+      eventLocationName = (
+        <input
+          className="eventLocationName"
+          type="text"
+          placeholder="*  Room name/location"
+          defaultValue={this.state.eventLocationName}
+          onChange={event => this.setState({ eventLocationName: event.target.value })}
+        />
       );
       eventOrganizer = (
         <input
@@ -421,9 +425,9 @@ class UserEventListItem extends Component {
           {this.state.eventStartTime.format('h:mm A')} ~ {this.state.eventEndTime.format('h:mm A')}<br />
         </text>
       );
-      eventLocation = (
+      eventLocationName = (
         <text className="attribute">
-          {this.state.eventLocation}<br />
+          {this.state.eventLocationName}<br />
         </text>
       );
       eventOrganizer = (
@@ -460,7 +464,7 @@ class UserEventListItem extends Component {
           <br />Location:
         </text>
 
-        {eventLocation}
+        {eventLocationName}
 
         <text className="attributeTitle">
           <br />Organizer:

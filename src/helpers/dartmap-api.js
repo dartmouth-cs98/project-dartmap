@@ -97,7 +97,6 @@ export function getEvent(dispatch, successAction, errorAction, eventId) {
     dataType: 'json',
     success: (data) => {
       const event = formatAPIEventData(data.events[0]);
-      console.log('SUCCESS! GET /events/'.concat(eventId));
       dispatch({ type: successAction, payload: { event } });
     },
     error: (xhr, status, err) => {

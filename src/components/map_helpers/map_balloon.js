@@ -16,6 +16,7 @@ class MapBalloon extends Component {
     this.popUp = [];
   }
   render() {
+    let key;
     this.events = this.props.eventsForLocation;
     if (this.events.length < 1) {
       return (
@@ -35,13 +36,12 @@ class MapBalloon extends Component {
       const event = this.events[i];
       if (i === 0) {
         this.popUp.push(
-          <div key="location">Location: {event.location_name}</div>
+          <div className='popup-location' key="location">{event.location_name}</div>
         );
-      } else {
-        const key = 'hbar'.concat(event.id);
-        this.popUp.push(<div key={key} className="hbar"><hr /></div>);
       }
-      const key = 'balloon'.concat(event.id);
+      key = 'hbar'.concat(event.id);
+      this.popUp.push(<div key={key} className="hbar"><hr /></div>);
+      key = 'balloon'.concat(event.id);
       this.popUp.push(
         <MapBalloonEvent event={event} num={this.events.length} key={key} />
       );

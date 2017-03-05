@@ -221,6 +221,10 @@ class EventPage extends Component {
         originalClass: 'gallery-image',
       });
     }
+    let showGallery = false;
+    if(images.length > 1){
+      showGallery = true;
+    }
     const dateString = this.state.event.date.format('dddd MMMM Do YYYY');
     const startString = this.state.event.start_time.format('h:mma');
     const endString = this.state.event.end_time.format('h:mma');
@@ -274,6 +278,8 @@ class EventPage extends Component {
                 items={images}
                 autoPlay
                 slideInterval={2000}
+                showThumbnails={showGallery}
+                showPlayButton={showGallery}
               />
             </div>
           </div>
