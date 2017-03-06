@@ -58,7 +58,7 @@ class NavBar extends Component {
     if (this.props.user.loggedIn) {
       this.greeting = (
         <h2 className="navbar-greeting">
-          Hi, {this.props.userInfo.name}!    
+          {this.props.userInfo.name === '' ? '' : 'Hi, ' + this.props.userInfo.name + '!'}
         </h2>
       );
       if (this.props.fbProfPicUrl) {
