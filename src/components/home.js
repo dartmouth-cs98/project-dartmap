@@ -102,6 +102,7 @@ class Home extends Component {
   refocusLocation = () => {
     this.props.setMapCenter({ lat: this.props.latitude, lng: this.props.longitude });
     this.setState({ showBtns: false });
+    console.log("refocus "+this.props.latitude+" "+this.props.longitude);
   }
 
   render() {
