@@ -48,11 +48,15 @@ class MapBalloon extends Component {
     }
     const popupClassName = 'popup popup'.concat(this.props.id);
     return (
-      <div className={popupClassName}>
+      <div className="map-cover">
         <div className="close-button" onClick={this.props.clearBalloons}>
           x
         </div>
-        {this.popUp}
+        <div className="popup">
+          <div className="map-event-list">
+            {this.popUp}
+          </div>
+        </div>
       </div>
     );
   }

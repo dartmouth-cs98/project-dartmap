@@ -177,8 +177,9 @@ side-drawer {
   align-self: -moz-flex-end;
   font-size: 2rem;
   position: absolute;
-  right: 15px;
-  top: 5px;
+  left: 320px;
+  top: 10px;
+  z-index: 1000;
   &:hover {
     color: #DC143C;
     cursor: pointer;

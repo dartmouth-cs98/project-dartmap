@@ -25,11 +25,13 @@ const EventsWithControllableHover = (props) => {
         <img className="map-event-img" src={imageSrc} alt="icon" />
         <div>{props.text}</div>
       </button>
-      <MapBalloon
-        hoverKey={props.hoverKey}
-        id={props.id}
-        eventsForLocation={props.eventsForLocation}
-      />
+      <div className="map-cover" >
+        <MapBalloon
+          hoverKey={props.hoverKey}
+          id={props.id}
+          eventsForLocation={props.eventsForLocation}
+        />
+      </div>
     </div>
   );
 };
