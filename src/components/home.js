@@ -109,13 +109,13 @@ class Home extends Component {
     if (this.state.showBtns) {
       SettingsButton = (
         <div>
-          <IconButton className="geoButtonSub" style={{ position: 'absolute', marginTop: '10px' }}
-            onClick={this.refocusLocation} tooltipPosition="right" tooltip="Refocus Map"
+          <IconButton className="refocusButton" style={{ position: 'absolute', marginRight: '15px' }}
+            onClick={this.refocusLocation} tooltipPosition="bottom-center" tooltip="Refocus Map"
           >
             <MapsMyLocation />
           </IconButton>
-          <IconButton className="geoButtonSubSub" style={{ position: 'absolute', marginTop: '20px' }}
-            onClick={this.toggleGeolocation} tooltipPosition="right" tooltip="Change Location"
+          <IconButton className="zipcodeButton" style={{ position: 'absolute', marginRight: '30px' }}
+            onClick={this.toggleGeolocation} tooltipPosition="bottom-center" tooltip="Change Location"
           >
             <MapsNavigation />
           </IconButton>
