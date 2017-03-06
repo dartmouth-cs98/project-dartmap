@@ -40,11 +40,15 @@ class MapContainer extends Component {
     // this.setState({ locations });
   }
 
-  _onChange = (center, zoom, bounds, ...other) => {
+  _onChange = ({center, zoom}) => {
     console.log("onchange ");
-    this.props.clearBalloons();
+    console.log(center['lat']+" "+center['lng']+" "+zoom);
     this.props.onZoomChange(zoom);
+    if(typeof center['lat'] !== 'undefined'){
+      this.props.setMapCenter({ lat: center['lat'], lng: center['lng'] });
+    }
   }
+
 
   _onChildClick = (key, childProps) => {
     // Recenter the map to the event that is clicked on.
@@ -124,7 +128,7 @@ class MapContainer extends Component {
           center={this.props.center}
           zoom={this.props.zoom}
           hoverDistance={K_SIZE / 2}
-          onchange={this._onChange}
+          onChange={this._onChange}
           onClick={this.maybeSelectLocation}
           onChildClick={this._onChildClick}
           onChildMouseEnter={this._onChildMouseEnter}
