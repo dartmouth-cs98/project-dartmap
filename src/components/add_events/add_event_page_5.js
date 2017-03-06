@@ -116,13 +116,14 @@ class AddEventPage5 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <h2>Select event map icon</h2>
+          <br/>
+          Select event map icon
           <div className="icon-select">
             {iconBtns}
           </div>
         </div>
         <div className="add-event-fields">
-          <h2>Select event image</h2>
+          Select event image
           <UploadMultiImages updateImageURL={this.updateImageURL} />
         </div>
         <div className="add-event-btns">
