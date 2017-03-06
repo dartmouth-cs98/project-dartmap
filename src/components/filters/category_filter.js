@@ -33,11 +33,9 @@ class CategoryFilter extends Component {
       const catFilters = this.props.catList.map((cat) => {
         return { id: cat.value, name: cat.label };
       });
-      console.log('catFilters', catFilters);
       this.props.onCategoryChange(catFilters);
       const checkedList = this.props.catList.map((cat) => { return cat.label; });
       checkedList.push('All Categories');
-      console.log('update', checkedList);
       this.setState({ checked: checkedList, allCategories: checkedList });
     }
   }
@@ -46,8 +44,6 @@ class CategoryFilter extends Component {
     const val = event.target.value;
     let checked = this.state.checked.slice(); // copy
     let checkedBoolean = this.state.checked_boolean.slice();
-    console.log('checked', checked, val);
-    console.log('all categories', this.state.allCategories);
     if (checked.includes(val)) {
       checked.splice(checked.indexOf(val), 1);
       checkedBoolean[this.state.allCategories.indexOf(val)] = false;
@@ -55,7 +51,6 @@ class CategoryFilter extends Component {
         checked.splice(checked.indexOf('All Categories'), 1);
         checkedBoolean[7] = false;
       }
-      console.log('after checked updates', checked, checkedBoolean);
     } else {
       checked.push(val);
       checkedBoolean[this.state.allCategories.indexOf(val)] = true;
@@ -85,7 +80,6 @@ class CategoryFilter extends Component {
       }
     }
     this.setState({ checked, checked_boolean: checkedBoolean });
-    console.log('category', catFilters);
     this.props.onCategoryChange(catFilters);
   }
 

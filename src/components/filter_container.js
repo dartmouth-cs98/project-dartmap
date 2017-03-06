@@ -38,12 +38,10 @@ class FilterContainer extends Component {
     this.setState({ selectedCategories });
     const filters = Object.assign({}, this.state);
     filters.selectedCategories = selectedCategories;
-    console.log('in onCatChange', filters);
     this.applyFilters(filters);
   }
 
   applyFilters = (filters) => {
-    console.log('in applyFilters', filters);
     this.props.filterEvents(filters);
   }
 

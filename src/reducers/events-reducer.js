@@ -10,7 +10,6 @@ const EventsReducer = (state = {}, action) => {
   let newState, newFilters;
   switch (action.type) {
     case ActionTypes.FETCH_EVENTS:
-      console.log('in fetch events', state.filters);
       newState = filterEventList(state.filters, action.payload.events,
         state.catList, state.dateBarData);
       newState = Object.assign({}, state, newState);
@@ -24,7 +23,6 @@ const EventsReducer = (state = {}, action) => {
       newState = Object.assign({}, state, { all: ['retry'] });
       return newState;
     case ActionTypes.FILTER_EVENTS:
-      console.log('in the reducer');
       if (!state.all || state.all[0] === 'retry') {
         newFilters = { filters: action.payload.filters };
       } else {

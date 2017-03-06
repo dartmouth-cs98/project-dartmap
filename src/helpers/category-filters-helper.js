@@ -11,7 +11,6 @@ function compareCategoryLists(categories1, categories2) {
     // iterate through each category in categories2
     for (c2 = 0; c2 < categories2.length; c2 += 1) {
       // if they match
-      console.log(categories1[c1].id, categories2[c2].id);
       if (categories1[c1].id === categories2[c2].id) {
         return true;
       }
