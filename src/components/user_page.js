@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
 
 import { Tabs, Tab, Menu, MenuItem, Card, Avatar, Drawer } from 'material-ui';
 import { zIndex } from 'material-ui/styles';
@@ -29,12 +28,6 @@ class UserPage extends Component {
     this.sortEventList = this.sortEventList.bind(this);
     this.logout = this.logout.bind(this);
   }
-
-  // componentDidUpdate = () => {
-  //   if (this.props.params.id.indexOf('#') !== 0) {
-  //     $(document).scrollTop();
-  //   }
-  // }
 
   onEventListItemClick = (eventId) => {
     console.log('Button clicked ', eventId);
