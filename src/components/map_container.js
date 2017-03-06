@@ -99,6 +99,7 @@ class MapContainer extends Component {
       zoomControlOptions: {
         position: maps.ControlPosition.RIGHT_CENTER,
       },
+      scrollwheel: false,
     };
   }
 
@@ -132,7 +133,7 @@ class MapContainer extends Component {
             key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
             libraries: 'places',
           }}
-          options={{ scrollwheel: false}}
+          options={this.createMapOptions}
           center={this.props.center}
           zoom={this.props.zoom}
           hoverDistance={K_SIZE / 2}
