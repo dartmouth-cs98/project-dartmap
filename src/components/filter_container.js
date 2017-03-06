@@ -20,6 +20,15 @@ class FilterContainer extends Component {
       openDateFilter: false,
       openCategoryFilter: false,
     };
+    this.styles = {
+      buttonStyle: {
+        height: 40,
+        boxShadow: 0,
+      },
+      checkboxStyle: {
+        marginTop: 0,
+      },
+    };
   }
 
   onDateChange = (selectedDate) => {
@@ -75,30 +84,27 @@ class FilterContainer extends Component {
   render() {
     return (
       <div id="filter-container">
-        <div className="filter">
-          <TimeFilter openTimeFilter={this.state.openTimeFilter}
-            openFilter={this.toggleTimeFilter}
-            onTimeChange={this.onTimeChange}
-            anchorEl={this.state.anchorEl}
-          />
-        </div>
-        <div className="filter">
-          <DateFilter dateFilter={this.state.dateFilter}
-            onDateChange={this.onDateChange}
-            dateBarData={this.props.dateBarData}
-            openFilter={this.toggleDateFilter}
-            openDateFilter={this.state.openDateFilter}
-            anchorEl={this.state.anchorEl}
-          />
-        </div>
-        <div className="filter">
-          <CategoryFilter onCategoryChange={this.onCategoryChange}
-            catList={this.props.catList}
-            openFilter={this.toggleCategoryFilter}
-            openCategoryFilter={this.state.openCategoryFilter}
-            anchorEl={this.state.anchorEl}
-          />
-        </div>
+        <TimeFilter openTimeFilter={this.state.openTimeFilter}
+          openFilter={this.toggleTimeFilter}
+          onTimeChange={this.onTimeChange}
+          anchorEl={this.state.anchorEl}
+          buttonStyle={this.styles.buttonStyle}
+        />
+        <DateFilter dateFilter={this.state.dateFilter}
+          onDateChange={this.onDateChange}
+          dateBarData={this.props.dateBarData}
+          openFilter={this.toggleDateFilter}
+          openDateFilter={this.state.openDateFilter}
+          anchorEl={this.state.anchorEl}
+          styles={this.styles}
+        />
+        <CategoryFilter onCategoryChange={this.onCategoryChange}
+          catList={this.props.catList}
+          openFilter={this.toggleCategoryFilter}
+          openCategoryFilter={this.state.openCategoryFilter}
+          anchorEl={this.state.anchorEl}
+          styles={this.styles}
+        />
       </div>
     );
   }

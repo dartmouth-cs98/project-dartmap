@@ -86,14 +86,15 @@ class CategoryFilter extends Component {
   render() {
     if (!this.props.openCategoryFilter) {
       return (
-        <form>
+        <div className="filter">
           <div className="multiselect">
-            <RaisedButton className="block"
+            <RaisedButton className="block" primary
+              style={this.props.styles.buttonStyle}
               onTouchTap={this.props.openFilter}
               label="Filter by Category"
             />
           </div>
-        </form>
+        </div>
       );
     }
     const checkBoxes = this.props.catList.map((category) => {
@@ -121,14 +122,16 @@ class CategoryFilter extends Component {
     console.log(checkBoxes);
 
     return (
-      <form>
+      <div className="filter">
         <div className="multiselect">
-          <RaisedButton className="block"
+          <RaisedButton className="block" secondary
+            style={this.props.styles.buttonStyle}
             onTouchTap={this.props.openFilter}
             label="Filter by Category"
           />
         </div>
         <Popover className="checkbox"
+          style={this.props.styles.checkboxStyle}
           open={this.props.openCategoryFilter}
           anchorEl={this.props.anchorEl}
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
@@ -137,7 +140,7 @@ class CategoryFilter extends Component {
         >
           {checkBoxes}
         </Popover>
-      </form>
+      </div>
     );
   }
 }

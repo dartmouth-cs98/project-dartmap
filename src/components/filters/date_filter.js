@@ -97,21 +97,23 @@ class DateFilter extends Component {
       return <div className="hidden" />;
     } else if (!this.props.openDateFilter) {
       return (
-        <form>
+        <div className="filter">
           <div className="multiselect">
             <RaisedButton className="block"
+              primary
+              style={this.props.styles.buttonStyle}
               onTouchTap={this.props.openFilter}
               label="Filter by Date"
             />
           </div>
-        </form>
+        </div>
       );
     }
     return (
-
-      <form>
+      <div className="filter">
         <div className="multiselect">
-          <RaisedButton className="block"
+          <RaisedButton className="block" secondary
+            style={this.props.styles.buttonStyle}
             onTouchTap={this.props.openFilter}
             label="Filter by Date"
           />
@@ -122,8 +124,8 @@ class DateFilter extends Component {
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={this.props.openFilter}
+          style={this.props.styles.checkboxStyle}
         >
-
           <Checkbox
             label={DATES[0]}
             onCheck={this.handleChange}
@@ -131,7 +133,6 @@ class DateFilter extends Component {
             value="0"
             id="d0"
           />
-
           <Checkbox
             label={DATES[1]}
             onCheck={this.handleChange}
@@ -139,7 +140,6 @@ class DateFilter extends Component {
             value="1"
             id="d1"
           />
-
           <Checkbox
             label={DATES[2]}
             onCheck={this.handleChange}
@@ -147,7 +147,6 @@ class DateFilter extends Component {
             value="2"
             id="d2"
           />
-
           <Checkbox
             label={DATES[3]}
             onCheck={this.handleChange}
@@ -155,7 +154,6 @@ class DateFilter extends Component {
             value="3"
             id="d3"
           />
-
           <Checkbox
             label={DATES[4]}
             onCheck={this.handleChange}
@@ -163,7 +161,6 @@ class DateFilter extends Component {
             value="4"
             id="d4"
           />
-
           <Checkbox
             label={DATES[5]}
             onCheck={this.handleChange}
@@ -171,7 +168,6 @@ class DateFilter extends Component {
             value="5"
             id="d5"
           />
-
           <Checkbox
             label={DATES[6]}
             onCheck={this.handleChange}
@@ -179,7 +175,6 @@ class DateFilter extends Component {
             value="6"
             id="d6"
           />
-
           <Checkbox
             label={DATES[7]}
             onCheck={this.handleChange}
@@ -187,9 +182,8 @@ class DateFilter extends Component {
             value="7"
             id="d7"
           />
-
         </Popover>
-      </form>
+      </div>
 
     );
   }
