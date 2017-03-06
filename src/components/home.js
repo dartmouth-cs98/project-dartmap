@@ -35,6 +35,7 @@ class Home extends Component {
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
       showBtns: false,
+      refocus: false,
     };
   }
 
@@ -108,10 +109,14 @@ class Home extends Component {
     if (this.state.showBtns) {
       SettingsButton = (
         <div>
-          <IconButton className="geoButtonSub" style={{ position: 'absolute', marginTop: '10px' }} onClick={this.refocusLocation}>
+          <IconButton className="geoButtonSub" style={{ position: 'absolute', marginTop: '10px' }}
+            onClick={this.refocusLocation} tooltipPosition="right" tooltip="Refocus Map"
+          >
             <MapsMyLocation />
           </IconButton>
-          <IconButton className="geoButtonSubSub" style={{ position: 'absolute', marginTop: '20px' }} onClick={this.toggleGeolocation}>
+          <IconButton className="geoButtonSubSub" style={{ position: 'absolute', marginTop: '20px' }}
+            onClick={this.toggleGeolocation} tooltipPosition="right" tooltip="Change Location"
+          >
             <MapsNavigation />
           </IconButton>
         </div>
@@ -133,6 +138,7 @@ class Home extends Component {
           <MapContainer
             height={this.state.mapHeight}
             width={this.state.mapWidth}
+            centerLocation={{ lat: this.props.latitude, lng: this.props.longitude }}
           />
           <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleSettings}>
             <ActionSettings />
@@ -157,7 +163,6 @@ const mapStateToProps = state => (
     latitude: state.user.latitude,
     longitude: state.user.longitude,
     user: state.user,
-    // eventData: state.events,
     mapCenter: state.map.center,
   }
 );
