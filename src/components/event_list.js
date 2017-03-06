@@ -89,7 +89,7 @@ class EventList extends Component {
               </Drawer>
             </div>
             <div className="add-event-btn-container">
-              <FloatingActionButton onClick={this.props.toggleAddEvent}>
+              <FloatingActionButton disabled={!this.props.isUserLoggedIn} onClick={this.props.toggleAddEvent}>
                 <ContentAdd />
               </FloatingActionButton>
             </div>
@@ -120,7 +120,7 @@ class EventList extends Component {
             </Drawer>
           </div>
           <div className="add-event-btn-container">
-            <FloatingActionButton onClick={this.props.toggleAddEvent}>
+            <FloatingActionButton disabled={!this.props.isUserLoggedIn} onClick={this.props.toggleAddEvent}>
               <ContentAdd />
             </FloatingActionButton>
           </div>
@@ -133,6 +133,7 @@ class EventList extends Component {
 
 const mapStateToProps = state => (
   {
+    isUserLoggedIn: state.user.loggedIn,
     events: state.events.filteredEventList,
   }
 );

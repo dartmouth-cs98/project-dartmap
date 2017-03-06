@@ -23,7 +23,14 @@ class CommentForm extends React.Component {
     this.setState({
       text: '',
     });
+    this.refs.comment.getInputNode().value = '';
   }
+
+  handleTextChange = (event) => {
+    this.setState({
+      text: event.target.value,
+    });
+  };
 
   render() {
     const profPicUrl = this.props.user && this.props.user.fbProfPicUrl ? this.props.user.fbProfPicUrl : NO_PROF_PIC;
@@ -44,7 +51,7 @@ class CommentForm extends React.Component {
         leftAvatar={<Avatar src={profPicUrl} />}
         primaryText={
           <div>
-            <TextField style={styles.text} floatingLabelText="Add Comment" value={this.state.text} onChange={this.handleTextChange} />
+            <TextField id='comment-text-field' ref='comment' style={styles.text} floatingLabelText="Add Comment" onChange={this.handleTextChange} />
             <RaisedButton
               label="Post" primary
               onTouchTap={this.handleSubmit}
