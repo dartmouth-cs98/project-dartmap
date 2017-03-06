@@ -90,6 +90,14 @@ class MapContainer extends Component {
     this.props.onHoverKeyChange(null);
   }
 
+  createMapOptions = (maps) => {
+    return {
+      zoomControlOptions: {
+        position: maps.ControlPosition.RIGHT_CENTER,
+      },
+    };
+  }
+
   render() {
     const mapEvents = [];
     if (this.state.locations.size > 0) {
@@ -123,6 +131,7 @@ class MapContainer extends Component {
           options={{ scrollwheel: false}}
           center={this.props.center}
           zoom={this.props.zoom}
+          options={this.createMapOptions}
           hoverDistance={K_SIZE / 2}
           onBoundsChange={this._onBoundsChange}
           onClick={this.maybeSelectLocation}

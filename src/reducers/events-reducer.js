@@ -3,14 +3,14 @@
 
 import { ActionTypes } from '../actions';
 
-import filterEvents from '../helpers/filter-helper';
+import filterEventList from '../helpers/filter-helper';
 import createDateData from '../helpers/date-data-helper';
 
 const EventsReducer = (state = {}, action) => {
   let newState, newFilters;
   switch (action.type) {
     case ActionTypes.FETCH_EVENTS:
-      newState = filterEvents(state.filters, action.payload.events,
+      newState = filterEventList(state.filters, action.payload.events,
         state.catList, state.dateBarData);
       newState = Object.assign({}, state, newState);
       newState.all = action.payload.events;
@@ -26,7 +26,7 @@ const EventsReducer = (state = {}, action) => {
       if (!state.all || state.all[0] === 'retry') {
         newFilters = { filters: action.payload.filters };
       } else {
-        newFilters = filterEvents(action.payload.filters, state.all,
+        newFilters = filterEventList(action.payload.filters, state.all,
           state.catList, state.dateBarData);
       }
       newState = Object.assign({}, state, newFilters);

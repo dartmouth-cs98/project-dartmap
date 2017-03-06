@@ -4,72 +4,137 @@
 */
 
 import React, { Component } from 'react';
-import Select from 'react-select';
+
+import { Popover, Checkbox, RaisedButton } from 'material-ui';
+
+// Default to all categories
+const DEFAULT_CATEGORIES = [true, true, true, true, true, true, true, true];
 
 class CategoryFilter extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      categories: null,
+      checked: [],
+      checked_boolean: DEFAULT_CATEGORIES,
+      allCategories: [],
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.initialSetDefault = true;
-    this.dropdownValues = [];
+    this.setInitialDefault = true;
   }
 
-
-  handleChange(value) {
-    this.setState({ categories }, this.updateFilteredEventList);
-    const cats = value.split(',');
-    console.log(cats.length);
-    console.log('categories ', CATEGORIES);
-    const obj = [];
-    for (let i = 0; i < cats.length; ++i) {
-      if (cats[i] != undefined) {
-        const single_obj = {};
-        let id;
-        if (cats[i] === 'Academic') id = 1;
-        if (cats[i] === 'Art') id = 2;
-        if (cats[i] === 'Sports') id = 3;
-        if (cats[i] === 'Performance') id = 4;
-        if (cats[i] === 'Lecture') id = 5;
-        if (cats[i] === 'Greek Life') id = 6;
-        if (cats[i] === 'Free Food') id = 7;
-        single_obj.id = id;
-        single_obj.name = cats[i];
-        obj.push(single_obj);
-      }
-    }
+  componentWillMount = () => {
+    this.selectedCheckboxes = new Set();
   }
+
 
   componentWillUpdate = () => {
-    if (this.props.catList && this.initialSetDefault) {
-      for (let i = 0; i < this.props.catList.length; i += 1) {
-        const cat = this.props.catList[i];
-        this.dropdownValues.push({ label: cat.label, value: cat.value });
-      }
-      this.setState({ categories: this.dropdownValues });
-      this.props.onCategoryChange(this.dropdownValues);
-      this.initialSetDefault = false;
+    if (this.setInitialDefault && this.props.catList) {
+      this.setInitialDefault = false;
+      const catFilters = this.props.catList.map((cat) => {
+        return { id: cat.value, name: cat.label };
+      });
+      this.props.onCategoryChange(catFilters);
+      const checkedList = this.props.catList.map((cat) => { return cat.label; });
+      checkedList.push('All Categories');
+      this.setState({ checked: checkedList, allCategories: checkedList });
     }
   }
 
-  updateFilteredEventList = () => {
-    this.props.onCategoryChange(this.state.categories);
+  handleChange = (event) => {
+    const val = event.target.value;
+    let checked = this.state.checked.slice(); // copy
+    let checkedBoolean = this.state.checked_boolean.slice();
+    if (checked.includes(val)) {
+      checked.splice(checked.indexOf(val), 1);
+      checkedBoolean[this.state.allCategories.indexOf(val)] = false;
+      if (checked.includes('All Categories')) {
+        checked.splice(checked.indexOf('All Categories'), 1);
+        checkedBoolean[7] = false;
+      }
+    } else {
+      checked.push(val);
+      checkedBoolean[this.state.allCategories.indexOf(val)] = true;
+      if (val === 'All Categories') {
+        // check every box
+        checked = this.state.allCategories;
+        checkedBoolean = DEFAULT_CATEGORIES;
+      }
+    }
+
+    const catFilters = [];
+    for (let i = 0; i < checked.length; i += 1) {
+      if (checked[i] !== undefined) {
+        const singleCat = {};
+        let id;
+        if (checked[i] === 'Academic') id = 1;
+        if (checked[i] === 'Art') id = 2;
+        if (checked[i] === 'Sports') id = 3;
+        if (checked[i] === 'Performance') id = 4;
+        if (checked[i] === 'Lecture') id = 5;
+        if (checked[i] === 'Greek Life') id = 6;
+        if (checked[i] === 'Free Food') id = 7;
+        if (checked[i] === 'All Categories') break;
+        singleCat.id = id;
+        singleCat.name = checked[i];
+        catFilters.push(singleCat);
+      }
+    }
+    this.setState({ checked, checked_boolean: checkedBoolean });
+    this.props.onCategoryChange(catFilters);
   }
 
   render() {
-    console.log(this.state.categories);
+    const buttonType = { primary: true, secondary: false };
+    let popOver = '';
+    let checkBoxes = '';
+    if (this.props.openCategoryFilter) {
+      buttonType.primary = false;
+      buttonType.secondary = true;
+      checkBoxes = this.props.catList.map((category) => {
+        return (
+          <Checkbox
+            label={category.label}
+            onCheck={this.handleChange}
+            checked={this.state.checked_boolean[category.value - 1]}
+            value={category.label}
+            id={category.label}
+            key={category.value}
+          />
+        );
+      });
+      checkBoxes.push(
+        <Checkbox
+          label="All Categories"
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[this.props.catList.length]}
+          value="All Categories"
+          id="All Categories"
+          key={this.props.catList.length + 1}
+        />
+      );
+      popOver = (<Popover className="checkbox"
+        style={this.props.styles.checkboxStyle}
+        open={this.props.openCategoryFilter}
+        anchorEl={this.props.anchorEl}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+        onRequestClose={this.props.openFilter}
+      >
+        {checkBoxes}
+      </Popover>);
+    }
+
     return (
-      <div className="add-event-form" style={{ height: '70px' }}>
-        <div className="add-event-fields">
-          <Select multi joinValues
-            options={this.dropdownValues}
-            value={this.state.categories}
-            onChange={this.handleChange}
-            placeholder="Enter Categories to find Events"
+      <div className="filter">
+        <div className="multiselect">
+          <RaisedButton className="block"
+            {...buttonType}
+            style={this.props.styles.buttonStyle}
+            onTouchTap={this.props.openFilter}
+            label="Filter by Category"
           />
         </div>
+        {popOver}
       </div>
     );
   }

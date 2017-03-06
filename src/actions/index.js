@@ -81,7 +81,9 @@ export function createEvent(event, jwt) {
 export function filterEvents(filters) {
   return {
     type: ActionTypes.FILTER_EVENTS,
-    payload: { filters },
+    payload: {
+      filters: Object.assign({}, filters),
+    },
   };
 }
 
