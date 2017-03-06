@@ -7,7 +7,6 @@ import $ from 'jquery';
 import { Tabs, Tab, Menu, MenuItem, Card, Avatar, Drawer } from 'material-ui';
 import { zIndex } from 'material-ui/styles';
 import CancelNavigation from 'material-ui/svg-icons/navigation/cancel';
-import RefreshNavigation from 'material-ui/svg-icons/navigation/refresh';
 
 // import the redux actions
 import { logout } from '../actions';

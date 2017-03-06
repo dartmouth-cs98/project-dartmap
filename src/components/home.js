@@ -5,7 +5,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { IconButton } from 'material-ui';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
+import MapsNavigation from 'material-ui/svg-icons/maps/navigation';
 
 // import the react Components
 import EventList from './event_list';
@@ -32,6 +34,7 @@ class Home extends Component {
       selectedLocation: null,
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
+      showBtns: false,
     };
   }
 
@@ -46,7 +49,6 @@ class Home extends Component {
     // Listener that resizes the map, if the user changes the window dimensions.
     console.log("mounting");
     window.addEventListener('resize', this.onResize);
-
   }
 
   componentWillUnmount () {
@@ -65,13 +67,13 @@ class Home extends Component {
     }
   }
 
-  getEvents = () => {
-    this.props.fetchEvents(this.props.latitude, this.props.longitude, RADIUS);
-  }
-
   onResize() {
     this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
     this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
+  }
+
+  getEvents = () => {
+    this.props.fetchEvents(this.props.latitude, this.props.longitude, RADIUS);
   }
 
   closeAddEventDialog = () => {
@@ -89,9 +91,37 @@ class Home extends Component {
 
   toggleGeolocation = () => {
     this.setState({ showModal: !this.state.showModal });
+    this.setState({ showBtns: false });
+  }
+
+  toggleSettings = () => {
+    this.setState({ showBtns: !this.state.showBtns });
+  }
+
+  refocusLocation = () => {
+
+    this.setState({ showBtns: false });
   }
 
   render() {
+    let SettingsButton;
+    if (this.state.showBtns) {
+      SettingsButton = (
+        <div>
+          <IconButton className="geoButtonSub" style={{ position: 'absolute', marginTop: '10px' }} onClick={this.refocusLocation}>
+            <MapsMyLocation />
+          </IconButton>
+          <IconButton className="geoButtonSubSub" style={{ position: 'absolute', marginTop: '20px' }} onClick={this.toggleGeolocation}>
+            <MapsNavigation />
+          </IconButton>
+        </div>
+      );
+    } else {
+      SettingsButton = (
+        <div />
+      );
+    }
+
     return (
       <div className="home-container" style={{ marginTop: '60px' }}>
         <EventList
@@ -104,9 +134,10 @@ class Home extends Component {
             height={this.state.mapHeight}
             width={this.state.mapWidth}
           />
-          <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleGeolocation}>
-            <MapsMyLocation />
+          <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleSettings}>
+            <ActionSettings />
           </IconButton>
+          {SettingsButton}
         </div>
         <FilterContainer />
         <AddEventDialog
