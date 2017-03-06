@@ -2,6 +2,8 @@
 
 //Imports
 @import "./variables.scss";
+@import "./nav_bar.scss";
+@import "./map.scss";
 @import "./add_event.scss";
 @import "./event_list.scss";
 @import "./input_field.scss";
@@ -24,7 +26,6 @@ hr {
     padding: 0;
 }
 
-
 #main, .app-container {
   height: inherit;
   min-width: 768px;
@@ -34,193 +35,20 @@ hr {
   background-color: white;
 }
 
-// Top Navigation Bar
-#nav-bar {
-  background-color: white;
-  color: $green;
-  font-size: 30pt;
-  height: $nav-bar-height;
-  line-height: $nav-bar-height;
-  padding: 0 15px;
-  position: fixed; /* Set the navbar to fixed position */
-  top: 0; /* Position the navbar at the top of the page */
-  width: 100%;
-
-  box-shadow: 0px 5px 10px -5px black;
-  -webkit-box-shadow: 0px 5px 10px -5px black;
-  -moz-box-shadow: 0px 5px 10px -5px black;
-  z-index: 1250;
-
-  @include flex-space-between;
-  @include flex-box;
-  @include flex-align-center;
-
-  // This is (currently) the dartmap logo in the nav bar
-  h1 {
-    display: inline-block;
-    position: relative;
-    left: 8px;
-  }
-
-  // This is (currently) the user's name from facebook in the nav bar
-  h2 {
-    color: #337ab7;
-    font-size: 15pt;
-    margin-bottom: 0;
-    margin: initial;
-    line-height: $nav-bar-height;
-    right: 8px;
-  }
-
-  #logo {
-    height: $nav-bar-height;
-    width: $nav-bar-height;
-  }
-}
-
-.nav-wrapper .mappit img {
-    height: 64px;
-}
-
-.nav-wrapper h1{
-  height: 64px;
-}
-
-.nav-menu-right{
-  position: relative;
-  display: inherit;
-  right: 20px;
-}
-
-.nav-btn {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 0;
-
-  &:hover, &:focus {
-    color: black;
-    outline: none;
-  }
-}
-
 side-drawer {
   position: relative;
   height: inherit;
   width: inherit;
 }
 
-.fb-user {
-  background-color: #3b5998;
-  border: 0px;
-  color: white;
-  font-family: 'Lucida Grande';
-  font-size: 12px;
-  height: $nav-bar-height/2;
-  line-height: $nav-bar-height/2;
-  vertical-align: middle;
-  width: 140px;
-  &:hover {
-    cursor: pointer;
-    opacity: .8;
-  }
-}
-
-.user-menu {
-  position: relative;
-  right: 70px;
-  top: -10px;
-  background-color: white;
-  box-shadow: 0px 0px 5px #000000;
-  color: black;
-  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  font-size: 10pt;
-  width: 140px;
-  z-index: 20;
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.user-menu-item-container {
-  width: 100%;
-  &:hover {
-    background-color: $light-grey;
-    cursor: pointer;
-    text-decoration: none;
-  }
-}
-
-.user-menu-item-text {
-  padding-left: 8px;
-}
-
-#user-link {
-  display: inline-block;
-  font-size: 10pt;
-}
-
-#fb-pic {
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  box-shadow: 0px 0px 5px #000000;
-  height: 36px;
-  width: 36px;
-}
-
-.user-nav-btn {
-  width: 140px;
-  height: $nav-bar-height - 5px;
-  background-color: white;
-  border: 0;
-  padding: 0;
-  &:focus {
-
-  }
-}
-
-.nav-menu-container {
-  width: 140px;
-  height: $nav-bar-height;
-  display: inline-block;
-  position: relative;
-  left: 15px;
-}
-
-// This is (currently) the add event button
-.add-event-plus {
-  background-color: white;
-  border: 1px solid;
-  border-radius: 20px;
-  float: right;
-  font-size: 20pt;
-  height: 100%;
-  line-height: 100%;
-  margin-bottom: 10px;
-
-  &:hover {
-    background-color: $light-grey;
-    cursor: pointer;
-  }
-}
-
-#plus {
-  height: 30px;
-  width: 30px;
-  margin-left: 20px;
-}
-
 // Button for a user to delete an event
 .user-delete-event {
   background-color: #BD1919;
   border: 1px solid;
-  /*border-radius: 20px;*/
-  /*float: right;*/
   text-align: center;
   font-size: 18pt;
   height: 100%;
   line-height: 100%;
-  /*margin-bottom: 10px;*/
 
   &:hover {
     background-color: #FF0000;
@@ -232,13 +60,10 @@ side-drawer {
 .user-change-event-location {
   background-color: #23ABD9;
   border: 1px solid;
-  /*border-radius: 20px;*/
-  /*float: right;*/
   text-align: center;
   font-size: 8pt;
   height: 100%;
   line-height: 100%;
-  /*margin-bottom: 10px;*/
 
   &:hover {
     background-color: #00BFFF;
@@ -250,13 +75,10 @@ side-drawer {
 .user-edit-event {
   background-color: #00B800;
   border: 1px solid;
-  /*border-radius: 20px;*/
-  /*float: right;*/
   text-align: center;
   font-size: 18pt;
   height: 100%;
   line-height: 100%;
-  /*margin-bottom: 10px;*/
 
   &:hover {
     background-color: #00FF00;
@@ -269,53 +91,6 @@ side-drawer {
   height: 90%;
   background-color: white;
   position: relative;
-  top: 5px;
-}
-
-// Map Components
-#map {
-  float: left;
-  padding: 5px;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
-}
-
-.mapAndButton {
-  width: 95%;
-  height: 75%;
-  margin: 16px;
-  position: relative;
-  display: inline-block;
-}
-
-.geoButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.geoButtonSub {
-  position: absolute;
-  top: 30px;
-  right: 10px;
-}
-
-.geoButtonSubSub {
-  position: absolute;
-  top: 50px;
-  right: 10px;
-}
-
-.map-event-img {
-  height: 20px;
-  width: 20px;
-  position: relative;
-  z-index: 13;
-}
-
-.popup-icon {
-  height: 20px;
-  width: 20px;
-  margin-right: 5px;
 }
 
 #user-event-menu {
@@ -372,41 +147,6 @@ side-drawer {
   padding-top: 8px;
   width: 100%;
   font-size: 15px;
-}
-
-.uspg-map {
-  width: 35%;
-  height: 200px;
-  float: right;
-}
-
-.popup {
-  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  font-size: 1rem;
-  background-color: white;
-  border: 1px solid;
-  border-color: #337ab7;
-  box-shadow: 0 0 8px 2px #888;
-  color: black;
-  padding: 5px;
-  position: relative;
-  margin-left: 6px;
-  margin-top: 6px;
-  width: 350px;
-  z-index: 15;
-  @include flex-box;
-  @include flex-column;
-
-  hbar {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-}
-
-.popup-location {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-top: 0;
 }
 
 .description {
