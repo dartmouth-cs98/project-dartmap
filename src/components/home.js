@@ -5,7 +5,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { IconButton } from 'material-ui';
+import ActionSettings from 'material-ui/svg-icons/action/settings';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
+import MapsNavigation from 'material-ui/svg-icons/maps/navigation';
 
 // import the react Components
 import EventList from './event_list';
@@ -15,7 +17,7 @@ import FilterContainer from './filter_container';
 import LocationDialog from './location_dialog';
 
 // import the redux actions
-import { fetchEvents, getLocation, clearBalloons } from '../actions';
+import { fetchEvents, getLocation, clearBalloons, setMapCenter } from '../actions';
 
 const MAP_HEIGHT_MULTIPLIER = 0.75;
 const MAP_WIDTH_MULTIPLIER = 0.95;
@@ -32,6 +34,8 @@ class Home extends Component {
       selectedLocation: null,
       mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
       mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
+      showBtns: false,
+      refocus: false,
     };
   }
 
@@ -64,13 +68,13 @@ class Home extends Component {
     }
   }
 
-  getEvents = () => {
-    this.props.fetchEvents(this.props.latitude, this.props.longitude, RADIUS);
-  }
-
   onResize() {
     this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
     this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
+  }
+
+  getEvents = () => {
+    this.props.fetchEvents(this.props.latitude, this.props.longitude, RADIUS);
   }
 
   closeAddEventDialog = () => {
@@ -88,9 +92,41 @@ class Home extends Component {
 
   toggleGeolocation = () => {
     this.setState({ showModal: !this.state.showModal });
+    this.setState({ showBtns: false });
+  }
+
+  toggleSettings = () => {
+    this.setState({ showBtns: !this.state.showBtns });
+  }
+
+  refocusLocation = () => {
+    this.props.setMapCenter({ lat: this.props.latitude, lng: this.props.longitude });
+    this.setState({ showBtns: false });
   }
 
   render() {
+    let SettingsButton;
+    if (this.state.showBtns) {
+      SettingsButton = (
+        <div>
+          <IconButton className="refocusButton" style={{ position: 'absolute', marginRight: '15px' }}
+            onClick={this.refocusLocation} tooltipPosition="bottom-center" tooltip="Refocus Map"
+          >
+            <MapsMyLocation />
+          </IconButton>
+          <IconButton className="zipcodeButton" style={{ position: 'absolute', marginRight: '30px' }}
+            onClick={this.toggleGeolocation} tooltipPosition="bottom-center" tooltip="Change Location"
+          >
+            <MapsNavigation />
+          </IconButton>
+        </div>
+      );
+    } else {
+      SettingsButton = (
+        <div />
+      );
+    }
+
     return (
       <div className="home-container" style={{ marginTop: '60px' }}>
         <FilterContainer />
@@ -104,10 +140,12 @@ class Home extends Component {
           <MapContainer
             height={this.state.mapHeight}
             width={this.state.mapWidth}
+            centerLocation={{ lat: this.props.latitude, lng: this.props.longitude }}
           />
-          <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleGeolocation}>
-            <MapsMyLocation />
+          <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleSettings}>
+            <ActionSettings />
           </IconButton>
+          {SettingsButton}
         </div>
 
         <AddEventDialog
@@ -127,11 +165,10 @@ const mapStateToProps = state => (
     latitude: state.user.latitude,
     longitude: state.user.longitude,
     user: state.user,
-    // eventData: state.events,
     mapCenter: state.map.center,
   }
 );
 
-const mapDispatchToProps = { fetchEvents, getLocation, clearBalloons };
+const mapDispatchToProps = { fetchEvents, getLocation, clearBalloons, setMapCenter };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
