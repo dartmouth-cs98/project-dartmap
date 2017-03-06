@@ -33,12 +33,9 @@ class AddEventDialog extends Component {
       currentPage: 0,
       image_url: ['https://s23.postimg.org/mh7ui2tqj/no_image.png'],
     };
-    this.handlePageData = this.handlePageData.bind(this);
-    this.submitEventData = this.submitEventData.bind(this);
-    this.resetState = this.resetState.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
-  resetState() {
+
+  resetState = () => {
     this.setState({
       name: null,
       organizer: null,
@@ -54,14 +51,16 @@ class AddEventDialog extends Component {
       image_url: ['https://s23.postimg.org/mh7ui2tqj/no_image.png'],
     });
   }
-  handlePageData(data) {
+
+  handlePageData = (data) => {
     if (data.currentPage === this.pageCode.length) {
       this.setState(data, this.submitEventData);
     } else {
       this.setState(data);
     }
   }
-  submitEventData() {
+  submitEventData = () => {
+    console.log(this.props.jwt);
     const data = {
       name: this.state.name,
       organizer: this.state.organizer,
@@ -79,11 +78,12 @@ class AddEventDialog extends Component {
     this.props.createEvent(data, this.props.jwt);
     this.props.handleAddEventData();
   }
-  handleClose() {
+  handleClose = () => {
     this.resetState();
     this.props.closeAddEventDialog();
   }
   render() {
+    console.log(this.props.jwt);
     const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description, location_string: this.state.location_string };
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
     const page3Data = { location: this.state.location };
@@ -104,10 +104,10 @@ class AddEventDialog extends Component {
             className="add-event-cover"
             title="Add new event"
             modal={false}
-            autoScrollBodyContent={true}
+            autoScrollBodyContent
             open={this.props.addEvent}
             onRequestClose={this.handleClose}
-            titleStyle={{borderBottom: 0}}
+            titleStyle={{ borderBottom: 0 }}
           >
             <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
             {this.pageCode[this.state.currentPage]}

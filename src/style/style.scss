@@ -90,8 +90,8 @@ side-drawer {
 .home-container {
   height: 90%;
   background-color: white;
-  position: relative;
-  margin-top: 60px;
+  position: fixed;
+  top: 60px;
 }
 
 .main-container {

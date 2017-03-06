@@ -33,20 +33,22 @@ class FilterContainer extends Component {
 
   onDateChange = (selectedDate) => {
     this.setState({ selectedDate });
-    const filters = Object.assign({}, this.state, { selectedDate });
+    const filters = Object.assign({}, this.state);
+    filters.selectedDate = selectedDate.slice();
     this.applyFilters(filters);
   }
 
   onTimeChange = (selectedTime) => {
     this.setState({ selectedTime });
-    const filters = Object.assign({}, this.state, { selectedTime });
+    const filters = Object.assign({}, this.state);
+    filters.selectedTime = selectedTime.slice();
     this.applyFilters(filters);
   }
 
   onCategoryChange = (selectedCategories) => {
     this.setState({ selectedCategories });
     const filters = Object.assign({}, this.state);
-    filters.selectedCategories = selectedCategories;
+    filters.selectedCategories = selectedCategories.slice();
     this.applyFilters(filters);
   }
 

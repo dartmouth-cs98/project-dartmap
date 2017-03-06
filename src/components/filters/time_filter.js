@@ -24,10 +24,8 @@ const TIMES_DATA_DISPLAY = {
 };
 
 class TimeFilter extends Component {
-
   constructor(props) {
     super(props);
-
     this.state = {
       value: [0, 9],
     };
@@ -36,6 +34,7 @@ class TimeFilter extends Component {
   handleChange = (value) => {
     this.setState({ value });
     console.log(value);
+    this.props.onTimeChange(value);
   }
 
   render() {

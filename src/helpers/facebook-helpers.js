@@ -33,14 +33,7 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
     if (fbResponse.authResponse.userID) {
       // if (login) {
       postFbToken((jwt) => {
-        const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture?type=large`;
-        FB.api(fbUserImageUrl, (graphResponse) => {
-          let fbProfPicUrl = null;
-          if (graphResponse && !graphResponse.error) {
-            fbProfPicUrl = graphResponse.data.url;
-          }
-          callbackFunc({ jwt });
-        });
+        callbackFunc({ jwt });
       }, fbResponse.authResponse);
       // }
       getUserByPassword((userInfo) => {
