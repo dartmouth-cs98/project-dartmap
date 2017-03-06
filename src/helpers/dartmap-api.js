@@ -57,9 +57,9 @@ function formatEventDataforAPI(event) {
   eventData.organizer = event.organizer;
   eventData.icon_url = event.icon_url;
   eventData.location_string = event.location_string;
-  eventData.start_time = event.start_time.format('HH:mm');
-  eventData.end_time = event.end_time.format('HH:mm');
-  eventData.date = event.date.format('YYYY-MM-DD');
+  eventData.start_time = moment(event.start_time).format('HH:mm');
+  eventData.end_time = moment(event.end_time).format('HH:mm');
+  eventData.date = moment(event.date).format('YYYY-MM-DD');
   eventData.categories = event.categories.map(cat => cat.label).toString();
   eventData.location_place_id = event.location.placeId;
   eventData.location_name = event.location.name;
@@ -69,7 +69,7 @@ function formatEventDataforAPI(event) {
   return eventData;
 }
 
-export function postNewEvent(dispatch, successAction, errorAction, event) {
+export function postNewEvent(dispatch, successAction, errorAction, event, jwt) {
   const eventData = formatEventDataforAPI(event);
   console.log(eventData);
   const fullUrl = API_URL.concat(EVENT_URL);
@@ -77,6 +77,11 @@ export function postNewEvent(dispatch, successAction, errorAction, event) {
     url: fullUrl,
     jsonp: false,
     type: 'POST',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'POST',
+      'Authorization': 'JWT ' + jwt,
+    },
     data: eventData,
     success: (data) => {
       dispatch({ type: successAction, payload: { data } });
@@ -334,12 +339,17 @@ export function postToS3(s3URL, postData) {
   return response;
 }
 
-export function postComment(dispatch, successAction, errorAction, commentURL, postData) {
+export function postComment(dispatch, successAction, errorAction, commentURL, postData, jwt) {
   const response = $.ajax({
     url: commentURL,
     jsonp: false,
     type: 'POST',
     data: postData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'POST',
+      'Authorization': 'JWT ' + jwt,
+    },
     success: (data) => {
       console.log(data);
       dispatch({ type: successAction, payload: {} });
@@ -406,13 +416,18 @@ export function deleteComment(dispatch, successAction, errorAction, commentURL) 
   return response;
 }
 
-export function postRSVP(postData) {
+export function postRSVP(postData, jwt) {
   const fullUrl = API_URL.concat(RSVP_URL);
   const response = $.ajax({
     url: fullUrl,
     jsonp: false,
     type: 'POST',
     data: postData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'POST',
+      'Authorization': 'JWT ' + jwt,
+    },
     success: (data) => {
       console.log(data);
       return data;
@@ -424,7 +439,7 @@ export function postRSVP(postData) {
   return response;
 }
 
-export function deleteRSVP(deleteData) {
+export function deleteRSVP(deleteData, jwt) {
   const fullUrl = API_URL.concat(RSVP_URL);
   const response = $.ajax({
     url: fullUrl,
@@ -434,6 +449,7 @@ export function deleteRSVP(deleteData) {
     headers: {
       'Access-Control-Allow-Headers': 'X-Custom-Header',
       'Access-Control-Allow-Methods': 'DELETE',
+      'Authorization': 'JWT ' + jwt,
     },
     success: (data) => {
       console.log(data);
