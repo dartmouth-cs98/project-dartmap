@@ -36,11 +36,6 @@ class MapBalloon extends Component {
     this.popUp = [];
     for (let i = 0; i < this.events.length; i += 1) {
       const event = this.events[i];
-      if (i === 0) {
-        this.popUp.push(
-          <Subheader key='event-location-name'>Events at {event.location_name}</Subheader>
-        );
-      }
       key = 'balloon'.concat(event.id);
       this.popUp.push(
         <MapBalloonEvent event={event} num={this.events.length} key={key} />
@@ -53,6 +48,7 @@ class MapBalloon extends Component {
           x
         </div>
         <div className="popup">
+          <Subheader key='event-location-name'>Events at {this.events[0].location_name}</Subheader>
           <div className="map-event-list">
             {this.popUp}
           </div>

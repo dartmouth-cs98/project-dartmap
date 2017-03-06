@@ -26,7 +26,7 @@ const EventListItem = (props) => {
           value={props.num}
           primaryText={props.event.name}
           secondaryText={
-            <text className="attribute">
+            <text>
               {startTimeString} ~ {endTimeString} <br />
               {props.event.location_name}
             </text>
