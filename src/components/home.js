@@ -17,7 +17,7 @@ import FilterContainer from './filter_container';
 import LocationDialog from './location_dialog';
 
 // import the redux actions
-import { fetchEvents, getLocation, clearBalloons } from '../actions';
+import { fetchEvents, getLocation, clearBalloons, setMapCenter } from '../actions';
 
 const MAP_HEIGHT_MULTIPLIER = 0.75;
 const MAP_WIDTH_MULTIPLIER = 0.95;
@@ -99,7 +99,7 @@ class Home extends Component {
   }
 
   refocusLocation = () => {
-
+    this.props.setMapCenter({ lat: this.props.latitude, lng: this.props.longitude });
     this.setState({ showBtns: false });
   }
 
@@ -162,6 +162,6 @@ const mapStateToProps = state => (
   }
 );
 
-const mapDispatchToProps = { fetchEvents, getLocation, clearBalloons };
+const mapDispatchToProps = { fetchEvents, getLocation, clearBalloons, setMapCenter };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
