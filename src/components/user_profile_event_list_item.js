@@ -44,21 +44,24 @@ class UserEventListItem extends Component {
     this.state = {
       editing: false,
       editEventButtonText: 'Edit',
-      // selectedMarker: null,
+      selectedMarker: null,
       eventName: this.props.event.name,
       eventOrganizer: this.props.event.organizer,
       eventDescription: this.props.event.description,
       eventStartTime: this.props.event.start_time.toDate(),
       eventEndTime: this.props.event.end_time.toDate(),
-      eventLocation: this.props.event.location_name,
       eventCategories: this.selectedCategories,
       eventCategoriesString: catString,
       eventLocationLng: this.props.event.lng,
       eventLocationLat: this.props.event.lat,
       eventLocationName: this.props.event.location_name,
       eventLocationString: this.props.event.location_string,
+      eventLocationPlaceId: this.props.event.placeId,
       eventIconUrl: this.props.event.icon_url,
     };
+    console.log('THE STATE');
+    console.log(this.state);
+    console.log(this.props.event);
     this.map = null;
     this.marker = null;
     this.editMap = null;
@@ -68,7 +71,7 @@ class UserEventListItem extends Component {
     this.editMarker = null;
     this.editMarkers = [];
     this.infoWindow = null;
-    this.htmlHasLoaded = false;
+    // this.htmlHasLoaded = false;
     this.confirmDelete = this.confirmDelete.bind(this);
     this.editingEvent = this.editingEvent.bind(this);
     this.isValidTime = this.isValidTime.bind(this);
@@ -115,8 +118,14 @@ class UserEventListItem extends Component {
       toSend.description = this.state.eventDescription;
       toSend.start_time = moment(this.state.eventStartTime).format('HH:mm');
       toSend.end_time = moment(this.state.eventEndTime).format('HH:mm');
-      toSend.location_name = this.state.eventLocation;
       toSend.location_string = this.state.eventLocationString;
+      const location = {
+        name: this.state.eventLocationName,
+        latitude: this.state.eventLocationLat,
+        longitude: this.state.eventLocationLng,
+        place_id: this.state.eventLocationPlaceId,
+      };
+      toSend.location = location;
       // format the categories to send
       let catsToSend = '';
       for (let i = 0; i < this.state.eventCategories.length; i += 1) {
@@ -137,7 +146,6 @@ class UserEventListItem extends Component {
         editing: true,
         editEventButtonText: 'Save',
       });
-      
     }
   }
 
@@ -270,12 +278,10 @@ class UserEventListItem extends Component {
       const pos = this.editMarker.getPosition();
       this.setState({
         selectedMarker: this.editMarker,
-        location: {
-          placeId: place.place_id,
-          name: place.name,
-          lat: pos.lat(),
-          lng: pos.lng(),
-        },
+        eventLocationPlaceId: place.place_id,
+        eventLocationName: place.name,
+        eventLocationLng: pos.lng(),
+        eventLocationLat: pos.lat(),
       });
       this.editMarker.setVisible(true);
     });
@@ -303,14 +309,18 @@ class UserEventListItem extends Component {
     });
     this.gMaps.event.addListener(marker, 'click', () => {
       this.createInfoWindow(name, marker);
+      console.log('THE MARKER');
+      console.log(marker);
       const pos = marker.getPosition();
       this.setState({
         selectedMarker: marker,
-        eventLocationLng: pos.lat(),
-        eventLocationLat: pos.lng(),
+        eventLocationLng: pos.lng(),
+        eventLocationLat: pos.lat(),
         eventLocationName: name,
+        eventLocationPlaceId: placeId,
       });
     });
+    console.log(this.state.eventLocationLat);
     return marker;
   }
 
@@ -363,11 +373,11 @@ class UserEventListItem extends Component {
 
     // if user is editing this event
     if (this.state.editing) {
-      if (this.htmlHasLoaded) {
-        document.getElementById('uspg-editmap-' + this.props.event.id).className = 'uspg-map';
-        document.getElementById('uspg-map-' + this.props.event.id).className = 'hidden';
-      }
-      this.htmlHasLoaded = true;
+      // if (this.htmlHasLoaded) {
+      //   document.getElementById('uspg-editmap-' + this.props.event.id).className = 'uspg-map';
+      //   document.getElementById('uspg-map-' + this.props.event.id).className = 'hidden';
+      // }
+      // this.htmlHasLoaded = true;
 
       eventName = (
         <TextField style={{ height: '33px' }}
@@ -396,10 +406,7 @@ class UserEventListItem extends Component {
         </div>
       );
       eventLocationString = (
-        <input
-          className="eventLocationString"
-          type="text"
-          placeholder="*  Room name/location"
+        <TextField style={{ height: '33px' }}
           defaultValue={this.state.eventLocationString}
           onChange={event => this.setState({ eventLocationString: event.target.value })}
         />
@@ -431,11 +438,11 @@ class UserEventListItem extends Component {
         />
       );
     } else {
-      if (this.htmlHasLoaded) {
-        document.getElementById('uspg-editmap-'.concat(this.props.event.id)).className = 'hidden';
-        document.getElementById('uspg-map-'.concat(this.props.event.id)).className = 'uspg-map';
-      }
-      this.htmlHasLoaded = true;
+      // if (this.htmlHasLoaded) {
+      //   document.getElementById('uspg-editmap-'.concat(this.props.event.id)).className = 'hidden';
+      //   document.getElementById('uspg-map-'.concat(this.props.event.id)).className = 'uspg-map';
+      // }
+      // this.htmlHasLoaded = true;
       eventName = (
         <h6 style={{ display: 'inline' }} className="name">
           {this.state.eventName}
@@ -452,14 +459,9 @@ class UserEventListItem extends Component {
         </div>
       );
       eventLocationString = (
-        <div>
-          <text className="attributeTitle">
-            <br />Location:&nbsp;
-          </text>
-          <text className="attribute">
-            {this.state.eventLocationString}<br />
-          </text>
-        </div>
+        <text className="attribute">
+          {this.state.eventLocationString}<br />
+        </text>
       );
       eventOrganizer = (
         <text className="attribute">
@@ -494,7 +496,12 @@ class UserEventListItem extends Component {
             {eventName}
           </div>
           {eventTime}
-          {eventLocationString}
+          <div>
+            <text className="attributeTitle">
+              <br />Location/Room:&nbsp;
+            </text>
+            {eventLocationString}
+          </div>
           <div>
             <text className="attributeTitle">
               <br />Organizer:&nbsp;
