@@ -55,6 +55,9 @@
   width: 350px;
   height: 250px;
   max-height: 250px;
+
+  @include flex-box;
+  @include flex-column;
 }
 
 .popup {
