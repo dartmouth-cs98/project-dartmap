@@ -4,10 +4,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { IconButton } from 'material-ui';
+import { IconButton, FloatingActionButton } from 'material-ui';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import MapsMyLocation from 'material-ui/svg-icons/maps/my-location';
 import MapsNavigation from 'material-ui/svg-icons/maps/navigation';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 // import the react Components
 import EventList from './event_list';
@@ -19,8 +20,6 @@ import LocationDialog from './location_dialog';
 // import the redux actions
 import { fetchEvents, getLocation, clearBalloons, setMapCenter } from '../actions';
 
-const MAP_HEIGHT_MULTIPLIER = 0.75;
-const MAP_WIDTH_MULTIPLIER = 0.95;
 const RADIUS = 10000;
 
 class Home extends Component {
@@ -32,8 +31,8 @@ class Home extends Component {
       showModal: false,
       // State variables used for the map.
       selectedLocation: null,
-      mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px'),
-      mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px'),
+      mapHeight: (window.innerHeight - 100).toString().concat('px'),
+      mapWidth: (window.innerWidth).toString().concat('px'),
       showBtns: false,
       refocus: false,
     };
@@ -69,8 +68,8 @@ class Home extends Component {
   }
 
   onResize() {
-    this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
-    this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
+    this.setState({ mapHeight: (window.innerHeight - 100).toString().concat('px') });
+    this.setState({ mapWidth: (window.innerWidth).toString().concat('px') });
   }
 
   getEvents = () => {
@@ -128,26 +127,30 @@ class Home extends Component {
     }
 
     return (
-      <div className="home-container" style={{ marginTop: '60px' }}>
+      <div className="home-container">
         <FilterContainer />
-        <EventList
-          toggleAddEvent={this.toggleAddEvent}
-          selectedLocation={this.state.selectedLocation}
-          toggleGeolocation={this.toggleGeolocation}
-        />
-
-        <div className="mapAndButton">
-          <MapContainer
-            height={this.state.mapHeight}
-            width={this.state.mapWidth}
-            centerLocation={{ lat: this.props.latitude, lng: this.props.longitude }}
+        <div className="main-container" style={{ height: this.state.mapHeight }}>
+          <EventList
+            selectedLocation={this.state.selectedLocation}
+            toggleGeolocation={this.toggleGeolocation}
           />
-          <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleSettings}>
-            <ActionSettings />
-          </IconButton>
-          {SettingsButton}
+          <div className="mapAndButton">
+            <MapContainer
+              height={this.state.mapHeight}
+              width={this.state.mapWidth}
+              centerLocation={{ lat: this.props.latitude, lng: this.props.longitude }}
+            />
+            <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleSettings}>
+              <ActionSettings />
+            </IconButton>
+            {SettingsButton}
+            <div className="add-event-btn-container">
+              <FloatingActionButton onClick={this.toggleAddEvent}>
+                <ContentAdd />
+              </FloatingActionButton>
+            </div>
+          </div>
         </div>
-
         <AddEventDialog
           addEvent={this.state.addEvent}
           handleAddEventData={this.handleAddEventData}

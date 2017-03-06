@@ -84,62 +84,57 @@ class CategoryFilter extends Component {
   }
 
   render() {
-    if (!this.props.openCategoryFilter) {
-      return (
-        <div className="filter">
-          <div className="multiselect">
-            <RaisedButton className="block" primary
-              style={this.props.styles.buttonStyle}
-              onTouchTap={this.props.openFilter}
-              label="Filter by Category"
-            />
-          </div>
-        </div>
-      );
-    }
-    const checkBoxes = this.props.catList.map((category) => {
-      return (
+    const buttonType = { primary: true, secondary: false };
+    let popOver = '';
+    let checkBoxes = '';
+    if (this.props.openCategoryFilter) {
+      buttonType.primary = false;
+      buttonType.secondary = true;
+      checkBoxes = this.props.catList.map((category) => {
+        return (
+          <Checkbox
+            label={category.label}
+            onCheck={this.handleChange}
+            checked={this.state.checked_boolean[category.value - 1]}
+            value={category.label}
+            id={category.label}
+            key={category.value}
+          />
+        );
+      });
+      checkBoxes.push(
         <Checkbox
-          label={category.label}
+          label="All Categories"
           onCheck={this.handleChange}
-          checked={this.state.checked_boolean[category.value - 1]}
-          value={category.label}
-          id={category.label}
-          key={category.value}
+          checked={this.state.checked_boolean[this.props.catList.length]}
+          value="All Categories"
+          id="All Categories"
+          key={this.props.catList.length + 1}
         />
       );
-    });
-    checkBoxes.push(
-      <Checkbox
-        label="All Categories"
-        onCheck={this.handleChange}
-        checked={this.state.checked_boolean[this.props.catList.length]}
-        value="All Categories"
-        id="All Categories"
-        key={this.props.catList.length + 1}
-      />
-    );
-    console.log(checkBoxes);
+      popOver = (<Popover className="checkbox"
+        style={this.props.styles.checkboxStyle}
+        open={this.props.openCategoryFilter}
+        anchorEl={this.props.anchorEl}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+        onRequestClose={this.props.openFilter}
+      >
+        {checkBoxes}
+      </Popover>);
+    }
 
     return (
       <div className="filter">
         <div className="multiselect">
-          <RaisedButton className="block" secondary
+          <RaisedButton className="block"
+            {...buttonType}
             style={this.props.styles.buttonStyle}
             onTouchTap={this.props.openFilter}
             label="Filter by Category"
           />
         </div>
-        <Popover className="checkbox"
-          style={this.props.styles.checkboxStyle}
-          open={this.props.openCategoryFilter}
-          anchorEl={this.props.anchorEl}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-          onRequestClose={this.props.openFilter}
-        >
-          {checkBoxes}
-        </Popover>
+        {popOver}
       </div>
     );
   }

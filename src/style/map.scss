@@ -9,9 +9,8 @@
 }
 
 .mapAndButton {
-  width: 95%;
-  height: 75%;
-  margin: 16px;
+  width: 100%;
+  height: 100%;
   position: relative;
   display: inline-block;
 }
@@ -20,6 +19,13 @@
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+.add-event-btn-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
 }
 
 .refocusButton {

@@ -72,7 +72,7 @@ class CommentBox extends React.Component {
 const mapStateToProps = state => (
   {
     currentEvent: state.events.currentEvent,
-    data: state.events.currentEvent.comments,
+    data: state.events.currentEvent && state.events.currentEvent.comments,
     jwt: state.user.jwt,
     user: state.user,
   }
