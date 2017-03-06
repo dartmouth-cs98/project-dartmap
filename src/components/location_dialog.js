@@ -11,7 +11,7 @@ class LocationDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      zipcode: '',
+      zipcode: null,
       showModal: false,
     };
     this.submitModalData = this.submitModalData.bind(this);
@@ -41,12 +41,12 @@ class LocationDialog extends Component {
     const actions = [
       <FlatButton
         label="Cancel"
-        primary
         onTouchTap={this.handleClose}
       />,
       <FlatButton
         label="Submit"
         primary
+        disabled={(!this.state.zipcode)}
         onTouchTap={this.submitModalData}
       />,
     ];
