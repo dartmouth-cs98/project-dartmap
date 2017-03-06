@@ -348,7 +348,6 @@ export function getComments(dispatch, successAction, errorAction, commentURL) {
     },
     error: (xhr, status, err) => {
       console.error(commentURL, status, err);
-      console.log('---', err);
     },
   });
   return response;

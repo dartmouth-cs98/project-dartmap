@@ -23,6 +23,7 @@ class CommentForm extends React.Component {
     this.setState({
       text: '',
     });
+    this.refs.comment.getInputNode().value = '';
   }
 
   handleTextChange = (event) => {
@@ -50,7 +51,7 @@ class CommentForm extends React.Component {
         leftAvatar={<Avatar src={profPicUrl} />}
         primaryText={
           <div>
-            <TextField style={styles.text} floatingLabelText="Add Comment" onChange={this.handleTextChange} />
+            <TextField id='comment-text-field' ref='comment' style={styles.text} floatingLabelText="Add Comment" onChange={this.handleTextChange} />
             <RaisedButton
               label="Post" primary
               onTouchTap={this.handleSubmit}
