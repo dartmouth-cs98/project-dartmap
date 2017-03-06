@@ -225,7 +225,7 @@ class EventPage extends Component {
     if(images.length > 1){
       showGallery = true;
     }
-    const dateString = this.state.event.date.format('dddd MMMM Do YYYY');
+    const dateString = this.state.event.date.format('dddd, MMMM Do YYYY');
     const startString = this.state.event.start_time.format('h:mma');
     const endString = this.state.event.end_time.format('h:mma');
     const categoryString = this.state.event.categories.map((cat) => {
