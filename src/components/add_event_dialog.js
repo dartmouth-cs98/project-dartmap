@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Dialog from 'material-ui/Dialog';
 
 import AddEventPage1 from './add_events/add_event_page_1';
 import AddEventPage2 from './add_events/add_event_page_2';
@@ -30,7 +31,7 @@ class AddEventDialog extends Component {
       categories: null,
       icon: null,
       currentPage: 0,
-      image_url: ['https://s27.postimg.org/o2c50l3fn/default.png'],
+      image_url: ['https://s23.postimg.org/mh7ui2tqj/no_image.png'],
     };
     this.handlePageData = this.handlePageData.bind(this);
     this.submitEventData = this.submitEventData.bind(this);
@@ -50,7 +51,7 @@ class AddEventDialog extends Component {
       categories: [],
       icon: null,
       currentPage: 0,
-      image_url: ['https://s27.postimg.org/o2c50l3fn/default.png'],
+      image_url: ['https://s23.postimg.org/mh7ui2tqj/no_image.png'],
     });
   }
   handlePageData(data) {
@@ -98,17 +99,19 @@ class AddEventDialog extends Component {
 
     if (this.props.addEvent) {
       return (
-        <div className="add-event-cover">
-          <div id="add-event">
-            <div className="add-event-top">
-              <div>
-                <h1>Add new event</h1>
-                <div id="close-button" onClick={this.handleClose}>x</div>
-              </div>
-              <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
-            </div>
+        <div>
+          <Dialog
+            className="add-event-cover"
+            title="Add new event"
+            modal={false}
+            autoScrollBodyContent={true}
+            open={this.props.addEvent}
+            onRequestClose={this.handleClose}
+            titleStyle={{borderBottom: 0}}
+          >
+            <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
             {this.pageCode[this.state.currentPage]}
-          </div>
+          </Dialog>
         </div>
       );
     }

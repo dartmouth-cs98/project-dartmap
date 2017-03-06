@@ -57,9 +57,9 @@ function formatEventDataforAPI(event) {
   eventData.organizer = event.organizer;
   eventData.icon_url = event.icon_url;
   eventData.location_string = event.location_string;
-  eventData.start_time = event.start_time.format('HH:mm');
-  eventData.end_time = event.end_time.format('HH:mm');
-  eventData.date = event.date.format('YYYY-MM-DD');
+  eventData.start_time = moment(event.start_time).format('HH:mm');
+  eventData.end_time = moment(event.end_time).format('HH:mm');
+  eventData.date = moment(event.date).format('YYYY-MM-DD');
   eventData.categories = event.categories.map(cat => cat.label).toString();
   eventData.location_place_id = event.location.placeId;
   eventData.location_name = event.location.name;
