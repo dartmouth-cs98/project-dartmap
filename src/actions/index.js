@@ -64,6 +64,13 @@ export function fetchEvents(latitude, longitude) {
   };
 }
 
+export function fetchEventsById(ids) {
+  return (dispatch) => {
+    dartmapApi.getAllEventsById(dispatch, ActionTypes.FETCH_EVENTS,
+      ActionTypes.EVENT_FAIL, ids);
+  };
+}
+
 export function fetchEvent(eventId) {
   return (dispatch) => {
     dartmapApi.getEvent(dispatch, ActionTypes.FETCH_EVENT,

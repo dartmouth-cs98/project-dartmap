@@ -8,7 +8,7 @@ import { zIndex } from 'material-ui/styles';
 import CancelNavigation from 'material-ui/svg-icons/navigation/cancel';
 
 // import the redux actions
-import { logout } from '../actions';
+import { fetchEventsById, logout } from '../actions';
 
 import { getAllEvents } from '../helpers/dartmap-api';
 import UserEventList from './user_profile_event_list';
@@ -20,10 +20,7 @@ class UserPage extends Component {
     super(props);
     this.state = {
       uploadingPhoto: false,
-      eventList: null,
     };
-    this.openUploadPhotoDialog = this.openUploadPhotoDialog.bind(this);
-    this.closeUploadPhotoDialog = this.closeUploadPhotoDialog.bind(this);
     this.sortEventList = this.sortEventList.bind(this);
     this.logout = this.logout.bind(this);
   }
@@ -32,16 +29,20 @@ class UserPage extends Component {
     console.log('Button clicked ', eventId);
   }
 
-  openUploadPhotoDialog() {
-    this.setState({ uploadingPhoto: true });
+  getSubmittedEvents = () => {
+    if (this.props.RSVPEvents == null && this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
+      const arr = eval(this.props.user.userInfo[0].rsvpevents);
+      const idString = arr.toString();
+      this.props.fetchEventsById(idString);
+    }
   }
 
-  closeUploadPhotoDialog() {
-    this.setState({ uploadingPhoto: false });
-  }
-
-  sortEventList(eventList) {
-    return eventList.sort(sortDateTimeReverse);
+  getRSVPEvents = () => {
+    if (this.props.RSVPEvents == null && this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
+      const arr = eval(this.props.user.userInfo[0].rsvpevents);
+      const idString = arr.toString();
+      this.props.fetchEventsById(idString);
+    }
   }
 
   logout() {
@@ -49,8 +50,21 @@ class UserPage extends Component {
     window.location.replace('../');
   }
 
+  sortEventList(eventList) {
+    if (eventList) {
+      return eventList.sort(sortDateTimeReverse);
+    } else {
+      return eventList;
+    }
+  }
+
   // TODO: fix profile picture source, as well as user name, etc
   render() {
+    if (this.props.RSVPEvents == null) {
+      this.getRSVPEvents();
+      return null;
+    }
+
     if (this.state.eventList == null) {
       getAllEvents((unsortedEventList) => {
         const eventList = this.sortEventList(unsortedEventList.payload.events);
@@ -59,24 +73,19 @@ class UserPage extends Component {
       return null;
     }
 
-// <RaisedButton label="Change Photo" primary onClick={this.openUploadPhotoDialog} />
     return (
       <div>
         <Tabs style={{ marginLeft: '28%', position: 'static', top: 0, width: '72%', marginTop: '60px', zIndex: 1500 }}>
           <Tab label="Submitted Events" href="#SubmitEvents">
             <div className="user-event-list">
               <h1>Your Submitted Events</h1>
-              <UserEventList
-                events={this.state.eventList}
-                onEventListItemClick={this.onEventListItemClick}
-              />
             </div>
           </Tab>
           <Tab label="RSVP'ed Events" href="#RSVPEvents">
             <div className="user-event-list">
               <h1>Your RSVP Events</h1>
               <UserEventList
-                events={this.state.eventList}
+                events={this.sortEventList(this.props.RSVPEvents)}
                 onEventListItemClick={this.onEventListItemClick}
               />
             </div>
@@ -85,7 +94,7 @@ class UserPage extends Component {
         <Drawer
           docked
           open
-          containerStyle={{ zIndex: zIndex.drawer - 100, width: '28%', marginTop: '108px' }}
+          containerStyle={{ zIndex: zIndex.drawer - 100, width: '28%', marginTop: '60px' }}
         >
           <Card style={{ paddingBottom: '25px' }}>
             <Avatar size={25} className="img-responsive center-block" style={{ minWidth: '0%', width: '150px', height: '150px', marginLeft: '125px', marginTop: '25px' }}
@@ -102,11 +111,13 @@ class UserPage extends Component {
   }
 }
 
-const mapDispatchToProps = { logout };
+const mapDispatchToProps = { logout, fetchEventsById };
 
 const mapStateToProps = state => (
   {
     user: state.user,
+    RSVPEvents: state.events.all,
+    SubmittedEvents: state.events.
   }
 );
 

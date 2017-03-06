@@ -192,6 +192,30 @@ export function getAllEvents(dispatch, successAction, errorAction,
   });
 }
 
+export function getAllEventsById(dispatch, successAction, errorAction, idString) {
+  const fullUrl = API_URL.concat(EVENT_URL);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    data: {
+      ids: idString,
+    },
+    dataType: 'json',
+    success: (data) => {
+      const eventList = data.events.map((event) => {
+        return formatAPIEventData(event);
+      });
+      console.log(data);
+      dispatch({ type: successAction, payload: { events: eventList } });
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events GET was not successful.');
+      console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
+    },
+  });
+}
+
 export function getAllCategories(dispatch, successAction, errorAction) {
   const fullUrl = API_URL.concat(CATEGORY_URL);
   $.ajax({
