@@ -40,9 +40,9 @@ class MapContainer extends Component {
     // this.setState({ locations });
   }
 
-  _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
+  _onChange = (center, zoom /* , bounds, marginBounds */) => {
     this.props.setMapCenter({ lat: center[0], lng: center[1] });
-    // this.props.clearBalloons();
+    this.props.clearBalloons();
     this.props.onZoomChange(zoom);
   }
 
@@ -128,6 +128,7 @@ class MapContainer extends Component {
             key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
             libraries: 'places',
           }}
+          options={{ scrollwheel: false}}
           center={this.props.center}
           zoom={this.props.zoom}
           options={this.createMapOptions}

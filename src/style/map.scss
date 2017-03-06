@@ -47,6 +47,25 @@
   z-index: 13;
 }
 
+.map-event-list {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+  flex-grow: 1;
+
+  @include flex-box;
+  @include flex-column;
+}
+
+.map-cover {
+  width: 350px;
+  height: 250px;
+  max-height: 250px;
+
+  @include flex-box;
+  @include flex-column;
+}
+
 .popup {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   font-size: 1rem;
@@ -61,8 +80,13 @@
   margin-top: 6px;
   width: 350px;
   z-index: 15;
+  height: inherit;
+  overflow-y: scroll;
+  flex-grow: 1;
+
   @include flex-box;
   @include flex-column;
+
 
   hbar {
     margin-top: 0;
