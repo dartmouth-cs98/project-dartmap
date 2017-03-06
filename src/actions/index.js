@@ -17,6 +17,7 @@ export const ActionTypes = {
   FETCH_EVENTS: 'FETCH_EVENTS',
   EVENT_FAIL: 'EVENT_FAIL',
   FETCH_EVENT: 'FETCH_EVENT',
+  FETCH_RSVP_EVENTS: 'FETCH_RSVP_EVENTS',
   CREATE_EVENT: 'CREATE_EVENT',
   UPDATE_EVENT: 'UPDATE_EVENT',
   DELETE_EVENT: 'DELETE_EVENT',
@@ -64,9 +65,9 @@ export function fetchEvents(latitude, longitude) {
   };
 }
 
-export function fetchEventsById(ids) {
+export function fetchRSVPdEventsById(ids) {
   return (dispatch) => {
-    dartmapApi.getAllEventsById(dispatch, ActionTypes.FETCH_EVENTS,
+    dartmapApi.getAllEventsById(dispatch, ActionTypes.FETCH_RSVP_EVENTS,
       ActionTypes.EVENT_FAIL, ids);
   };
 }

@@ -8,7 +8,7 @@ import { zIndex } from 'material-ui/styles';
 import CancelNavigation from 'material-ui/svg-icons/navigation/cancel';
 
 // import the redux actions
-import { fetchEventsById, logout } from '../actions';
+import { fetchRSVPdEventsById, logout } from '../actions';
 
 import UserEventList from './user_profile_event_list';
 import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
@@ -32,7 +32,7 @@ class UserPage extends Component {
     if (this.props.RSVPEvents == null && this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
       const arr = eval(this.props.user.userInfo[0].rsvpevents);
       const idString = arr.toString();
-      this.props.fetchEventsById(idString);
+      this.props.fetchRSVPdEventsById(idString);
     }
   }
 
@@ -94,12 +94,12 @@ class UserPage extends Component {
   }
 }
 
-const mapDispatchToProps = { logout, fetchEventsById };
+const mapDispatchToProps = { logout, fetchRSVPdEventsById };
 
 const mapStateToProps = state => (
   {
     user: state.user,
-    RSVPEvents: state.events.all,
+    RSVPEvents: state.events.rsvps,
   }
 );
 

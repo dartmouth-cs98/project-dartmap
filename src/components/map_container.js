@@ -123,7 +123,7 @@ class MapContainer extends Component {
           center={this.props.center}
           zoom={this.props.zoom}
           hoverDistance={K_SIZE / 2}
-          onBoundsChange={this._onBoundsChange}
+          onChange={this._onBoundsChange}
           onClick={this.maybeSelectLocation}
           onChildClick={this._onChildClick}
           onChildMouseEnter={this._onChildMouseEnter}
