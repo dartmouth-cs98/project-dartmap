@@ -145,7 +145,10 @@ class Home extends Component {
             </IconButton>
             {SettingsButton}
             <div className="add-event-btn-container">
-              <FloatingActionButton onClick={this.toggleAddEvent}>
+              <FloatingActionButton
+                disabled={!this.props.isUserLoggedIn}
+                onClick={this.toggleAddEvent}
+              >
                 <ContentAdd />
               </FloatingActionButton>
             </div>
@@ -169,6 +172,7 @@ const mapStateToProps = state => (
     longitude: state.user.longitude,
     user: state.user,
     mapCenter: state.map.center,
+    isUserLoggedIn: state.user.loggedIn,
   }
 );
 

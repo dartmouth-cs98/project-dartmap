@@ -129,6 +129,7 @@ class EventList extends Component {
 
 const mapStateToProps = state => (
   {
+    isUserLoggedIn: state.user.loggedIn,
     events: state.events.filteredEventList,
   }
 );

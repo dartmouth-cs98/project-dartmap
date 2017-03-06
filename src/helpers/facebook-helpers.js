@@ -31,29 +31,28 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
   const FB = window.FB;
   if (fbResponse.status === 'connected') {
     if (fbResponse.authResponse.userID) {
-      if (!login) {
-        getUserByPassword((userInfo) => {
-          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture?type=large`;
-          FB.api(fbUserImageUrl, (graphResponse) => {
-            let fbProfPicUrl = null;
-            if (graphResponse && !graphResponse.error) {
-              fbProfPicUrl = graphResponse.data.url;
-            }
-            callbackFunc({ userInfo, fbResponse, fbProfPicUrl });
-          });
-        }, fbResponse.authResponse.userID);
-      } else {
-        postFbToken((userInfo) => {
-          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture?type=large`;
-          FB.api(fbUserImageUrl, (graphResponse) => {
-            let fbProfPicUrl = null;
-            if (graphResponse && !graphResponse.error) {
-              fbProfPicUrl = graphResponse.data.url;
-            }
-            callbackFunc({ userInfo, fbResponse, fbProfPicUrl });
-          });
-        }, fbResponse.authResponse);
-      }
+      // if (login) {
+      postFbToken((jwt) => {
+        const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture?type=large`;
+        FB.api(fbUserImageUrl, (graphResponse) => {
+          let fbProfPicUrl = null;
+          if (graphResponse && !graphResponse.error) {
+            fbProfPicUrl = graphResponse.data.url;
+          }
+          callbackFunc({ jwt });
+        });
+      }, fbResponse.authResponse);
+      // }
+      getUserByPassword((userInfo) => {
+        const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture?type=large`;
+        FB.api(fbUserImageUrl, (graphResponse) => {
+          let fbProfPicUrl = null;
+          if (graphResponse && !graphResponse.error) {
+            fbProfPicUrl = graphResponse.data.url;
+          }
+          callbackFunc({ userInfo, fbResponse, fbProfPicUrl });
+        });
+      }, fbResponse.authResponse.userID);
     }
   } else {
     callbackFunc({ fbResponse });

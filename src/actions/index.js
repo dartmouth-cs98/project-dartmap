@@ -71,10 +71,10 @@ export function fetchEvent(eventId) {
   };
 }
 
-export function createEvent(event) {
+export function createEvent(event, jwt) {
   return (dispatch) => {
     dartmapApi.postNewEvent(dispatch, ActionTypes.CREATE_EVENT,
-      ActionTypes.EVENT_FAIL, event);
+      ActionTypes.EVENT_FAIL, event, jwt);
   };
 }
 
