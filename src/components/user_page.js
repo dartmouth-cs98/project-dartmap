@@ -24,6 +24,13 @@ class UserPage extends Component {
     this.logout = this.logout.bind(this);
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.user !== this.props.user) {
+      this.getSubmittedEvents();
+      this.getRSVPEvents();
+    }
+  }
+
   onEventListItemClick = (eventId) => {
     console.log('Button clicked ', eventId);
   }
