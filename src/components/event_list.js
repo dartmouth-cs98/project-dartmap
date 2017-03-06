@@ -14,7 +14,7 @@ class EventList extends Component {
     super(props);
     this.isSameDay = false;
     this.prevDate = null;
-    this.state = { searchString: '' , open: true };
+    this.state = { searchString: '', open: true };
   }
 
   handleChange = (e) => {
