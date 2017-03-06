@@ -63,6 +63,7 @@ class EventPage extends Component {
   }
 
   componentWillUpdate() {
+    this.getInitialRSVP();
     const id = parseInt(this.props.params.id, 10);
     if ((!this.state.event) || (this.state.event.id !== id)) {
       if (this.props.currentEvent && this.props.currentEvent.id === id) {
@@ -81,10 +82,11 @@ class EventPage extends Component {
   getInitialRSVP() {
     if (this.state.event !== undefined && this.state.event !== null
       && this.state.event.attendees.length !== 0
-      && this.state.isRSVPed === false) {
+      && this.state.isRSVPed === false && this.props.user 
+      && this.props.user.userInfo && this.props.user.userInfo[0]) {
       let i;
       for (i = 0; i < this.state.event.attendees.length; i += 1) {
-        if (this.state.event.attendees[i].id === 1) {
+        if (this.state.event.attendees[i].id === this.props.user.userInfo[0].id) {
           this.setState({
             isRSVPed: true,
           });
@@ -111,15 +113,15 @@ class EventPage extends Component {
 
   handleRSVP() {
     const data = {};
-    data.user_id = 1;
+    data.user_id = this.props.user.userInfo[0].id;
     data.event_id = this.state.event_id;
 
     if (this.state.isRSVPed === true) { // De-RSVP
-      deleteRSVP(data).then((response) => {
+      deleteRSVP(data, this.props.user.jwt).then((response) => {
         this.setState({ isRSVPed: !this.state.isRSVPed });
       });
     } else { // RSVP
-      postRSVP(data).then((response) => {
+      postRSVP(data, this.props.user.jwt).then((response) => {
         this.setState({ isRSVPed: !this.state.isRSVPed });
       });
     }
@@ -131,11 +133,11 @@ class EventPage extends Component {
     data.event_id = this.state.event_id;
 
     if (this.state.isRSVPed === true) { // De-RSVP
-      deleteRSVP(data).then((response) => {
+      deleteRSVP(data, this.props.user.jwt).then((response) => {
         this.setState({ isRSVPed: !this.state.isRSVPed });
       });
     } else { // RSVP
-      postRSVP(data).then((response) => {
+      postRSVP(data, this.props.user.jwt).then((response) => {
         this.setState({ isRSVPed: !this.state.isRSVPed });
       });
     }
@@ -234,14 +236,14 @@ class EventPage extends Component {
 
     return (
       <div>
-        <Tabs style={{ position: 'fixed', top: 0, width: '100%' }}>
+        <Tabs style={{ position: 'fixed', top: 0, width: '100%', marginTop: '60px', zIndex: 10 }}>
           <Tab label="About" href="#About" />
           <Tab label="Who is Going" href="#Going" />
           <Tab label="Images" href="#Images" />
           <Tab label="Location" href="#Location" />
           <Tab label="Live" href="#LiveFeed" />
         </Tabs>
-        <div className="container">
+        <div className="container" style={{ marginTop: '108px' }}>
           <div id="About">
             <h2>About</h2>
             <div className="text-center">
@@ -260,7 +262,7 @@ class EventPage extends Component {
           <div id="Going">
             <div className="row">
               <h2 className="col-md-3">Who Is Going?</h2>
-              <div className="pull-right" style={styles.button}>
+              <div className={this.props.user.loggedIn ? "pull-right" : "pull-right hidden"} style={styles.button}>
                 <RaisedButton label={this.state.isRSVPed ? 'Going' : 'RSVP'} primary onClick={this.handleRSVP} />
               </div>
             </div>
@@ -325,6 +327,7 @@ const mapStateToProps = state => (
       lng: state.user.longitude,
     },
     currentEvent: state.events.currentEvent,
+    user: state.user,
   }
 );
 

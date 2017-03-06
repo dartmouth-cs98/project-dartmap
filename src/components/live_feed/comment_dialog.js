@@ -16,6 +16,7 @@ class CommentBox extends React.Component {
     super(props);
     this.url = API_URL.concat(COMMENT_URL);
     this.key = 0;
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -28,8 +29,8 @@ class CommentBox extends React.Component {
     return this.key;
   }
 
-  handleCommentSubmit = (comment) => {
-    this.props.createComment(this.url, comment);
+  handleCommentSubmit(comment) {
+    this.props.createComment(this.url, comment, this.props.jwt);
   }
 
   handleCommentEdit = (id, comment) => {
@@ -72,6 +73,7 @@ class CommentBox extends React.Component {
 const mapStateToProps = state => (
   {
     currentEvent: state.events.currentEvent,
+    jwt: state.user.jwt,
     user: state.user,
   }
 );

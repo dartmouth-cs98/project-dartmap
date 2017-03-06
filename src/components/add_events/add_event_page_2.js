@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import DateTime from 'react-datetime';
 import RaisedButton from 'material-ui/RaisedButton';
+import DatePicker from 'material-ui/DatePicker';
+import TimePicker from 'material-ui/TimePicker';
 
 
 class AddEventPage2 extends Component {
@@ -71,6 +73,21 @@ class AddEventPage2 extends Component {
     );
   }
 
+  handleChangeDate = (event, date) => {
+    this.setState({ date: date });
+    console.log(date);
+  };
+
+  handleChangeStartTime = (event, time) => {
+    this.setState({ start_time: time });
+    console.log(time);
+  };
+
+  handleChangeEndTime = (event, time) => {
+    this.setState({ end_time: time });
+    console.log(time);
+  };
+
   render() {
     let dateErrorMessage = this.hiddenErrorMessage;
     let startErrorMessage = this.hiddenErrorMessage;
@@ -98,45 +115,39 @@ class AddEventPage2 extends Component {
       endClass = (this.state.end_time !== '') ? validClass : errorClass;
     }
 
+    const today = new Date();
+
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
           <div className="add-event-field-container-2">
-            <h2>Date</h2>
-            <DateTime
-              timeFormat={false}
-              value={this.state.date}
-              onChange={(moment) => { this.setState({ date: moment }); }}
-              closeOnSelect
-              isValidDate={(current) => {
-                // this ensures that events cannot be created for past dates
-                const yesterday = DateTime.moment().subtract(1, 'day');
-                return current.isAfter(yesterday);
-              }}
-              className={dateClassName.concat(' add-event-date')}
-            />
+            <br />
+            <div display="inline-block">
+              Date:
+              <DatePicker
+                hintText="Select event date"
+                value={this.state.date}
+                minDate={today}
+                onChange={this.handleChangeDate}
+              />
+            </div>
           </div>
-          {dateErrorMessage}
           <div className="add-event-field-container-2">
-            <h2>Start Time</h2>
-            <DateTime
-              dateFormat={false}
+            Start time:
+            <TimePicker
+              hintText="Select start time"
               value={this.state.start_time}
-              onChange={(moment) => { this.setState({ start_time: moment }); }}
-              className={startClass.concat(' add-event-time')}
+              onChange={this.handleChangeStartTime}
             />
           </div>
-          {startErrorMessage}
           <div className="add-event-field-container-2">
-            <h2>End Time</h2>
-            <DateTime
-              dateFormat={false}
+            End time:
+            <TimePicker
+              hintText="Select end time"
               value={this.state.end_time}
-              onChange={(moment) => { this.setState({ end_time: moment }); }}
-              className={endClass.concat(' add-event-time')}
+              onChange={this.handleChangeEndTime}
             />
           </div>
-          {endErrorMessage}
           {timeErrorMessage}
         </div>
         <div className="add-event-btns">

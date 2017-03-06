@@ -90,7 +90,7 @@ class AddEventPage5 extends Component {
 
   updateImageURL = (url) => {
     let updatedurl = null;
-    const defaulturl = 'https://postimg.org/image/fdzz2goav/';
+    const defaulturl = 'https://s23.postimg.org/mh7ui2tqj/no_image.png';
     const imageurl = this.state.image_url.toString();
     if (imageurl.localeCompare(defaulturl) === 0) {
       updatedurl = url;
@@ -116,13 +116,14 @@ class AddEventPage5 extends Component {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
-          <h2>Select event map icon</h2>
+          <br/>
+          Select event map icon
           <div className="icon-select">
             {iconBtns}
           </div>
         </div>
         <div className="add-event-fields">
-          <h2>Select event image</h2>
+          Select event image
           <UploadMultiImages updateImageURL={this.updateImageURL} />
         </div>
         <div className="add-event-btns">

@@ -1,0 +1,101 @@
+// map.scss
+// This file contains all of the style rules for the map on the home page-slider
+
+// Map Components
+#map {
+  float: left;
+  padding: 5px;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
+}
+
+.mapAndButton {
+  width: 95%;
+  height: 75%;
+  margin: 16px;
+  position: relative;
+  display: inline-block;
+}
+
+.geoButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.refocusButton {
+  position: absolute;
+  top: 10px;
+  right: 30px;
+}
+
+.zipcodeButton {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+}
+
+.map-event-img {
+  height: 20px;
+  width: 20px;
+  position: relative;
+  z-index: 13;
+}
+
+.map-event-list {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+  flex-grow: 1;
+
+  @include flex-box;
+  @include flex-column;
+}
+
+.map-cover {
+  width: 350px;
+  height: 250px;
+  max-height: 250px;
+
+  @include flex-box;
+  @include flex-column;
+}
+
+.popup {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-size: 1rem;
+  background-color: white;
+  border: 1px solid;
+  border-color: #337ab7;
+  box-shadow: 0 0 8px 2px #888;
+  color: black;
+  padding: 5px;
+  position: relative;
+  margin-left: 6px;
+  margin-top: 6px;
+  width: 350px;
+  z-index: 15;
+  height: inherit;
+  overflow-y: scroll;
+  flex-grow: 1;
+
+  @include flex-box;
+  @include flex-column;
+
+
+  hbar {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.popup-location {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.popup-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 5px;
+}
