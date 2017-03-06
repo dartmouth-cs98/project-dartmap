@@ -102,7 +102,6 @@ class UserPage extends Component {
             <p style={{ textAlign: 'center', marginTop: '20px', color: '#5a7391', fontSize: '25px', fontWeight: 600, marginBottom: '7px' }} >{this.props.user.userInfo[0].name}</p>
           </Card>
           <Menu>
-            <MenuItem primaryText="Change Picture" leftIcon={<RefreshNavigation />} />
             <MenuItem primaryText="Logout" leftIcon={<CancelNavigation />} onTouchTap={this.logout} />
           </Menu>
         </Drawer>
