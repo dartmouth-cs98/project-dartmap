@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Dialog from 'material-ui/Dialog';
 
 import AddEventPage1 from './add_events/add_event_page_1';
 import AddEventPage2 from './add_events/add_event_page_2';
@@ -98,17 +99,19 @@ class AddEventDialog extends Component {
 
     if (this.props.addEvent) {
       return (
-        <div className="add-event-cover">
-          <div id="add-event">
-            <div className="add-event-top">
-              <div>
-                <h1>Add new event</h1>
-                <div id="close-button" onClick={this.handleClose}>x</div>
-              </div>
-              <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
-            </div>
+        <div>
+          <Dialog
+            className="add-event-cover"
+            title="Add new event"
+            modal={false}
+            autoScrollBodyContent={true}
+            open={this.props.addEvent}
+            onRequestClose={this.handleClose}
+            titleStyle={{borderBottom: 0}}
+          >
+            <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
             {this.pageCode[this.state.currentPage]}
-          </div>
+          </Dialog>
         </div>
       );
     }
