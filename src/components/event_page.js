@@ -84,7 +84,7 @@ class EventPage extends Component {
       && this.state.isRSVPed === false) {
       let i;
       for (i = 0; i < this.state.event.attendees.length; i += 1) {
-        if (this.state.event.attendees[i].id === this.props.user.userInfo.id) {
+        if (this.state.event.attendees[i].id === this.props.user.userInfo[0].id) {
           this.setState({
             isRSVPed: true,
           });
