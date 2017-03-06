@@ -90,7 +90,7 @@
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
   font-size: 10pt;
   width: 140px;
-  z-index: 20;
+  z-index: 15;
   &:hover {
     cursor: pointer;
   }
@@ -98,6 +98,7 @@
 
 .user-menu-item-container {
   width: 100%;
+  z-index: 15;
   &:hover {
     background-color: $light-grey;
     cursor: pointer;
@@ -107,6 +108,7 @@
 
 .user-menu-item-text {
   padding-left: 8px;
+  z-index: 15;
 }
 
 #user-link {

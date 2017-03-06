@@ -393,13 +393,18 @@ export function deleteComment(dispatch, successAction, errorAction, commentURL) 
   return response;
 }
 
-export function postRSVP(postData) {
+export function postRSVP(postData, jwt) {
   const fullUrl = API_URL.concat(RSVP_URL);
   const response = $.ajax({
     url: fullUrl,
     jsonp: false,
     type: 'POST',
     data: postData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'POST',
+      'Authorization': 'JWT ' + jwt,
+    },
     success: (data) => {
       console.log(data);
       return data;
@@ -411,7 +416,7 @@ export function postRSVP(postData) {
   return response;
 }
 
-export function deleteRSVP(deleteData) {
+export function deleteRSVP(deleteData, jwt) {
   const fullUrl = API_URL.concat(RSVP_URL);
   const response = $.ajax({
     url: fullUrl,
@@ -421,6 +426,7 @@ export function deleteRSVP(deleteData) {
     headers: {
       'Access-Control-Allow-Headers': 'X-Custom-Header',
       'Access-Control-Allow-Methods': 'DELETE',
+      'Authorization': 'JWT ' + jwt,
     },
     success: (data) => {
       console.log(data);
