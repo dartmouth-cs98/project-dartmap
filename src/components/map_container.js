@@ -120,6 +120,7 @@ class MapContainer extends Component {
             key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
             libraries: 'places',
           }}
+          options={{ scrollwheel: false}}
           center={this.props.center}
           zoom={this.props.zoom}
           hoverDistance={K_SIZE / 2}

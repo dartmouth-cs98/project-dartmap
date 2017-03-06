@@ -19,12 +19,14 @@ const MapBalloonEvent = (props) => {
 
   return (
     <ListItem 
+      className="map-event-list"
       value={props.num}
       primaryText={event.name + ' @ ' + event.start_time.format('h:mm A')}
       leftAvatar={<Avatar src={event.icon_url} />}
       key={'outer-text'.concat(props.num)}
       nestedItems={[
         <ListItem 
+              className="map-event-list"
               value={props.num}
               primaryText='Description'
               secondaryText={event.description}
@@ -32,6 +34,7 @@ const MapBalloonEvent = (props) => {
               style={listItemStyle}
         />,
         <ListItem 
+              className="map-event-list"
               value={props.num}
               primaryText='Organizer'
               secondaryText={event.organizer}
@@ -39,6 +42,7 @@ const MapBalloonEvent = (props) => {
               style={listItemStyle}
         />,
         <ListItem 
+              className="map-event-list"
               value={props.num}
               primaryText='Categories'
               secondaryText={categoryString}
@@ -46,6 +50,7 @@ const MapBalloonEvent = (props) => {
               style={listItemStyle}
         />,
         <ListItem 
+              className="map-event-list"
               containerElement={<Link to={'/events/'.concat(event.id)} />}
               value={props.num}
               primaryText='Click to view more information'
