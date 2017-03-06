@@ -69,7 +69,7 @@ function formatEventDataforAPI(event) {
   return eventData;
 }
 
-export function postNewEvent(dispatch, successAction, errorAction, event) {
+export function postNewEvent(dispatch, successAction, errorAction, event, jwt) {
   const eventData = formatEventDataforAPI(event);
   console.log(eventData);
   const fullUrl = API_URL.concat(EVENT_URL);
@@ -77,6 +77,11 @@ export function postNewEvent(dispatch, successAction, errorAction, event) {
     url: fullUrl,
     jsonp: false,
     type: 'POST',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'POST',
+      'Authorization': 'JWT ' + jwt,
+    },
     data: eventData,
     success: (data) => {
       dispatch({ type: successAction, payload: { data } });
@@ -97,7 +102,6 @@ export function getEvent(dispatch, successAction, errorAction, eventId) {
     dataType: 'json',
     success: (data) => {
       const event = formatAPIEventData(data.events[0]);
-      console.log('SUCCESS! GET /events/'.concat(eventId));
       dispatch({ type: successAction, payload: { event } });
     },
     error: (xhr, status, err) => {
@@ -106,6 +110,64 @@ export function getEvent(dispatch, successAction, errorAction, eventId) {
       dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
+}
+
+export function deleteEvent(eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'DELETE',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function updateEvent(eventId, putData) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'PUT',
+    data: putData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'PUT',
+    },
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function getEventSansRedux(eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      const event = formatAPIEventData(data.events[0]);
+      console.log('SUCCESS! GET /events/'.concat(eventId));
+      return event;
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
 }
 
 export function getAllEvents(dispatch, successAction, errorAction,
@@ -260,6 +322,8 @@ export function postComment(dispatch, successAction, errorAction, commentURL, po
     type: 'POST',
     data: postData,
     headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'POST',
       'Authorization': 'JWT ' + jwt,
     },
     success: (data) => {

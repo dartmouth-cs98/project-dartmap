@@ -24,6 +24,7 @@ const RADIUS = 10000;
 class Home extends Component {
   constructor(props) {
     super(props);
+    this.onResize = this.onResize.bind(this);
     this.state = {
       addEvent: false,
       showModal: false,
@@ -43,10 +44,14 @@ class Home extends Component {
   componentDidMount() {
     this.getEvents();
     // Listener that resizes the map, if the user changes the window dimensions.
-    window.addEventListener('resize', () => {
-      this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
-      this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
-    }, true);
+    console.log("mounting");
+    window.addEventListener('resize', this.onResize);
+
+  }
+
+  componentWillUnmount () {
+    console.log("unmounting");
+    window.removeEventListener('resize', this.onResize);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -55,13 +60,18 @@ class Home extends Component {
         this.getEvents();
       }
     }
-    if (this.props.latitude && this.props.longitude && (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude)) {
+    if (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude) {
       this.props.fetchEvents(nextProps.latitude, nextProps.longitude, RADIUS);
     }
   }
 
   getEvents = () => {
     this.props.fetchEvents(this.props.latitude, this.props.longitude, RADIUS);
+  }
+
+  onResize() {
+    this.setState({ mapHeight: (MAP_HEIGHT_MULTIPLIER * window.innerHeight).toString().concat('px') });
+    this.setState({ mapWidth: (MAP_WIDTH_MULTIPLIER * window.innerWidth).toString().concat('px') });
   }
 
   closeAddEventDialog = () => {
@@ -83,7 +93,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="home-container">
+      <div className="home-container" style={{ marginTop: '60px' }}>
         <EventList
           toggleAddEvent={this.toggleAddEvent}
           selectedLocation={this.state.selectedLocation}
@@ -97,7 +107,6 @@ class Home extends Component {
           <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleGeolocation}>
             <MapsMyLocation />
           </IconButton>
-
         </div>
         <FilterContainer />
         <AddEventDialog

@@ -75,7 +75,7 @@ class AddEventDialog extends Component {
       image_url: this.state.image_url,
     };
     this.resetState();
-    this.props.createEvent(data);
+    this.props.createEvent(data, this.props.jwt);
     this.props.handleAddEventData();
   }
   handleClose() {
@@ -121,6 +121,7 @@ class AddEventDialog extends Component {
 const mapStateToProps = state => (
   {
     catList: state.events.catList,
+    jwt: state.user.jwt,
   }
 );
 

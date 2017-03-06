@@ -16,6 +16,7 @@ class CommentBox extends React.Component {
     super(props);
     this.url = API_URL.concat(COMMENT_URL);
     this.key = 0;
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -72,7 +73,6 @@ class CommentBox extends React.Component {
 const mapStateToProps = state => (
   {
     currentEvent: state.events.currentEvent,
-    data: state.events.currentEvent.comments,
     jwt: state.user.jwt,
     user: state.user,
   }

@@ -40,7 +40,7 @@ class MapContainer extends Component {
     // this.setState({ locations });
   }
 
-  _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
+  _onChange = (center, zoom /* , bounds, marginBounds */) => {
     this.props.setMapCenter({ lat: center[0], lng: center[1] });
     // this.props.clearBalloons();
     this.props.onZoomChange(zoom);
@@ -48,7 +48,7 @@ class MapContainer extends Component {
 
   _onChildClick = (key, childProps) => {
     // Recenter the map to the event that is clicked on.
-    // this.props.onCenterChange([childProps.lat, childProps.lng]);
+    this.props.setMapCenter({ lat: childProps.lat, lng: childProps.lng });
   }
 
   _onChildMouseEnter = (key /* , childProps */) => {
@@ -100,7 +100,7 @@ class MapContainer extends Component {
         // This is the information that is passed to EventsWithControllableHover.
         mapEvents.push(<EventsWithControllableHover
           {...coords}
-          key={id}
+          key={location[0].location_id}
           id={id}
           // text={String(id)}
           // use your hover state (from store, react-controllables etc...)
