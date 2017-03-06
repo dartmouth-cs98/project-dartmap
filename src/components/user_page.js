@@ -8,7 +8,7 @@ import { zIndex } from 'material-ui/styles';
 import CancelNavigation from 'material-ui/svg-icons/navigation/cancel';
 
 // import the redux actions
-import { fetchRSVPdEventsById, logout } from '../actions';
+import { fetchRSVPdEventsById, fetchUserEventsById, logout } from '../actions';
 
 import UserEventList from './user_profile_event_list';
 import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
@@ -29,10 +29,18 @@ class UserPage extends Component {
   }
 
   getRSVPEvents = () => {
-    if (this.props.RSVPEvents == null && this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
+    if (this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
       const arr = eval(this.props.user.userInfo[0].rsvpevents);
       const idString = arr.toString();
       this.props.fetchRSVPdEventsById(idString);
+    }
+  }
+
+  getSubmittedEvents = () => {
+    if (this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
+      const arr = eval(this.props.user.userInfo[0].createdevents);
+      const idString = arr.toString();
+      this.props.fetchUserEventsById(idString);
     }
   }
 
@@ -49,10 +57,14 @@ class UserPage extends Component {
     }
   }
 
-  // TODO: fix profile picture source, as well as user name, etc
   render() {
     if (this.props.RSVPEvents == null) {
       this.getRSVPEvents();
+      return null;
+    }
+
+    if (this.props.SubmittedEvents == null) {
+      this.getSubmittedEvents();
       return null;
     }
 
@@ -62,6 +74,10 @@ class UserPage extends Component {
           <Tab label="Submitted Events" href="#SubmitEvents">
             <div className="user-event-list">
               <h1>Your Submitted Events</h1>
+              <UserEventList
+                events={this.sortEventList(this.props.SubmittedEvents)}
+                onEventListItemClick={this.onEventListItemClick}
+              />
             </div>
           </Tab>
           <Tab label="RSVP'ed Events" href="#RSVPEvents">
@@ -94,12 +110,13 @@ class UserPage extends Component {
   }
 }
 
-const mapDispatchToProps = { logout, fetchRSVPdEventsById };
+const mapDispatchToProps = { logout, fetchRSVPdEventsById, fetchUserEventsById };
 
 const mapStateToProps = state => (
   {
     user: state.user,
     RSVPEvents: state.events.rsvps,
+    SubmittedEvents: state.events.userEvents,
   }
 );
 
