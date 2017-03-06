@@ -72,6 +72,7 @@ class Comment extends React.Component {
   }
 
   render() {
+
     const actions = [
       <FlatButton
         label="Cancel"

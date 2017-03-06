@@ -13,52 +13,47 @@ class NavBar extends Component {
       showMenu: false,
     };
     this.defaultGreeting = (
-      <h2 className="navbar-greeting">Welcome! Please log in...     </h2>
+      <h2 className="navbar-greeting">Welcome! Please log in...</h2>
     );
     this.userButton = this.fbLoginButton;
     this.greeting = this.defaultGreeting;
     this.buttonContent = null;
     this.initialFbLoad = false;
-    // bind all of the functions
-    this.facebookLogin = this.facebookLogin.bind(this);
-    this.facebookLogout = this.facebookLogout.bind(this);
-    this.openMenu = this.openMenu.bind(this);
-    this.closeMenu = this.closeMenu.bind(this);
   }
 
-  componentWillUpdate() {
+  componentWillUpdate = () => {
     if (!this.initialFbLoad && window.FB) {
       this.props.getLoginStatusFromFb();
       this.initialFbLoad = true;
     }
   }
 
-  facebookLogin() {
+  facebookLogin = () => {
     this.props.login();
     const loginButton = document.getElementById('login-button');
     loginButton.innerHTML = 'Logging in...     ';
   }
 
-  openMenu() {
+  openMenu = () => {
     this.setState({ showMenu: true });
     document.addEventListener('click', this.closeMenu);
   }
 
-  closeMenu() {
+  closeMenu = () => {
     this.setState({ showMenu: false });
     document.removeEventListener('click', this.closeMenu);
   }
 
-  facebookLogout() {
+  facebookLogout = () => {
     this.props.logout();
     this.setState({ showMenu: false });
   }
 
-  render() {
+  render = () => {
     if (this.props.user.loggedIn) {
       this.greeting = (
         <h2 className="navbar-greeting">
-          {this.props.userInfo.name === '' ? '' : 'Hi, ' + this.props.userInfo.name + '!'}
+          {this.props.userInfo.name === '' ? '' : `Hi, ${this.props.userInfo.name}!`}
         </h2>
       );
       if (this.props.fbProfPicUrl) {

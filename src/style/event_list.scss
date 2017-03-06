@@ -70,10 +70,21 @@
 }
 
 .arrow {
-  display: inline-block;
-  float: right;
+  width: 29px;
   &:hover {
     cursor: pointer;
   }
 }
 
+.evl-arrow {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  right: -35px;
+  box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+  background-color: white;
+
+  @include flex-box;
+  @include flex-align-center;
+  @include flex-justify-center;
+}
