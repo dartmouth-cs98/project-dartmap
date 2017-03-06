@@ -10,7 +10,6 @@ import CancelNavigation from 'material-ui/svg-icons/navigation/cancel';
 // import the redux actions
 import { fetchEventsById, logout } from '../actions';
 
-import { getAllEvents } from '../helpers/dartmap-api';
 import UserEventList from './user_profile_event_list';
 import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
 
@@ -27,14 +26,6 @@ class UserPage extends Component {
 
   onEventListItemClick = (eventId) => {
     console.log('Button clicked ', eventId);
-  }
-
-  getSubmittedEvents = () => {
-    if (this.props.RSVPEvents == null && this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
-      const arr = eval(this.props.user.userInfo[0].rsvpevents);
-      const idString = arr.toString();
-      this.props.fetchEventsById(idString);
-    }
   }
 
   getRSVPEvents = () => {
@@ -62,14 +53,6 @@ class UserPage extends Component {
   render() {
     if (this.props.RSVPEvents == null) {
       this.getRSVPEvents();
-      return null;
-    }
-
-    if (this.state.eventList == null) {
-      getAllEvents((unsortedEventList) => {
-        const eventList = this.sortEventList(unsortedEventList.payload.events);
-        this.setState({ eventList });
-      });
       return null;
     }
 
@@ -117,7 +100,6 @@ const mapStateToProps = state => (
   {
     user: state.user,
     RSVPEvents: state.events.all,
-    SubmittedEvents: state.events.
   }
 );
 
