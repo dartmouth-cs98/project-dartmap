@@ -59,7 +59,7 @@ class LocationDialog extends Component {
           modal
           open={this.props.showModal}
         >
-          <TextField
+          <TextField name="zipcodeInput"
             value={this.state.zipcode}
             onChange={e => this.setState({ zipcode: e.target.value })}
             placeholder="Type here..."
