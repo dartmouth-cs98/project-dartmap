@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 
 import { Tabs, Tab, Menu, MenuItem, Card, Avatar, Drawer } from 'material-ui';
 import { zIndex } from 'material-ui/styles';
@@ -12,7 +13,6 @@ import RefreshNavigation from 'material-ui/svg-icons/navigation/refresh';
 import { logout } from '../actions';
 
 import { getAllEvents } from '../helpers/dartmap-api';
-import UploadPhotoDialog from './upload_photo_dialog';
 import UserEventList from './user_profile_event_list';
 import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
 
@@ -26,20 +26,17 @@ class UserPage extends Component {
     };
     this.openUploadPhotoDialog = this.openUploadPhotoDialog.bind(this);
     this.closeUploadPhotoDialog = this.closeUploadPhotoDialog.bind(this);
-    this.onEventListItemClick = this.onEventListItemClick.bind(this);
     this.sortEventList = this.sortEventList.bind(this);
     this.logout = this.logout.bind(this);
   }
 
-  // getEvents() {
-  //   getAllEvents((eventList) => {
-  //     console.log('mount eventList');
-  //     console.log(eventList);
-  //     this.setState({ eventList });
-  //   });
+  // componentDidUpdate = () => {
+  //   if (this.props.params.id.indexOf('#') !== 0) {
+  //     $(document).scrollTop();
+  //   }
   // }
 
-  onEventListItemClick(eventId) {
+  onEventListItemClick = (eventId) => {
     console.log('Button clicked ', eventId);
   }
 
@@ -50,10 +47,6 @@ class UserPage extends Component {
   closeUploadPhotoDialog() {
     this.setState({ uploadingPhoto: false });
   }
-
-  // facebookLogout() {
-  //   fbLogout();
-  // }
 
   sortEventList(eventList) {
     return eventList.sort(sortDateTimeReverse);

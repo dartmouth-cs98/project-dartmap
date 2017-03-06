@@ -84,7 +84,7 @@ class EventPage extends Component {
       && this.state.isRSVPed === false) {
       let i;
       for (i = 0; i < this.state.event.attendees.length; i += 1) {
-        if (this.state.event.attendees[i].id === 1) {
+        if (this.state.event.attendees[i].id === this.props.user.userInfo.id) {
           this.setState({
             isRSVPed: true,
           });
@@ -111,7 +111,7 @@ class EventPage extends Component {
 
   handleRSVP() {
     const data = {};
-    data.user_id = 1;
+    data.user_id = this.props.user.userInfo[0].id;
     data.event_id = this.state.event_id;
 
     if (this.state.isRSVPed === true) { // De-RSVP
@@ -234,14 +234,14 @@ class EventPage extends Component {
 
     return (
       <div>
-        <Tabs style={{ position: 'fixed', top: 0, width: '100%' }}>
+        <Tabs style={{ position: 'fixed', top: 0, width: '100%', marginTop: '60px', zIndex: 1500 }}>
           <Tab label="About" href="#About" />
           <Tab label="Who is Going" href="#Going" />
           <Tab label="Images" href="#Images" />
           <Tab label="Location" href="#Location" />
           <Tab label="Live" href="#LiveFeed" />
         </Tabs>
-        <div className="container">
+        <div className="container" style={{ marginTop: '108px' }}>
           <div id="About">
             <h2>About</h2>
             <div className="text-center">
@@ -325,6 +325,7 @@ const mapStateToProps = state => (
       lng: state.user.longitude,
     },
     currentEvent: state.events.currentEvent,
+    user: state.user,
   }
 );
 
