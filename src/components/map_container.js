@@ -135,7 +135,6 @@ class MapContainer extends Component {
           options={{ scrollwheel: false}}
           center={this.props.center}
           zoom={this.props.zoom}
-          options={this.createMapOptions}
           hoverDistance={K_SIZE / 2}
           onChange={this._onChange}
           onClick={this.maybeSelectLocation}
