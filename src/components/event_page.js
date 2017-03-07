@@ -9,7 +9,7 @@ import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
 
 // import redux actions
-import { fetchEvent } from '../actions';
+import { getLoginStatusFromFb, fetchEvent } from '../actions';
 
 // import helper functions
 import {
@@ -82,7 +82,7 @@ class EventPage extends Component {
   getInitialRSVP() {
     if (this.state.event !== undefined && this.state.event !== null
       && this.state.event.attendees.length !== 0
-      && this.state.isRSVPed === false && this.props.user 
+      && this.state.isRSVPed === false && this.props.user
       && this.props.user.userInfo && this.props.user.userInfo[0]) {
       let i;
       for (i = 0; i < this.state.event.attendees.length; i += 1) {
@@ -125,6 +125,7 @@ class EventPage extends Component {
         this.setState({ isRSVPed: !this.state.isRSVPed });
       });
     }
+    this.props.getLoginStatusFromFb();
   }
 
   addImage() {
@@ -331,4 +332,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps, { fetchEvent })(EventPage);
+export default connect(mapStateToProps, { getLoginStatusFromFb, fetchEvent })(EventPage);
