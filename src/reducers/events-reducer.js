@@ -62,6 +62,10 @@ const EventsReducer = (state = {}, action) => {
       newState = Object.assign({}, state);
       newState.dateBarData = createDateData();
       return newState;
+    case ActionTypes.EVENT_FAIL:
+      newState = Object.assign({}, state);
+      newState.events.error = action.payload;
+      return newState;
     default:
       return state;
   }

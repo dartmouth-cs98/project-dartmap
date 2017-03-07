@@ -338,7 +338,6 @@ class UserEventListItem extends Component {
   momentFormat = () => {
     var start = moment(this.state.eventStartTime).format('h:mm A');
     var end = moment(this.state.eventEndTime).format('h:mm A');
-    console.log(start.concat(' ~ ',end));
     return start.concat(' ~ ',end);
   }
 
@@ -389,6 +388,7 @@ class UserEventListItem extends Component {
           floatingLabelText="Event Name"
           defaultValue={this.state.eventName}
           onChange={event => this.setState({ eventName: event.target.value })}
+          multiLine
         />
       );
       eventTime = (
@@ -418,6 +418,7 @@ class UserEventListItem extends Component {
             floatingLabelText="Event room or location"
             value={this.state.eventLocationString || ''}
             onChange={event => this.setState({ eventLocationString: event.target.value })}
+            multiLine
           />
       );
       eventOrganizer = (
@@ -425,6 +426,7 @@ class UserEventListItem extends Component {
           floatingLabelText="Event Organizer"
           value={this.state.eventOrganizer}
           onChange={event => this.setState({ eventOrganizer: event.target.value })}
+          multiLine
         />
       );
       eventCategories = (
@@ -464,12 +466,13 @@ class UserEventListItem extends Component {
           floatingLabelText="Event Name"
           defaultValue={this.state.eventName}
           onChange={event => this.setState({ eventName: event.target.value })}
+          multiLine
           disabled
         />
       );
       eventTime = (
         <TextField style={{ height: '33px' }}
-          floatingLabelText="Event Name"
+          floatingLabelText="Event Time"
           defaultValue={this.momentFormat()}
           disabled
         />
@@ -481,6 +484,7 @@ class UserEventListItem extends Component {
             floatingLabelText="Event room or location"
             value={this.state.eventLocationString || ''}
             onChange={event => this.setState({ eventLocationString: event.target.value })}
+            multiLine
             disabled
           />
       );
@@ -489,6 +493,7 @@ class UserEventListItem extends Component {
           floatingLabelText="Event Organizer"
           value={this.state.eventOrganizer}
           onChange={event => this.setState({ eventOrganizer: event.target.value })}
+          multiLine
           disabled
         />
       );
@@ -497,6 +502,7 @@ class UserEventListItem extends Component {
           floatingLabelText="Categories"
           value={this.state.eventCategoriesString}
           onChange={event => this.setState({ eventCategoriesString: event.target.value })}
+          multiLine
           disabled
         />
       );
