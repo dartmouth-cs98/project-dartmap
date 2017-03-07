@@ -44,29 +44,34 @@ class UserEventListItem extends Component {
     this.state = {
       editing: false,
       editEventButtonText: 'Edit',
-      // selectedMarker: null,
+      selectedMarker: null,
       eventName: this.props.event.name,
       eventOrganizer: this.props.event.organizer,
       eventDescription: this.props.event.description,
       eventStartTime: this.props.event.start_time.toDate(),
       eventEndTime: this.props.event.end_time.toDate(),
-      eventLocation: this.props.event.location_name,
       eventCategories: this.selectedCategories,
       eventCategoriesString: catString,
       eventLocationLng: this.props.event.lng,
       eventLocationLat: this.props.event.lat,
       eventLocationName: this.props.event.location_name,
+      eventLocationString: this.props.event.location_string,
+      eventLocationPlaceId: this.props.event.placeId,
       eventIconUrl: this.props.event.icon_url,
     };
+    console.log('THE STATE');
+    console.log(this.state);
+    console.log(this.props.event);
     this.map = null;
     this.marker = null;
-    // this.editMap = null;
-    // this.gPlaces = null;
-    // this.gMaps = this.gMaps || (window.google && window.google.maps);
-    // this.infoWindow = null;
-    // this.editMarker = null;
-    // this.editMarkers = [];
-    // this.infoWindow = null;
+    this.editMap = null;
+    this.gPlaces = null;
+    this.gMaps = this.gMaps || (window.google && window.google.maps);
+    this.infoWindow = null;
+    this.editMarker = null;
+    this.editMarkers = [];
+    this.infoWindow = null;
+    // this.htmlHasLoaded = false;
     this.confirmDelete = this.confirmDelete.bind(this);
     this.editingEvent = this.editingEvent.bind(this);
     this.isValidTime = this.isValidTime.bind(this);
@@ -75,18 +80,20 @@ class UserEventListItem extends Component {
       loadGoogleApi();
     }
     this.loadMap = this.loadMap.bind(this);
-    // this.loadEditMap = this.loadEditMap.bind(this);
+    this.loadEditMap = this.loadEditMap.bind(this);
   }
 
   componentDidMount() {
     if (window.google && this.props.event && !this.map) {
       this.loadMap();
+      this.loadEditMap();
     }
   }
 
   componentDidUpdate() {
     if (window.google && this.props.event && !this.map) {
       this.loadMap();
+      this.loadEditMap();
     }
   }
 
@@ -109,9 +116,16 @@ class UserEventListItem extends Component {
       toSend.name = this.state.eventName;
       toSend.organizer = this.state.eventOrganizer;
       toSend.description = this.state.eventDescription;
-      toSend.start_time = moment(this.state.eventStartTime)._i;
-      toSend.end_time = moment(this.state.eventEndTime)._i;
-      toSend.location_name = this.state.eventLocation;
+      toSend.start_time = moment(this.state.eventStartTime).format('HH:mm');
+      toSend.end_time = moment(this.state.eventEndTime).format('HH:mm');
+      toSend.location_string = this.state.eventLocationString;
+      const location = {
+        name: this.state.eventLocationName,
+        latitude: this.state.eventLocationLat,
+        longitude: this.state.eventLocationLng,
+        place_id: this.state.eventLocationPlaceId,
+      };
+      toSend.location = location;
       // format the categories to send
       let catsToSend = '';
       for (let i = 0; i < this.state.eventCategories.length; i += 1) {
@@ -126,13 +140,12 @@ class UserEventListItem extends Component {
       updateEvent(this.props.event.id, toSend);
       // update string of categories
       this.setState({ eventCategoriesString: catsToSend });
-      alert('Event updated!');
+      alert('Event saved!');
     } else {
       this.setState({
         editing: true,
         editEventButtonText: 'Save',
       });
-      // this.loadEditMap();
     }
   }
 
@@ -207,9 +220,119 @@ class UserEventListItem extends Component {
     }
   }
 
+  loadEditMap() {
+    this.gMaps = this.gMaps || (window.google && window.google.maps);
+    const mapHTML = document.getElementById('uspg-editmap-' + this.props.event.id);
+    const searchHTML = document.getElementById('map-search-box');
+    const location = {
+      lng: this.state.eventLocationLng,
+      lat: this.state.eventLocationLat,
+    };
+    this.editMap = new this.gMaps.Map(mapHTML, {
+      center: location,
+      zoom: 15,
+      streetViewControl: false,
+      fullscreenControl: false,
+      mapTypeControl: false,
+    });
+    this.infoWindow = new this.gMaps.InfoWindow();
+    this.gPlaces = new this.gMaps.places.PlacesService(this.editMap);
+    this.textBox = new this.gMaps.places.Autocomplete(searchHTML);
+    this.textBox.bindTo('bounds', this.editMap);
+
+    // adding a listener so that every time the map moves, we do a search
+    this.editMap.addListener('bounds_changed', (event) => {
+      this.nearbySearch(this.editMap.getBounds());
+    });
+
+    // adding a listener so that when the user selects a location in the
+    // search box, the relevant marker & bubble appear on the map
+    this.textBox.addListener('place_changed', (event) => {
+      const place = this.textBox.getPlace();
+      while (this.editMarkers.length > 0) {
+        this.editMarkers[0].setVisible(false);
+        this.editMarkers.shift();
+      }
+      if (!this.editMarker) {
+        this.editMarker = new this.gMaps.Marker({
+          map: this.editMap,
+          position: place.geometry.location,
+        });
+      }
+      this.editMarker.setVisible(false);
+      if (!place.geometry) {
+        // User entered the name of a Place that was not suggested and
+        // pressed the Enter key, or the Place Details request failed.
+        const alertText = `No details available for input: '${place.name}'`;
+        window.alert(alertText);
+      }
+      // If the place has a geometry, then present it on a map.
+      if (place.geometry.viewport) {
+        this.editMap.fitBounds(place.geometry.viewport);
+      } else {
+        this.editMap.setCenter(place.geometry.location);
+        this.editMap.setZoom(17);  // Why 17? Because it looks good.
+      }
+      this.editMarker.setPosition(place.geometry.location);
+      this.createInfoWindow(place.name, this.editMarker);
+      const pos = this.editMarker.getPosition();
+      this.setState({
+        selectedMarker: this.editMarker,
+        eventLocationPlaceId: place.place_id,
+        eventLocationName: place.name,
+        eventLocationLng: pos.lng(),
+        eventLocationLat: pos.lat(),
+      });
+      this.editMarker.setVisible(true);
+    });
+  }
+
+  nearbySearch = (bounds) => {
+    this.gPlaces.nearbySearch({ bounds },
+      (result) => {
+        if (result) {
+          for (let i = 0; i < result.length; i += 1) {
+            const editMarker = this.createMarker(result[i].name,
+              result[i].geometry.location, result[i].place_id
+            );
+            this.editMarkers.push(editMarker);
+          }
+        }
+      }
+    );
+  }
+
+  createMarker = (name, location, placeId) => {
+    const marker = new this.gMaps.Marker({
+      map: this.editMap,
+      position: location,
+    });
+    this.gMaps.event.addListener(marker, 'click', () => {
+      this.createInfoWindow(name, marker);
+      console.log('THE MARKER');
+      console.log(marker);
+      const pos = marker.getPosition();
+      this.setState({
+        selectedMarker: marker,
+        eventLocationLng: pos.lng(),
+        eventLocationLat: pos.lat(),
+        eventLocationName: name,
+        eventLocationPlaceId: placeId,
+      });
+    });
+    console.log(this.state.eventLocationLat);
+    return marker;
+  }
+
+  createInfoWindow = (name, marker) => {
+    this.infoWindow.setContent(name);
+    this.infoWindow.open(this.map, marker);
+  }
+
   handleChangeTimeStart = (event, date) => {
     this.setState({ eventStartTime: date });
   };
+
   handleChangeTimeEnd = (event, date) => {
     this.setState({ eventEndTime: date });
   };
@@ -226,28 +349,36 @@ class UserEventListItem extends Component {
     let eventMap = null;
     let eventName = null;
     let eventTime = null;
-    let eventLocation = null;
+    let eventLocationString = null;
     let eventOrganizer = null;
     let eventCategories = null;
     let eventDescription = null;
+    eventMap = (
+      // <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
+      <div className="add-event-fields">
+        <input
+          id="map-search-box"
+          type="text"
+          placeholder="Search for or select location"
+          value={(this.state.eventLocationLng && this.state.eventLocationName) || ''}
+          onChange={(event) => {
+            this.setState({ location: { name: event.target.value } });
+          }}
+          className="add-event-text add-event-loc-string"
+        />
+        <div id={"uspg-editmap-" + this.props.event.id} className="uspg-map" />
+        <div id={"uspg-map-" + this.props.event.id} className="uspg-map" />
+      </div>
+    );
+
     // if user is editing this event
     if (this.state.editing) {
-      eventMap = (
-        <div id={'uspg-map-'.concat(this.props.event.id)} className="uspg-map" />
-        // <div className="add-event-fields">
-          // <input
-            // id="map-search-box"
-            // type="text"
-            // placeholder="Search for or select location"
-            // value={(this.state.eventLocationLng && this.state.eventLocationName) || ''}
-            // onChange={(event) => {
-              // this.setState({ location: { name: event.target.value } });
-            // }}
-            // className="add-event-text add-event-loc-string"
-          // />
-          // <div id="add-event-map" />
-        // </div>
-      );
+      // if (this.htmlHasLoaded) {
+      //   document.getElementById('uspg-editmap-' + this.props.event.id).className = 'uspg-map';
+      //   document.getElementById('uspg-map-' + this.props.event.id).className = 'hidden';
+      // }
+      // this.htmlHasLoaded = true;
+
       eventName = (
         <TextField style={{ height: '33px' }}
           defaultValue={this.state.eventName}
@@ -274,11 +405,12 @@ class UserEventListItem extends Component {
           />
         </div>
       );
-      // eventLocation = (
-      //   <button className="user-change-event-location" type="button" onClick={this.confirmDelete}>
-      //     Change location (this will eventually be replaced by Location/Room name)
-      //   </button>
-      // );
+      eventLocationString = (
+        <TextField style={{ height: '33px' }}
+          defaultValue={this.state.eventLocationString}
+          onChange={event => this.setState({ eventLocationString: event.target.value })}
+        />
+      );
       eventOrganizer = (
         <TextField style={{ height: '33px' }}
           defaultValue={this.state.eventOrganizer}
@@ -306,9 +438,11 @@ class UserEventListItem extends Component {
         />
       );
     } else {
-      eventMap = (
-        <div id={'uspg-map-'.concat(this.props.event.id)} className="uspg-map" />
-      );
+      // if (this.htmlHasLoaded) {
+      //   document.getElementById('uspg-editmap-'.concat(this.props.event.id)).className = 'hidden';
+      //   document.getElementById('uspg-map-'.concat(this.props.event.id)).className = 'uspg-map';
+      // }
+      // this.htmlHasLoaded = true;
       eventName = (
         <h6 style={{ display: 'inline' }} className="name">
           {this.state.eventName}
@@ -324,15 +458,10 @@ class UserEventListItem extends Component {
           </text>
         </div>
       );
-      eventLocation = (
-        <div>
-          <text className="attributeTitle">
-            <br />Location:&nbsp;
-          </text>
-          <text className="attribute">
-            {this.state.eventLocation}<br />
-          </text>
-        </div>
+      eventLocationString = (
+        <text className="attribute">
+          {this.state.eventLocationString}<br />
+        </text>
       );
       eventOrganizer = (
         <text className="attribute">
@@ -362,12 +491,17 @@ class UserEventListItem extends Component {
           {eventMap}
           <div>
             <text className="attributeTitle">
-              <br />Event Name:&nbsp;
+              <br /><br /><br />Event Name:&nbsp;
             </text>
             {eventName}
           </div>
           {eventTime}
-          {eventLocation}
+          <div>
+            <text className="attributeTitle">
+              <br />Location/Room:&nbsp;
+            </text>
+            {eventLocationString}
+          </div>
           <div>
             <text className="attributeTitle">
               <br />Organizer:&nbsp;

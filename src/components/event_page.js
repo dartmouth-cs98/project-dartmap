@@ -39,7 +39,7 @@ class EventPage extends Component {
   }
 
   componentWillMount() {
-    const id = parseInt(this.props.params.id, 10);
+    const id = this.state.event_id;
     if (this.props.events && this.props.events.length > 0) {
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
@@ -86,7 +86,7 @@ class EventPage extends Component {
       && this.props.user.userInfo && this.props.user.userInfo[0]) {
       let i;
       for (i = 0; i < this.state.event.attendees.length; i += 1) {
-        if (this.state.event.attendees[i].id === this.props.user.userInfo[0].id) {
+        if (this.state.event.attendees && this.props.user.userInfo && this.state.event.attendees[i].id === this.props.user.userInfo[0].id) {
           this.setState({
             isRSVPed: true,
           });
@@ -225,7 +225,7 @@ class EventPage extends Component {
       });
     }
     let showGallery = false;
-    if(images.length > 1){
+    if (images.length > 1) {
       showGallery = true;
     }
     const dateString = this.state.event.date.format('dddd, MMMM Do YYYY');

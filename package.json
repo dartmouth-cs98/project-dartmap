@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "bootstrap-multiselect": "^0.9.13-1",
     "facebook-plugins": "^1.0.5",
     "google-map-react": "^0.20.1",
     "jquery": "^3.1.1",
@@ -57,6 +58,8 @@
     "react-redux": "^5.0.2",
     "react-router": "^2.8.1",
     "react-select": "^1.0.0-rc.2",
+    "react-select-box": "^3.0.1",
+    "react-select-box-2": "^3.0.2",
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0"

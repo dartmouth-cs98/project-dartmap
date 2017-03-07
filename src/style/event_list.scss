@@ -14,8 +14,6 @@
 .event-item {
   background-color: white;
   border-bottom: thin solid black;
-  padding-left: 8px;
-  padding-top: 8px;
   width: 100%;
   font-size: 15px;
 
@@ -23,6 +21,12 @@
     background-color: $light-grey;
     cursor: pointer;
   }
+}
+
+.event-text {
+  width: inherit;
+  max-width: 100px;
+  text-overflow: ellipsis;
 }
 
 #event-menu {
@@ -72,10 +76,21 @@
 }
 
 .arrow {
-  display: inline-block;
-  float: right;
+  width: 29px;
   &:hover {
     cursor: pointer;
   }
 }
 
+.evl-arrow {
+  height: 35px;
+  width: 35px;
+  position: absolute;
+  right: -35px;
+  box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+  background-color: white;
+
+  @include flex-box;
+  @include flex-align-center;
+  @include flex-justify-center;
+}
