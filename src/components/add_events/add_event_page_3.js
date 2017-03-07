@@ -164,7 +164,7 @@ class AddEventPage3 extends Component {
             placeholder="Search for or select location"
             value={(this.state.location && this.state.location.name) || ''}
             onChange={(event) => {
-              this.setState({ location: { name: event.target.value } }
+              this.setState({ location: { name: event.target.value } });
             }}
             className="add-event-text add-event-loc-string"
           />
