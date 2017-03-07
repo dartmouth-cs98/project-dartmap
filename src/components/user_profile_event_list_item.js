@@ -10,7 +10,7 @@ import { deleteEvent, updateEvent } from '../helpers/dartmap-api';
 
 // import helper functions
 import {
-  createMap, createMarker, createInfoWindow, loadGoogleApi,
+  createMap, createMarker, createInfoWindow,
 } from '../helpers/google-maps';
 
 const CATEGORIES = [
@@ -69,27 +69,26 @@ class UserEventListItem extends Component {
     // this.editMarker = null;
     // this.editMarkers = [];
     // this.htmlHasLoaded = false;
-    if (!window.google) { // Load google maps api onto the page
-      loadGoogleApi();
-    }
+    
     this.loadMap = this.loadMap.bind(this);
     // this.loadEditMap = this.loadEditMap.bind(this);
     this.momentFormat = this.momentFormat.bind(this);
   }
 
-  componentDidMount = () => {
+  componentDidMount() {
     if (window.google && this.props.event && !this.map) {
       this.loadMap();
       // this.loadEditMap();
     }
   }
 
-  componentDidUpdate = () => {
-    if (window.google && this.props.event && !this.map) {
-      this.loadMap();
-      // this.loadEditMap();
-    }
-  }
+  // componentDidUpdate() {
+  //   console.log('updated');
+  //   if (window.google && this.props.event && !this.map) {
+  //     this.loadMap();
+  //     // this.loadEditMap();
+  //   }
+  // }
 
   editingEvent = () => {
     console.log('this.state');
@@ -188,6 +187,7 @@ class UserEventListItem extends Component {
         zoom: 15,
         fullscreenControl: false,
         mapTypeControl: false,
+        scrollwheel: false,
       };
       const icon = {
         url: iconUrl,
@@ -390,6 +390,7 @@ class UserEventListItem extends Component {
           floatingLabelText="Event Name"
           defaultValue={this.state.eventName}
           onChange={event => this.setState({ eventName: event.target.value })}
+          multiLine
         />
       );
       eventTime = (
@@ -419,6 +420,7 @@ class UserEventListItem extends Component {
           floatingLabelText="Event room or location"
           value={this.state.eventLocationString || ''}
           onChange={event => this.setState({ eventLocationString: event.target.value })}
+          multiLine
         />
       );
       eventOrganizer = (
@@ -426,6 +428,7 @@ class UserEventListItem extends Component {
           floatingLabelText="Event Organizer"
           value={this.state.eventOrganizer}
           onChange={event => this.setState({ eventOrganizer: event.target.value })}
+          multiLine
         />
       );
       eventCategories = (
@@ -447,11 +450,11 @@ class UserEventListItem extends Component {
           className="add-event-field-container-1"
           hintText="e.g. See freshman running in circles around a fire"
           floatingLabelText="Event description"
-          multiLine
           rows={1}
           rowsMax={3}
           value={this.state.eventDescription}
           onChange={event => this.setState({ eventDescription: event.target.value })}
+          multiLine
         />
       );
     } else {
@@ -461,17 +464,19 @@ class UserEventListItem extends Component {
       // }
       // this.htmlHasLoaded = true;
       eventName = (
-        <TextField style={{ height: '33px' }}
+        <TextField
           floatingLabelText="Event Name"
-          defaultValue={this.state.eventName}
+          hintText="e.g. Greenkey"
+          value={this.state.eventName}
           onChange={event => this.setState({ eventName: event.target.value })}
           disabled
+          multiLine
         />
       );
       eventTime = (
-        <TextField style={{ height: '33px' }}
-          floatingLabelText="Event Name"
-          defaultValue={this.momentFormat()}
+        <TextField
+          floatingLabelText="Event Time"
+          value={this.momentFormat()}
           disabled
         />
       );
@@ -483,6 +488,7 @@ class UserEventListItem extends Component {
           value={this.state.eventLocationString || ''}
           onChange={event => this.setState({ eventLocationString: event.target.value })}
           disabled
+          multiLine
         />
       );
       eventOrganizer = (
@@ -491,6 +497,7 @@ class UserEventListItem extends Component {
           value={this.state.eventOrganizer}
           onChange={event => this.setState({ eventOrganizer: event.target.value })}
           disabled
+          multiLine
         />
       );
       eventCategories = (
@@ -499,6 +506,7 @@ class UserEventListItem extends Component {
           value={this.state.eventCategoriesString}
           onChange={event => this.setState({ eventCategoriesString: event.target.value })}
           disabled
+          multiLine
         />
       );
       eventDescription = (
@@ -511,6 +519,7 @@ class UserEventListItem extends Component {
           rowsMax={3}
           value={this.state.eventDescription}
           disabled
+          multiLine
         />
       );
     }
@@ -528,16 +537,39 @@ class UserEventListItem extends Component {
       />,
     ];
 
+    let eventButtons = null;
+    if (this.props.eventListType === 'rsvp') {
+      eventButtons = (
+        <div />
+      );
+    } else {
+      eventButtons = (
+        <div>
+          <FlatButton
+            label={this.state.editEventButtonText}
+            primary
+            onTouchTap={this.editingEvent}
+          />
+          <FlatButton
+            label="Delete"
+            primary
+            onTouchTap={this.handleConfirmDeleteOpen}
+          />
+        </div>
+      );
+    }
+
     return (
-      <ListItem>
+      <ListItem
+        hoverColor="#FFFFFF"
+      >
         <div>
           <div id={'uspg-map-'.concat(this.props.event.id)} className="uspg-map" />
           <div>
             <br />
             {eventName}
-          </div>
-          {eventTime}
-          <div>
+            <br />
+            {eventTime}
             <br />
             {eventLocationString}
             <br />
@@ -547,16 +579,7 @@ class UserEventListItem extends Component {
             <br />
             {eventDescription}
             <br />
-            <FlatButton
-              label={this.state.editEventButtonText}
-              primary
-              onTouchTap={this.editingEvent}
-            />
-            <FlatButton
-              label="Delete"
-              primary
-              onTouchTap={this.handleConfirmDeleteOpen}
-            />
+            {eventButtons}
             <Dialog
               actions={confirmDeleteActions}
               modal={false}
