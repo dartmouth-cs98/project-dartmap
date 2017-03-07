@@ -30,10 +30,13 @@ class NavBar extends Component {
     this.initialFbLoad = false;
   }
 
-  componentWillUpdate = () => {
+  componentWillUpdate = (nextProps, nextState) => {
     if (!this.initialFbLoad && window.FB) {
-      this.props.getLoginStatusFromFb();
+      this.props.getLoginStatusFromFb(this.props.jwt);
       this.initialFbLoad = true;
+    }
+    if (nextProps.jwt && !nextProps.userInfo) {
+      this.props.getLoginStatusFromFb(nextProps.jwt);
     }
   }
 
@@ -122,8 +125,10 @@ class NavBar extends Component {
 const mapStateToProps = state => (
   {
     user: state.user,
+    jwt: state.user && state.user.jwt,
     fbProfPicUrl: state.user.fbProfPicUrl,
     userInfo: state.user.userInfo && state.user.userInfo[0],
+    // events: state.events,
   }
 );
 

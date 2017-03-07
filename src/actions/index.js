@@ -39,9 +39,9 @@ export const ActionTypes = {
   DELETE_COMMENT: 'DELETE_COMMENT',
 };
 
-export function getLoginStatusFromFb() {
+export function getLoginStatusFromFb(jwt) {
   return (dispatch) => {
-    fbApi.getFbLoginStatus(dispatch, ActionTypes.GET_FB_LOGIN_STATUS);
+    fbApi.getFbLoginStatus(dispatch, ActionTypes.GET_FB_LOGIN_STATUS, jwt);
   };
 }
 
