@@ -80,7 +80,7 @@ class Home extends Component {
 
   handleAddEventData = (data) => {
     this.setState({ addEvent: false }, this.getEvents);
-    this.props.getLoginStatusFromFb();
+    this.props.getLoginStatusFromFb(this.props.user.jwt);
   }
 
   toggleAddEvent = () => {

@@ -27,7 +27,6 @@ class MapContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.createLocationsFromEvents = this.createLocationsFromEvents.bind(this);
     // const locations = this.createLocationsFromEvents(props.events);
     this.state = {
       locations: [],
@@ -40,10 +39,10 @@ class MapContainer extends Component {
     // this.setState({ locations });
   }
 
-  _onChange = ({center, zoom}) => {
+  _onChange = ({ center, zoom }) => {
     this.props.onZoomChange(zoom);
-    if(typeof center['lat'] !== 'undefined'){
-      this.props.setMapCenter({ lat: center['lat'], lng: center['lng'] });
+    if (typeof center.lat !== 'undefined') {
+      this.props.setMapCenter({ lat: center.lat, lng: center.lng });
     }
   }
 
@@ -57,7 +56,7 @@ class MapContainer extends Component {
     this.props.onHoverKeyChange(key);
   }
 
-  createLocationsFromEvents(eventList) {
+  createLocationsFromEvents = (eventList) => {
     const locations = new Map();
     if (!eventList) {
       this.setState({ locations });
