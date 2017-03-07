@@ -73,6 +73,9 @@ class AddEventPage1 extends Component {
             className="add-event-field-container-1"
             hintText="e.g. See freshman running in circles around a fire"
             floatingLabelText="Event description"
+            multiLine
+            rows={1}
+            rowsMax={3}
             value={this.state.description || ''}
             fullWidth
             onChange={event => this.setState({ description: event.target.value })}
