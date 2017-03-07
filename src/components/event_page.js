@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
 
-import { Divider, Tabs, Tab, RaisedButton, Avatar, List, ListItem, CircularProgress } from 'material-ui';
+import { Divider, Tabs, Tab, RaisedButton, Avatar, List, ListItem, CircularProgress, TextField } from 'material-ui';
 
 import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
 
 // import redux actions
-import { fetchEvent } from '../actions';
+import { createRSVP, removeRSVP, getLoginStatusFromFb, fetchEvent } from '../actions';
 
 // import helper functions
 import {
@@ -27,6 +27,7 @@ class EventPage extends Component {
     this.map = null;
     this.marker = null;
     this.infoWindow = null;
+    this.initialRSVP = true;
     this.handleRSVP = this.handleRSVP.bind(this);
     this.getInitialRSVP = this.getInitialRSVP.bind(this);
     this.getAllRSVPs = this.getAllRSVPs.bind(this);
@@ -54,10 +55,12 @@ class EventPage extends Component {
     } else {
       this.props.fetchEvent(this.props.params.id);
     }
+    this.getInitialRSVP();
   }
 
   componentDidMount() {
     if (window.google && this.state.event && !this.map) {
+      this.getInitialRSVP();
       this.loadMap();
     }
   }
@@ -74,23 +77,24 @@ class EventPage extends Component {
 
   componentDidUpdate() {
     if (window.google && this.state.event && !this.map) {
-      this.getInitialRSVP();
       this.loadMap();
     }
   }
 
   getInitialRSVP() {
-    if (this.state.event !== undefined && this.state.event !== null
-      && this.state.event.attendees.length !== 0
-      && this.state.isRSVPed === false && this.props.user 
-      && this.props.user.userInfo && this.props.user.userInfo[0]) {
-      let i;
-      for (i = 0; i < this.state.event.attendees.length; i += 1) {
-        if (this.state.event.attendees && this.props.user.userInfo && this.state.event.attendees[i].id === this.props.user.userInfo[0].id) {
-          this.setState({
-            isRSVPed: true,
-          });
-          break;
+    if (this.initialRSVP) {
+      if (this.state.event !== undefined && this.state.event !== null
+        && this.state.event.attendees.length !== 0
+        && this.state.isRSVPed === false && this.props.user
+        && this.props.user.userInfo && this.props.user.userInfo[0]) {
+        this.initialRSVP = false;
+        for (let i = 0; i < this.state.event.attendees.length; i += 1) {
+          if (this.state.event.attendees && this.props.user.userInfo && this.state.event.attendees[i].id === this.props.user.userInfo[0].id) {
+            this.setState({
+              isRSVPed: true,
+            });
+            break;
+          }
         }
       }
     }
@@ -117,14 +121,19 @@ class EventPage extends Component {
     data.event_id = this.state.event_id;
 
     if (this.state.isRSVPed === true) { // De-RSVP
-      deleteRSVP(data, this.props.user.jwt).then((response) => {
-        this.setState({ isRSVPed: !this.state.isRSVPed });
-      });
+      this.props.removeRSVP(data, this.props.user.jwt);
+      this.setState({ isRSVPed: false });
+      // deleteRSVP(data, this.props.user.jwt).then((response) => {
+      //   this.setState({ isRSVPed: !this.state.isRSVPed });
+      // });
     } else { // RSVP
-      postRSVP(data, this.props.user.jwt).then((response) => {
-        this.setState({ isRSVPed: !this.state.isRSVPed });
-      });
+      this.props.createRSVP(data, this.props.user.jwt);
+      this.setState({ isRSVPed: true });
+      // postRSVP(data, this.props.user.jwt).then((response) => {
+      //   this.setState({ isRSVPed: !this.state.isRSVPed });
+      // });
     }
+    // this.props.getLoginStatusFromFb();
   }
 
   addImage() {
@@ -242,7 +251,7 @@ class EventPage extends Component {
           <Tab label="Images" href="#Images" />
           <Tab label="Details" href="#Details" />
           <Tab label="Location" href="#Location" />
-          <Tab label="Live" href="#LiveFeed" />
+          <Tab label="Comments" href="#LiveFeed" />
         </Tabs>
         <div className="container" style={{ marginTop: '108px' }}>
           <div id="About">
@@ -318,7 +327,7 @@ class EventPage extends Component {
           <Divider style={styles.dividerStyle} />
           <div id="LiveFeed">
             <div className="row">
-              <h2 className="col-md-6">Live</h2>
+              <h2 className="col-md-6">Comments</h2>
             </div>
             <CommentBox pollInterval={1000} event_id={this.state.event_id} />
           </div>
@@ -340,4 +349,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps, { fetchEvent })(EventPage);
+export default connect(mapStateToProps, { createRSVP, removeRSVP, getLoginStatusFromFb, fetchEvent })(EventPage);

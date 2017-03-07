@@ -74,6 +74,7 @@ class UserEventListItem extends Component {
     }
     this.loadMap = this.loadMap.bind(this);
     // this.loadEditMap = this.loadEditMap.bind(this);
+    this.momentFormat = this.momentFormat.bind(this);
   }
 
   componentDidMount = () => {
@@ -322,6 +323,7 @@ class UserEventListItem extends Component {
     this.setState({ eventEndTime: date });
   };
 
+
   handleConfirmDeleteOpen = () => {
     this.setState({ confirmDeleteOpen: true });
   };
@@ -334,6 +336,13 @@ class UserEventListItem extends Component {
     this.setState({ confirmDeleteOpen: false });
     deleteEvent(this.props.event.id);
   };
+
+  momentFormat = () => {
+    const start = moment(this.state.eventStartTime).format('h:mm A');
+    const end = moment(this.state.eventEndTime).format('h:mm A');
+    console.log(start.concat(' ~ ', end));
+    return start.concat(' ~ ', end);
+  }
 
   render() {
     // this block of code builds the string to display the event's categories
@@ -377,23 +386,24 @@ class UserEventListItem extends Component {
       // this.htmlHasLoaded = true;
 
       eventName = (
-        <TextField style={{ height: '33px' }}
+        <TextField
+          floatingLabelText="Event Name"
           defaultValue={this.state.eventName}
           onChange={event => this.setState({ eventName: event.target.value })}
         />
       );
       eventTime = (
         <div>
-          <text className="attributeTitle">
-            <br />Start Time:&nbsp;
+          <text className="floating-label">
+            <br />Start Time <br />
           </text>
           <TimePicker style={{ display: 'inline', height: '33px' }}
             defaultTime={this.state.eventStartTime}
             value={this.state.eventStartTime}
             onChange={this.handleChangeTimeStart}
           />
-          <text className="attributeTitle">
-            <br />End Time:&nbsp;
+          <text className="floating-label">
+            <br />End Time <br />
           </text>
           <TimePicker style={{ display: 'inline', height: '33px' }}
             defaultTime={this.state.eventEndTime}
@@ -403,23 +413,27 @@ class UserEventListItem extends Component {
         </div>
       );
       eventLocationString = (
-        <TextField style={{ height: '33px' }}
-          defaultValue={this.state.eventLocationString}
+        <TextField
+          className="add-event-field-container-1"
+          hintText="e.g. The Green"
+          floatingLabelText="Event room or location"
+          value={this.state.eventLocationString || ''}
           onChange={event => this.setState({ eventLocationString: event.target.value })}
         />
       );
       eventOrganizer = (
-        <TextField style={{ height: '33px' }}
-          defaultValue={this.state.eventOrganizer}
+        <TextField
+          floatingLabelText="Event Organizer"
+          value={this.state.eventOrganizer}
           onChange={event => this.setState({ eventOrganizer: event.target.value })}
         />
       );
       eventCategories = (
-        <div className="row">
-          <text className="attribute col-md-1">
-            <br />{categoriesStringLabel}&nbsp;
+        <div>
+          <text className="floating-label">
+            <br /> {categoriesStringLabel} <br />
           </text>
-          <div className="col-md-7" style={{ left: '-8px' }}>
+          <div style={{ color: 'C8C8C8' }}>
             <Select multi joinValues
               options={CATEGORIES}
               value={this.state.eventCategories}
@@ -430,7 +444,13 @@ class UserEventListItem extends Component {
       );
       eventDescription = (
         <TextField
-          defaultValue={this.state.eventDescription}
+          className="add-event-field-container-1"
+          hintText="e.g. See freshman running in circles around a fire"
+          floatingLabelText="Event description"
+          multiLine
+          rows={1}
+          rowsMax={3}
+          value={this.state.eventDescription}
           onChange={event => this.setState({ eventDescription: event.target.value })}
         />
       );
@@ -441,44 +461,57 @@ class UserEventListItem extends Component {
       // }
       // this.htmlHasLoaded = true;
       eventName = (
-        <h6 style={{ display: 'inline' }} className="name">
-          {this.state.eventName}
-        </h6>
+        <TextField style={{ height: '33px' }}
+          floatingLabelText="Event Name"
+          defaultValue={this.state.eventName}
+          onChange={event => this.setState({ eventName: event.target.value })}
+          disabled
+        />
       );
       eventTime = (
-        <div>
-          <text className="attributeTitle">
-            <br />Time:&nbsp;
-          </text>
-          <text className="attribute">
-            {moment(this.state.eventStartTime).format('h:mm A')} ~ {moment(this.state.eventEndTime).format('h:mm A')}<br />
-          </text>
-        </div>
+        <TextField style={{ height: '33px' }}
+          floatingLabelText="Event Name"
+          defaultValue={this.momentFormat()}
+          disabled
+        />
       );
       eventLocationString = (
-        <text className="attribute">
-          {this.state.eventLocationString}<br />
-        </text>
+        <TextField
+          className="add-event-field-container-1"
+          hintText="e.g. The Green"
+          floatingLabelText="Event room or location"
+          value={this.state.eventLocationString || ''}
+          onChange={event => this.setState({ eventLocationString: event.target.value })}
+          disabled
+        />
       );
       eventOrganizer = (
-        <text className="attribute">
-          {this.state.eventOrganizer}<br />
-        </text>
+        <TextField
+          floatingLabelText="Event Organizer"
+          value={this.state.eventOrganizer}
+          onChange={event => this.setState({ eventOrganizer: event.target.value })}
+          disabled
+        />
       );
       eventCategories = (
-        <div>
-          <text className="attribute">
-            <br />{categoriesStringLabel}&nbsp;
-          </text>
-          <text className="attribute">
-            {this.state.eventCategoriesString}<br />
-          </text>
-        </div>
+        <TextField
+          floatingLabelText="Categories"
+          value={this.state.eventCategoriesString}
+          onChange={event => this.setState({ eventCategoriesString: event.target.value })}
+          disabled
+        />
       );
       eventDescription = (
-        <text className="attribute">
-          {this.state.eventDescription}<br />
-        </text>
+        <TextField
+          className="add-event-field-container-1"
+          hintText="e.g. See freshman running in circles around a fire"
+          floatingLabelText="Event description"
+          multiLine
+          rows={1}
+          rowsMax={3}
+          value={this.state.eventDescription}
+          disabled
+        />
       );
     }
 
@@ -500,51 +533,39 @@ class UserEventListItem extends Component {
         <div>
           <div id={'uspg-map-'.concat(this.props.event.id)} className="uspg-map" />
           <div>
-            <text className="attributeTitle">
-              <br /><br /><br />Event Name:&nbsp;
-            </text>
+            <br />
             {eventName}
           </div>
           {eventTime}
           <div>
-            <text className="attributeTitle">
-              <br />Location/Room:&nbsp;
-            </text>
+            <br />
             {eventLocationString}
-          </div>
-          <div>
-            <text className="attributeTitle">
-              <br />Organizer:&nbsp;
-            </text>
+            <br />
             {eventOrganizer}
-          </div>
-          <div>
+            <br />
             {eventCategories}
-          </div>
-          <div>
-            <text className="attributeTitle">
-              <br />Description:&nbsp;
-            </text>
+            <br />
             {eventDescription}
+            <br />
+            <FlatButton
+              label={this.state.editEventButtonText}
+              primary
+              onTouchTap={this.editingEvent}
+            />
+            <FlatButton
+              label="Delete"
+              primary
+              onTouchTap={this.handleConfirmDeleteOpen}
+            />
+            <Dialog
+              actions={confirmDeleteActions}
+              modal={false}
+              open={this.state.confirmDeleteOpen}
+              onRequestClose={this.handleClose}
+            >
+              Wait! Are you sure you want to delete the event &#34;{this.state.eventName}&#34;?
+            </Dialog>
           </div>
-          <FlatButton
-            label={this.state.editEventButtonText}
-            primary
-            onTouchTap={this.editingEvent}
-          />
-          <FlatButton
-            label="Delete"
-            primary
-            onTouchTap={this.handleConfirmDeleteOpen}
-          />
-          <Dialog
-            actions={confirmDeleteActions}
-            modal={false}
-            open={this.state.confirmDeleteOpen}
-            onRequestClose={this.handleClose}
-          >
-            Wait! Are you sure you want to delete the event "{this.state.eventName}"?
-          </Dialog>
         </div>
       </ListItem>
     );

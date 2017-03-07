@@ -15,6 +15,22 @@ const EventsReducer = (state = {}, action) => {
       newState = Object.assign({}, state, newState);
       newState.all = action.payload.events;
       return newState;
+    case ActionTypes.FETCH_USER_EVENTS:
+      newState = Object.assign({}, state, newState);
+      newState.userEvents = action.payload.events;
+      return newState;
+    case ActionTypes.FETCH_RSVP_EVENTS:
+      newState = Object.assign({}, state, newState);
+      newState.rsvps = action.payload.events;
+      return newState;
+    case ActionTypes.RSVP_CREATED:
+      newState = Object.assign({}, state, newState);
+      newState.rsvps = null;
+      return newState;
+    case ActionTypes.RSVP_REMOVED:
+      newState = Object.assign({}, state, newState);
+      newState.rsvps = null;
+      return newState;
     case ActionTypes.FETCH_EVENT:
       newState = Object.assign({}, state);
       newState.currentEvent = action.payload.event;
