@@ -18,7 +18,7 @@ import FilterContainer from './filter_container';
 import LocationDialog from './location_dialog';
 
 // import the redux actions
-import { fetchEvents, getLocation, clearBalloons, setMapCenter } from '../actions';
+import { fetchEvents, getLocation, clearBalloons, setMapCenter, getLoginStatusFromFb } from '../actions';
 
 const RADIUS = 10000;
 
@@ -80,6 +80,7 @@ class Home extends Component {
 
   handleAddEventData = (data) => {
     this.setState({ addEvent: false }, this.getEvents);
+    this.props.getLoginStatusFromFb();
   }
 
   toggleAddEvent = () => {
@@ -175,6 +176,6 @@ const mapStateToProps = state => (
   }
 );
 
-const mapDispatchToProps = { fetchEvents, getLocation, clearBalloons, setMapCenter };
+const mapDispatchToProps = { fetchEvents, getLocation, clearBalloons, setMapCenter, getLoginStatusFromFb };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

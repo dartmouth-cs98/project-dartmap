@@ -39,6 +39,14 @@ const UserReducer = (state = {}, action) => {
       newState.loggedIn = false;
       newState.jwt = null;
       return newState;
+    case ActionTypes.RSVP_CREATED:
+      newState = Object.assign({}, state);
+      newState.userInfo[0].rsvpevents.push(action.payload.eventId);
+      return newState;
+    case ActionTypes.RSVP_REMOVED:
+      newState = Object.assign({}, state);
+      newState.userInfo[0].rsvpevents.splice(newState.userInfo[0].rsvpevents.indexOf(action.payload.eventId), 1);
+      return newState;
     default:
       return state;
   }

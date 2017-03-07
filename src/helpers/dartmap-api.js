@@ -265,7 +265,12 @@ export function getUserByPassword(callback, userPassword) {
     type: 'GET',
     dataType: 'json',
     success: (data) => {
-      const userList = data.users;
+      const userList = data.users.map((u) => {
+        const user = { ...u };
+        user.rsvpevents = eval(u.rsvpevents);
+        user.createdevents = eval(u.createdevents);
+        return user;
+      });
       return callback(userList);
     },
     error: (xhr, status, err) => {
@@ -416,7 +421,7 @@ export function deleteComment(dispatch, successAction, errorAction, commentURL) 
   return response;
 }
 
-export function postRSVP(postData, jwt) {
+export function postRSVP(dispatch, successAction, errorAction, postData, jwt) {
   const fullUrl = API_URL.concat(RSVP_URL);
   const response = $.ajax({
     url: fullUrl,
@@ -429,17 +434,17 @@ export function postRSVP(postData, jwt) {
       'Authorization': 'JWT ' + jwt,
     },
     success: (data) => {
-      console.log(data);
-      return data;
+      dispatch({ type: successAction, payload: { eventId: postData.event_id } });
     },
     error: (xhr, status, err) => {
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
   return response;
 }
 
-export function deleteRSVP(deleteData, jwt) {
+export function deleteRSVP(dispatch, successAction, errorAction, deleteData, jwt) {
   const fullUrl = API_URL.concat(RSVP_URL);
   const response = $.ajax({
     url: fullUrl,
@@ -452,11 +457,11 @@ export function deleteRSVP(deleteData, jwt) {
       'Authorization': 'JWT ' + jwt,
     },
     success: (data) => {
-      console.log(data);
-      return data;
+      dispatch({ type: successAction, payload: { eventId: deleteData.event_id } });
     },
     error: (xhr, status, err) => {
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
   return response;

@@ -174,7 +174,7 @@ class Comment extends React.Component {
             <div style={styles.secondary}>
               <div>
                 <div className={this.state.isEditing ? '' : 'hidden'}>
-                  <TextField style={styles.text} underlineShow defaultValue={this.props.text} onChange={this.trackEdit} />
+                  <TextField id={this.props.id.toString()} style={styles.text} underlineShow defaultValue={this.props.text} onChange={this.trackEdit} />
                   <FlatButton
                     label="Cancel"
                     primary

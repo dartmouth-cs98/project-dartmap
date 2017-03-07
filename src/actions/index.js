@@ -19,6 +19,8 @@ export const ActionTypes = {
   FETCH_EVENT: 'FETCH_EVENT',
   FETCH_RSVP_EVENTS: 'FETCH_RSVP_EVENTS',
   FETCH_USER_EVENTS: 'FETCH_USER_EVENTS',
+  RSVP_CREATED: 'RSVP_CREATED',
+  RSVP_REMOVED: 'RSVP_REMOVED',
   CREATE_EVENT: 'CREATE_EVENT',
   UPDATE_EVENT: 'UPDATE_EVENT',
   DELETE_EVENT: 'DELETE_EVENT',
@@ -63,6 +65,20 @@ export function fetchEvents(latitude, longitude) {
       dartmapApi.getAllEvents(dispatch, ActionTypes.FETCH_EVENTS,
         ActionTypes.EVENT_FAIL, latitude, longitude, RADIUS);
     }
+  };
+}
+
+export function createRSVP(data, jwt) {
+  return (dispatch) => {
+    dartmapApi.postRSVP(dispatch, ActionTypes.RSVP_CREATED,
+      ActionTypes.EVENT_FAIL, data, jwt);
+  };
+}
+
+export function removeRSVP(data, jwt) {
+  return (dispatch) => {
+    dartmapApi.deleteRSVP(dispatch, ActionTypes.RSVP_REMOVED,
+      ActionTypes.EVENT_FAIL, data, jwt);
   };
 }
 

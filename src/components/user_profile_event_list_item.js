@@ -59,9 +59,6 @@ class UserEventListItem extends Component {
       eventLocationPlaceId: this.props.event.placeId,
       eventIconUrl: this.props.event.icon_url,
     };
-    console.log('THE STATE');
-    console.log(this.state);
-    console.log(this.props.event);
     this.map = null;
     this.marker = null;
     this.editMap = null;

@@ -20,44 +20,47 @@ class UserPage extends Component {
     this.state = {
       uploadingPhoto: false,
     };
-    this.sortEventList = this.sortEventList.bind(this);
-    this.logout = this.logout.bind(this);
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    // this.props.getLoginStatusFromFb();
-    if (nextProps.user !== this.props.user) {
-      this.getSubmittedEvents();
-      this.getRSVPEvents();
-    }
-  }
+  // componentWillUpdate() {
+  //   console.log('update', this.props.userInfo);
+  //   if (!this.props.userInfo && window.FB) {
+  //     console.log('logging in');
+  //     this.props.getLoginStatusFromFb();
+  //   }
+  //   // if (nextProps.user !== this.props.user) {
+  //   //   this.getSubmittedEvents();
+  //   //   this.getRSVPEvents();
+  //   // }
+  // }
 
   onEventListItemClick = (eventId) => {
     console.log('Button clicked ', eventId);
   }
 
   getRSVPEvents = () => {
+    console.log(this.props.user.userInfo);
     if (this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
-      const arr = eval(this.props.user.userInfo[0].rsvpevents);
-      const idString = arr.toString();
-      this.props.fetchRSVPdEventsById(idString);
+      const arr = this.props.user.userInfo[0].rsvpevents;
+      // const idString = arr.toString();
+      this.props.fetchRSVPdEventsById(arr.toString());
     }
   }
 
   getSubmittedEvents = () => {
     if (this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
-      const arr = eval(this.props.user.userInfo[0].createdevents);
-      const idString = arr.toString();
-      this.props.fetchUserEventsById(idString);
+      const arr = this.props.user.userInfo[0].createdevents;
+      // const idString = arr.toString();
+      this.props.fetchUserEventsById(arr.toString());
     }
   }
 
-  logout() {
+  logout = () => {
     this.props.logout();
     window.location.replace('../');
   }
 
-  sortEventList(eventList) {
+  sortEventList = (eventList) => {
     if (eventList) {
       return eventList.sort(sortDateTimeReverse);
     } else {
@@ -66,16 +69,18 @@ class UserPage extends Component {
   }
 
   render() {
-    if (this.props.RSVPEvents == null) {
+    console.log(this.props.RSVPEvents);
+    if (this.props.RSVPEvents === null || this.props.RSVPEvents === undefined) {
+      console.log('fetching rsvps');
       this.getRSVPEvents();
       return null;
     }
 
-    if (this.props.SubmittedEvents == null) {
+    if (this.props.SubmittedEvents === null || this.props.SubmittedEvents === undefined) {
       this.getSubmittedEvents();
       return null;
     }
-
+    console.log(this.props.user);
     return (
       <div>
         <Tabs style={{ marginLeft: '28%', position: 'static', top: 0, width: '72%', marginTop: '60px', zIndex: 1500 }}>
@@ -107,7 +112,7 @@ class UserPage extends Component {
             <Avatar size={25} className="img-responsive center-block" style={{ minWidth: '0%', width: '150px', height: '150px', marginLeft: '125px', marginTop: '25px' }}
               src={this.props.user.fbProfPicUrl} alt="avatar"
             />
-            <p style={{ textAlign: 'center', marginTop: '20px', color: '#5a7391', fontSize: '25px', fontWeight: 600, marginBottom: '7px' }} >{this.props.user.userInfo[0].name}</p>
+            <p style={{ textAlign: 'center', marginTop: '20px', color: '#5a7391', fontSize: '25px', fontWeight: 600, marginBottom: '7px' }} >{this.props.userInfo && this.props.userInfo[0].name}</p>
           </Card>
           <Menu>
             <MenuItem primaryText="Logout" leftIcon={<CancelNavigation />} onTouchTap={this.logout} />
@@ -125,6 +130,7 @@ const mapStateToProps = state => (
     user: state.user,
     RSVPEvents: state.events.rsvps,
     SubmittedEvents: state.events.userEvents,
+    userInfo: state.user && state.userInfo,
   }
 );
 
