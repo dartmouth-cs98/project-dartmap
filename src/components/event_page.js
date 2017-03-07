@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
 
-import { Divider, Tabs, Tab, RaisedButton, Avatar, List, ListItem, CircularProgress } from 'material-ui';
+import { Divider, Tabs, Tab, RaisedButton, Avatar, List, ListItem, CircularProgress, TextField } from 'material-ui';
 
 import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
@@ -251,7 +251,7 @@ class EventPage extends Component {
           <Tab label="Images" href="#Images" />
           <Tab label="Details" href="#Details" />
           <Tab label="Location" href="#Location" />
-          <Tab label="Live" href="#LiveFeed" />
+          <Tab label="Comments" href="#LiveFeed" />
         </Tabs>
         <div className="container" style={{ marginTop: '108px' }}>
           <div id="About">
@@ -327,7 +327,7 @@ class EventPage extends Component {
           <Divider style={styles.dividerStyle} />
           <div id="LiveFeed">
             <div className="row">
-              <h2 className="col-md-6">Live</h2>
+              <h2 className="col-md-6">Comments</h2>
             </div>
             <CommentBox pollInterval={1000} event_id={this.state.event_id} />
           </div>
