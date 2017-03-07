@@ -34,7 +34,7 @@ class UserEventList extends Component {
         if (i === 0 || (i >= 1 && !this.isSameDay)) {
           this.eventItems.push(
             <div className="user-date-display" key={'date'.concat(i)}>
-              {event.date.format('ddd MM/DD/YYYY')}
+              {event.date.format('dddd,  MMMM D')}
             </div>
           );
         }
