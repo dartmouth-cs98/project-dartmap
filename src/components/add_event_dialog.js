@@ -83,7 +83,6 @@ class AddEventDialog extends Component {
     this.props.closeAddEventDialog();
   }
   render() {
-    console.log(this.props.jwt);
     const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description, location_string: this.state.location_string };
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
     const page3Data = { location: this.state.location };

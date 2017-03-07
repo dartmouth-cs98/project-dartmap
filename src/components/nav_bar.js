@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 
 // import the redux actions
 import { login, logout, getLoginStatusFromFb } from '../actions';
@@ -12,8 +13,16 @@ class NavBar extends Component {
     this.state = {
       showMenu: false,
     };
+    this.styles = {
+      greeting: { color: this.props.muiTheme.palette.primary2Color },
+      loginButton: {
+        backgroundColor: this.props.muiTheme.palette.primary2Color,
+      },
+    };
     this.defaultGreeting = (
-      <h2 className="navbar-greeting">Welcome! Please log in...</h2>
+      <h2 className="navbar-greeting" style={this.styles.greeting}>
+        Welcome! Please log in...
+      </h2>
     );
     this.userButton = this.fbLoginButton;
     this.greeting = this.defaultGreeting;
@@ -21,10 +30,13 @@ class NavBar extends Component {
     this.initialFbLoad = false;
   }
 
-  componentWillUpdate = () => {
+  componentWillUpdate = (nextProps, nextState) => {
     if (!this.initialFbLoad && window.FB) {
-      this.props.getLoginStatusFromFb();
+      this.props.getLoginStatusFromFb(this.props.jwt);
       this.initialFbLoad = true;
+    }
+    if (nextProps.jwt && !nextProps.userInfo) {
+      this.props.getLoginStatusFromFb(nextProps.jwt);
     }
   }
 
@@ -52,7 +64,7 @@ class NavBar extends Component {
   render = () => {
     if (this.props.user.loggedIn) {
       this.greeting = (
-        <h2 className="navbar-greeting">
+        <h2 className="navbar-greeting" style={this.styles.greeting}>
           {this.props.userInfo.name === '' ? '' : `Hi, ${this.props.userInfo.name}!`}
         </h2>
       );
@@ -75,7 +87,9 @@ class NavBar extends Component {
     } else {
       this.greeting = this.defaultGreeting;
       this.userButton = (
-        <button id="login-button" className="fb-user nav-btn" onClick={this.facebookLogin}>
+        <button id="login-button" className="fb-user nav-btn"
+          onClick={this.facebookLogin} style={this.styles.loginButton}
+        >
           Facebook Log In
         </button>
       );
@@ -111,11 +125,13 @@ class NavBar extends Component {
 const mapStateToProps = state => (
   {
     user: state.user,
+    jwt: state.user && state.user.jwt,
     fbProfPicUrl: state.user.fbProfPicUrl,
     userInfo: state.user.userInfo && state.user.userInfo[0],
+    // events: state.events,
   }
 );
 
 const mapDispatchToProps = { login, logout, getLoginStatusFromFb };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(muiThemeable()(NavBar));
