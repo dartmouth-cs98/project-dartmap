@@ -88,6 +88,7 @@ export function postNewEvent(dispatch, successAction, errorAction, event, jwt) {
     },
     error: (xhr, status, err) => {
       console.error(fullUrl, status, err);
+      alert('Your event was not created due to server errors.');
       dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });

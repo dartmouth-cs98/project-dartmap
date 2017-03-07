@@ -340,7 +340,6 @@ class UserEventListItem extends Component {
   momentFormat = () => {
     const start = moment(this.state.eventStartTime).format('h:mm A');
     const end = moment(this.state.eventEndTime).format('h:mm A');
-    console.log(start.concat(' ~ ', end));
     return start.concat(' ~ ', end);
   }
 
@@ -414,7 +413,7 @@ class UserEventListItem extends Component {
         </div>
       );
       eventLocationString = (
-        <TextField
+       <TextField
           className="add-event-field-container-1"
           hintText="e.g. The Green"
           floatingLabelText="Event room or location"
@@ -469,6 +468,7 @@ class UserEventListItem extends Component {
           hintText="e.g. Greenkey"
           value={this.state.eventName}
           onChange={event => this.setState({ eventName: event.target.value })}
+          multiLine
           disabled
           multiLine
         />
@@ -496,6 +496,7 @@ class UserEventListItem extends Component {
           floatingLabelText="Event Organizer"
           value={this.state.eventOrganizer}
           onChange={event => this.setState({ eventOrganizer: event.target.value })}
+          multiLine
           disabled
           multiLine
         />
@@ -505,6 +506,7 @@ class UserEventListItem extends Component {
           floatingLabelText="Categories"
           value={this.state.eventCategoriesString}
           onChange={event => this.setState({ eventCategoriesString: event.target.value })}
+          multiLine
           disabled
           multiLine
         />
