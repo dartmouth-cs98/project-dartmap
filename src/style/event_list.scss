@@ -26,6 +26,7 @@
 .event-text {
   width: inherit;
   max-width: 100px;
+  text-overflow: ellipsis;
 }
 
 #event-menu {

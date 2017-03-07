@@ -26,12 +26,13 @@ const EventListItem = (props) => {
           value={props.num}
           primaryText={props.event.name}
           secondaryText={
-            <text className="event-text">
+            <p>
               {startTimeString} ~ {endTimeString} <br />
               {props.event.location_name}
-            </text>
+            </p>
           }
-           leftAvatar={<Avatar src={props.event.icon_url} />}
+          leftAvatar={<Avatar src={props.event.icon_url} />}
+          secondaryTextLines={2}
         />
       </div>
     );
