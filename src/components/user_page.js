@@ -8,7 +8,7 @@ import { zIndex } from 'material-ui/styles';
 import CancelNavigation from 'material-ui/svg-icons/navigation/cancel';
 
 // import the redux actions
-import { getLoginStatusFromFb, fetchRSVPdEventsById, fetchUserEventsById, logout } from '../actions';
+import { fetchRSVPdEventsById, fetchUserEventsById, logout } from '../actions';
 
 import UserEventList from './user_profile_event_list';
 import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
@@ -104,7 +104,7 @@ class UserPage extends Component {
   }
 }
 
-const mapDispatchToProps = { getLoginStatusFromFb, logout, fetchRSVPdEventsById, fetchUserEventsById };
+const mapDispatchToProps = { logout, fetchRSVPdEventsById, fetchUserEventsById };
 
 const mapStateToProps = state => (
   {
