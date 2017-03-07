@@ -79,13 +79,12 @@ class EventList extends Component {
             <div className="side-drawer">
               <Drawer open={this.state.open} containerStyle={this.styles.drawerStyle}>
                 <div className="evl-arrow" onClick={this.handleToggle}>
-                  <img className="arrow" src={arrowurl} alt="arrow" />
+                  <img className={this.state.open ? "arrow" : "arrow closed-arrow"} src={arrowurl} alt="arrow" />
                 </div>
                 <div className="search-bar-box">
                   <input id="search-bar" type="text" value={this.state.searchString}
-                    onChange={this.handleChange} placeholder="Search here..."
+                    onChange={this.handleChange} placeholder="  Search MappIt"
                   />
-                  <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block" alt="search" />
                 </div>
                 <div id="event-menu">
                   <div id="event-list">
@@ -108,9 +107,8 @@ class EventList extends Component {
               </div>
               <div className="search-bar-box">
                 <input id="search-bar" type="text" value={this.state.searchString}
-                  onChange={this.handleChange} placeholder="Search here..."
+                  onChange={this.handleChange} placeholder="  Search MappIt"
                 />
-                <img src="https://api.icons8.com/download/c5c8b5ba35e008ea471e9a53c5fa74c03ef6e78c/iOS7/PNG/256/Very_Basic/search-256.png" width="10%" display="inline-block" alt="search" />
               </div>
               <div id="event-list">
                 <text className="warning-msg">
