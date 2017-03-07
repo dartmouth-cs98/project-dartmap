@@ -166,6 +166,7 @@ class EventPage extends Component {
         zoom: 15,
         fullscreenControl: false,
         mapTypeControl: false,
+        scrollwheel: false,
       };
       const icon = {
         url: iconUrl,
