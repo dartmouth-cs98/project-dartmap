@@ -22,29 +22,25 @@ class UserPage extends Component {
       uploadingPhoto: false,
       eventList: null,
     };
-    this.openUploadPhotoDialog = this.openUploadPhotoDialog.bind(this);
-    this.closeUploadPhotoDialog = this.closeUploadPhotoDialog.bind(this);
-    this.sortEventList = this.sortEventList.bind(this);
-    this.logout = this.logout.bind(this);
   }
 
   onEventListItemClick = (eventId) => {
     console.log('Button clicked ', eventId);
   }
 
-  openUploadPhotoDialog() {
+  openUploadPhotoDialog = () => {
     this.setState({ uploadingPhoto: true });
   }
 
-  closeUploadPhotoDialog() {
+  closeUploadPhotoDialog = () => {
     this.setState({ uploadingPhoto: false });
   }
 
-  sortEventList(eventList) {
+  sortEventList = (eventList) => {
     return eventList.sort(sortDateTimeReverse);
   }
 
-  logout() {
+  logout = () => {
     this.props.logout();
     window.location.replace('../');
   }
@@ -91,7 +87,7 @@ class UserPage extends Component {
             <Avatar size={25} className="img-responsive center-block" style={{ minWidth: '0%', width: '150px', height: '150px', marginLeft: '125px', marginTop: '25px' }}
               src={this.props.user.fbProfPicUrl} alt="avatar"
             />
-            <p style={{ textAlign: 'center', marginTop: '20px', color: '#5a7391', fontSize: '25px', fontWeight: 600, marginBottom: '7px' }} >{this.props.user.userInfo[0].name}</p>
+            <p style={{ textAlign: 'center', marginTop: '20px', color: '#5a7391', fontSize: '25px', fontWeight: 600, marginBottom: '7px' }} >{ this.props.user && this.props.user.userInfo && this.props.user.userInfo[0].name}</p>
           </Card>
           <Menu>
             <MenuItem primaryText="Logout" leftIcon={<CancelNavigation />} onTouchTap={this.logout} />
