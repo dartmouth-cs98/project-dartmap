@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import {ListItem} from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import TextField from 'material-ui/TextField';
+import {grey400, darkBlack, lightBlack,blue700} from 'material-ui/styles/colors';
 import { clearBalloons } from '../../actions';
 
 const MapBalloonEvent = (props) => {
@@ -22,40 +23,27 @@ const MapBalloonEvent = (props) => {
       className="map-event-list"
       value={props.num}
       primaryText={event.name + ' @ ' + event.start_time.format('h:mm A')}
+      secondaryText={event.description}
+      secondaryTextLines={1}
       leftAvatar={<Avatar src={event.icon_url} />}
       key={'outer-text'.concat(props.num)}
       nestedItems={[
         <ListItem 
               className="map-event-list"
               value={props.num}
-              primaryText='Description'
-              secondaryText={event.description}
-              key={'nested-description'.concat(props.num)}
-              style={listItemStyle}
-        />,
-        <ListItem 
-              className="map-event-list"
-              value={props.num}
-              primaryText='Organizer'
-              secondaryText={event.organizer}
-              key={'nested-organizer'.concat(props.num)}
-              style={listItemStyle}
-        />,
-        <ListItem 
-              className="map-event-list"
-              value={props.num}
-              primaryText='Categories'
-              secondaryText={categoryString}
-              key={'nested-categories'.concat(props.num)}
-              style={listItemStyle}
-        />,
-        <ListItem 
-              className="map-event-list"
               containerElement={<Link to={'/events/'.concat(event.id)} />}
-              value={props.num}
-              primaryText='Click to view more information'
-              key={'nested-link'.concat(props.num)}
+              secondaryText={
+                <text>
+                  <span style={{color: darkBlack}}>Description: </span>
+                  {event.description}<br />
+                  <span style={{color: darkBlack}}>Organizer: </span>
+                  {event.organizer}<br />
+                  <span style={{color: darkBlack}}>Categories: </span>
+                  {categoryString}<br /><br />
+                  <span style={{color: blue700}}>Click to view more information</span>
+                </text>}
               style={listItemStyle}
+              key={'nested-info'.concat(props.num)}
               onClick={props.clearBalloons}
         />,
       ]}

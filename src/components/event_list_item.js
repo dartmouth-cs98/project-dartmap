@@ -1,6 +1,10 @@
 // event_list_item.js
 import React from 'react';
 import { connect } from 'react-redux';
+import {ListItem} from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
+
+
 
 // import redux actions
 import { setStickyBalloonId, setBalloonId, setMapCenter } from '../actions';
@@ -18,19 +22,18 @@ const EventListItem = (props) => {
           props.setMapCenter({ lat: props.event.lat, lng: props.event.lng });
         }}
       >
-        <div className="row">
-          <div className="col-md-11">
-            <div className="row">
-              <h6 className="col-md-9 name">
-                {props.event.name}
-              </h6>
-            </div>
-            <text className="attribute">
+        <ListItem 
+          value={props.num}
+          primaryText={props.event.name}
+          secondaryText={
+            <p>
               {startTimeString} ~ {endTimeString} <br />
               {props.event.location_name}
-            </text>
-          </div>
-        </div>
+            </p>
+          }
+          leftAvatar={<Avatar src={props.event.icon_url} />}
+          secondaryTextLines={2}
+        />
       </div>
     );
   }

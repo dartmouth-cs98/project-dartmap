@@ -1,6 +1,6 @@
 // map_container.js
 import React, { PropTypes, Component } from 'react';
-import GoogleMap from 'google-map-react';
+import GoogleMapReact from 'google-map-react';
 import controllable from 'react-controllables';
 import { connect } from 'react-redux';
 
@@ -40,11 +40,13 @@ class MapContainer extends Component {
     // this.setState({ locations });
   }
 
-  _onChange = (center, zoom /* , bounds, marginBounds */) => {
-    this.props.setMapCenter({ lat: center[0], lng: center[1] });
-    this.props.clearBalloons();
+  _onChange = ({center, zoom}) => {
     this.props.onZoomChange(zoom);
+    if(typeof center['lat'] !== 'undefined'){
+      this.props.setMapCenter({ lat: center['lat'], lng: center['lng'] });
+    }
   }
+
 
   _onChildClick = (key, childProps) => {
     // Recenter the map to the event that is clicked on.
@@ -95,6 +97,7 @@ class MapContainer extends Component {
       zoomControlOptions: {
         position: maps.ControlPosition.RIGHT_CENTER,
       },
+      scrollwheel: false,
     };
   }
 
@@ -123,24 +126,23 @@ class MapContainer extends Component {
     };
     return (
       <div id="map" style={mapStyle}>
-        <GoogleMap
+        <GoogleMapReact
           bootstrapURLKeys={{
             key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
             libraries: 'places',
           }}
-          options={{ scrollwheel: false}}
+          options={this.createMapOptions}
           center={this.props.center}
           zoom={this.props.zoom}
-          options={this.createMapOptions}
           hoverDistance={K_SIZE / 2}
-          onBoundsChange={this._onBoundsChange}
+          onChange={this._onChange}
           onClick={this.maybeSelectLocation}
           onChildClick={this._onChildClick}
           onChildMouseEnter={this._onChildMouseEnter}
           onChildMouseLeave={this._onChildMouseLeave}
         >
           {mapEvents}
-        </GoogleMap>
+        </GoogleMapReact>
       </div>
     );
   }

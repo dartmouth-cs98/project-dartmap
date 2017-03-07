@@ -14,8 +14,6 @@
 .event-item {
   background-color: white;
   border-bottom: thin solid black;
-  padding-left: 8px;
-  padding-top: 8px;
   width: 100%;
   font-size: 15px;
 
@@ -23,6 +21,12 @@
     background-color: $light-grey;
     cursor: pointer;
   }
+}
+
+.event-text {
+  width: inherit;
+  max-width: 100px;
+  text-overflow: ellipsis;
 }
 
 #event-menu {
