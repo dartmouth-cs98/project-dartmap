@@ -41,8 +41,6 @@ class MapContainer extends Component {
   }
 
   _onChange = ({center, zoom}) => {
-    console.log("onchange ");
-    console.log(center['lat']+" "+center['lng']+" "+zoom);
     this.props.onZoomChange(zoom);
     if(typeof center['lat'] !== 'undefined'){
       this.props.setMapCenter({ lat: center['lat'], lng: center['lng'] });

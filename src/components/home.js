@@ -47,12 +47,10 @@ class Home extends Component {
   componentDidMount() {
     this.getEvents();
     // Listener that resizes the map, if the user changes the window dimensions.
-    console.log('mounting');
     window.addEventListener('resize', this.onResize);
   }
 
   componentWillUnmount() {
-    console.log('unmounting');
     window.removeEventListener('resize', this.onResize);
   }
 
@@ -102,7 +100,6 @@ class Home extends Component {
     this.props.setMapCenter({ lat: this.props.latitude, lng: this.props.longitude });
     this.setState({ showBtns: false });
     this.forceUpdate();
-    console.log("refocus "+this.props.latitude+" "+this.props.longitude);
   }
 
   render() {
