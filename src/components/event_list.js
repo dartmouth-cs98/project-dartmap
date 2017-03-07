@@ -1,7 +1,8 @@
 // event_list.js
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TextField from 'material-ui/TextField';
+import muiThemeable from 'material-ui/styles/muiThemeable';
+// import TextField from 'material-ui/TextField';
 import Drawer from 'material-ui/Drawer';
 
 import EventListItem from './event_list_item';
@@ -19,6 +20,12 @@ class EventList extends Component {
         position: 'absolute',
         overflow: 'visible',
       },
+      dateDisplay: {
+        backgroundColor: this.props.muiTheme.palette.primary2Color,
+      },
+      arrow: {
+        backgroundColor: this.props.muiTheme.palette.primary1Color,
+      },
     };
   }
 
@@ -34,9 +41,11 @@ class EventList extends Component {
     this.eventItems = [];
     let arrowurl = '';
     if (this.state.open) {
-      arrowurl = 'https://s22.postimg.org/7w3kbqdkx/leftarrow.png';
+      // arrowurl = 'https://s22.postimg.org/7w3kbqdkx/leftarrow.png';
+      arrowurl = '/images/leftarrow.png';
     } else {
-      arrowurl = 'https://s27.postimg.org/4lgynq277/rightarrow.png';
+      // arrowurl = 'https://s27.postimg.org/4lgynq277/rightarrow.png';
+      arrowurl = '/images/rightarrow.png';
     }
 
     if (this.props.events && this.props.events.length > 0) {
@@ -55,7 +64,7 @@ class EventList extends Component {
         }
         if (i === 0 || (i >= 1 && !this.isSameDay)) {
           this.eventItems.push(
-            <div className="date-display" key={'date'.concat(i)}>
+            <div className="date-display" key={'date'.concat(i)} style={this.styles.dateDisplay}>
               {event.date.format('dddd,  MMMM D')}
             </div>
           );
@@ -79,7 +88,11 @@ class EventList extends Component {
             <div className="side-drawer">
               <Drawer open={this.state.open} containerStyle={this.styles.drawerStyle}>
                 <div className="evl-arrow" onClick={this.handleToggle}>
-                  <img className={this.state.open ? "arrow" : "arrow closed-arrow"} src={arrowurl} alt="arrow" />
+                  <img
+                    style={this.styles.arrow}
+                    className={this.state.open ? 'arrow' : 'arrow closed-arrow'}
+                    src={arrowurl} alt="arrow"
+                  />
                 </div>
                 <div className="search-bar-box">
                   <input id="search-bar" type="text" value={this.state.searchString}
@@ -103,7 +116,11 @@ class EventList extends Component {
           <div className="side-drawer">
             <Drawer open={this.state.open} containerStyle={this.styles.drawerStyle}>
               <div className="evl-arrow" onClick={this.handleToggle}>
-                <img className="arrow" src={arrowurl} alt="arrow" />
+                <img
+                  style={this.styles.arrow}
+                  className="arrow"
+                  src={arrowurl} alt="arrow"
+                />
               </div>
               <div className="search-bar-box">
                 <input id="search-bar" type="text" value={this.state.searchString}
@@ -132,4 +149,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default connect(mapStateToProps, null)(EventList);
+export default connect(mapStateToProps, null)(muiThemeable()(EventList));
