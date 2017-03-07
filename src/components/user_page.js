@@ -39,7 +39,6 @@ class UserPage extends Component {
   }
 
   getRSVPEvents = () => {
-    console.log(this.props.user.userInfo);
     if (this.props.user.userInfo && this.props.user.userInfo.constructor === Array) {
       const arr = this.props.user.userInfo[0].rsvpevents;
       // const idString = arr.toString();
@@ -69,7 +68,6 @@ class UserPage extends Component {
   }
 
   render() {
-    console.log(this.props.RSVPEvents);
     if (this.props.RSVPEvents === null || this.props.RSVPEvents === undefined) {
       console.log('fetching rsvps');
       this.getRSVPEvents();
