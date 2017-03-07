@@ -14,8 +14,8 @@ import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 const NUM_DAYS_DISPLAY = 8;
 
 // Check the next 2 days by default
-const DEFAULT_CHECKED = [true, true, false, false, false, false, false, false];
-const DEFAULT_DATES = ['0', '1'];
+const DEFAULT_CHECKED = [true, true, true, true, true, true, true, true];
+const DEFAULT_DATES = ['0', '1', '2', '3', '4', '5', '6', '7'];
 
 // Array of dates with labels and values both set
 // to the date

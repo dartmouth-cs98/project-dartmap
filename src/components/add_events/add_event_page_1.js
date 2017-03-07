@@ -74,7 +74,7 @@ class AddEventPage1 extends Component {
             hintText="e.g. See freshman running in circles around a fire"
             floatingLabelText="Event description"
             multiLine
-            rows={2}
+            rows={1}
             rowsMax={3}
             value={this.state.description || ''}
             fullWidth
