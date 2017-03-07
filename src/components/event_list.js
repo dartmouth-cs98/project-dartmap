@@ -41,11 +41,9 @@ class EventList extends Component {
     this.eventItems = [];
     let arrowurl = '';
     if (this.state.open) {
-      // arrowurl = 'https://s22.postimg.org/7w3kbqdkx/leftarrow.png';
-      arrowurl = '/images/leftarrow.png';
+      arrowurl = 'https://s9.postimg.org/yf27eupf3/leftarrow.png';
     } else {
-      // arrowurl = 'https://s27.postimg.org/4lgynq277/rightarrow.png';
-      arrowurl = '/images/rightarrow.png';
+      arrowurl = 'https://s11.postimg.org/crw1d3377/rightarrow.png';
     }
 
     if (this.props.events && this.props.events.length > 0) {
