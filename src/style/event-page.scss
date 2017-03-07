@@ -4,6 +4,12 @@
 
 @import "./variables.scss";
 
+.floating-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.298039);
+}
+
 .evpg-container {
   padding-top: 20px;
   margin: 0px 50px;
