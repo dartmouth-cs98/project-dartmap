@@ -82,11 +82,15 @@
   }
 }
 
+.closed-arrow {
+  margin-left: 10px;
+}
+
 .evl-arrow {
   height: 35px;
-  width: 35px;
+  width: 40px;
   position: absolute;
-  right: -35px;
+  right: -40px;
   box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
   background-color: white;
 
