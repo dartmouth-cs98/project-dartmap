@@ -231,3 +231,7 @@
   @include flex-space-around;
   @include flex-box;
 }
+
+.pac-container {
+  z-index: 1600;
+}

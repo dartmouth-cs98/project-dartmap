@@ -19,7 +19,7 @@ class UserEventList extends Component {
   render() {
     this.eventItems = [];
 
-    if (this.props.events.length > 0) {
+    if (this.props.events && this.props.events.length > 0) {
       // FOR EACH EVENT
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
