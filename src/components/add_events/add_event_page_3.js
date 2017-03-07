@@ -26,7 +26,7 @@ class AddEventPage3 extends Component {
     this.placeChanged = false;
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.gMaps = this.gMaps || (window.google && window.google.maps);
     const mapHTML = document.getElementById('add-event-map');
     const searchHTML = document.getElementById('map-search-box');
@@ -41,7 +41,6 @@ class AddEventPage3 extends Component {
     this.gPlaces = new this.gMaps.places.PlacesService(this.map);
     this.textBox = new this.gMaps.places.Autocomplete(searchHTML);
     this.textBox.bindTo('bounds', this.map);
-
     // adding a listener so that every time the map moves, we do a search
     this.map.addListener('bounds_changed', (event) => {
       this.nearbySearch(this.map.getBounds());
@@ -153,10 +152,9 @@ class AddEventPage3 extends Component {
 
   handleSelectedLocation = (data) => {
     this.setState(data);
-    console.log(data);
   }
 
-  render() {
+  render = () => {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
@@ -166,7 +164,7 @@ class AddEventPage3 extends Component {
             placeholder="Search for or select location"
             value={(this.state.location && this.state.location.name) || ''}
             onChange={(event) => {
-              this.setState({ location: { name: event.target.value } });
+              this.setState({ location: { name: event.target.value } }
             }}
             className="add-event-text add-event-loc-string"
           />
@@ -183,7 +181,7 @@ class AddEventPage3 extends Component {
             label="Next"
             primary
             type="submit"
-            disabled={(!this.state.location)}
+            disabled={(!this.state.location || !this.state.location.placeId)}
             className="nxt-btn"
           />
         </div>

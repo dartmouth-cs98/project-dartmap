@@ -128,7 +128,7 @@ class MapContainer extends Component {
       <div id="map" style={mapStyle}>
         <GoogleMapReact
           bootstrapURLKeys={{
-            key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
+            key: 'AIzaSyBiWgQfyoDdvwJR-x8o06wV-jbXhKrOQNo',
             libraries: 'places',
           }}
           options={this.createMapOptions}
