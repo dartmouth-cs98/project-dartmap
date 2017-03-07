@@ -53,12 +53,13 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
   }
 }
 
-export function getFbLoginStatus(dispatch, successAction) {
+export function getFbLoginStatus(dispatch, successAction, jwt) {
+  // if no jwt token is passed, then we do a POST to the backend and a GET
   const FB = window.FB;
   FB.getLoginStatus((response) => {
     handleFbResponse(response, (payload) => {
       dispatch({ type: successAction, payload });
-    }, false);
+    }, (!jwt));
   });
 }
 
@@ -68,7 +69,7 @@ export function fbLogin(dispatch, successAction) {
     if (r.status === 'connected') {
       handleFbResponse(r, (payload) => {
         dispatch({ type: successAction, payload });
-      }, true);
+      }, false);
     } else {
       FB.login((response) => {
         if (response.status === 'connected') {

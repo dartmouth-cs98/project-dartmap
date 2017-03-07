@@ -6,7 +6,6 @@
 // Top Navigation Bar
 #nav-bar {
   background-color: white;
-  color: $green;
   font-size: 30pt;
   height: $nav-bar-height;
   line-height: $nav-bar-height;
@@ -22,7 +21,6 @@
 
   // This is (currently) the user's name from facebook in the nav bar
   h2 {
-    color: #337ab7;
     font-size: 15pt;
     margin-bottom: 0;
     margin: initial;
@@ -66,7 +64,6 @@
 }
 
 .fb-user {
-  background-color: #3b5998;
   border: 0px;
   color: white;
   font-family: 'Lucida Grande';
