@@ -68,7 +68,7 @@ export function fbLogin(dispatch, successAction) {
     if (r.status === 'connected') {
       handleFbResponse(r, (payload) => {
         dispatch({ type: successAction, payload });
-      }, true);
+      }, false);
     } else {
       FB.login((response) => {
         if (response.status === 'connected') {
