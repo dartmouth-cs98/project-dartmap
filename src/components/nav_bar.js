@@ -112,7 +112,7 @@ class NavBar extends Component {
                 <div className="user-menu-item-text">Log Out</div>
               </div>
               <Link to="/user" id="user-link" className="nav-btn user-menu-item-container">
-                <div className="user-menu-item-text">User Profile Page</div>
+                <div className="user-menu-item-text">My Events</div>
               </Link>
             </div>
           </div>
