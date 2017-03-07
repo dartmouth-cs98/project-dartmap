@@ -129,6 +129,7 @@ class AddEventPage2 extends Component {
                 value={this.state.date}
                 minDate={today}
                 onChange={this.handleChangeDate}
+                autoOk
               />
             </div>
           </div>
@@ -138,6 +139,7 @@ class AddEventPage2 extends Component {
               hintText="Select start time"
               value={this.state.start_time}
               onChange={this.handleChangeStartTime}
+              autoOk
             />
           </div>
           <div className="add-event-field-container-2">
@@ -146,6 +148,7 @@ class AddEventPage2 extends Component {
               hintText="Select end time"
               value={this.state.end_time}
               onChange={this.handleChangeEndTime}
+              autoOk
             />
           </div>
           {timeErrorMessage}

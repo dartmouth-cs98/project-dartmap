@@ -240,6 +240,7 @@ class EventPage extends Component {
           <Tab label="About" href="#About" />
           <Tab label="Who is Going" href="#Going" />
           <Tab label="Images" href="#Images" />
+          <Tab label="Details" href="#Details" />
           <Tab label="Location" href="#Location" />
           <Tab label="Live" href="#LiveFeed" />
         </Tabs>
@@ -286,24 +287,32 @@ class EventPage extends Component {
             </div>
           </div>
           <Divider style={styles.dividerStyle} />
+          <div id="Details">
+            <div className="row">
+              <h2 className="col-md-6">Details</h2>
+            </div>
+            <div style={{marginLeft: "10px"}}>
+              <div className="evpg-description">
+                <h5 style={{color: "gray"}}>Description</h5>
+                <div>{this.state.event.description}</div>
+              </div>
+              <div className="evpg-organizer">
+                <h5 style={{color: "gray"}}>Organizer</h5>
+                <div>{this.state.event.organizer}</div>
+              </div>
+              <div className="evpg-categories">
+                <h5 style={{color: "gray"}}>Categories</h5>
+                <div>{categoryString}</div>
+              </div>
+            </div>
+          </div>
+          <Divider style={styles.dividerStyle} />
           <div id="Location">
             <div className="row">
-              <h2 className="col-md-6">Location Details</h2>
+              <h2 className="col-md-6">Location</h2>
             </div>
             <div className="row">
               <div id="evpg-map" />
-              <div className="evpg-description">
-                <em>Description: </em>
-                {this.state.event.description}
-              </div>
-              <div className="evpg-organizer">
-                <em>Organized by: </em>
-                {this.state.event.organizer}
-              </div>
-              <div className="evpg-categories">
-                <em>Categories: </em>
-                {categoryString}
-              </div>
             </div>
           </div>
           <Divider style={styles.dividerStyle} />
