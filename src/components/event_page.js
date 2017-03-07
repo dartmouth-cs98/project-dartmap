@@ -241,7 +241,7 @@ class EventPage extends Component {
           <Tab label="Who is Going" href="#Going" />
           <Tab label="Images" href="#Images" />
           <Tab label="Location" href="#Location" />
-          <Tab label="Live" href="#LiveFeed" />
+          <Tab label="Comments" href="#LiveFeed" />
         </Tabs>
         <div className="container" style={{ marginTop: '108px' }}>
           <div id="About">

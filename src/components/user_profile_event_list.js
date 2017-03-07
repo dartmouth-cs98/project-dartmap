@@ -44,19 +44,12 @@ class UserEventList extends Component {
         this.prevDate = event.date;
       }
 
-      // SEARCHING
-      const searchString = this.state.searchString.trim().toLowerCase();
-      if (searchString.length > 0) {
-        console.log(this.eventItems);
-        this.eventItems = this.eventItems.filter(i => ((i.constructor !== Array)
-          ? null : i[0].props.event.name.toLowerCase().match(searchString)));
-      }
-
       // Case of matching events (i.e. if there are events to be displayed)
       if (this.eventItems.length > 0) {
         return (
-          <div>
-            <TextField value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
+          <div >
+          <div style={{ width: '100%' }}>
+            </div>
             <List>
               {this.eventItems}
             </List>
@@ -67,7 +60,6 @@ class UserEventList extends Component {
     // Case of no matching events (i.e. if there are no events to be displayed)
     return (
       <div>
-        <TextField value={this.state.searchString} onChange={this.handleChange} placeholder="Search here..." />
         <text className="warning-msg">
           No Matching Events. <br />
           Please Try Again.
