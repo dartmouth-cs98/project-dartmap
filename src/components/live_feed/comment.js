@@ -42,7 +42,10 @@ class Comment extends React.Component {
     const data = {};
     data.content = this.state.text;
     this.props.onCommentEdit(this.props.id, data);
-    this.setState({ isEditing: !this.state.isEditing });
+    this.setState({
+      isEditing: !this.state.isEditing,
+      hasBeenEdited: true,
+    });
   }
 
   handleDelete = (e) => {
@@ -55,16 +58,6 @@ class Comment extends React.Component {
     this.setState({ isEditing: !this.state.isEditing });
   }
 
-  handleOpenEdit = (e) => {
-    e.preventDefault();
-    this.setState({ isEditDialogOpen: !this.state.isEditDialogOpen });
-  }
-
-  handleOpenDelete = (e) => {
-    e.preventDefault();
-    this.setState({ isDeleteDialogOpen: !this.state.isDeleteDialogOpen });
-  }
-
   expandComment = (e) => {
     if (this.props.text.length > 130) {
       this.setState({ isExpandComment: !this.state.isExpandComment });
@@ -72,20 +65,6 @@ class Comment extends React.Component {
   }
 
   render() {
-
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary
-        onTouchTap={this.handleOpenDelete}
-      />,
-      <FlatButton
-        label="Discard"
-        primary
-        onTouchTap={this.handleDelete}
-      />,
-    ];
-
     const iconButtonElement = (
       <IconButton
         touch
@@ -132,7 +111,7 @@ class Comment extends React.Component {
           leftAvatar={<Avatar src={this.props.image} />}
           rightIconButton={rightIconMenu}
           primaryText={
-            <span style={{ fontSize: '12px', color: 'grey' }}><b>{this.props.author}</b> posted {this.getTime()}</span>
+            <span style={{ fontSize: '12px', color: 'grey' }}><b>{this.props.author}</b> @ {this.getTime()}</span>
           }
           secondaryText={
             <div style={styles.secondaryExpanded}>
@@ -168,7 +147,7 @@ class Comment extends React.Component {
           leftAvatar={<Avatar src={this.props.image} />}
           rightIconButton={rightIconMenu}
           primaryText={
-            <span style={{ fontSize: '12px', color: 'grey' }}><b>{this.props.author}</b> posted {this.getTime()}</span>
+            <span style={{ fontSize: '12px', color: 'grey' }}><b>{this.props.author}</b> @ {this.getTime()}</span>
           }
           secondaryText={
             <div style={styles.secondary}>
