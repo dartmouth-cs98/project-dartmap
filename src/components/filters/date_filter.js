@@ -13,9 +13,10 @@ import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 // and an option for the next 2 weeks
 const NUM_DAYS_DISPLAY = 8;
 
-// Check the next 2 days by default
-const DEFAULT_CHECKED = [true, true, true, true, true, true, true, true];
+// Check all next future events by default
+const DEFAULT_CHECKED = [true, true, true, true, true, true, true, true, false];
 const DEFAULT_DATES = ['0', '1', '2', '3', '4', '5', '6', '7'];
+const UNCHECKED_ALL = [false, false, false, false, false, false, false, false, true];
 
 // Array of dates with labels and values both set
 // to the date
@@ -65,12 +66,19 @@ class DateFilter extends Component {
         checkedBoolean[7] = false;
       }
     } else {
-      checked.push(val);
-      checkedBoolean[val] = true;
-      if (val === '7') {
+      if (val === '8') {
+        checked = [];
+        checkedBoolean = UNCHECKED_ALL;
+      }
+      else if (val === '7') {
         // check every box
         checked = ['0', '1', '2', '3', '4', '5', '6', '7'];
-        checkedBoolean = [true, true, true, true, true, true, true, true];
+        checkedBoolean = DEFAULT_CHECKED;
+      }
+      else {
+        checkedBoolean[8] = false;
+        checked.push(val);
+        checkedBoolean[val] = true;  
       }
     }
     this.setState({ checked, checked_boolean: checkedBoolean });
@@ -103,6 +111,16 @@ class DateFilter extends Component {
         id={`d${i}`}
       />);
     });
+    const uncheck_id = this.state.checked_boolean.length - 1;
+    checkBoxes.push(
+      <Checkbox
+        label="Uncheck all"
+        onCheck={this.handleChange}
+        checked={this.state.checked_boolean[uncheck_id]}
+        value={uncheck_id}
+        key={uncheck_id}
+        id={`d${uncheck_id}`}
+      />);
     let popOver = '';
     if (this.datesDataDisplay && this.props.openDateFilter) {
       buttonType.primary = false;
