@@ -35,12 +35,6 @@ hr {
   background-color: white;
 }
 
-side-drawer {
-  position: relative;
-  height: inherit;
-  width: inherit;
-}
-
 // Button for a user to delete an event
 .user-delete-event {
   background-color: #BD1919;
@@ -120,6 +114,8 @@ side-drawer {
   width: 100%;
   background-color: white;
   display: inline-block;
+  line-height: 35px;
+  height: 35px;
 }
 
 .search-bar-box {
