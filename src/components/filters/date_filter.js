@@ -97,7 +97,6 @@ class DateFilter extends Component {
       }
     }
     dateArray.sort();
-    console.log(dateArray);
     this.props.onDateChange(dateArray);
   }
 
@@ -113,16 +112,6 @@ class DateFilter extends Component {
         id={`d${i}`}
       />);
     });
-    // const uncheck_id = this.state.checked_boolean.length - 1;
-    // checkBoxes.push(
-    //   <Checkbox
-    //     label="Uncheck all"
-    //     onCheck={this.handleChange}
-    //     checked={this.state.checked_boolean[uncheck_id]}
-    //     value={uncheck_id}
-    //     key={uncheck_id}
-    //     id={`d${uncheck_id}`}
-    //   />);
     let popOver = '';
     if (this.datesDataDisplay && this.props.openDateFilter) {
       buttonType.primary = false;
