@@ -20,7 +20,6 @@ const MapBalloonEvent = (props) => {
 
   return (
     <ListItem 
-      className="map-event-list"
       value={props.num}
       primaryText={event.name + ' @ ' + event.start_time.format('h:mm A')}
       secondaryText={event.description}
@@ -29,7 +28,6 @@ const MapBalloonEvent = (props) => {
       key={'outer-text'.concat(props.num)}
       nestedItems={[
         <ListItem 
-              className="map-event-list"
               value={props.num}
               containerElement={<Link to={'/events/'.concat(event.id)} />}
               secondaryText={
