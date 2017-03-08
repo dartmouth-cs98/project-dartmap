@@ -1,0 +1,80 @@
+// filter-container.scss
+// This file contains all of the styles for the filter container
+
+//Imports
+@import "./segmented-controls.css";
+@import "./variables.scss";
+
+.block {
+  width: 100%;
+}
+
+.checkbox {
+  margin-bottom: 16px;
+  width: 33%;
+}
+
+.slider-container {
+  width:60%;
+  height:15%;
+}
+.slider {
+  width:80%;
+  height:50%;
+  margin-top:6%;
+  margin-bottom: 6%;
+  margin-left:5%;
+  margin-right:5%;
+}
+
+.filter {
+  width: 33%;
+  display: inline-block;
+}
+
+#filter-container {
+  height: 40px;
+  width: 100%;
+  // border-top: 1px solid;
+  // border-bottom: 1px solid;
+  // background-color: rgb(0, 188, 212);
+  @include flex-box;
+  @include flex-space-around;
+  @include flex-align-center;
+}
+
+.date-filter, .category-filter {
+  margin-top:30px;
+  margin-bottom: 30px;
+  margin-right: 200px;
+  width:100%;
+  @include flex-space-around;
+  @include flex-box;
+}
+
+.category-filter {
+  color: #008000;
+  height: 30px;
+}
+
+.segmented-control {
+  &:hover {
+    background-color: #ccffcc;
+    opacity: .5;
+  }
+}
+
+//over-writing an issue with the rc-slider stylesheet
+.rc-slider-step {
+  margin: 0;
+}
+
+.multiselect {
+  width: 100%;
+  cursor: pointer;
+}
+
+//over-writing an issue with the bootstrap stylesheet
+.checkbox {
+  margin: 0;
+}

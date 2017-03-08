@@ -1,0 +1,142 @@
+// nav_bar.scss
+// This file contains all of the styling rules for the navigation bar
+
+@import "./variables.scss";
+
+// Top Navigation Bar
+#nav-bar {
+  background-color: white;
+  font-size: 30pt;
+  height: $nav-bar-height;
+  line-height: $nav-bar-height;
+  padding: 0 15px;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%;
+  z-index: 1250;
+
+  @include flex-space-between;
+  @include flex-box;
+  @include flex-align-center;
+
+  // This is (currently) the user's name from facebook in the nav bar
+  h2 {
+    font-size: 15pt;
+    margin-bottom: 0;
+    margin: initial;
+    line-height: $nav-bar-height;
+    right: 8px;
+  }
+
+  #logo {
+    height: $nav-bar-height;
+    width: $nav-bar-height;
+  }
+}
+
+.logo-link {
+  @include inline-flex;
+  @include flex-align-center;
+
+  // This is (currently) the dartmap logo in the nav bar
+  h1 {
+    margin: 0;
+  }
+}
+
+.nav-menu-right{
+  position: relative;
+  display: inherit;
+  right: 20px;
+}
+
+.nav-btn {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover, &:focus {
+    color: black;
+    outline: none;
+    text-decoration: none;
+  }
+}
+
+.fb-user {
+  border: 0px;
+  color: white;
+  font-family: 'Lucida Grande';
+  font-size: 12px;
+  height: $nav-bar-height/2;
+  line-height: $nav-bar-height/2;
+  vertical-align: middle;
+  width: 140px;
+  &:hover {
+    cursor: pointer;
+    opacity: .8;
+  }
+}
+
+.user-menu {
+  position: relative;
+  right: 70px;
+  top: -10px;
+  background-color: white;
+  box-shadow: 0px 0px 5px #000000;
+  color: black;
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  font-size: 10pt;
+  width: 140px;
+  z-index: 15;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.user-menu-item-container {
+  width: 100%;
+  z-index: 15;
+  &:hover {
+    background-color: $light-grey;
+    cursor: pointer;
+    text-decoration: none;
+  }
+}
+
+.user-menu-item-text {
+  padding-left: 8px;
+  z-index: 15;
+}
+
+#user-link {
+  display: inline-block;
+  font-size: 10pt;
+}
+
+#fb-pic {
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  box-shadow: 0px 0px 5px #000000;
+  height: 36px;
+  width: 36px;
+}
+
+.user-nav-btn {
+  width: 140px;
+  height: $nav-bar-height - 5px;
+  background-color: white;
+  border: 0;
+  padding: 0;
+  &:focus {
+
+  }
+}
+
+.nav-menu-container {
+  width: 140px;
+  height: $nav-bar-height;
+  display: inline-block;
+  position: relative;
+  left: 15px;
+}

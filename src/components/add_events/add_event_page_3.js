@@ -1,27 +1,21 @@
 // add_event_page_3.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 class AddEventPage3 extends Component {
-  // static nullFunction() {}
   constructor(props) {
     super(props);
     this.state = {
       location: props.data.location,
       selectedMarker: null,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBack = this.handleBack.bind(this);
-    this.handleSelectedLocation = this.handleSelectedLocation.bind(this);
-    this.nearbySearch = this.nearbySearch.bind(this);
-    this.createMarker = this.createMarker.bind(this);
-    this.createInfoWindow = this.createInfoWindow.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
     this.visibleErrorMessages = ['location'].map((data) => {
-      return (
-        <div key={data} className="error-msg">
-          The {data} of the event is required.
-        </div>
-      );
+      return (<div key={data} className="error-msg">
+        The {data} of the event is required.
+      </div>);
     });
     this.map = null;
     this.gPlaces = null;
@@ -32,12 +26,12 @@ class AddEventPage3 extends Component {
     this.placeChanged = false;
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.gMaps = this.gMaps || (window.google && window.google.maps);
     const mapHTML = document.getElementById('add-event-map');
     const searchHTML = document.getElementById('map-search-box');
     this.map = new this.gMaps.Map(mapHTML, {
-      center: this.props.data.userLocation,
+      center: this.props.userLocation,
       zoom: 15,
       streetViewControl: false,
       fullscreenControl: false,
@@ -47,7 +41,6 @@ class AddEventPage3 extends Component {
     this.gPlaces = new this.gMaps.places.PlacesService(this.map);
     this.textBox = new this.gMaps.places.Autocomplete(searchHTML);
     this.textBox.bindTo('bounds', this.map);
-
     // adding a listener so that every time the map moves, we do a search
     this.map.addListener('bounds_changed', (event) => {
       this.nearbySearch(this.map.getBounds());
@@ -71,7 +64,8 @@ class AddEventPage3 extends Component {
       if (!place.geometry) {
         // User entered the name of a Place that was not suggested and
         // pressed the Enter key, or the Place Details request failed.
-        window.alert('No details available for input: \''.concat(place.name).concat('\''));
+        const alertText = `No details available for input: '${place.name}'`;
+        window.alert(alertText);
       }
       // If the place has a geometry, then present it on a map.
       if (place.geometry.viewport) {
@@ -96,12 +90,14 @@ class AddEventPage3 extends Component {
     });
   }
 
-  nearbySearch(bounds) {
+  nearbySearch = (bounds) => {
     this.gPlaces.nearbySearch({ bounds },
       (result) => {
         if (result) {
           for (let i = 0; i < result.length; i += 1) {
-            const marker = this.createMarker(result[i].name, result[i].geometry.location, result[i].place_id);
+            const marker = this.createMarker(result[i].name,
+              result[i].geometry.location, result[i].place_id
+            );
             this.markers.push(marker);
           }
         }
@@ -109,7 +105,7 @@ class AddEventPage3 extends Component {
     );
   }
 
-  createMarker(name, location, placeId) {
+  createMarker = (name, location, placeId) => {
     const marker = new this.gMaps.Marker({
       map: this.map,
       position: location,
@@ -130,12 +126,12 @@ class AddEventPage3 extends Component {
     return marker;
   }
 
-  createInfoWindow(name, marker) {
+  createInfoWindow = (name, marker) => {
     this.infoWindow.setContent(name);
     this.infoWindow.open(this.map, marker);
   }
 
-  handleBack(event) {
+  handleBack = (event) => {
     const data = {
       location: this.state.location,
       currentPage: this.props.currentPage - 1,
@@ -143,7 +139,7 @@ class AddEventPage3 extends Component {
     this.props.handleData(data);
   }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.location) {
       const data = {
@@ -154,14 +150,11 @@ class AddEventPage3 extends Component {
     }
   }
 
-  handleSelectedLocation(data) {
+  handleSelectedLocation = (data) => {
     this.setState(data);
-    console.log(data);
   }
 
-  render() {
-    const validNext = 'nxt-btn add-event-btn';
-    const invalidNext = 'invalid-nxt-btn add-event-btn nxt-btn';
+  render = () => {
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
         <div className="add-event-fields">
@@ -178,16 +171,18 @@ class AddEventPage3 extends Component {
           <div id="add-event-map" />
         </div>
         <div className="add-event-btns">
-          <input
+          <RaisedButton
+            label="Back"
             type="button"
-            value="Back"
             onClick={(e) => { this.handleBack(e); }}
-            className="back-btn add-event-btn"
+            className="back-btn"
           />
-          <input
+          <RaisedButton
+            label="Next"
+            primary
             type="submit"
-            value="Next"
-            className={(!this.state.location) ? invalidNext : validNext}
+            disabled={(!this.state.location || !this.state.location.placeId)}
+            className="nxt-btn"
           />
         </div>
       </form>
@@ -195,4 +190,13 @@ class AddEventPage3 extends Component {
   }
 }
 
-export default AddEventPage3;
+const mapStateToProps = state => (
+  {
+    userLocation: {
+      lat: state.user.latitude,
+      lng: state.user.longitude,
+    },
+  }
+);
+
+export default connect(mapStateToProps, null)(AddEventPage3);

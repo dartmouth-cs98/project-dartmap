@@ -9,6 +9,7 @@ const CATEGORY_URL = 'categories/';
 const IMAGE_URL = 'sign_s3/';
 const EVENT_URL = 'events/';
 const USERS_URL = 'users/';
+const RSVP_URL = 'rsvp/';
 
 /**
  * formatAPIEventData() returns an event formatted to work with the front-end
@@ -16,7 +17,7 @@ const USERS_URL = 'users/';
  * @param {Object} the event object returned by the API
  * @return {Object} the flattened event object
  */
-function formatAPIEventData(event) {
+export function formatAPIEventData(event) {
   const newEvent = {};
   // event data
   newEvent.name = event.name;
@@ -35,9 +36,10 @@ function formatAPIEventData(event) {
   newEvent.lng = event.location.longitude;
   newEvent.location_name = event.location.name;
   newEvent.placeId = event.location.place_id;
-  // categories data
-  const catString = event.categories.replace(/'/g, '"').replace(/ u"/g, ' "');
-  newEvent.categories = $.parseJSON(catString);
+
+  newEvent.categories = eval(event.categories);
+  newEvent.attendees = eval(event.attendees);
+  newEvent.comments = eval(event.comments);
 
   return newEvent;
 }
@@ -55,9 +57,9 @@ function formatEventDataforAPI(event) {
   eventData.organizer = event.organizer;
   eventData.icon_url = event.icon_url;
   eventData.location_string = event.location_string;
-  eventData.start_time = event.start_time.format('HH:mm');
-  eventData.end_time = event.end_time.format('HH:mm');
-  eventData.date = event.date.format('YYYY-MM-DD');
+  eventData.start_time = moment(event.start_time).format('HH:mm');
+  eventData.end_time = moment(event.end_time).format('HH:mm');
+  eventData.date = moment(event.date).format('YYYY-MM-DD');
   eventData.categories = event.categories.map(cat => cat.label).toString();
   eventData.location_place_id = event.location.placeId;
   eventData.location_name = event.location.name;
@@ -67,14 +69,59 @@ function formatEventDataforAPI(event) {
   return eventData;
 }
 
-export function postNewEvent(event) {
+export function postNewEvent(dispatch, successAction, errorAction, event, jwt) {
   const eventData = formatEventDataforAPI(event);
+  console.log(eventData);
   const fullUrl = API_URL.concat(EVENT_URL);
   const response = $.ajax({
     url: fullUrl,
     jsonp: false,
     type: 'POST',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'POST',
+      'Authorization': 'JWT ' + jwt,
+    },
     data: eventData,
+    success: (data) => {
+      dispatch({ type: successAction, payload: { data } });
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+      alert('Your event was not created due to server errors.');
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
+    },
+  });
+  return response;
+}
+
+export function getEvent(dispatch, successAction, errorAction, eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    dataType: 'json',
+    success: (data) => {
+      const event = formatAPIEventData(data.events[0]);
+      dispatch({ type: successAction, payload: { event } });
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
+      console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
+    },
+  });
+}
+
+export function deleteEvent(eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'DELETE',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
     success: (data) => {
       return data;
     },
@@ -85,25 +132,47 @@ export function postNewEvent(event) {
   return response;
 }
 
-export function getEvent(saveEvent, eventId) {
+export function updateEvent(eventId, putData) {
   const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
-  $.ajax({
+  const response = $.ajax({
+    url: fullUrl,
+    type: 'PUT',
+    data: putData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'PUT',
+    },
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+    },
+  });
+  return response;
+}
+
+export function getEventSansRedux(eventId) {
+  const fullUrl = API_URL.concat(EVENT_URL).concat(eventId);
+  const response = $.ajax({
     url: fullUrl,
     type: 'GET',
     dataType: 'json',
     success: (data) => {
       const event = formatAPIEventData(data.events[0]);
       console.log('SUCCESS! GET /events/'.concat(eventId));
-      return saveEvent(event);
+      return event;
     },
     error: (xhr, status, err) => {
       console.log(' /events/'.concat(eventId).concat(' GET was not successful.'));
       console.error(fullUrl, status, err);
     },
   });
+  return response;
 }
 
-export function getAllEvents(saveEventList, latitude, longitude, radius) {
+export function getAllEvents(dispatch, successAction, errorAction,
+  latitude, longitude, radius) {
   const fullUrl = API_URL.concat(EVENT_URL);
   $.ajax({
     url: fullUrl,
@@ -119,16 +188,41 @@ export function getAllEvents(saveEventList, latitude, longitude, radius) {
         return formatAPIEventData(event);
       });
       console.log(data);
-      return saveEventList(eventList);
+      dispatch({ type: successAction, payload: { events: eventList } });
     },
     error: (xhr, status, err) => {
       console.log(' /events GET was not successful.');
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
 }
 
-export function getAllCategories(saveCatList) {
+export function getAllEventsById(dispatch, successAction, errorAction, idString) {
+  const fullUrl = API_URL.concat(EVENT_URL);
+  $.ajax({
+    url: fullUrl,
+    type: 'GET',
+    data: {
+      ids: idString,
+    },
+    dataType: 'json',
+    success: (data) => {
+      const eventList = data.events.map((event) => {
+        return formatAPIEventData(event);
+      });
+      console.log(data);
+      dispatch({ type: successAction, payload: { events: eventList } });
+    },
+    error: (xhr, status, err) => {
+      console.log(' /events GET was not successful.');
+      console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
+    },
+  });
+}
+
+export function getAllCategories(dispatch, successAction, errorAction) {
   const fullUrl = API_URL.concat(CATEGORY_URL);
   $.ajax({
     url: fullUrl,
@@ -136,11 +230,12 @@ export function getAllCategories(saveCatList) {
     dataType: 'json',
     success: (data) => {
       const catList = data.categories;
-      return saveCatList(catList);
+      dispatch({ type: successAction, payload: { catList } });
     },
     error: (xhr, status, err) => {
       console.log(' /categories GET was not successful.');
       console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
     },
   });
 }
@@ -164,18 +259,20 @@ export function getAllUsers() {
   });
 }
 
-export function getUserByPassword(saveUserList, userPassword) {
+export function getUserByPassword(callback, userPassword) {
   const fullUrl = API_URL.concat(USERS_URL).concat(userPassword);
   $.ajax({
     url: fullUrl,
     type: 'GET',
     dataType: 'json',
     success: (data) => {
-      const userList = data.users;
-      return saveUserList(userList);
-      // console.log('data');
-      // console.log(data);
-      // return data;
+      const userList = data.users.map((u) => {
+        const user = { ...u };
+        user.rsvpevents = eval(u.rsvpevents);
+        user.createdevents = eval(u.createdevents);
+        return user;
+      });
+      return callback(userList);
     },
     error: (xhr, status, err) => {
       console.log(' /user GET was not successful.');
@@ -205,7 +302,7 @@ export function getSignedImageURL(file) {
   return response;
 }
 
-export function postFbToken(token) {
+export function postFbToken(callback, token) {
   const tokenData = {};
   tokenData.access_token = token.accessToken;
   const fullUrl = API_URL.concat(AUTH_URL);
@@ -215,6 +312,7 @@ export function postFbToken(token) {
     type: 'POST',
     data: tokenData,
     success: (data) => {
+      callback(data);
       return data;
     },
     error: (xhr, status, err) => {
@@ -246,3 +344,128 @@ export function postToS3(s3URL, postData) {
   });
   return response;
 }
+
+export function postComment(dispatch, successAction, errorAction, commentURL, postData, jwt) {
+  const response = $.ajax({
+    url: commentURL,
+    jsonp: false,
+    type: 'POST',
+    data: postData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'POST',
+      'Authorization': 'JWT ' + jwt,
+    },
+    success: (data) => {
+      console.log(data);
+      dispatch({ type: successAction, payload: {} });
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
+    },
+  });
+  return response;
+}
+
+export function getComments(dispatch, successAction, errorAction, commentURL) {
+  const response = $.ajax({
+    url: commentURL,
+    jsonp: false,
+    type: 'GET',
+    success: (data) => {
+      return data;
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+    },
+  });
+  return response;
+}
+
+export function putComment(dispatch, successAction, errorAction, commentURL, putData) {
+  const response = $.ajax({
+    url: commentURL,
+    type: 'PUT',
+    data: putData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'PUT',
+    },
+    success: (data) => {
+      dispatch({ type: successAction, payload: {} });
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
+    },
+  });
+  return response;
+}
+
+export function deleteComment(dispatch, successAction, errorAction, commentURL) {
+  const response = $.ajax({
+    url: commentURL,
+    type: 'DELETE',
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+    },
+    success: (data) => {
+      dispatch({ type: successAction, payload: {} });
+    },
+    error: (xhr, status, err) => {
+      console.error(commentURL, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
+    },
+  });
+  return response;
+}
+
+export function postRSVP(dispatch, successAction, errorAction, postData, jwt) {
+  const fullUrl = API_URL.concat(RSVP_URL);
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'POST',
+    data: postData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'POST',
+      'Authorization': 'JWT ' + jwt,
+    },
+    success: (data) => {
+      dispatch({ type: successAction, payload: { eventId: postData.event_id } });
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
+    },
+  });
+  return response;
+}
+
+export function deleteRSVP(dispatch, successAction, errorAction, deleteData, jwt) {
+  const fullUrl = API_URL.concat(RSVP_URL);
+  const response = $.ajax({
+    url: fullUrl,
+    jsonp: false,
+    type: 'DELETE',
+    data: deleteData,
+    headers: {
+      'Access-Control-Allow-Headers': 'X-Custom-Header',
+      'Access-Control-Allow-Methods': 'DELETE',
+      'Authorization': 'JWT ' + jwt,
+    },
+    success: (data) => {
+      dispatch({ type: successAction, payload: { eventId: deleteData.event_id } });
+    },
+    error: (xhr, status, err) => {
+      console.error(fullUrl, status, err);
+      dispatch({ type: errorAction, payload: { error: { status, err } } });
+    },
+  });
+  return response;
+}
+
+export default { getAllEvents, getAllCategories, getEvent, postNewEvent };

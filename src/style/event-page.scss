@@ -4,6 +4,12 @@
 
 @import "./variables.scss";
 
+.floating-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.298039);
+}
+
 .evpg-container {
   padding-top: 20px;
   margin: 0px 50px;
@@ -15,7 +21,7 @@
 }
 
 #evpg-map {
-  width: 50%;
+  width: 100%;
   height: 200px;
   float: left;
 }
@@ -48,4 +54,28 @@
 
 .evpg-text div {
   padding: 5px 0;
+}
+
+.commentForm {
+  width: 50%;
+  height: 200px;
+  float: left;
+}
+
+.image-gallery {
+  background-color: $light-grey;
+}
+
+.image-gallery-slide {
+  height: 500px;
+  @include flex-box;
+  @include flex-justify-center;
+  @include flex-align-center;
+}
+
+.image-gallery-image img {
+  max-width: 500px;
+  max-height: 500px;
+  height: auto;
+  width: auto
 }

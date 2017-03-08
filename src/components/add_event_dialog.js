@@ -1,15 +1,20 @@
 // add_event_dialog.js
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Dialog from 'material-ui/Dialog';
 
 import AddEventPage1 from './add_events/add_event_page_1';
 import AddEventPage2 from './add_events/add_event_page_2';
 import AddEventPage3 from './add_events/add_event_page_3';
 import AddEventPage4 from './add_events/add_event_page_4';
 import AddEventPage5 from './add_events/add_event_page_5';
-import AddEventSubmitPage from './add_events/add_event_submit_page';
+// import AddEventSubmitPage from './add_events/add_event_submit_page';
 
 import PageSlider from './add_events/add_event_page_slider';
+
+// import the redux actions
+import { createEvent } from '../actions';
 
 class AddEventDialog extends Component {
   constructor(props) {
@@ -26,14 +31,11 @@ class AddEventDialog extends Component {
       categories: null,
       icon: null,
       currentPage: 0,
-      image_url: 'https://s27.postimg.org/o2c50l3fn/default.png',
+      image_url: ['https://s23.postimg.org/mh7ui2tqj/no_image.png'],
     };
-    this.handlePageData = this.handlePageData.bind(this);
-    this.submitEventData = this.submitEventData.bind(this);
-    this.resetState = this.resetState.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
-  resetState() {
+
+  resetState = () => {
     this.setState({
       name: null,
       organizer: null,
@@ -46,13 +48,19 @@ class AddEventDialog extends Component {
       categories: [],
       icon: null,
       currentPage: 0,
-      image_url: 'https://s27.postimg.org/o2c50l3fn/default.png',
+      image_url: ['https://s23.postimg.org/mh7ui2tqj/no_image.png'],
     });
   }
-  handlePageData(data) {
-    this.setState(data);
+
+  handlePageData = (data) => {
+    if (data.currentPage === this.pageCode.length) {
+      this.setState(data, this.submitEventData);
+    } else {
+      this.setState(data);
+    }
   }
-  submitEventData() {
+  submitEventData = () => {
+    console.log(this.props.jwt);
     const data = {
       name: this.state.name,
       organizer: this.state.organizer,
@@ -67,16 +75,17 @@ class AddEventDialog extends Component {
       image_url: this.state.image_url,
     };
     this.resetState();
-    this.props.handleAddEventData(data);
+    this.props.createEvent(data, this.props.jwt);
+    this.props.handleAddEventData();
   }
-  handleClose() {
+  handleClose = () => {
     this.resetState();
     this.props.closeAddEventDialog();
   }
   render() {
     const page1Data = { name: this.state.name, organizer: this.state.organizer, description: this.state.description, location_string: this.state.location_string };
     const page2Data = { date: this.state.date, start_time: this.state.start_time, end_time: this.state.end_time };
-    const page3Data = { location: this.state.location, userLocation: this.props.userLocation };
+    const page3Data = { location: this.state.location };
     const page4Data = { categories: this.state.categories };
     const page5Data = { icon: this.state.icon, image_url: this.state.image_url };
     this.pageCode = [
@@ -84,23 +93,24 @@ class AddEventDialog extends Component {
       <AddEventPage2 currentPage={this.state.currentPage} data={page2Data} handleData={this.handlePageData} />,
       <AddEventPage3 currentPage={this.state.currentPage} data={page3Data} handleData={this.handlePageData} />,
       <AddEventPage4 currentPage={this.state.currentPage} catList={this.props.catList} data={page4Data} handleData={this.handlePageData} />,
-      <AddEventPage5 currentPage={this.state.currentPage} data={page5Data} handleData={this.handlePageData} />,
-      <AddEventSubmitPage data={this.state} submitEventData={this.submitEventData} />,
+      <AddEventPage5 currentPage={this.state.currentPage} data={page5Data} handleData={this.handlePageData} submitEventData={this.submitEventData} />,
     ];
 
     if (this.props.addEvent) {
       return (
-        <div className="add-event-cover">
-          <div id="add-event">
-            <div className="add-event-top">
-              <div>
-                <h1>Add new event</h1>
-                <div id="close-button" onClick={this.handleClose}>x</div>
-              </div>
-              <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
-            </div>
+        <div>
+          <Dialog
+            className="add-event-cover"
+            title="Add new event"
+            modal={false}
+            autoScrollBodyContent
+            open={this.props.addEvent}
+            onRequestClose={this.handleClose}
+            titleStyle={{ borderBottom: 0 }}
+          >
+            <PageSlider currentPage={this.state.currentPage} numPages={this.pageCode.length - 1} />
             {this.pageCode[this.state.currentPage]}
-          </div>
+          </Dialog>
         </div>
       );
     }
@@ -110,4 +120,11 @@ class AddEventDialog extends Component {
   }
 }
 
-export default AddEventDialog;
+const mapStateToProps = state => (
+  {
+    catList: state.events.catList,
+    jwt: state.user.jwt,
+  }
+);
+
+export default connect(mapStateToProps, { createEvent })(AddEventDialog);

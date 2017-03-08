@@ -1,5 +1,7 @@
 // add_event_page_1.js
 import React, { Component } from 'react';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class AddEventPage1 extends Component {
   constructor(props) {
@@ -12,7 +14,7 @@ class AddEventPage1 extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.hiddenErrorMessage = <div className="hidden" />;
-    this.visibleErrorMessages = ['name', 'organizer', 'description', 'room'].map((data) => {
+    this.visibleErrorMessages = ['name', 'organizer', 'room', 'description'].map((data) => {
       return <div key={data} className="error-msg"> The {data} of the event is required. </div>;
     });
   }
@@ -32,52 +34,61 @@ class AddEventPage1 extends Component {
   render() {
     const nameErrorMessage = (this.state.name === '') ? this.visibleErrorMessages[0] : this.hiddenErrorMessage;
     const organizerErrorMessage = (this.state.organizer === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
-    const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[1] : this.hiddenErrorMessage;
-    const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessage;
+    const roomErrorMessage = (this.state.location_string === '') ? this.visibleErrorMessages[2] : this.hiddenErrorMessage;
+    const desciptionErrorMessage = (this.state.description === '') ? this.visibleErrorMessages[3] : this.hiddenErrorMessage;
     return (
       <form className="add-event-form" onSubmit={this.handleSubmit}>
-        <div className="add-event-fields">
-          <h2>Name of Event:* </h2>
-          <input
-            type="text"
-            placeholder="e.g. Homecoming Bonfire"
+        <div className="add-event-fields-page-1">
+          <TextField
+            className="add-event-field-container-1"
+            hintText="e.g. Homecoming Bonfire"
+            floatingLabelText="Event name"
             value={this.state.name || ''}
+            fullWidth
             onChange={event => this.setState({ name: event.target.value })}
-            className={(this.state.name !== '') ? 'add-event-text' : 'add-event-text error-box'}
           />
           {nameErrorMessage}
-          <h2>Event Organizer:*</h2>
-          <input
-            type="text"
-            placeholder="e.g. Collis Governing Board"
+          <br />
+          <TextField
+            className="add-event-field-container-1"
+            hintText="e.g. Collis Governing Board"
+            floatingLabelText="Event Organizer"
             value={this.state.organizer || ''}
+            fullWidth
             onChange={event => this.setState({ organizer: event.target.value })}
-            className={(this.state.organizer !== '') ? 'add-event-text' : 'add-event-text error-box'}
           />
           {organizerErrorMessage}
-          <h2>Room Name/Number to Display:*</h2>
-          <input
-            type="text"
-            placeholder="e.g. Collis 112"
+          <br />
+          <TextField
+            className="add-event-field-container-1"
+            hintText="e.g. The Green"
+            floatingLabelText="Event room or location"
             value={this.state.location_string || ''}
+            fullWidth
             onChange={event => this.setState({ location_string: event.target.value })}
-            className={(this.state.location_string !== '') ? 'add-event-text add-event-loc-string' : 'add-event-text add-event-loc-string error-box'}
           />
           {roomErrorMessage}
-          <h2>Description:*</h2>
-          <textarea
-            placeholder="e.g. See freshmen running in circles"
+          <br />
+          <TextField
+            className="add-event-field-container-1"
+            hintText="e.g. See freshman running in circles around a fire"
+            floatingLabelText="Event description"
+            multiLine
+            rows={1}
+            rowsMax={3}
             value={this.state.description || ''}
+            fullWidth
             onChange={event => this.setState({ description: event.target.value })}
-            className={(this.state.description === '') ? 'add-event-text error-box' : 'add-event-text'}
           />
           {desciptionErrorMessage}
         </div>
         <div className="add-event-btns">
-          <input
+          <RaisedButton
+            label="Next"
+            primary
             type="submit"
-            value="Next"
-            className={(!this.state.description || !this.state.organizer || !this.state.name || !this.state.location_string) ? 'invalid-nxt-btn nxt-btn add-event-btn' : 'nxt-btn add-event-btn'}
+            disabled={(!this.state.description || !this.state.organizer || !this.state.name || !this.state.location_string)}
+            className="nxt-btn"
           />
         </div>
       </form>

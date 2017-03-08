@@ -1,5 +1,10 @@
 // event_list.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import muiThemeable from 'material-ui/styles/muiThemeable';
+// import TextField from 'material-ui/TextField';
+import Drawer from 'material-ui/Drawer';
+
 import EventListItem from './event_list_item';
 
 class EventList extends Component {
@@ -7,16 +12,42 @@ class EventList extends Component {
     super(props);
     this.isSameDay = false;
     this.prevDate = null;
-    this.state = { searchString: '' };
+    this.state = { searchString: '', open: true };
+    this.styles = {
+      drawerStyle: {
+        height: '100%',
+        top: 0,
+        position: 'absolute',
+        overflow: 'visible',
+      },
+      dateDisplay: {
+        backgroundColor: this.props.muiTheme.palette.primary2Color,
+      },
+      arrow: {
+        backgroundColor: this.props.muiTheme.palette.primary1Color,
+      },
+    };
   }
+
   handleChange = (e) => {
     this.setState({ searchString: e.target.value });
   };
 
+  handleToggle = () => {
+    this.setState({ open: !this.state.open });
+  };
+
   render() {
     this.eventItems = [];
+    let arrowurl = '';
+    if (this.state.open) {
+      arrowurl = 'https://s9.postimg.org/yf27eupf3/leftarrow.png';
+    } else {
+      arrowurl = 'https://s11.postimg.org/crw1d3377/rightarrow.png';
+    }
 
-    if (this.props.events.length > 0) {
+    if (this.props.events && this.props.events.length > 0) {
+      // FOR EACH EVENT
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
         const eListItem = [<EventListItem
@@ -31,8 +62,8 @@ class EventList extends Component {
         }
         if (i === 0 || (i >= 1 && !this.isSameDay)) {
           this.eventItems.push(
-            <div className="date-display" key={'date'.concat(i)}>
-              {event.date.format('ddd MM/DD/YYYY')}
+            <div className="date-display" key={'date'.concat(i)} style={this.styles.dateDisplay}>
+              {event.date.format('dddd,  MMMM D')}
             </div>
           );
         }
@@ -40,6 +71,7 @@ class EventList extends Component {
         this.prevDate = event.date;
       }
 
+      // SEARCHING
       const searchString = this.state.searchString.trim().toLowerCase();
       if (searchString.length > 0) {
         console.log(this.eventItems);
@@ -47,39 +79,72 @@ class EventList extends Component {
           ? null : i[0].props.event.name.toLowerCase().match(searchString)));
       }
 
-      // Case of matching events.
-      if (this.eventItems.length > 0) {
+      // Case of matching events (i.e. if there are events to be displayed)
+      if (this.eventItems || this.eventItems.length > 0) {
         return (
-          <div id="event-menu">
-            <div className="add-event-btn-container">
-              <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
-                Add Event
-                <img id="plus" src="./../../icon_set_1/plus.png" role="presentation" />
-              </button>
+          <div>
+            <div className="side-drawer">
+              <Drawer open={this.state.open} containerStyle={this.styles.drawerStyle}>
+                <div className="evl-arrow" onClick={this.handleToggle}>
+                  <img
+                    style={this.styles.arrow}
+                    className={this.state.open ? 'arrow' : 'arrow closed-arrow'}
+                    src={arrowurl} alt="arrow"
+                  />
+                </div>
+                <div className="search-bar-box">
+                  <input id="search-bar" type="text" value={this.state.searchString}
+                    onChange={this.handleChange} placeholder="  Search MappIt"
+                  />
+                </div>
+                <div id="event-menu">
+                  <div id="event-list">
+                    {this.eventItems}
+                  </div>
+                </div>
+              </Drawer>
             </div>
-            <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
-            {this.eventItems}
           </div>
         );
       }
-    }
-    // Case of no matching events.
-    return (
-      <div id="event-none">
-        <div className="add-event-btn-container">
-          <button className="add-event-plus" type="button" onClick={this.props.toggleAddEvent}>
-            Add Event
-            <img id="plus" src="./../../icon_set_1/plus.png" role="presentation" />
-          </button>
+    } else {
+      // Case of no matching events (i.e. if there are no events to be displayed)
+      return (
+        <div id="event-none">
+          <div className="side-drawer">
+            <Drawer open={this.state.open} containerStyle={this.styles.drawerStyle}>
+              <div className="evl-arrow" onClick={this.handleToggle}>
+                <img
+                  style={this.styles.arrow}
+                  className="arrow"
+                  src={arrowurl} alt="arrow"
+                />
+              </div>
+              <div className="search-bar-box">
+                <input id="search-bar" type="text" value={this.state.searchString}
+                  onChange={this.handleChange} placeholder="  Search MappIt"
+                />
+              </div>
+              <div id="event-list">
+                <text className="warning-msg">
+                  No Matching Events. <br />
+                  Please Try Again.
+                </text>
+              </div>
+            </Drawer>
+          </div>
         </div>
-        <input id="search-bar" type="text" value={this.state.searchString} onChange={this.handleChange} placeholder="Type here..." />
-        <text className="warning-msg">
-          No Matching Events. <br />
-          Please Try Again.
-        </text>
-      </div>
-    );
+      );
+    }
+    return <div className="hidden" />;
   }
 }
 
-export default EventList;
+const mapStateToProps = state => (
+  {
+    isUserLoggedIn: state.user.loggedIn,
+    events: state.events.filteredEventList,
+  }
+);
+
+export default connect(mapStateToProps, null)(muiThemeable()(EventList));

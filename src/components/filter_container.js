@@ -1,10 +1,13 @@
 // filter_container.js
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import DateFilter from './filters/date_filter';
 import TimeFilter from './filters/time_filter';
 import CategoryFilter from './filters/category_filter';
 // import ApplyFilterButton from './apply_filter_button';
+
+import { filterEvents } from '../actions';
 
 class FilterContainer extends Component {
   constructor(props) {
@@ -13,49 +16,110 @@ class FilterContainer extends Component {
       selectedDate: null,
       selectedTime: null,
       selectedCategories: [],
+      openTimeFilter: false,
+      openDateFilter: false,
+      openCategoryFilter: false,
     };
-    this.applyFilters = this.applyFilters.bind(this);
-    this.onTimeChange = this.onTimeChange.bind(this);
-    this.onDateChange = this.onDateChange.bind(this);
-    this.onCategoryChange = this.onCategoryChange.bind(this);
-    this.shouldApplyFiltersInitial = true;
+    this.styles = {
+      buttonStyle: {
+        height: 40,
+        boxShadow: 0,
+      },
+      checkboxStyle: {
+        marginTop: 0,
+      },
+    };
   }
-  onDateChange(selectedDate) {
+
+  onDateChange = (selectedDate) => {
     this.setState({ selectedDate });
-    this.applyFilters();
+    const filters = Object.assign({}, this.state);
+    filters.selectedDate = selectedDate.slice();
+    this.applyFilters(filters);
   }
-  onTimeChange(selectedTime) {
+
+  onTimeChange = (selectedTime) => {
     this.setState({ selectedTime });
-    this.applyFilters();
+    const filters = Object.assign({}, this.state);
+    filters.selectedTime = selectedTime.slice();
+    this.applyFilters(filters);
   }
-  onCategoryChange(selectedCategories) {
+
+  onCategoryChange = (selectedCategories) => {
     this.setState({ selectedCategories });
-    this.applyFilters();
+    const filters = Object.assign({}, this.state);
+    filters.selectedCategories = selectedCategories.slice();
+    this.applyFilters(filters);
   }
-  applyFilters(event) {
-    // TODO: this is a hack that needs to be fixed in the future. Delays the setState call
-    setTimeout(() => {
-      this.props.onApplyFilter(this.state);
-    }, 500);
-    // this.props.filterEvents();
+
+  applyFilters = (filters) => {
+    this.props.filterEvents(filters);
   }
+
+  toggleTimeFilter = (event) => {
+    this.setState({
+      openTimeFilter: !this.state.openTimeFilter,
+      openDateFilter: false,
+      openCategoryFilter: false,
+      anchorEl: event.currentTarget,
+    });
+  }
+
+  toggleCategoryFilter = (event) => {
+    this.setState({
+      openTimeFilter: false,
+      openDateFilter: false,
+      openCategoryFilter: !this.state.openCategoryFilter,
+      anchorEl: event.currentTarget,
+    });
+  }
+
+  toggleDateFilter = (event) => {
+    this.setState({
+      openTimeFilter: false,
+      openDateFilter: !this.state.openDateFilter,
+      openCategoryFilter: false,
+      anchorEl: event.currentTarget,
+    });
+  }
+
   render() {
-    // ensures that the filters are applied when the page first loads
-    if (this.shouldApplyFiltersInitial) {
-      this.applyFilters();
-      this.shouldApplyFiltersInitial = false;
-    }
     return (
       <div id="filter-container">
-        <DateFilter onDateChange={this.onDateChange} dateBarData={this.props.dateBarData} />
-        <br />
-        <br />
-        <TimeFilter onTimeChange={this.onTimeChange} />
-        <br />
-        <CategoryFilter onCategoryChange={this.onCategoryChange} categoriesList={this.props.categoriesList} />
+        <TimeFilter openTimeFilter={this.state.openTimeFilter}
+          openFilter={this.toggleTimeFilter}
+          onTimeChange={this.onTimeChange}
+          anchorEl={this.state.anchorEl}
+          buttonStyle={this.styles.buttonStyle}
+        />
+        <DateFilter dateFilter={this.state.dateFilter}
+          onDateChange={this.onDateChange}
+          dateBarData={this.props.dateBarData}
+          openFilter={this.toggleDateFilter}
+          openDateFilter={this.state.openDateFilter}
+          anchorEl={this.state.anchorEl}
+          styles={this.styles}
+        />
+        <CategoryFilter onCategoryChange={this.onCategoryChange}
+          catList={this.props.catList}
+          openFilter={this.toggleCategoryFilter}
+          openCategoryFilter={this.state.openCategoryFilter}
+          anchorEl={this.state.anchorEl}
+          styles={this.styles}
+        />
       </div>
     );
   }
 }
 
-export default FilterContainer;
+const mapStateToProps = state => (
+  {
+    events: state.events.all,
+    lat: state.user.latitude,
+    lng: state.user.longitude,
+    catList: state.events.catList,
+    dateBarData: state.events.dateBarData,
+  }
+);
+
+export default connect(mapStateToProps, { filterEvents })(FilterContainer);
