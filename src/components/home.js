@@ -99,8 +99,13 @@ class Home extends Component {
 
   refocusLocation = () => {
     this.props.setMapCenter({ lat: this.props.latitude, lng: this.props.longitude });
+    this.setState({ isRefocus: true });
     this.setState({ showBtns: false });
     this.forceUpdate();
+  }
+
+  doneRefocus = () => {
+    this.setState({ isRefocus: false });
   }
 
   render() {
@@ -139,6 +144,8 @@ class Home extends Component {
               height={this.state.mapHeight}
               width={this.state.mapWidth}
               centerLocation={{ lat: this.props.latitude, lng: this.props.longitude }}
+              isRefocus={this.state.isRefocus}
+              doneRefocus={this.doneRefocus}
             />
             <IconButton className="geoButton" style={{ position: 'absolute' }} onClick={this.toggleSettings}>
               <ActionSettings />
