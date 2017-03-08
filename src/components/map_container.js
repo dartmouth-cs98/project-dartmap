@@ -20,7 +20,7 @@ class MapContainer extends Component {
     onHoverKeyChange: PropTypes.func, // @controllable generated fn
     // events: PropTypes.arrayOf(PropTypes.object),
   };
-  
+
   static defaultProps = {
     zoom: 15, // The level in which Google Maps should zoom into. Higher is more zoomed in.
   };
@@ -123,6 +123,11 @@ class MapContainer extends Component {
       height: this.props.height,
       width: this.props.width,
     };
+
+    if (this.props.isRefocus) {
+      this.props.onZoomChange(15);
+      this.props.doneRefocus();
+    }
     return (
       <div id="map" style={mapStyle}>
         <GoogleMapReact
