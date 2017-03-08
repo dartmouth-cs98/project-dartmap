@@ -414,7 +414,6 @@ class UserEventListItem extends Component {
       );
       eventLocationString = (
        <TextField
-          className="add-event-field-container-1"
           hintText="e.g. The Green"
           floatingLabelText="Event room or location"
           value={this.state.eventLocationString || ''}
@@ -446,7 +445,6 @@ class UserEventListItem extends Component {
       );
       eventDescription = (
         <TextField
-          className="add-event-field-container-1"
           hintText="e.g. See freshman running in circles around a fire"
           floatingLabelText="Event description"
           rows={1}
@@ -471,6 +469,7 @@ class UserEventListItem extends Component {
           multiLine
           disabled
           multiLine
+          fullWidth
         />
       );
       eventTime = (
@@ -482,7 +481,6 @@ class UserEventListItem extends Component {
       );
       eventLocationString = (
         <TextField
-          className="add-event-field-container-1"
           hintText="e.g. The Green"
           floatingLabelText="Event room or location"
           value={this.state.eventLocationString || ''}
@@ -513,7 +511,6 @@ class UserEventListItem extends Component {
       );
       eventDescription = (
         <TextField
-          className="add-event-field-container-1"
           hintText="e.g. See freshman running in circles around a fire"
           floatingLabelText="Event description"
           multiLine

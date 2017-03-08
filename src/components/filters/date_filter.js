@@ -47,6 +47,7 @@ class DateFilter extends Component {
         DATES.push(this.datesDataDisplay[i]);
       }
     }
+    DATES.push('Uncheck all');
   }
 
   componentWillMount = () => {
@@ -72,7 +73,7 @@ class DateFilter extends Component {
       }
       else if (val === '7') {
         // check every box
-        checked = ['0', '1', '2', '3', '4', '5', '6', '7'];
+        checked = DEFAULT_DATES;
         checkedBoolean = DEFAULT_CHECKED;
       }
       else {
@@ -101,7 +102,7 @@ class DateFilter extends Component {
 
   render() {
     const buttonType = { primary: true, secondary: false };
-    const checkBoxes = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
+    const checkBoxes = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
       return (<Checkbox
         label={DATES[i]}
         onCheck={this.handleChange}
@@ -111,16 +112,6 @@ class DateFilter extends Component {
         id={`d${i}`}
       />);
     });
-    const uncheck_id = this.state.checked_boolean.length - 1;
-    checkBoxes.push(
-      <Checkbox
-        label="Uncheck all"
-        onCheck={this.handleChange}
-        checked={this.state.checked_boolean[uncheck_id]}
-        value={uncheck_id}
-        key={uncheck_id}
-        id={`d${uncheck_id}`}
-      />);
     let popOver = '';
     if (this.datesDataDisplay && this.props.openDateFilter) {
       buttonType.primary = false;
