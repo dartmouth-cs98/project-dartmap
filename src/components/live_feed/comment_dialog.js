@@ -17,11 +17,17 @@ class CommentBox extends React.Component {
     this.url = API_URL.concat(COMMENT_URL);
     this.key = 0;
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+    this.interval = null;
   }
 
   componentDidMount() {
     this.loadCommentsFromServer();
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+    this.interval = setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+    this.interval = null;
   }
 
   updateKey = () => {

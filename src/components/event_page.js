@@ -98,8 +98,8 @@ class EventPage extends Component {
 
   getAllRSVPs = () => {
     let names;
-    if (this.props.currentEvent) {
-      names = this.props.currentEvent.attendees.map((attendee) => {
+    if (this.state.event) {
+      names = this.state.event.attendees.map((attendee) => {
         return (
           <ListItem key={attendee.name}
             primaryText={attendee.name}
