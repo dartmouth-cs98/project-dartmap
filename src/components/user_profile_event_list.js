@@ -25,10 +25,8 @@ class UserEventList extends Component {
         const event = this.props.events[i];
         const eListItem = [<UserEventListItem
           event={event}
-          // selectedLocation={this.props.selectedLocation}
           key={event.id}
-          // showBalloon={this.props.showBalloon}
-          // onEventListItemClick={this.props.onEventListItemClick}
+          eventListType={this.props.eventListType}
         />];
         if (i >= 1) {
           this.isSameDay = this.prevDate.isSame(event.date);
@@ -36,7 +34,7 @@ class UserEventList extends Component {
         if (i === 0 || (i >= 1 && !this.isSameDay)) {
           this.eventItems.push(
             <div className="user-date-display" key={'date'.concat(i)}>
-              {event.date.format('ddd MM/DD/YYYY')}
+              {event.date.format('dddd,  MMMM D')}
             </div>
           );
         }

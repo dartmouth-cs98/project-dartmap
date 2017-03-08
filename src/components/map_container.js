@@ -20,7 +20,7 @@ class MapContainer extends Component {
     onHoverKeyChange: PropTypes.func, // @controllable generated fn
     // events: PropTypes.arrayOf(PropTypes.object),
   };
-
+  
   static defaultProps = {
     zoom: 15, // The level in which Google Maps should zoom into. Higher is more zoomed in.
   };
@@ -127,7 +127,7 @@ class MapContainer extends Component {
       <div id="map" style={mapStyle}>
         <GoogleMapReact
           bootstrapURLKeys={{
-            key: 'AIzaSyBiWgQfyoDdvwJR-x8o06wV-jbXhKrOQNo',
+            key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
             libraries: 'places',
           }}
           options={this.createMapOptions}
