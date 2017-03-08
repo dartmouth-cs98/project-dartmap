@@ -8,7 +8,8 @@ import React, { Component } from 'react';
 import { Popover, Checkbox, RaisedButton } from 'material-ui';
 
 // Default to all categories
-const DEFAULT_CATEGORIES = [true, true, true, true, true, true, true, true];
+const DEFAULT_CATEGORIES = [true, true, true, true, true, true, true, true, false];
+const UNCHECKED_ALL = [false, false, false, false, false, false, false, false, true];
 
 class CategoryFilter extends Component {
   constructor(props) {
@@ -36,7 +37,11 @@ class CategoryFilter extends Component {
       this.props.onCategoryChange(catFilters);
       const checkedList = this.props.catList.map((cat) => { return cat.label; });
       checkedList.push('All Categories');
-      this.setState({ checked: checkedList, allCategories: checkedList });
+      this.setState({ checked: checkedList });
+
+      const allCats = checkedList.slice(); //copy to avoid time lag in set state
+      allCats.push('Uncheck all');
+      this.setState({ allCategories: allCats });
     }
   }
 
@@ -52,12 +57,21 @@ class CategoryFilter extends Component {
         checkedBoolean[7] = false;
       }
     } else {
-      checked.push(val);
-      checkedBoolean[this.state.allCategories.indexOf(val)] = true;
-      if (val === 'All Categories') {
+      if (val === 'Uncheck all') {
+        checked = [val];
+        checkedBoolean = UNCHECKED_ALL;
+      }
+      else if (val === 'All Categories') {
         // check every box
-        checked = this.state.allCategories;
+        checked = this.state.allCategories.slice();
+        checked.splice(checked.indexOf('Uncheck all'),1);
         checkedBoolean = DEFAULT_CATEGORIES;
+      }
+      else {
+        checked.push(val);
+        checkedBoolean[this.state.allCategories.indexOf(val)] = true;
+        checked.splice(checked.indexOf('Uncheck all'), 1);
+        checkedBoolean[this.state.allCategories.indexOf('Uncheck all')] = false;
       }
     }
 
@@ -74,12 +88,14 @@ class CategoryFilter extends Component {
         if (checked[i] === 'Greek Life') id = 6;
         if (checked[i] === 'Free Food') id = 7;
         if (checked[i] === 'All Categories') break;
+        if (checked[i] === 'Uncheck all') break;
         singleCat.id = id;
         singleCat.name = checked[i];
         catFilters.push(singleCat);
       }
     }
     this.setState({ checked, checked_boolean: checkedBoolean });
+    console.log(catFilters);
     this.props.onCategoryChange(catFilters);
   }
 
@@ -110,6 +126,16 @@ class CategoryFilter extends Component {
           value="All Categories"
           id="All Categories"
           key={this.props.catList.length + 1}
+        />
+        );
+      checkBoxes.push(
+        <Checkbox
+          label="Uncheck all"
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[this.props.catList.length + 1]}
+          value="Uncheck all"
+          id="Uncheck all"
+          key={this.props.catList.length + 2}
         />
       );
       popOver = (<Popover className="checkbox"
