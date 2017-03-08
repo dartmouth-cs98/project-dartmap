@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
 
-import { Divider, Tabs, Tab, RaisedButton, Avatar, List, ListItem, CircularProgress, TextField } from 'material-ui';
+import { Divider, Tabs, Tab, RaisedButton, Avatar, List, ListItem, CircularProgress } from 'material-ui';
 
 import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
 import CommentBox from './live_feed/comment_dialog';
@@ -28,10 +28,6 @@ class EventPage extends Component {
     this.marker = null;
     this.infoWindow = null;
     this.initialRSVP = true;
-    this.handleRSVP = this.handleRSVP.bind(this);
-    this.getInitialRSVP = this.getInitialRSVP.bind(this);
-    this.getAllRSVPs = this.getAllRSVPs.bind(this);
-    this.addImage = this.addImage.bind(this);
 
     if (!window.google) { // Load google maps api onto the page
       loadGoogleApi();
@@ -65,12 +61,12 @@ class EventPage extends Component {
     }
   }
 
-  componentWillUpdate() {
+  componentWillUpdate(nextProps, nextState) {
     this.getInitialRSVP();
     const id = parseInt(this.props.params.id, 10);
-    if ((!this.state.event) || (this.state.event.id !== id)) {
-      if (this.props.currentEvent && this.props.currentEvent.id === id) {
-        this.setState({ event: this.props.currentEvent });
+    if ((!nextState.event) || (nextState.event.id !== id)) {
+      if (nextProps.currentEvent && nextProps.currentEvent.id === id) {
+        this.setState({ event: nextProps.currentEvent });
       }
     }
   }
@@ -81,7 +77,7 @@ class EventPage extends Component {
     }
   }
 
-  getInitialRSVP() {
+  getInitialRSVP = () => {
     if (this.initialRSVP) {
       if (this.state.event !== undefined && this.state.event !== null
         && this.state.event.attendees.length !== 0
@@ -100,7 +96,7 @@ class EventPage extends Component {
     }
   }
 
-  getAllRSVPs() {
+  getAllRSVPs = () => {
     let names;
     if (this.props.currentEvent) {
       names = this.props.currentEvent.attendees.map((attendee) => {
@@ -115,7 +111,7 @@ class EventPage extends Component {
     return names;
   }
 
-  handleRSVP() {
+  handleRSVP = () => {
     const data = {};
     data.user_id = this.props.user.userInfo[0].id;
     data.event_id = this.state.event_id;
@@ -136,7 +132,7 @@ class EventPage extends Component {
     // this.props.getLoginStatusFromFb();
   }
 
-  addImage() {
+  addImage = () => {
     const data = {};
     data.user_id = 1;
     data.event_id = this.state.event_id;
@@ -152,7 +148,7 @@ class EventPage extends Component {
     }
   }
 
-  loadMap() {
+  loadMap = () => {
     if (this.state.event && !this.map) {
       const mapHTML = document.getElementById('evpg-map');
       const location = {
@@ -187,9 +183,7 @@ class EventPage extends Component {
 
   render() {
     const styles = {
-      button: {
-        margin: 12,
-      },
+      button: { margin: 12 },
       exampleImageInput: {
         cursor: 'pointer',
         position: 'absolute',
@@ -202,11 +196,12 @@ class EventPage extends Component {
       },
       tabsStyle: {
         position: 'fixed',
+        top: 0,
+        width: '100%',
+        marginTop: '60px',
+        zIndex: 10,
       },
-      dividerStyle: {
-        marginTop: 20,
-        marginBottom: 20,
-      },
+      dividerStyle: { marginTop: 20, marginBottom: 20 },
       progress: {
         width: 150,
         height: 150,
@@ -216,6 +211,7 @@ class EventPage extends Component {
         marginLeft: -75,
         marginTop: -75,
       },
+      containerStyle: { marginTop: '108px' },
     };
 
     const images = [];
@@ -246,7 +242,7 @@ class EventPage extends Component {
 
     return (
       <div>
-        <Tabs style={{ position: 'fixed', top: 0, width: '100%', marginTop: '60px', zIndex: 10 }}>
+        <Tabs style={styles.tabsStyle}>
           <Tab label="About" href="#About" />
           <Tab label="Who is Going" href="#Going" />
           <Tab label="Images" href="#Images" />
@@ -254,7 +250,7 @@ class EventPage extends Component {
           <Tab label="Location" href="#Location" />
           <Tab label="Comments" href="#LiveFeed" />
         </Tabs>
-        <div className="container" style={{ marginTop: '108px' }}>
+        <div className="container" style={styles.containerStyle}>
           <div id="About">
             <h2>About</h2>
             <div className="text-center">
@@ -273,7 +269,7 @@ class EventPage extends Component {
           <div id="Going">
             <div className="row">
               <h2 className="col-md-3">Who Is Going?</h2>
-              <div className={this.props.user.loggedIn ? "pull-right" : "pull-right hidden"} style={styles.button}>
+              <div className={this.props.user.loggedIn ? 'pull-right' : 'pull-right hidden'} style={styles.button}>
                 <RaisedButton label={this.state.isRSVPed ? 'Going' : 'RSVP'} primary onClick={this.handleRSVP} />
               </div>
             </div>
@@ -301,17 +297,17 @@ class EventPage extends Component {
             <div className="row">
               <h2 className="col-md-6">Details</h2>
             </div>
-            <div style={{marginLeft: "10px"}}>
+            <div style={{ marginLeft: '10px' }}>
               <div className="evpg-description">
-                <h5 style={{color: "gray"}}>Description</h5>
+                <h5 style={{ color: 'gray' }}>Description</h5>
                 <div>{this.state.event.description}</div>
               </div>
               <div className="evpg-organizer">
-                <h5 style={{color: "gray"}}>Organizer</h5>
+                <h5 style={{ color: 'gray' }}>Organizer</h5>
                 <div>{this.state.event.organizer}</div>
               </div>
               <div className="evpg-categories">
-                <h5 style={{color: "gray"}}>Categories</h5>
+                <h5 style={{ color: 'gray' }}>Categories</h5>
                 <div>{categoryString}</div>
               </div>
             </div>
