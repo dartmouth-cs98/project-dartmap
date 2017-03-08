@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
-import { TextField, Dialog, FlatButton, RaisedButton, ListItem, Avatar, IconButton, IconMenu, MenuItem } from 'material-ui';
-import { cyan500, grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
+import { TextField, FlatButton, ListItem, Avatar, IconButton, IconMenu, MenuItem } from 'material-ui';
+import { grey400 } from 'material-ui/styles/colors';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 class Comment extends React.Component {
