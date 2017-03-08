@@ -123,11 +123,16 @@ class MapContainer extends Component {
       height: this.props.height,
       width: this.props.width,
     };
+
+    if (this.props.isRefocus) {
+      this.props.onZoomChange(15);
+      this.props.doneRefocus();
+    }
     return (
       <div id="map" style={mapStyle}>
         <GoogleMapReact
           bootstrapURLKeys={{
-            key: 'AIzaSyBiWgQfyoDdvwJR-x8o06wV-jbXhKrOQNo',
+            key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
             libraries: 'places',
           }}
           options={this.createMapOptions}

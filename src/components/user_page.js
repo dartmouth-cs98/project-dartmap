@@ -11,7 +11,10 @@ import CancelNavigation from 'material-ui/svg-icons/navigation/cancel';
 import { fetchRSVPdEventsById, fetchUserEventsById, logout } from '../actions';
 
 import UserEventList from './user_profile_event_list';
+
+// import helper functions
 import { sortDateTimeReverse } from '../helpers/date-time-filters-helper';
+import { loadGoogleApi } from '../helpers/google-maps';
 
 class UserPage extends Component {
 
@@ -20,6 +23,9 @@ class UserPage extends Component {
     this.state = {
       uploadingPhoto: false,
     };
+    if (!window.google) { // Load google maps api onto the page
+      loadGoogleApi();
+    }
   }
 
   // componentWillUpdate() {
@@ -87,14 +93,16 @@ class UserPage extends Component {
               <UserEventList
                 events={this.sortEventList(this.props.SubmittedEvents)}
                 onEventListItemClick={this.onEventListItemClick}
+                eventListType="submitted"
               />
             </div>
           </Tab>
-          <Tab label="RSVP'ed Events" href="#RSVPEvents">
+          <Tab label="RSVP'd Events" href="#RSVPEvents">
             <div className="user-event-list">
               <UserEventList
                 events={this.sortEventList(this.props.RSVPEvents)}
                 onEventListItemClick={this.onEventListItemClick}
+                eventListType="rsvp"
               />
             </div>
           </Tab>

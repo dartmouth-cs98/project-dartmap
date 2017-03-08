@@ -34,12 +34,12 @@ const MapBalloonEvent = (props) => {
               containerElement={<Link to={'/events/'.concat(event.id)} />}
               secondaryText={
                 <text>
-                  <span style={{color: darkBlack}}>Description: </span>
-                  {event.description}<br />
-                  <span style={{color: darkBlack}}>Organizer: </span>
-                  {event.organizer}<br />
-                  <span style={{color: darkBlack}}>Categories: </span>
-                  {categoryString}<br /><br />
+                  <span style={{color: darkBlack}}>Description</span>
+                  <div className="popup-description">{event.description}</div>
+                  <span style={{color: darkBlack}}>Organizer</span>
+                  <div className="popup-description">{event.organizer}</div>
+                  <span style={{color: darkBlack}}>Categories</span>
+                  <div className="popup-description">{categoryString}</div><br />
                   <span style={{color: blue700}}>Click to view more information</span>
                 </text>}
               style={listItemStyle}

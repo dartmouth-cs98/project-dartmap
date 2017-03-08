@@ -187,7 +187,6 @@ export function getAllEvents(dispatch, successAction, errorAction,
       const eventList = data.events.map((event) => {
         return formatAPIEventData(event);
       });
-      console.log(data);
       dispatch({ type: successAction, payload: { events: eventList } });
     },
     error: (xhr, status, err) => {
