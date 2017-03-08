@@ -13,9 +13,10 @@ import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 // and an option for the next 2 weeks
 const NUM_DAYS_DISPLAY = 8;
 
-// Check the next 2 days by default
-const DEFAULT_CHECKED = [true, true, true, true, true, true, true, true];
+// Check all next future events by default
+const DEFAULT_CHECKED = [true, true, true, true, true, true, true, true, false];
 const DEFAULT_DATES = ['0', '1', '2', '3', '4', '5', '6', '7'];
+const UNCHECKED_ALL = [false, false, false, false, false, false, false, false, true];
 
 // Array of dates with labels and values both set
 // to the date
@@ -46,6 +47,7 @@ class DateFilter extends Component {
         DATES.push(this.datesDataDisplay[i]);
       }
     }
+    DATES.push('Uncheck all');
   }
 
   componentWillMount = () => {
@@ -65,12 +67,19 @@ class DateFilter extends Component {
         checkedBoolean[7] = false;
       }
     } else {
-      checked.push(val);
-      checkedBoolean[val] = true;
-      if (val === '7') {
+      if (val === '8') {
+        checked = [];
+        checkedBoolean = UNCHECKED_ALL;
+      }
+      else if (val === '7') {
         // check every box
-        checked = ['0', '1', '2', '3', '4', '5', '6', '7'];
-        checkedBoolean = [true, true, true, true, true, true, true, true];
+        checked = DEFAULT_DATES;
+        checkedBoolean = DEFAULT_CHECKED;
+      }
+      else {
+        checkedBoolean[8] = false;
+        checked.push(val);
+        checkedBoolean[val] = true;  
       }
     }
     this.setState({ checked, checked_boolean: checkedBoolean });
@@ -93,7 +102,7 @@ class DateFilter extends Component {
 
   render() {
     const buttonType = { primary: true, secondary: false };
-    const checkBoxes = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => {
+    const checkBoxes = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
       return (<Checkbox
         label={DATES[i]}
         onCheck={this.handleChange}
