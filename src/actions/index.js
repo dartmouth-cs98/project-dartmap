@@ -17,6 +17,7 @@ export const ActionTypes = {
   FETCH_EVENTS: 'FETCH_EVENTS',
   EVENT_FAIL: 'EVENT_FAIL',
   FETCH_EVENT: 'FETCH_EVENT',
+  UNFETCH_EVENT: 'UNFETCH_EVENT',
   FETCH_RSVP_EVENTS: 'FETCH_RSVP_EVENTS',
   FETCH_USER_EVENTS: 'FETCH_USER_EVENTS',
   RSVP_CREATED: 'RSVP_CREATED',
@@ -100,6 +101,13 @@ export function fetchEvent(eventId) {
   return (dispatch) => {
     dartmapApi.getEvent(dispatch, ActionTypes.FETCH_EVENT,
       ActionTypes.EVENT_FAIL, eventId);
+  };
+}
+
+export function unfetchEvent() {
+  return {
+    type: ActionTypes.UNFETCH_EVENT,
+    payload: {},
   };
 }
 

@@ -18,7 +18,7 @@ import FilterContainer from './filter_container';
 import LocationDialog from './location_dialog';
 
 // import the redux actions
-import { fetchEvents, getLocation, clearBalloons, setMapCenter, getLoginStatusFromFb } from '../actions';
+import { unfetchEvent, fetchEvents, getLocation, clearBalloons, setMapCenter, getLoginStatusFromFb } from '../actions';
 
 const RADIUS = 10000;
 
@@ -42,6 +42,9 @@ class Home extends Component {
     if (this.props.latitude === 'retry' && this.props.longitude === 'retry') {
       this.props.getLocation();
     }
+    if (this.props.currentEvent) {
+      this.props.unfetchEvent();
+    }
   }
 
   componentDidMount() {
@@ -50,19 +53,23 @@ class Home extends Component {
     window.addEventListener('resize', this.onResize);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
-  }
-
   componentWillUpdate(nextProps, nextState) {
-    if ((!this.props.eventList) || (this.props.eventList[0] === 'retry')) {
-      if (this.props.latitude && this.props.longitude) {
+    if ((!nextProps.eventList) || (nextProps.eventList[0] === 'retry')) {
+      if (nextProps.latitude && nextProps.longitude) {
         this.getEvents();
       }
     }
     if (nextProps.latitude !== this.props.latitude || nextProps.longitude !== this.props.longitude) {
       this.props.fetchEvents(nextProps.latitude, nextProps.longitude, RADIUS);
     }
+    if (nextProps.currentEvent) {
+      this.props.unfetchEvent();
+      // this.forceUpdate();
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
   }
 
   onResize() {
@@ -180,9 +187,10 @@ const mapStateToProps = state => (
     user: state.user,
     mapCenter: state.map.center,
     isUserLoggedIn: state.user.loggedIn,
+    currentEvent: state.events.currentEvent,
   }
 );
 
-const mapDispatchToProps = { fetchEvents, getLocation, clearBalloons, setMapCenter, getLoginStatusFromFb };
+const mapDispatchToProps = { unfetchEvent, fetchEvents, getLocation, clearBalloons, setMapCenter, getLoginStatusFromFb };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

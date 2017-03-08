@@ -35,6 +35,10 @@ const EventsReducer = (state = {}, action) => {
       newState = Object.assign({}, state);
       newState.currentEvent = action.payload.event;
       return newState;
+    case ActionTypes.UNFETCH_EVENT:
+      newState = Object.assign({}, state);
+      newState.currentEvent = null;
+      return newState;
     case ActionTypes.RETRY_EVENT:
       newState = Object.assign({}, state, { all: ['retry'] });
       return newState;
