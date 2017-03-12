@@ -40,6 +40,7 @@ Run `npm run lint` before committing or submitting any code, to catch style erro
 * Eric Chen
 * Danielle Midulla
 * Sean Cann
+* Junmo (Caleb) Kim
 
 ### Back-end Developers:
 * Edrei Chua
