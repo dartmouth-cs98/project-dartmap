@@ -1,12 +1,18 @@
 //style.scss
 
 //Imports
-@import "./add_event.scss";
 @import "./variables.scss";
+@import "./nav_bar.scss";
+@import "./map.scss";
+@import "./add_event.scss";
+@import "./event_list.scss";
+@import "./input_field.scss";
 @import "./user-profile.scss";
 @import "./upload_image.scss";
 @import "./event-page.scss";
 @import "./filter-container.scss";
+@import "./comment.scss";
+@import "./segmented-controls.css";
 
 html, body {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
@@ -20,213 +26,79 @@ hr {
     padding: 0;
 }
 
-
 #main, .app-container {
   height: inherit;
   min-width: 768px;
 }
 
 .app-container {
-  background-color: $light-grey;
-}
-
-// Top Navigation Bar
-#nav-bar {
   background-color: white;
-  color: $green;
-  font-size: 30pt;
-  height: $nav-bar-height;
-  line-height: $nav-bar-height;
-  position: relative;
-  padding: 0 15px;
-  box-shadow: 0px 5px 10px -5px black;
-  -webkit-box-shadow: 0px 5px 10px -5px black;
-  -moz-box-shadow: 0px 5px 10px -5px black;
-
-  @include flex-space-between;
-  @include flex-box;
-  @include flex-align-center;
-
-  // This is (currently) the dartmap logo in the nav bar
-  h1 {
-    display: inline-block;
-    position: relative;
-    left: 8px;
-  }
-
-  // This is (currently) the user's name from facebook in the nav bar
-  h2 {
-    color: #B3B3B3;
-    margin-bottom: 0;
-    line-height: $nav-bar-height;
-  }
-
-  #logo {
-    height: $nav-bar-height;
-    width: $nav-bar-height;
-  }
 }
 
-.nav-btn {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-  padding: 0;
-
-  &:hover, &:focus {
-    color: black;
-    outline: none;
-  }
-}
-
-.fb-user {
-  background-color: #3b5998;
-  border: 0px;
-  color: white;
-  font-family: 'Lucida Grande';
-  font-size: 12px;
-  height: $nav-bar-height/2;
-  line-height: $nav-bar-height/2;
-  vertical-align: middle;
-  width: 140px;
-  &:hover {
-    cursor: pointer;
-    opacity: .8;
-  }
-}
-
-.user-menu {
-  position: relative;
-  right: 70px;
-  top: -10px;
-  background-color: white;
-  box-shadow: 0px 0px 5px #000000;
-  color: black;
-  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  font-size: 10pt;
-  width: 140px;
-  z-index: 20;
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.user-menu-item-container {
-  width: 100%;
-  &:hover {
-    background-color: $light-grey;
-    cursor: pointer;
-    text-decoration: none;
-  }
-}
-
-.user-menu-item-text {
-  padding-left: 8px;
-}
-
-#user-link {
-  display: inline-block;
-  font-size: 10pt;
-}
-
-#fb-pic {
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  box-shadow: 0px 0px 5px #000000;
-  height: 36px;
-  width: 36px;
-}
-
-.user-nav-btn {
-  width: 140px;
-  height: $nav-bar-height - 5px;
-  background-color: white;
-  border: 0;
-  padding: 0;
-  &:focus {
-
-  }
-}
-
-.nav-menu-container {
-  width: 140px;
-  height: $nav-bar-height;
-}
-
-// This is (currently) the add event button
-.add-event-plus {
-  background-color: white;
+// Button for a user to delete an event
+.user-delete-event {
+  background-color: #BD1919;
   border: 1px solid;
-  border-radius: 20px;
-  float: right;
-  font-size: 20pt;
+  text-align: center;
+  font-size: 18pt;
   height: 100%;
   line-height: 100%;
-  margin-bottom: 10px;
 
   &:hover {
-    background-color: $light-grey;
+    background-color: #FF0000;
     cursor: pointer;
   }
 }
 
-#plus {
-  height: 30px;
-  width: 30px;
-  margin-left: 20px;
+// Button for a user to change the location of an event
+.user-change-event-location {
+  background-color: #23ABD9;
+  border: 1px solid;
+  text-align: center;
+  font-size: 8pt;
+  height: 100%;
+  line-height: 100%;
+
+  &:hover {
+    background-color: #00BFFF;
+    cursor: pointer;
+  }
+}
+
+// Button for a user to edit an event
+.user-edit-event {
+  background-color: #00B800;
+  border: 1px solid;
+  text-align: center;
+  font-size: 18pt;
+  height: 100%;
+  line-height: 100%;
+
+  &:hover {
+    background-color: #00FF00;
+    cursor: pointer;
+  }
 }
 
 // This is the div that encompasses everything that is not in the navigation bar
 .home-container {
   height: 90%;
   background-color: white;
+  position: fixed;
+  top: 60px;
 }
 
-// Map Components
-#map {
-  float: left;
-  padding: 5px;
-  margin: 16px 16px 16px 16px;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.8);
-}
-
-.event {
-  border: 0px;
-  background-color: $green;
-  @include event-style;
-}
-
-.event-hover {
-  border: 0px;
-  background-color: $light-grey;
-  z-index: 14;
-  @include event-style;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.map-event-img {
-  height: 20px;
-  width: 20px;
+.main-container {
   position: relative;
-  z-index: 13;
 }
 
-.popup-icon {
-  height: 20px;
-  width: 20px;
-  margin-right: 5px;
-}
-
-#event-menu {
+#user-event-menu {
   font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  float: right;
-  width: 20%;
+  float: center;
+  width: 80%;
   height: 100%;
   overflow: scroll;
-  padding-right: 16px;
+  padding-left: 10%;
   padding-top: 16px;
 
   .location-not-selected {
@@ -241,6 +113,19 @@ hr {
 #search-bar {
   width: 100%;
   background-color: white;
+  display: inline-block;
+  line-height: 35px;
+  height: 35px;
+}
+
+.search-bar-box {
+  width: 100%;
+  background-color: white;
+}
+
+#user-search-bar {
+  width: 30%;
+  background-color: white;
 }
 
 .highlight {
@@ -248,26 +133,14 @@ hr {
 }
 
 #event-none {
-  float: right;
-  width: 20%;
-  height: 100%;
+  @include flex-box;
+  @include flex-column;
   overflow: scroll;
   background-color: white;
   text-align: center;
-  padding-right: 16px;
-  padding-top: 16px;
 }
 
-// Event List Components
-#event-menu #event-banner {
-  border-bottom: thin solid black;
-   .event-banner-item {
-    float: left;
-    padding-left: 16px;
-  }
-}
-
-.event-item {
+.user-event-item {
   background-color: white;
   border-bottom: thin solid black;
   height: 100%;
@@ -275,27 +148,6 @@ hr {
   padding-top: 8px;
   width: 100%;
   font-size: 15px;
-
-  &:hover {
-    background-color: $light-grey;
-    cursor: pointer;
-  }
-}
-
-.popup {
-  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
-  font-size: 1rem;
-  background-color: white;
-  border: 1px solid;
-  border-color: $green;
-  box-shadow: 0 0 8px 2px #888;
-  color: black;
-  padding: 5px;
-  position: relative;
-  width: 350px;
-  z-index: 15;
-  @include flex-box;
-  @include flex-column;
 }
 
 .description {
@@ -320,10 +172,15 @@ hr {
   box-shadow: 0px 0px 20px black;
 }
 
-#close-button {
+.close-button {
+  align-self: flex-end;
+  align-self: -webkit-flex-end;
+  align-self: -moz-flex-end;
+  font-size: 2rem;
   position: absolute;
-  right: 20px;
-  top: 5px;
+  left: 327px;
+  top: 13px;
+  z-index: 1000;
   &:hover {
     color: #DC143C;
     cursor: pointer;
@@ -336,7 +193,7 @@ hr {
 }
 
 .icon-select {
-  height: 30px;
+  height: 90px;
   margin-bottom: 30px;
   @include flex-box;
 }
@@ -347,7 +204,13 @@ hr {
 }
 
 .date-display {
-  background-color: $green;
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
+.user-date-display {
+  background-color: #878787;
   color: white;
   position: relative;
   text-align: center;
@@ -372,16 +235,6 @@ hr {
 
 .error-box {
   border-color: red;
-}
-
-.close-button {
-  align-self: flex-end;
-  align-self: -webkit-flex-end;
-  align-self: -moz-flex-end;
-  &:hover {
-    color: #DC143C;
-    cursor: pointer;
-  }
 }
 
 .Modal {

@@ -1,0 +1,100 @@
+// event_list.scss
+
+@import "./variables.scss";
+
+// Event List Components
+#event-menu #event-banner {
+  border-bottom: thin solid black;
+   .event-banner-item {
+    float: left;
+    padding-left: 16px;
+  }
+}
+
+.event-item {
+  background-color: white;
+  border-bottom: thin solid black;
+  width: 100%;
+  font-size: 15px;
+
+  &:hover {
+    background-color: $light-grey;
+    cursor: pointer;
+  }
+}
+
+.event-text {
+  width: inherit;
+  max-width: 100px;
+  text-overflow: ellipsis;
+}
+
+#event-menu {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+
+  @include flex-box;
+  @include flex-column;
+  position: relative;
+  height: 92%;
+}
+
+#event-list {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  flex-grow: 1;
+
+  @include flex-box;
+  @include flex-column;
+}
+
+#event-listing {
+  font-family: 'Roboto', 'Old Standard TT', 'Times New Roman', Times, serif;
+  height: 100%;
+  width: 100%;
+  .location-not-selected {
+    display: none;
+  }
+  overflow: scroll;
+}
+
+.event {
+  border: 0px;
+  background-color: #337ab7;
+  @include event-style;
+}
+
+.event-hover {
+  border: 0px;
+  background-color: $light-grey;
+  z-index: 14;
+  @include event-style;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.arrow {
+  width: 29px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.closed-arrow {
+  margin-left: 10px;
+}
+
+.evl-arrow {
+  height: 35px;
+  width: 40px;
+  position: absolute;
+  right: -40px;
+  box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+  background-color: white;
+
+  @include flex-box;
+  @include flex-align-center;
+  @include flex-justify-center;
+}

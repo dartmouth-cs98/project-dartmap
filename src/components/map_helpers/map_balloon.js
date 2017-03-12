@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { List } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
 
 // import React components
 import MapBalloonEvent from './map_balloon_event';
@@ -16,37 +18,41 @@ class MapBalloon extends Component {
     this.popUp = [];
   }
   render() {
-    if ((this.props.stickyBalloonId !== this.props.id)
-      && (this.props.hoverKey !== this.props.id)
-      && (this.props.balloonId !== this.props.id)) {
+    let key;
+    this.events = this.props.eventsForLocation;
+    if (this.events.length < 1) {
       return (
         <div className="hidden" />
       );
     }
-    this.events = this.props.eventsForLocation;
+    const locationId = this.events[0].location_id;
+    if ((this.props.stickyBalloonId !== locationId)
+      && (this.props.hoverKey !== locationId)
+      && (this.props.balloonId !== locationId)) {
+      return (
+        <div className="hidden" />
+      );
+    }
     this.popUp = [];
     for (let i = 0; i < this.events.length; i += 1) {
       const event = this.events[i];
-      if (i === 0) {
-        this.popUp.push(
-          <div key="location">Location: {event.location_name}</div>
-        );
-      } else {
-        const key = 'hbar'.concat(event.id);
-        this.popUp.push(<div key={key} className="hbar"><hr /></div>);
-      }
-      const key = 'balloon'.concat(event.id);
+      key = 'balloon'.concat(event.id);
       this.popUp.push(
         <MapBalloonEvent event={event} num={this.events.length} key={key} />
       );
     }
     const popupClassName = 'popup popup'.concat(this.props.id);
     return (
-      <div className={popupClassName}>
+      <div className="map-cover">
         <div className="close-button" onClick={this.props.clearBalloons}>
           x
         </div>
-        {this.popUp}
+        <div className="popup">
+          <Subheader key='event-location-name'>Events at {this.events[0].location_name}</Subheader>
+          <div className="map-event-list">
+            {this.popUp}
+          </div>
+        </div>
       </div>
     );
   }

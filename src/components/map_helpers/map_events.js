@@ -12,24 +12,26 @@ import { setStickyBalloonId } from '../../actions';
  * This Class includes all the functions that draw the popup balloons in the window.
  */
 const EventsWithControllableHover = (props) => {
-  const imageSrc = (props.eventsForLocation.length > 1) ? 'https://s27.postimg.org/ws3spwi9f/unknown.png' : props.eventsForLocation[0].icon_url;
+  const imageSrc = (props.eventsForLocation.length > 1) ? 'https://cdn3.iconfinder.com/data/icons/editing-icons/64/Multiple_Layers-512.png' : props.eventsForLocation[0].icon_url;
   const currentClass = props.showBalloonId ? 'event-hover' : 'event';
   return (
     <div>
       <button
         type="button"
-        onClick={() => props.setStickyBalloonId(props.id)}
+        onClick={() => props.setStickyBalloonId(props.location_id)}
         id={props.id}
         className={currentClass}
       >
         <img className="map-event-img" src={imageSrc} alt="icon" />
         <div>{props.text}</div>
       </button>
-      <MapBalloon
-        hoverKey={props.hoverKey}
-        id={props.id}
-        eventsForLocation={props.eventsForLocation}
-      />
+      <div className="map-cover" >
+        <MapBalloon
+          hoverKey={props.hoverKey}
+          id={props.id}
+          eventsForLocation={props.eventsForLocation}
+        />
+      </div>
     </div>
   );
 };

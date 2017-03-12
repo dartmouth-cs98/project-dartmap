@@ -1,6 +1,6 @@
 // map_container.js
 import React, { PropTypes, Component } from 'react';
-import GoogleMap from 'google-map-react';
+import GoogleMapReact from 'google-map-react';
 import controllable from 'react-controllables';
 import { connect } from 'react-redux';
 
@@ -27,7 +27,6 @@ class MapContainer extends Component {
 
   constructor(props) {
     super(props);
-    this.createLocationsFromEvents = this.createLocationsFromEvents.bind(this);
     // const locations = this.createLocationsFromEvents(props.events);
     this.state = {
       locations: [],
@@ -36,37 +35,41 @@ class MapContainer extends Component {
 
   componentWillReceiveProps(newProps) {
     // newProps.events is a pre-filtered list of events to display on the map.
-    if (newProps.events && newProps.events.length > 0) {
-      this.createLocationsFromEvents(newProps.events);
-      // this.setState({ locations });
+    this.createLocationsFromEvents(newProps.events);
+    // this.setState({ locations });
+  }
+
+  _onChange = ({ center, zoom }) => {
+    this.props.onZoomChange(zoom);
+    if (typeof center.lat !== 'undefined') {
+      this.props.setMapCenter({ lat: center.lat, lng: center.lng });
     }
   }
 
-  _onBoundsChange = (center, zoom /* , bounds, marginBounds */) => {
-    this.props.setMapCenter({ lat: center[0], lng: center[1] });
-    this.props.clearBalloons();
-    this.props.onZoomChange(zoom);
-  }
 
   _onChildClick = (key, childProps) => {
     // Recenter the map to the event that is clicked on.
-    // this.props.onCenterChange([childProps.lat, childProps.lng]);
+    this.props.setMapCenter({ lat: childProps.lat, lng: childProps.lng });
   }
 
   _onChildMouseEnter = (key /* , childProps */) => {
     this.props.onHoverKeyChange(key);
   }
 
-  createLocationsFromEvents(eventList) {
+  createLocationsFromEvents = (eventList) => {
     const locations = new Map();
-    for (let i = 0; i < eventList.length; i += 1) {
-      if (locations.has(eventList[i].location_id)) {
-        locations.get(eventList[i].location_id).push(eventList[i]);
-      } else {
-        locations.set(eventList[i].location_id, [eventList[i]]);
+    if (!eventList) {
+      this.setState({ locations });
+    } else {
+      for (let i = 0; i < eventList.length; i += 1) {
+        if (locations.has(eventList[i].location_id)) {
+          locations.get(eventList[i].location_id).push(eventList[i]);
+        } else {
+          locations.set(eventList[i].location_id, [eventList[i]]);
+        }
       }
+      this.setState({ locations });
     }
-    this.setState({ locations });
   }
 
   maybeSelectLocation = (event) => {
@@ -88,6 +91,15 @@ class MapContainer extends Component {
     this.props.onHoverKeyChange(null);
   }
 
+  createMapOptions = (maps) => {
+    return {
+      zoomControlOptions: {
+        position: maps.ControlPosition.RIGHT_CENTER,
+      },
+      scrollwheel: false,
+    };
+  }
+
   render() {
     const mapEvents = [];
     if (this.state.locations.size > 0) {
@@ -98,7 +110,7 @@ class MapContainer extends Component {
         // This is the information that is passed to EventsWithControllableHover.
         mapEvents.push(<EventsWithControllableHover
           {...coords}
-          key={id}
+          key={location[0].location_id}
           id={id}
           // text={String(id)}
           // use your hover state (from store, react-controllables etc...)
@@ -111,24 +123,30 @@ class MapContainer extends Component {
       height: this.props.height,
       width: this.props.width,
     };
+
+    if (this.props.isRefocus) {
+      this.props.onZoomChange(15);
+      this.props.doneRefocus();
+    }
     return (
       <div id="map" style={mapStyle}>
-        <GoogleMap
+        <GoogleMapReact
           bootstrapURLKeys={{
             key: 'AIzaSyCEV30fn0sPeqbZincSiNcHKDtmhH9omjI',
             libraries: 'places',
           }}
+          options={this.createMapOptions}
           center={this.props.center}
           zoom={this.props.zoom}
           hoverDistance={K_SIZE / 2}
-          onBoundsChange={this._onBoundsChange}
+          onChange={this._onChange}
           onClick={this.maybeSelectLocation}
           onChildClick={this._onChildClick}
           onChildMouseEnter={this._onChildMouseEnter}
           onChildMouseLeave={this._onChildMouseLeave}
         >
           {mapEvents}
-        </GoogleMap>
+        </GoogleMapReact>
       </div>
     );
   }

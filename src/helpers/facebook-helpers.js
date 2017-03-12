@@ -31,9 +31,13 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
   const FB = window.FB;
   if (fbResponse.status === 'connected') {
     if (fbResponse.authResponse.userID) {
-      if (!login) {
+      if (login) {
+        postFbToken((jwt) => {
+          callbackFunc({ jwt });
+        }, fbResponse.authResponse);
+      } else {
         getUserByPassword((userInfo) => {
-          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
+          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture?type=large`;
           FB.api(fbUserImageUrl, (graphResponse) => {
             let fbProfPicUrl = null;
             if (graphResponse && !graphResponse.error) {
@@ -42,17 +46,6 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
             callbackFunc({ userInfo, fbResponse, fbProfPicUrl });
           });
         }, fbResponse.authResponse.userID);
-      } else {
-        postFbToken((userInfo) => {
-          const fbUserImageUrl = `/${fbResponse.authResponse.userID}/picture`;
-          FB.api(fbUserImageUrl, (graphResponse) => {
-            let fbProfPicUrl = null;
-            if (graphResponse && !graphResponse.error) {
-              fbProfPicUrl = graphResponse.data.url;
-            }
-            callbackFunc({ userInfo, fbResponse, fbProfPicUrl });
-          });
-        }, fbResponse.authResponse);
       }
     }
   } else {
@@ -60,12 +53,13 @@ function handleFbResponse(fbResponse, callbackFunc, login) {
   }
 }
 
-export function getFbLoginStatus(dispatch, successAction) {
+export function getFbLoginStatus(dispatch, successAction, jwt) {
+  // if no jwt token is passed, then we do a POST to the backend and a GET
   const FB = window.FB;
   FB.getLoginStatus((response) => {
     handleFbResponse(response, (payload) => {
       dispatch({ type: successAction, payload });
-    }, false);
+    }, (!jwt));
   });
 }
 
@@ -75,13 +69,13 @@ export function fbLogin(dispatch, successAction) {
     if (r.status === 'connected') {
       handleFbResponse(r, (payload) => {
         dispatch({ type: successAction, payload });
-      }, true);
+      }, false);
     } else {
       FB.login((response) => {
         if (response.status === 'connected') {
           handleFbResponse(response, (payload) => {
-            dispatch({ type: successAction, payload }, true);
-          });
+            dispatch({ type: successAction, payload });
+          }, true);
         } else if (response.status === 'not_authorized') {
           console.log('user is logged in, but has not authorized our app');
         } else {

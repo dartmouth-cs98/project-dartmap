@@ -13,17 +13,24 @@ const MapReducer = (state = {}, action) => {
         lng: action.payload.longitude,
       };
       return newState;
+    case ActionTypes.LOCATION_FAIL:
+      newState = Object.assign({}, state);
+      newState.center = {
+        lat: 43.703549,
+        lng: -72.286758,
+      };
+      return newState;
     case ActionTypes.SET_MAP_CENTER:
       newState = Object.assign({}, state);
       newState.center = action.payload.center;
       return newState;
     case ActionTypes.SET_STICKY_BALLOON_ID:
       newState = Object.assign({}, state);
-      newState.stickyBalloonId = action.payload.eventId;
+      newState.stickyBalloonId = action.payload.locationId;
       return newState;
     case ActionTypes.SET_BALLOON_ID:
       newState = Object.assign({}, state);
-      newState.balloonId = action.payload.eventId;
+      newState.balloonId = action.payload.locationId;
       return newState;
     case ActionTypes.CLEAR_BALLOONS:
       newState = Object.assign({}, state);

@@ -29,7 +29,7 @@ function getDayString(dateObj) {
   } else if (dateObj.getDate() === today.getDate() + 1) {
     return 'Tomorrow';
   } else if (dateObj.getDate() === twoWeeks.getDate()) {
-    return 'All of next 2 weeks';
+    return 'All future events';
   } else {
     const day = dateObj.getDay();
     return dayArray[day];

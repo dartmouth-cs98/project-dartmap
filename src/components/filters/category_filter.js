@@ -4,124 +4,166 @@
 */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+
+import { Popover, Checkbox, RaisedButton } from 'material-ui';
+
+// Default to all categories
+const DEFAULT_CATEGORIES = [true, true, true, true, true, true, true, true, false];
+const UNCHECKED_ALL = [false, false, false, false, false, false, false, false, true];
 
 class CategoryFilter extends Component {
-
   constructor(props) {
     super(props);
-    this.state = { checked: [] };
-    this.handleChange = this.handleChange.bind(this);
-    this.onCategoryChange = props.onCategoryChange;
-    this.initialSetDefault = true;
+
+    this.state = {
+      checked: [],
+      checked_boolean: DEFAULT_CATEGORIES,
+      allCategories: [],
+    };
+    this.setInitialDefault = true;
   }
-  componentWillUpdate() {
-    if (this.props.catList && this.initialSetDefault) {
-      // set the default "checked" to be true for every category
-      const checked = [];
-      let i;
-      for (i = 0; i <= this.props.catList.length; i += 1) {
-        checked.push(i.toString());
-      }
-      this.setState({ checked });
-      this.initialSetDefault = false;
+
+  componentWillMount = () => {
+    this.selectedCheckboxes = new Set();
+  }
+
+
+  componentWillUpdate = () => {
+    if (this.setInitialDefault && this.props.catList) {
+      this.setInitialDefault = false;
+      const catFilters = this.props.catList.map((cat) => {
+        return { id: cat.value, name: cat.label };
+      });
+      this.props.onCategoryChange(catFilters);
+      const checkedList = this.props.catList.map((cat) => { return cat.label; });
+      checkedList.push('All Categories');
+      this.setState({ checked: checkedList });
+
+      const allCats = checkedList.slice(); //copy to avoid time lag in set state
+      allCats.push('Uncheck all');
+      this.setState({ allCategories: allCats });
     }
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const val = event.target.value;
     let checked = this.state.checked.slice(); // copy
-
-    // the array of checked categories to send, e.g. [obj, obj, obj]
-    const categoryArray = [];
-
+    let checkedBoolean = this.state.checked_boolean.slice();
     if (checked.includes(val)) {
       checked.splice(checked.indexOf(val), 1);
-      // if a different box is being unchecked and box 0 is checked
-      if ((checked.includes('0'))) {
-        document.getElementById('c0').checked = false;
-        checked.splice(checked.indexOf('0'), 1);
+      checkedBoolean[this.state.allCategories.indexOf(val)] = false;
+      if (checked.includes('All Categories')) {
+        checked.splice(checked.indexOf('All Categories'), 1);
+        checkedBoolean[7] = false;
       }
     } else {
-      checked.push(val);
-      // if the all categories button is selected
-      if (val === '0') {
-        checked = ['0'];
+      if (val === 'Uncheck all') {
+        checked = [val];
+        checkedBoolean = UNCHECKED_ALL;
+      }
+      else if (val === 'All Categories') {
         // check every box
-        this.props.catList.map((cat) => {
-          const cID = `c${cat.id}`; // c1, c2, etc...
-          checked.push((cat.id).toString());
-          document.getElementById(cID).checked = true;
-          return 0;
-        });
+        checked = this.state.allCategories.slice();
+        checked.splice(checked.indexOf('Uncheck all'),1);
+        checkedBoolean = DEFAULT_CATEGORIES;
+      }
+      else {
+        checked.push(val);
+        checkedBoolean[this.state.allCategories.indexOf(val)] = true;
+        checked.splice(checked.indexOf('Uncheck all'), 1);
+        checkedBoolean[this.state.allCategories.indexOf('Uncheck all')] = false;
       }
     }
 
-    this.setState({ checked });
-
-    // convert checked strings to ints and add each category to categoryArray
-    let c, n;
-    for (c in checked) {
-      if (checked[c]) {
-        n = parseInt(checked[c], 10);
-        if (n > 0) {
-          categoryArray.push(this.props.catList[n - 1]);
-        }
+    const catFilters = [];
+    for (let i = 0; i < checked.length; i += 1) {
+      if (checked[i] !== undefined) {
+        const singleCat = {};
+        let id;
+        if (checked[i] === 'Academic') id = 1;
+        if (checked[i] === 'Art') id = 2;
+        if (checked[i] === 'Sports') id = 3;
+        if (checked[i] === 'Performance') id = 4;
+        if (checked[i] === 'Lecture') id = 5;
+        if (checked[i] === 'Greek Life') id = 6;
+        if (checked[i] === 'Free Food') id = 7;
+        if (checked[i] === 'All Categories') break;
+        if (checked[i] === 'Uncheck all') break;
+        singleCat.id = id;
+        singleCat.name = checked[i];
+        catFilters.push(singleCat);
       }
     }
-    // categoryArray.sort();
-
-    this.onCategoryChange(categoryArray);
+    this.setState({ checked, checked_boolean: checkedBoolean });
+    console.log(catFilters);
+    this.props.onCategoryChange(catFilters);
   }
 
-
   render() {
-    if (!this.props.catList || this.props.catList.length === 0) {
-      return <div className="hidden" />;
-    }
-    const boxes = this.props.catList.map((cat) => {
-      const cID = `c${cat.id}`; // c1, c2, etc...
-      return (
-        <div key={cID} className="segmented-control">
-          <input
-            type="checkbox"
-            id={cID}
-            name={cID}
-            value={(cat.id).toString()}
-            onChange={this.handleChange}
-            defaultChecked
+    const buttonType = { primary: true, secondary: false };
+    let popOver = '';
+    let checkBoxes = '';
+    if (this.props.openCategoryFilter) {
+      buttonType.primary = false;
+      buttonType.secondary = true;
+      checkBoxes = this.props.catList.map((category) => {
+        return (
+          <Checkbox
+            label={category.label}
+            onCheck={this.handleChange}
+            checked={this.state.checked_boolean[category.value - 1]}
+            value={category.label}
+            id={category.label}
+            key={category.value}
           />
-          <label htmlFor={cID} data-value={cat.name}>{cat.name}</label>
-        </div>
+        );
+      });
+      checkBoxes.push(
+        <Checkbox
+          label="All Categories"
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[this.props.catList.length]}
+          value="All Categories"
+          id="All Categories"
+          key={this.props.catList.length + 1}
+        />
+        );
+      checkBoxes.push(
+        <Checkbox
+          label="Uncheck all"
+          onCheck={this.handleChange}
+          checked={this.state.checked_boolean[this.props.catList.length + 1]}
+          value="Uncheck all"
+          id="Uncheck all"
+          key={this.props.catList.length + 2}
+        />
       );
-    });
+      popOver = (<Popover className="checkbox"
+        style={this.props.styles.checkboxStyle}
+        open={this.props.openCategoryFilter}
+        anchorEl={this.props.anchorEl}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+        onRequestClose={this.props.openFilter}
+      >
+        {checkBoxes}
+      </Popover>);
+    }
 
     return (
-      <div className="category-filter section-inner">
-        <div className="segmented-control">
-          <input
-            type="checkbox"
-            id="c0"
-            name="c0"
-            value="0"
-            onChange={this.handleChange}
-            defaultChecked
+      <div className="filter">
+        <div className="multiselect">
+          <RaisedButton className="block"
+            {...buttonType}
+            style={this.props.styles.buttonStyle}
+            onTouchTap={this.props.openFilter}
+            label="Filter by Category"
           />
-          <label htmlFor="c0" data-value={'All categories'}>
-            All categories
-          </label>
         </div>
-        {boxes}
-        <br />
+        {popOver}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => (
-  {
-    catList: state.events.catList,
-  }
-);
-
-export default connect(mapStateToProps, null)(CategoryFilter);
+export default CategoryFilter;

@@ -1,6 +1,10 @@
 // event_list_item.js
 import React from 'react';
 import { connect } from 'react-redux';
+import {ListItem} from 'material-ui/List';
+import Avatar from 'material-ui/Avatar';
+
+
 
 // import redux actions
 import { setStickyBalloonId, setBalloonId, setMapCenter } from '../actions';
@@ -11,30 +15,35 @@ const EventListItem = (props) => {
   if (!props.selectedLocation || props.selectedLocation === props.event.location) {
     return (
       <div className="event-item"
-        onMouseOver={() => props.setBalloonId(props.event.id)}
+        onMouseOver={() => props.setBalloonId(props.event.location_id)}
         onMouseOut={() => props.setBalloonId(null)}
         onClick={() => {
-          props.setStickyBalloonId(props.event.id);
+          props.setStickyBalloonId(props.event.location_id);
           props.setMapCenter({ lat: props.event.lat, lng: props.event.lng });
         }}
       >
-        <h6 className="name">
-          {props.event.name}
-        </h6>
-        <text className="attribute">
-          {startTimeString} ~ {endTimeString}<br />
-          {props.event.location_name}
-        </text>
+        <ListItem 
+          value={props.num}
+          primaryText={props.event.name}
+          secondaryText={
+            <p>
+              {startTimeString} ~ {endTimeString} <br />
+              {props.event.location_name}
+            </p>
+          }
+          leftAvatar={<Avatar src={props.event.icon_url} />}
+          secondaryTextLines={2}
+        />
       </div>
     );
   }
   return (
     <div className="location-not-selected"
-      onMouseOver={() => props.setBalloonId(props.event.id)}
+      onMouseOver={() => props.setBalloonId(props.event.location_id)}
       onMouseOut={() => props.setBalloonId(null)}
       onClick={() => {
         props.setMapCenter({ lat: props.event.lat, lng: props.event.lng });
-        props.setStickyBalloonId(props.event.id);
+        props.setStickyBalloonId(props.event.location_id);
       }}
     />
   );

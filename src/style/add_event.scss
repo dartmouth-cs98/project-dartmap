@@ -13,8 +13,13 @@
   background-color: rgba(209, 209, 224, .6);
 }
 
+.add-event-fields-page-1 {
+  max-height: 90%;
+  overflow: scroll;
+}
+
 .add-event-cover > * {
-  z-index: 15;
+  z-index: 1500;
 }
 
 #add-event {
@@ -63,7 +68,15 @@
 }
 
 .add-event-form {
-  height: 80%;
+  height: 360px;
+  @include flex-box;
+  @include flex-column;
+  @include flex-space-between;
+}
+
+.add-event-form-data {
+  height: 70%;
+  overflow: scroll;
   @include flex-box;
   @include flex-column;
   @include flex-space-between;
@@ -84,13 +97,14 @@
 }
 
 .add-event-field-container-1 {
-  margin-bottom: 10px;
   position: relative;
+  width: 100%;
+
 }
 
 .add-event-field-container-2 {
-  margin-bottom: 40px;
-  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-top: 5px;
   position: relative;
 }
 
@@ -111,7 +125,8 @@
 
 .add-event-btns {
   display: inline-block;
-  width: 100%;
+  margin-bottom: 10px;
+  position: relative;
 }
 
 .add-event-btn {
@@ -119,7 +134,6 @@
 }
 
 .back-btn {
-  border: 1px solid $green;
   float: left;
   &:hover {
     cursor: pointer;
@@ -127,7 +141,6 @@
 }
 
 .nxt-btn {
-  border: 1px solid $green;
   float: right;
   &:hover {
     cursor: pointer;
@@ -135,7 +148,10 @@
 }
 
 .invalid-nxt-btn {
-  background-color: $light-grey;
+  float: right;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 // Location Selection Page
@@ -176,7 +192,7 @@
 }
 
 .selected-icon {
-  border: 2px solid $green;
+  border: 2px solid #337ab7;
 }
 
 .image-select {
@@ -214,4 +230,8 @@
 .page-slider {
   @include flex-space-around;
   @include flex-box;
+}
+
+.pac-container {
+  z-index: 1600;
 }

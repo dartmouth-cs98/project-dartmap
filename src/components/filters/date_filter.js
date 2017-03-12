@@ -4,81 +4,90 @@
 */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+
+import { Popover, Checkbox, RaisedButton } from 'material-ui';
 
 import { convertDatesToDisplay } from '../../helpers/date-data-helper';
 
-// dates that are checked by default
-const DEFAULT_DATES = [true, true, false, false, false, false, false, false];
+// Display today and the next 6 days as filter options
+// and an option for the next 2 weeks
+const NUM_DAYS_DISPLAY = 8;
+
+// Check all next future events by default
+const DEFAULT_CHECKED = [true, true, true, true, true, true, true, true, false];
+const DEFAULT_DATES = ['0', '1', '2', '3', '4', '5', '6', '7'];
+const UNCHECKED_ALL = [false, false, false, false, false, false, false, false, true];
+
+// Array of dates with labels and values both set
+// to the date
+const DATES = [];
+
 
 class DateFilter extends Component {
 
   constructor(props) {
     super(props);
 
-    // set which dates (strings) should be checked by default
-    const defaultDates = [];
-    for (let i = 0; i < DEFAULT_DATES.length; i += 1) {
-      if (DEFAULT_DATES[i]) defaultDates.push(i.toString());
-    }
+    this.state = {
+      checked: DEFAULT_DATES,
+      checked_boolean: DEFAULT_CHECKED,
+    };
 
-    // receives the dates data object passed down from index.js
-    this.datesData = null;
-
-    // dictionary of date strings to be displayed onscreen
-    this.datesDataDisplay = null;
-
-    this.state = { checked: defaultDates };
-    this.handleChange = this.handleChange.bind(this);
-    this.onDateChange = props.onDateChange;
-  }
-
-  componentWillMount() {
+     // receives the dates data object passed down from index.js
     this.datesData = this.props.dateBarData;
     if (this.datesData) {
+      // dictionary of date strings to be displayed onscreen
       this.datesDataDisplay = convertDatesToDisplay(this.datesData);
+    } else {
+      this.datesDataDisplay = null;
     }
+
+    for (let i = 0; i < NUM_DAYS_DISPLAY; i += 1) {
+      if (this.datesDataDisplay[i] !== undefined) {
+        DATES.push(this.datesDataDisplay[i]);
+      }
+    }
+    DATES.push('Uncheck all');
   }
 
-  componentWillUpdate() {
-    if (this.props.dateBarData && !this.datesDataDisplay) {
-      this.datesData = this.props.dateBarData;
-      this.datesDataDisplay = convertDatesToDisplay(this.datesData);
-    }
+  componentWillMount = () => {
+    this.filterEvent(DEFAULT_DATES);
+    this.selectedCheckboxes = new Set();
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     const val = event.target.value;
     let checked = this.state.checked.slice(); // copy
-
-    // the array of checked dates to send, e.g. [0, 1, 2, 5, 6]
-    const dateArray = [];
-
+    let checkedBoolean = this.state.checked_boolean.slice();
     if (checked.includes(val)) {
       checked.splice(checked.indexOf(val), 1);
-      // if a different box is being unchecked and box 7 is checked
+      checkedBoolean[val] = false;
       if ((checked.includes('7'))) {
-        document.getElementById('d7').checked = false;
         checked.splice(checked.indexOf('7'), 1);
+        checkedBoolean[7] = false;
       }
     } else {
-      checked.push(val);
-      // if the next two weeks are selected
-      if (val === '7') {
+      if (val === '8') {
+        checked = [];
+        checkedBoolean = UNCHECKED_ALL;
+      }
+      else if (val === '7') {
         // check every box
-        document.getElementById('d0').checked = true;
-        document.getElementById('d1').checked = true;
-        document.getElementById('d2').checked = true;
-        document.getElementById('d3').checked = true;
-        document.getElementById('d4').checked = true;
-        document.getElementById('d5').checked = true;
-        document.getElementById('d6').checked = true;
-        checked = ['0', '1', '2', '3', '4', '5', '6', '7'];
+        checked = DEFAULT_DATES;
+        checkedBoolean = DEFAULT_CHECKED;
+      }
+      else {
+        checkedBoolean[8] = false;
+        checked.push(val);
+        checkedBoolean[val] = true;  
       }
     }
+    this.setState({ checked, checked_boolean: checkedBoolean });
+    this.filterEvent(checked);
+  }
 
-    this.setState({ checked });
-
+  filterEvent = (checked) => {
+    const dateArray = [];
     // convert checked strings to ints and add them to dateArray (sorted)
     let c, n;
     for (c in checked) {
@@ -88,59 +97,51 @@ class DateFilter extends Component {
       }
     }
     dateArray.sort();
-
-    this.onDateChange(dateArray);
+    this.props.onDateChange(dateArray);
   }
 
-
   render() {
-    if (this.datesDataDisplay === null) {
-      return <div className="hidden" />;
+    const buttonType = { primary: true, secondary: false };
+    const checkBoxes = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
+      return (<Checkbox
+        label={DATES[i]}
+        onCheck={this.handleChange}
+        checked={this.state.checked_boolean[i]}
+        value={i}
+        key={i}
+        id={`d${i}`}
+      />);
+    });
+    let popOver = '';
+    if (this.datesDataDisplay && this.props.openDateFilter) {
+      buttonType.primary = false;
+      buttonType.secondary = true;
+      popOver = (<Popover className="checkbox"
+        open={this.props.openDateFilter}
+        anchorEl={this.props.anchorEl}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+        onRequestClose={this.props.openFilter}
+        style={this.props.styles.checkboxStyle}
+      >
+        {checkBoxes}
+      </Popover>);
     }
     return (
-      <div className="date-filter section-inner" style={{ color: '#008000', height: '30px' }}>
-        <div className="segmented-control">
-          <input type="checkbox" id="d0" name="d0" value="0" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[0]} />
-          <label htmlFor="d0" data-value={this.datesDataDisplay[0]}>{this.datesDataDisplay[0]}</label>
+      <div className="filter">
+        <div className="multiselect">
+          <RaisedButton className="block"
+            {...buttonType}
+            style={this.props.styles.buttonStyle}
+            onTouchTap={this.props.openFilter}
+            label="Filter by Date"
+          />
         </div>
-        <div className="segmented-control">
-          <input type="checkbox" id="d1" name="d1" value="1" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[1]} />
-          <label htmlFor="d1" data-value={this.datesDataDisplay[1]}>{this.datesDataDisplay[1]}</label>
-        </div>
-        <div className="segmented-control">
-          <input type="checkbox" id="d2" name="d2" value="2" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[2]} />
-          <label htmlFor="d2" data-value={this.datesDataDisplay[2]}>{this.datesDataDisplay[2]}</label>
-        </div>
-        <div className="segmented-control">
-          <input type="checkbox" id="d3" name="d3" value="3" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[3]} />
-          <label htmlFor="d3" data-value={this.datesDataDisplay[3]}>{this.datesDataDisplay[3]}</label>
-        </div>
-        <div className="segmented-control">
-          <input type="checkbox" id="d4" name="d4" value="4" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[4]} />
-          <label htmlFor="d4" data-value={this.datesDataDisplay[4]}>{this.datesDataDisplay[4]}</label>
-        </div>
-        <div className="segmented-control">
-          <input type="checkbox" id="d5" name="d5" value="5" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[5]} />
-          <label htmlFor="d5" data-value={this.datesDataDisplay[5]}>{this.datesDataDisplay[5]}</label>
-        </div>
-        <div className="segmented-control">
-          <input type="checkbox" id="d6" name="d6" value="6" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[6]} />
-          <label htmlFor="d6" data-value={this.datesDataDisplay[6]}>{this.datesDataDisplay[6]}</label>
-        </div>
-        <div className="segmented-control">
-          <input type="checkbox" id="d7" name="d7" value="7" onChange={this.handleChange} defaultChecked={DEFAULT_DATES[7]} />
-          <label htmlFor="d7" data-value={this.datesDataDisplay[7]}>{this.datesDataDisplay[7]}</label>
-        </div>
-        <br />
+        {popOver}
       </div>
+
     );
   }
 }
 
-const mapStateToProps = state => (
-  {
-    dateBarData: state.events.dateBarData,
-  }
-);
-
-export default connect(mapStateToProps, null)(DateFilter);
+export default DateFilter;

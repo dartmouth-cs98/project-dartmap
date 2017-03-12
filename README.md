@@ -1,11 +1,11 @@
-# DartMap
+# mappit
 [![Build Status](https://travis-ci.com/dartmouth-cs98/project-dartmap.svg?token=MfvWRyTukvTZt4fDnPCv&branch=master)](https://travis-ci.com/dartmouth-cs98/project-dartmap)
 
 ## High-level project description
 
-Dartmap is a web service that displays campus events visually on a map. Our vision is for this web service to be the go-to destination for finding events, including filtering by time, location, and group. We hope to take advantage of the unique characteristics of a map, for example, by incorporating a visual display of where people are.
+mappit is a web service that displays campus events visually on a map. Our vision is for this web service to be the go-to destination for finding events, including filtering by time, location, and group. We hope to take advantage of the unique characteristics of a map, for example, by incorporating a visual display of where people are.
 
-You can use Dartmap at: dartmouth-cs98.github.io/project-dartmap
+You can use mappit at: https://mappit.me
 
 Note: this is only the front-end code. For the back-end code, go to https://github.com/dartmouth-cs98/project-dartmap-api
 
@@ -17,7 +17,7 @@ Note: this is only the front-end code. For the back-end code, go to https://gith
 
 We use the React framework for the frontend. The primary frontend components are the Google Map, the filter (e.g., for time filtering), the event list sidebar, and a dialogue for adding events.
 
-We use google-map-react for the Google Maps API, drawing from an example found here: http://istarkov.github.io/google-map-react/map/balderdash/.
+For third-party API's, we use the Google Maps API, Facebook API.
 
 ## Setup
 
@@ -40,6 +40,7 @@ Run `npm run lint` before committing or submitting any code, to catch style erro
 * Eric Chen
 * Danielle Midulla
 * Sean Cann
+* Junmo (Caleb) Kim
 
 ### Back-end Developers:
 * Edrei Chua

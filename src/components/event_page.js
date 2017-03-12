@@ -3,8 +3,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
 
+import { Divider, Tabs, Tab, RaisedButton, Avatar, List, ListItem, CircularProgress } from 'material-ui';
+
+import { postRSVP, deleteRSVP } from '../helpers/dartmap-api';
+import CommentBox from './live_feed/comment_dialog';
+
 // import redux actions
-import { fetchEvent } from '../actions';
+import { createRSVP, removeRSVP, getLoginStatusFromFb, fetchEvent } from '../actions';
 
 // import helper functions
 import {
@@ -16,10 +21,14 @@ class EventPage extends Component {
     super(props);
     this.state = {
       event: null,
+      event_id: parseInt(this.props.params.id, 10),
+      isRSVPed: false,
     };
     this.map = null;
     this.marker = null;
     this.infoWindow = null;
+    this.initialRSVP = true;
+
     if (!window.google) { // Load google maps api onto the page
       loadGoogleApi();
     }
@@ -27,7 +36,7 @@ class EventPage extends Component {
   }
 
   componentWillMount() {
-    const id = parseInt(this.props.params.id, 10);
+    const id = this.state.event_id;
     if (this.props.events && this.props.events.length > 0) {
       for (let i = 0; i < this.props.events.length; i += 1) {
         const event = this.props.events[i];
@@ -42,19 +51,22 @@ class EventPage extends Component {
     } else {
       this.props.fetchEvent(this.props.params.id);
     }
+    this.getInitialRSVP();
   }
 
   componentDidMount() {
     if (window.google && this.state.event && !this.map) {
+      this.getInitialRSVP();
       this.loadMap();
     }
   }
 
-  componentWillUpdate() {
+  componentWillUpdate(nextProps, nextState) {
+    this.getInitialRSVP();
     const id = parseInt(this.props.params.id, 10);
-    if ((!this.state.event) || (this.state.event.id !== id)) {
-      if (this.props.currentEvent && this.props.currentEvent.id === id) {
-        this.setState({ event: this.props.currentEvent });
+    if ((!nextState.event) || (nextState.event.id !== id)) {
+      if (nextProps.currentEvent && nextProps.currentEvent.id === id) {
+        this.setState({ event: nextProps.currentEvent });
       }
     }
   }
@@ -65,7 +77,71 @@ class EventPage extends Component {
     }
   }
 
-  loadMap() {
+  getInitialRSVP = () => {
+    if (this.initialRSVP) {
+      if (this.state.event !== undefined && this.state.event !== null
+        && this.state.event.attendees.length !== 0
+        && this.state.isRSVPed === false && this.props.user
+        && this.props.user.userInfo && this.props.user.userInfo[0]) {
+        this.initialRSVP = false;
+        for (let i = 0; i < this.state.event.attendees.length; i += 1) {
+          if (this.state.event.attendees && this.props.user.userInfo && this.state.event.attendees[i].id === this.props.user.userInfo[0].id) {
+            this.setState({
+              isRSVPed: true,
+            });
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  getAllRSVPs = () => {
+    let names;
+    if (this.props.currentEvent) {
+      names = this.props.currentEvent.attendees.map((attendee) => {
+        return (
+          <ListItem key={attendee.name}
+            primaryText={attendee.name}
+            leftAvatar={<Avatar src={attendee.picture} />}
+          />
+        );
+      });
+    }
+    return names;
+  }
+
+  handleRSVP = () => {
+    const data = {};
+    data.user_id = this.props.user.userInfo[0].id;
+    data.event_id = this.state.event_id;
+
+    if (this.state.isRSVPed === true) { // De-RSVP
+      this.props.removeRSVP(data, this.props.user.jwt);
+      this.setState({ isRSVPed: false });
+    } else { // RSVP
+      this.props.createRSVP(data, this.props.user.jwt);
+      this.setState({ isRSVPed: true });
+    }
+  }
+
+  addImage = () => {
+    const data = {};
+    data.user_id = 1;
+    data.event_id = this.state.event_id;
+
+    if (this.state.isRSVPed === true) { // De-RSVP
+      deleteRSVP(data, this.props.user.jwt).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    } else { // RSVP
+      postRSVP(data, this.props.user.jwt).then((response) => {
+        this.setState({ isRSVPed: !this.state.isRSVPed });
+      });
+    }
+  }
+
+  loadMap = () => {
     if (this.state.event && !this.map) {
       const mapHTML = document.getElementById('evpg-map');
       const location = {
@@ -79,6 +155,7 @@ class EventPage extends Component {
         zoom: 15,
         fullscreenControl: false,
         mapTypeControl: false,
+        scrollwheel: false,
       };
       const icon = {
         url: iconUrl,
@@ -98,11 +175,45 @@ class EventPage extends Component {
   }
 
   render() {
+    const styles = {
+      button: { margin: 12 },
+      exampleImageInput: {
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: '100%',
+        opacity: 0,
+      },
+      tabsStyle: {
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        marginTop: '60px',
+        zIndex: 10,
+      },
+      dividerStyle: { marginTop: 20, marginBottom: 20 },
+      progress: {
+        width: 150,
+        height: 150,
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        marginLeft: -75,
+        marginTop: -75,
+      },
+      containerStyle: { marginTop: '108px' },
+    };
+
     const images = [];
     let i;
     if (!this.state.event) {
       return (
-        <div>Loading. Please wait.</div>
+        <div>
+          <CircularProgress size={150} style={styles.progress} thickness={5} />
+        </div>
       );
     }
     for (i = 0; i < this.state.event.image_url.length; i += 1) {
@@ -111,46 +222,104 @@ class EventPage extends Component {
         originalClass: 'gallery-image',
       });
     }
-    console.log(images);
-    const dateString = this.state.event.date.format('dddd MMMM Do YYYY');
+    let showGallery = false;
+    if (images.length > 1) {
+      showGallery = true;
+    }
+    const dateString = this.state.event.date.format('dddd, MMMM Do YYYY');
     const startString = this.state.event.start_time.format('h:mma');
     const endString = this.state.event.end_time.format('h:mma');
     const categoryString = this.state.event.categories.map((cat) => {
       return cat.name;
     }).join(', ');
+
     return (
-      <div className="evpg-container">
-        <div className="evpg-date">
-          {dateString}
-        </div>
-        <div className="evpg-title">
-          {this.state.event.name} @ {this.state.event.location_string}
-        </div>
-        <div className="evpg-subtitle evpg-time">
-          {startString} - {endString}
-        </div>
-        <div className="evpg-image">
-          <ImageGallery
-            items={images}
-            autoPlay
-            slideInterval={2000}
-          />
-        </div>
-        <div className="evpg-secondary">
-          <div id="evpg-map" />
-          <div className="evpg-text">
-            <div className="evpg-description">
-              <em>Description: </em>
-              {this.state.event.description}
+      <div>
+        <Tabs style={styles.tabsStyle}>
+          <Tab label="About" href="#About" />
+          <Tab label="Who is Going" href="#Going" />
+          <Tab label="Images" href="#Images" />
+          <Tab label="Details" href="#Details" />
+          <Tab label="Location" href="#Location" />
+          <Tab label="Comments" href="#LiveFeed" />
+        </Tabs>
+        <div className="container" style={styles.containerStyle}>
+          <div className="anchor" id="About">
+            <h2>About</h2>
+            <div className="text-center">
+              <div className="evpg-date">
+                {dateString}
+              </div>
+              <div className="evpg-title">
+                {this.state.event.name} @ {this.state.event.location_string}
+              </div>
+              <div className="evpg-subtitle evpg-time">
+                {startString} - {endString}
+              </div>
             </div>
-            <div className="evpg-organizer">
-              <em>Organized by: </em>
-              {this.state.event.organizer}
+          </div>
+          <Divider style={styles.dividerStyle} />
+          <div className="anchor" id="Going">
+            <div className="row">
+              <h2 className="col-md-3">Who Is Going?</h2>
+              <div className={this.props.user.loggedIn ? 'pull-right' : 'pull-right hidden'} style={styles.button}>
+                <RaisedButton label={this.state.isRSVPed ? 'Going' : 'RSVP'} primary onClick={this.handleRSVP} />
+              </div>
             </div>
-            <div className="evpg-categories">
-              <em>Categories: </em>
-              {categoryString}
+            <List>
+              {this.getAllRSVPs()}
+            </List>
+          </div>
+          <Divider style={styles.dividerStyle} />
+          <div className="anchor" id="Images">
+            <div className="row">
+              <h2 className="col-md-6">Images</h2>
             </div>
+            <div className="center-align">
+              <ImageGallery
+                items={images}
+                autoPlay
+                slideInterval={2000}
+                showThumbnails={showGallery}
+                showPlayButton={showGallery}
+              />
+            </div>
+          </div>
+          <Divider style={styles.dividerStyle} />
+          <div className="anchor" id="Details">
+            <div className="row">
+              <h2 className="col-md-6">Details</h2>
+            </div>
+            <div style={{ marginLeft: '10px' }}>
+              <div className="evpg-description">
+                <h5 style={{ color: 'gray' }}>Description</h5>
+                <div>{this.state.event.description}</div>
+              </div>
+              <div className="evpg-organizer">
+                <h5 style={{ color: 'gray' }}>Organizer</h5>
+                <div>{this.state.event.organizer}</div>
+              </div>
+              <div className="evpg-categories">
+                <h5 style={{ color: 'gray' }}>Categories</h5>
+                <div>{categoryString}</div>
+              </div>
+            </div>
+          </div>
+          <Divider style={styles.dividerStyle} />
+          <div className="anchor" id="Location">
+            <div className="row">
+              <h2 className="col-md-6">Location</h2>
+            </div>
+            <div className="row">
+              <div id="evpg-map" />
+            </div>
+          </div>
+          <Divider style={styles.dividerStyle} />
+          <div id="LiveFeed">
+            <div className="row">
+              <h2 className="col-md-6">Comments</h2>
+            </div>
+            <CommentBox pollInterval={1000} event_id={this.state.event_id} />
           </div>
         </div>
       </div>
@@ -166,7 +335,8 @@ const mapStateToProps = state => (
       lng: state.user.longitude,
     },
     currentEvent: state.events.currentEvent,
+    user: state.user,
   }
 );
 
-export default connect(mapStateToProps, { fetchEvent })(EventPage);
+export default connect(mapStateToProps, { createRSVP, removeRSVP, getLoginStatusFromFb, fetchEvent })(EventPage);

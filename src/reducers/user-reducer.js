@@ -14,8 +14,8 @@ const UserReducer = (state = {}, action) => {
       return newState;
     case ActionTypes.LOCATION_FAIL:
       newState = Object.assign({}, state, {
-        latitude: null,
-        longitude: null,
+        latitude: 43.703549,
+        longitude: -72.286758,
       });
       return newState;
     case ActionTypes.RETRY_LOCATION:
@@ -26,17 +26,26 @@ const UserReducer = (state = {}, action) => {
       return newState;
     case ActionTypes.GET_FB_LOGIN_STATUS:
       newState = Object.assign({}, state, action.payload);
-      newState.loggedIn = (newState.fbResponse.status === 'connected');
+      if (newState.fbResponse) newState.loggedIn = (newState.fbResponse.status === 'connected');
       return newState;
     case ActionTypes.LOGIN:
       newState = Object.assign({}, state, action.payload);
-      newState.loggedIn = (newState.fbResponse.status === 'connected');
+      if (newState.fbResponse) newState.loggedIn = (newState.fbResponse.status === 'connected');
       return newState;
     case ActionTypes.LOGOUT:
       newState = {};
       newState.latitude = state.latitude;
       newState.longitude = state.longitude;
       newState.loggedIn = false;
+      newState.jwt = null;
+      return newState;
+    case ActionTypes.RSVP_CREATED:
+      newState = Object.assign({}, state);
+      newState.userInfo[0].rsvpevents.push(action.payload.eventId);
+      return newState;
+    case ActionTypes.RSVP_REMOVED:
+      newState = Object.assign({}, state);
+      newState.userInfo[0].rsvpevents.splice(newState.userInfo[0].rsvpevents.indexOf(action.payload.eventId), 1);
       return newState;
     default:
       return state;

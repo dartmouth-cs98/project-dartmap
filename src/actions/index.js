@@ -17,6 +17,11 @@ export const ActionTypes = {
   FETCH_EVENTS: 'FETCH_EVENTS',
   EVENT_FAIL: 'EVENT_FAIL',
   FETCH_EVENT: 'FETCH_EVENT',
+  UNFETCH_EVENT: 'UNFETCH_EVENT',
+  FETCH_RSVP_EVENTS: 'FETCH_RSVP_EVENTS',
+  FETCH_USER_EVENTS: 'FETCH_USER_EVENTS',
+  RSVP_CREATED: 'RSVP_CREATED',
+  RSVP_REMOVED: 'RSVP_REMOVED',
   CREATE_EVENT: 'CREATE_EVENT',
   UPDATE_EVENT: 'UPDATE_EVENT',
   DELETE_EVENT: 'DELETE_EVENT',
@@ -30,11 +35,14 @@ export const ActionTypes = {
   SET_BALLOON_ID: 'SET_BALLOON_ID',
   CLEAR_BALLOONS: 'CLEAR_BALLOONS',
   SET_MAP_CENTER: 'SET_MAP_CENTER',
+  CREATE_COMMENT: 'CREATE_COMMENT',
+  UPDATE_COMMENT: 'UPDATE_COMMENT',
+  DELETE_COMMENT: 'DELETE_COMMENT',
 };
 
-export function getLoginStatusFromFb() {
+export function getLoginStatusFromFb(jwt) {
   return (dispatch) => {
-    fbApi.getFbLoginStatus(dispatch, ActionTypes.GET_FB_LOGIN_STATUS);
+    fbApi.getFbLoginStatus(dispatch, ActionTypes.GET_FB_LOGIN_STATUS, jwt);
   };
 }
 
@@ -61,6 +69,34 @@ export function fetchEvents(latitude, longitude) {
   };
 }
 
+export function createRSVP(data, jwt) {
+  return (dispatch) => {
+    dartmapApi.postRSVP(dispatch, ActionTypes.RSVP_CREATED,
+      ActionTypes.EVENT_FAIL, data, jwt);
+  };
+}
+
+export function removeRSVP(data, jwt) {
+  return (dispatch) => {
+    dartmapApi.deleteRSVP(dispatch, ActionTypes.RSVP_REMOVED,
+      ActionTypes.EVENT_FAIL, data, jwt);
+  };
+}
+
+export function fetchUserEventsById(ids) {
+  return (dispatch) => {
+    dartmapApi.getAllEventsById(dispatch, ActionTypes.FETCH_USER_EVENTS,
+      ActionTypes.EVENT_FAIL, ids);
+  };
+}
+
+export function fetchRSVPdEventsById(ids) {
+  return (dispatch) => {
+    dartmapApi.getAllEventsById(dispatch, ActionTypes.FETCH_RSVP_EVENTS,
+      ActionTypes.EVENT_FAIL, ids);
+  };
+}
+
 export function fetchEvent(eventId) {
   return (dispatch) => {
     dartmapApi.getEvent(dispatch, ActionTypes.FETCH_EVENT,
@@ -68,17 +104,26 @@ export function fetchEvent(eventId) {
   };
 }
 
-export function createEvent(event) {
+export function unfetchEvent() {
+  return {
+    type: ActionTypes.UNFETCH_EVENT,
+    payload: {},
+  };
+}
+
+export function createEvent(event, jwt) {
   return (dispatch) => {
     dartmapApi.postNewEvent(dispatch, ActionTypes.CREATE_EVENT,
-      ActionTypes.EVENT_FAIL, event);
+      ActionTypes.EVENT_FAIL, event, jwt);
   };
 }
 
 export function filterEvents(filters) {
   return {
     type: ActionTypes.FILTER_EVENTS,
-    payload: { filters },
+    payload: {
+      filters: Object.assign({}, filters),
+    },
   };
 }
 
@@ -126,17 +171,17 @@ export function fetchCategories() {
   };
 }
 
-export function setStickyBalloonId(eventId) {
+export function setStickyBalloonId(locationId) {
   return {
     type: ActionTypes.SET_STICKY_BALLOON_ID,
-    payload: { eventId },
+    payload: { locationId },
   };
 }
 
-export function setBalloonId(eventId) {
+export function setBalloonId(locationId) {
   return {
     type: ActionTypes.SET_BALLOON_ID,
-    payload: { eventId },
+    payload: { locationId },
   };
 }
 
@@ -151,5 +196,26 @@ export function setMapCenter(center) {
   return {
     type: ActionTypes.SET_MAP_CENTER,
     payload: { center },
+  };
+}
+
+export function createComment(url, comment, jwt) {
+  return (dispatch) => {
+    dartmapApi.postComment(dispatch, ActionTypes.CREATE_COMMENT,
+      ActionTypes.CREATE_COMMENT, url, comment, jwt);
+  };
+}
+
+export function updateComment(id, comment) {
+  return (dispatch) => {
+    dartmapApi.putComment(dispatch, ActionTypes.UPDATE_COMMENT,
+      ActionTypes.UPDATE_COMMENT, id, comment);
+  };
+}
+
+export function deleteComment(id) {
+  return (dispatch) => {
+    dartmapApi.deleteComment(dispatch, ActionTypes.DELETE_COMMENT,
+      ActionTypes.DELETE_COMMENT, id);
   };
 }
