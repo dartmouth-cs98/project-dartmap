@@ -98,8 +98,8 @@ class EventPage extends Component {
 
   getAllRSVPs = () => {
     let names;
-    if (this.state.event) {
-      names = this.state.event.attendees.map((attendee) => {
+    if (this.props.currentEvent) {
+      names = this.props.currentEvent.attendees.map((attendee) => {
         return (
           <ListItem key={attendee.name}
             primaryText={attendee.name}
@@ -119,17 +119,10 @@ class EventPage extends Component {
     if (this.state.isRSVPed === true) { // De-RSVP
       this.props.removeRSVP(data, this.props.user.jwt);
       this.setState({ isRSVPed: false });
-      // deleteRSVP(data, this.props.user.jwt).then((response) => {
-      //   this.setState({ isRSVPed: !this.state.isRSVPed });
-      // });
     } else { // RSVP
       this.props.createRSVP(data, this.props.user.jwt);
       this.setState({ isRSVPed: true });
-      // postRSVP(data, this.props.user.jwt).then((response) => {
-      //   this.setState({ isRSVPed: !this.state.isRSVPed });
-      // });
     }
-    // this.props.getLoginStatusFromFb();
   }
 
   addImage = () => {
@@ -251,7 +244,7 @@ class EventPage extends Component {
           <Tab label="Comments" href="#LiveFeed" />
         </Tabs>
         <div className="container" style={styles.containerStyle}>
-          <div id="About">
+          <div className="anchor" id="About">
             <h2>About</h2>
             <div className="text-center">
               <div className="evpg-date">
@@ -266,7 +259,7 @@ class EventPage extends Component {
             </div>
           </div>
           <Divider style={styles.dividerStyle} />
-          <div id="Going">
+          <div className="anchor" id="Going">
             <div className="row">
               <h2 className="col-md-3">Who Is Going?</h2>
               <div className={this.props.user.loggedIn ? 'pull-right' : 'pull-right hidden'} style={styles.button}>
@@ -278,7 +271,7 @@ class EventPage extends Component {
             </List>
           </div>
           <Divider style={styles.dividerStyle} />
-          <div id="Images">
+          <div className="anchor" id="Images">
             <div className="row">
               <h2 className="col-md-6">Images</h2>
             </div>
@@ -293,7 +286,7 @@ class EventPage extends Component {
             </div>
           </div>
           <Divider style={styles.dividerStyle} />
-          <div id="Details">
+          <div className="anchor" id="Details">
             <div className="row">
               <h2 className="col-md-6">Details</h2>
             </div>
@@ -313,7 +306,7 @@ class EventPage extends Component {
             </div>
           </div>
           <Divider style={styles.dividerStyle} />
-          <div id="Location">
+          <div className="anchor" id="Location">
             <div className="row">
               <h2 className="col-md-6">Location</h2>
             </div>
